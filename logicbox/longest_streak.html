@@ -1,0 +1,262 @@
+<link rel="stylesheet" type="text/css" href="../index.css">
+<!--<link href="https://fonts.googleapis.com/css?family=Tajawal" rel="stylesheet"> I don't like the way bold looks on Google's Tajawal. -->
+<link href="../fonts/Tajawal-Regular.ttf" rel="stylesheet">
+<link href="../fonts/consola.ttf" rel="stylesheet">
+<link href="../fonts/georgia.ttf" rel="stylesheet">
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.50, maximum-scale=3.0, minimum-scale=1.50">
+<title>Longest Streak</title>
+<script type="text/javascript">
+<!--
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+    }
+//from https://css-tricks.com/snippets/javascript/showhide-element/ -->
+</script>
+<body><div class="rester info-dense">
+<!--<h1 id="longest-streak" style="text-align:center">Longest Streak</h1>-->
+
+<div style="margin-bottom: 10px;"><table style="width:100%"><tbody><tr class="boxinfos" style="text-align:center"><td style="width:25%"><div>Level 2-16</div>
+<span class="constructed bottomtip" style="color: #A93248; background: #AAFFFF; border: solid 5px #A93248; margin: 0 auto" id="big-box"><p class="boxname" style="font-size:250%">Longest Streak</p>
+<!--<span class="bottomtiptext">DELETE → <span class="green-arrow"></span>ELETE<br>BA → <span class="green-arrow"></span>A<br>A → <span class="green-arrow"></span>[Empty]<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>-->
+<td style="font-size:200%; width:50%; text-align:left;">Keeps the last largest group of equal symbols. 🔒 No two groups can share the same symbol.</td>
+<td style="width:25%"><div>World Record Lowest Boxes</div><div id="boxcount-border"><div id="boxcount">9</div><div id="solvers">main_gi, mfs</div></div></td></tr></tbody></table>
+
+</div>
+
+  <div class="row">
+    <div class="column left">
+      <div class="fancy-tab tooltip">Boxes<span class="tooltiptext" style="padding: 3px; width: 300%; margin-left: -147.25px;">All boxes available. This list is split into two sections: primitive and constructed. All constructed boxes are constructed from a previous level. You can hover over boxes to see some example tests.</span></div>
+  	  <div class="boxes rounded">
+        <table style="width:100%"><tbody> <!-- What a mess! TODO: Get those arrows centered. So: 
+           DELETE -> ELETE
+                A -> [Empty]
+          [Empty] -> [Empty]-->
+          <!-- TODO: Various displays: "Boxes Only", "Full Descriptions", "Only Relevant Boxes" -->
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-delete" style="color: #901717; background: #FF8564; border: solid #901717;"><span class="green-arrow" style="position:relative"></span><p class="boxname">Delete</p>
+            <span class="tooltiptext tooltip-delete">DELETE → <span class="green-arrow"></span>ELETE<br>BA → <span class="green-arrow"></span>A<br>A → <span class="green-arrow"></span>[Empty]<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Deletes the first symbol.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-equal" style="color: #778749; background: #DAFF75; border: solid #778749;"><p class="boxname" style="font-size:90%">Equal?</p>
+            <span class="tooltiptext tooltip-equal">EQUAL → <span class="red-arrow"></span>EQUAL<br>EEQUAL → <span class="green-arrow"></span>EEQUAL<br>EEEQUAL → <span class="green-arrow"></span>EEEQUAL<br>A → <span class="red-arrow"></span>A<br>[Empty] → <span class="red-arrow"></span>[Empty]</span></span></td>
+            <td><span class="green-arrow"></span> if the first two symbols are equal. <span class="red-arrow"></span> otherwise.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-copy" style="color: #19576E; background: #47CDFF; border: solid #19576E;"><p class="boxname">Copy</p>
+            <span class="tooltiptext tooltip-copy">COPY → <span class="green-arrow"></span>CCOPY<br>BA → <span class="green-arrow"></span>BBA<br>A → <span class="green-arrow"></span>AA<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Adds a copy of the first symbol to the front.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-move-back" style="color: #00B3C7; background: #DDE6ED; border: solid #00B3C7;"><p class="boxname">Move Back</p>
+            <span class="tooltiptext tooltip-move-back">MOVEBACK → <span class="green-arrow"></span>OVEBACKM<br>BA → <span class="green-arrow"></span>AB<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+          <td>Moves the first symbol to the back.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-switch" style="color: #8051A8; background: #FFF480; border: solid #8051A8;"><p class="boxname" style="font-size:90%">Switch</p>
+            <span class="tooltiptext tooltip-switch">
+              (Simply swaps strings. Storage starts [Empty] in every level. If the stored string is "STORED" and current is "CURRENT", Switch would make the current string "STORED" and the stored string "CURRENT".
+            </span></span></td>
+          <td>Switches the current string with the stored string.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-store-back" style="color: #F25613; background: #DDE6ED; border: solid #F25613;"><p class="boxname">Store Back</p>
+            <span class="tooltiptext tooltip-store-back">
+              (If the current string is "CURRENT" and the stored string is "STORED", Store Back would make the current string "URRENT" and the stored string "STOREDC".)
+            </span></span></td>
+          <td>Moves the first symbol to the back of the stored string.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-store-front" style="color: #E0DA1D; background: #DDE6ED; border: solid #E0DA1D;"><p class="boxname">Store Front</p>
+            <span class="tooltiptext tooltip-store-back">
+              (If the current string is "CURRENT" and the stored string is "STORED", Store Front would make the current string "URRENT" and the stored string "CSTORED".)
+            </span></span></td>
+          <td>Moves the first symbol to the front of the stored string.</td></tr>
+        </tbody></table>
+      </div>
+        <!-- 2nd table for constructeds -->
+      <div class="boxes">
+        <table style="width:100%"><tbody>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-delete4" style="color: #70453E; background: #F7998A; border: solid #70453E;"><p class="boxname">Delete 4</p>
+            <span class="tooltiptext tooltip-delete4">DELETEFOUR → <span class="green-arrow"></span>TEFOUR<br>FOUR → <span class="green-arrow"></span>[Empty]<br>AAA → <span class="green-arrow"></span>[Empty]<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Deletes the first four symbols.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-delete8" style="color: #840E38; background: #F77FAA; border: solid #840E38;"><p class="boxname">Delete 8</p>
+            <span class="tooltiptext tooltip-delete8">DELETEEIGHT → <span class="red-arrow"></span>GHT<br>SEVEN → <span class="red-arrow"></span>[Empty]<br>AAA → <span class="red-arrow"></span>[Empty]<br>[Empty] → <span class="red-arrow"></span>[Empty]</span></span></td>
+            <td>Deletes the first eight symbols.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-delete-if-equal" style="color: #892313; background: #F2E0AE; border: solid #892313;"><p class="boxname" style="font-size:80%">Delete If Equal</p>
+            <span class="tooltiptext tooltip-delete-if-equal">EQUAL → <span class="red-arrow"></span>EQUAL<br>EEQUAL → <span class="green-arrow"></span>EQUAL<br>EEEQUAL → <span class="green-arrow"></span>EEQUAL<br>A → <span class="red-arrow"></span>A<br>[Empty] → <span class="red-arrow"></span>[Empty]</span></span></td>
+            <td><span class="green-arrow"></span> and delete the first symbol if the first two symbols are equal. <span class="red-arrow"></span> otherwise.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-equal-delete" style="color: #422031; background: #E4B3C5; border: solid #422031;"><p class="boxname">Equal Delete</p>
+            <span class="tooltiptext tooltip-equal-delete">EQUAL → <span class="red-arrow"></span>QUAL<br>EEQUAL → <span class="green-arrow"></span>EQUAL<br>EEEQUAL → <span class="green-arrow"></span>EEQUAL<br>A → <span class="red-arrow"></span>[Empty]<br>[Empty] → <span class="red-arrow"></span>[Empty]</span></span></td>
+            <td>Deletes the first symbol. <span class="green-arrow"></span> if the first two symbols were equal. <span class="red-arrow"></span> otherwise.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-trim" style="color: #88A123; background: #FFE8A8; border: solid #88A123;"><p class="boxname">Trim</p>
+            <span class="tooltiptext tooltip-trim">TTTTRIM → <span class="green-arrow"></span>TRIM<br>TRIM → <span class="green-arrow"></span>TRIM<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Deletes all leading duplicates of the first group.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-make2" style="color: #F34153; background: #ABFFFF; border: solid #F34153;"><p class="boxname">Make 2</p>
+            <span class="tooltiptext tooltip-make2">MMMMAKETWO → <span class="green-arrow"></span>MMAKETWO<br>BA → <span class="green-arrow"></span>BBA<br>A → <span class="green-arrow"></span>AA<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+          <td>Leaves exactly two copies of the first symbol in place of the first run of equal symbols.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-empty" style="color: #4CC5D5; background: #FFFFFF; border: solid #4CC5D5;"><p class="boxname" style="font-size:80%">Empty?</p>
+            <span class="tooltiptext tooltip-empty">EMPTY → <span class="red-arrow"></span>EMPTY<br>EMPTYBLABLA → <span class="red-arrow"></span>EMPTYBLABLA<br>BA → <span class="red-arrow"></span>BA<br>A → <span class="red-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td><span class="green-arrow"></span> if the input is empty (contains no symbols). <span class="red-arrow"></span> otherwise.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-next-symbol" style="color: #B64133; background: #FFFFBD; border: solid #B64133;"><p class="boxname" style="font-size:80%">Next Symbol</p>
+            <span class="tooltiptext tooltip-next-symbol">NEXTSYMBOL → <span class="green-arrow"></span>EXTSYMBOLN<br>MMMMOOVE → <span class="green-arrow"></span>OOVEMMMM<br>AAAAA → [undefined]<br>A → [undefined]<br>[Empty] → [undefined]</span></span></td>
+            <td>Moves symbols to the back until the first symbol is different. 🔒 Requires at least two different symbols.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-convert-group" style="color: #30163F; background: #ADEBFF; border: solid #30163F;"><p class="boxname" style="font-size:80%">Convert Group</p>
+            <span class="tooltiptext tooltip-convert-group">AAABB → <span class="green-arrow"></span>AAAAA<br>ABBBB → <span class="green-arrow"></span>AAAAA<br>AABBCC → [undefined]<br>AAAAA → [undefined]<br>A → [undefined]<br>[Empty] → [undefined]</span></span></td>
+            <td>Converts all symbols from the second group into the symbol of the first group. 🔒 Requires exactly two groups of symbols.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-clear" style="color: #FFFFD2; background: #BA7475; border: solid #FFFFD2;"><p class="boxname">Clear</p>
+            <span class="tooltiptext tooltip-clear">CLEAR → <span class="green-arrow"></span>[Empty]<br>EMPTY → <span class="green-arrow"></span>[Empty]<br>AAA → <span class="green-arrow"></span>[Empty]<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Clears the input, making it empty.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-first" style="color: #582337; background: #9DF3FF; border: solid #582337;"><p class="boxname">First</p>
+            <span class="tooltiptext tooltip-first">FIRST → <span class="green-arrow"></span>F<br>SECOND → <span class="green-arrow"></span>S<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Keeps only the first symbol.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-double-symbols" style="color: #B0FDFF; background: #984144; border: solid #B0FDFF;"><p class="boxname" style="font-size:70%">Double Symbols</p>
+            <span class="tooltiptext tooltip-double-symbols">DOUBLE → <span class="green-arrow"></span>DDOOUUBBLLEE<br>AAB → <span class="green-arrow"></span>AAAABB<br>A → <span class="green-arrow"></span>AA<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Makes an adjacent copy of each symbol.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-reverse" style="color: #BF2815; background: #DAFFFF; border: solid #BF2815;"><p class="boxname" style="font-size:80%">Reverse</p>
+            <span class="tooltiptext tooltip-reverse">REVERSE → <span class="green-arrow"></span>ESREVER<br>PSYCHOLOGY → <span class="green-arrow"></span>YGOLOHCSYP<br>RACECAR → <span class="green-arrow"></span>RACECAR<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Reverses the order of the input.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-swap" style="color: #A4FFFF; background: #60824C; border: solid #A4FFFF;"><p class="boxname">Swap</p>
+            <span class="tooltiptext tooltip-swap">SWAP → <span class="green-arrow"></span>WSAP<br>SSWAPPROOF → <span class="green-arrow"></span>SSWAPPROOF<br>AA → <span class="green-arrow"></span>AA<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Swaps the order of the first two symbols.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-two-or-more" style="color: #344172; background: #FF9EFF; border: solid #344172;"><p class="boxname" style="font-size:85%">Two or More?</p>
+            <span class="tooltiptext tooltip-two-or-more">ABC → <span class="green-arrow"></span>ABC<br>AB → <span class="green-arrow"></span>AB<br>A → <span class="red-arrow"></span>A<br>[Empty] → <span class="red-arrow"></span>[Empty]</span></span></td>
+            <td><span class="green-arrow"></span> if there are two or more symbols. <span class="red-arrow"></span> otherwise.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-move-front" style="color: #5D5A28; background: #FFE4B3; border: solid #5D5A28;"><p class="boxname">Move Front</p>
+            <span class="tooltiptext tooltip-move-front">MOVEFRONT → <span class="green-arrow"></span>TMOVEFRON<br>BA → <span class="green-arrow"></span>AB<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+          <td>Moves the last symbol to the front.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-palindrome" style="color: #803543; background: #B3EFFF; border: solid #803543;"><p class="boxname" style="font-size:80%">Palin-drome?</p>
+            <span class="tooltiptext tooltip-palindrome">ABCD → <span class="red-arrow"></span>[Any]<br>ABCDBA → <span class="red-arrow"></span>[Any]<br>ABCBA → <span class="green-arrow"></span>[Any]<br>ABCCBA → <span class="green-arrow"></span>[Any]<br>A → <span class="green-arrow"></span>[Any]<br>[Empty] → <span class="green-arrow"></span>[Any]</span></span></td>
+            <td><span class="green-arrow"></span> if the input is the same in reverse. <span class="red-arrow"></span> otherwise. (!) The input is not preserved.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-count-as" style="color: #69A34E; background: #B1FFF3; border: solid #69A34E;"><p class="boxname">Count A's</p>
+            <span class="tooltiptext tooltip-count-as">BAABA → <span class="red-arrow"></span>[Any]<br>BBAAA → <span class="red-arrow"></span>[Any]<br>BABA → <span class="green-arrow"></span>[Any]<br>BAAABAAA → <span class="green-arrow"></span>[Any]<br>BB → <span class="green-arrow"></span>[Any]<br>[Empty] → [undefined]</span></span></td>
+            <td><span class="green-arrow"></span> if the two groups of A's are the same size. <span class="red-arrow"></span> otherwise. (!) The input is not preserved. 🔒 The input must be exactly two groups of A's, with a single B in front of each.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-replicate-first" style="color: #FFFE8D; background: #40AD5C; border: solid #FFFE8D;"><p class="boxname" style="font-size:70%">Replicate First</p>
+            <span class="tooltiptext tooltip-replicate-first">AAABB → <span class="green-arrow"></span>AAAAA<br>ABBBB → <span class="green-arrow"></span>AAAAA<br>AABBCC → <span class="green-arrow"></span>AAAAAA<br>AAAAA → <span class="green-arrow"></span>AAAAA<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Replaces all symbols with the first symbol.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-all-equal" style="color: #882522; background: #FFC2FF; border: solid #882522;"><p class="boxname" style="font-size:90%">All Equal?</p>
+            <span class="tooltiptext tooltip-all-equal">ALLEQUAL → <span class="red-arrow"></span>ALLEQUAL<br>AAAAB → <span class="red-arrow"></span>AAAAB<br>AAAAA → <span class="green-arrow"></span>AAAAA<br>AA → <span class="green-arrow"></span>AA<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td><span class="green-arrow"></span> if all symbols are equal (no symbols differ). <span class="red-arrow"></span> otherwise.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-partition" style="color: #203244; background: #FFF7B5; border: solid #203244;"><p class="boxname">Part-ition</p>
+            <span class="tooltiptext tooltip-partition">AAABB → <span class="green-arrow"></span>AAABB<br>ABABA → <span class="green-arrow"></span>AAABB<br>AAABA → <span class="green-arrow"></span>AAAAB<br>ABBBBA → <span class="green-arrow"></span>AABBBB<br>ABABBBAA → <span class="green-arrow"></span>AAAABBBB<br>AABBCC → [undefined]<br>AAAAA → [undefined]<br>A → [undefined]<br>[Empty] → [undefined]</span></span></td>
+            <td>Move all symbols equal to the first symbol to the front. 🔒 Requires exactly two groups of symbols.</td></tr>
+
+          </tbody></table>
+        </div>
+  	  </div>
+  	</div>
+  <div class="column middle">
+    
+
+<button href="#" onclick="toggle_visibility('spoilers-info');"><strong>Info about this site and the game</strong></button>
+<div id="spoilers-info" style="display:none;"><blockquote>
+<p><strong>Goal:</strong> Create a box that fulfills the description (top middle). Match, or beat, the world record (top right). Test cases (right) provide examples of what a solved box should return.</p>
+<p><strong>Rules:</strong> You can use any of the boxes shown (left), in any sequence. Each box exits in one direction, green <span class="green-arrow"></span>, by default, but can have more for branching paths <span class="red-arrow"></span> <span class="blue-arrow"></span> <span class="yellow-arrow"></span>. Boxes can point to any other box in the sequence, or point to an exit arrow color. Once your sequence exits through an arrow color, the test is over.</p>
+<p><strong>Example:</strong> Imagine a sequence [Equal?, Delete]. The <span class="green-arrow"></span> of Equal? points to Delete which points to the <span class="green-arrow"></span> exit. The <span class="red-arrow"></span> of Equal? points to the <span class="red-arrow"></span> exit. This functions identically to Delete If Equal, and is exactly how such a box is built.</p>
+<p>These rules are a slightly simplified interpretation of a playable game, <a href="logicbox.jahooma.com">Jahooma’s LogicBox</a>. It's recommended (but not necessary) to play that first.</p>
+<p>You can hover over a lot of things on this page for more information.</p>
+<p>🔒 represents an input restriction (pronounce "input lock"). The text following the 🔒 describes things that should never be in an input. If such locked things are passed into the box anyway, the result is [undefined] and any construction where such a thing can happen is invalid.</p>
+<p>(!) represents an output restriction, or output warning. Certain inputs from a (!) box will produce an unknown output, and cannot be relied on. If a construction uses a (!) box, the rest of the construction cannot assume anything about the output or it is invalid.</p>
+<p>Credits:</p>
+<ul class="smalltext">
+  <li>Writing, programming: main_gi</li>
+  <li>Stylesheet: main_gi, some parts from mfs's previous work on the LB subreddit stylesheet</li>
+  <li>Rules, arrow pictures, creator of the game this is based off: jahooma</li>
+  <li>Tooltip template: w3schools</li>
+</ul>
+<div class="smalltext">This project is not 100% complete. Some parts of the HTML still annoy me, like not being able to see a button's expanded/unexpanded status, bad zoom scaling, the lack of arrows on the box visual, my inability to build this in a non-directly-HTML-JS-CSS way, and wanting for people to confirm solutions before they spoil themselves too much. But now it's finally in a state I feel proud of.</div>
+</p>
+</blockquote>
+</div>
+<p>This is one of the levels in the game that really shows how ridiculously emergent these rules are. Even though it’s an end-of-chapter level, it <em>still takes only 9 boxes</em> to complete it! The level’s lowest known box count used to be <strong>15</strong>.</p>
+<p>The level goal is basically: Find the group of the largest size and keep only that. If there’s more than one ‘largest’ group, keep the last one.</p>
+<p>A real life use-case would be like checking to see which player got the highest streak in a shooter, where each symbol would represent part of a player’s streak. …Though the 🔒 ruins it…</p>
+<p>Stats: Boxes: <strong>9</strong>. Very likely <em>Minimum</em>. Not Unique.</p>
+<h3><a id="Original_descriptions_18"></a>Original descriptions</h3>
+<blockquote><p>Objective: Return the longest streak of equal symbols. If there are multiple longest streaks return the last one. Each streak uses a unique symbol. Exit green.</p>
+<p>Comments: This one’s hard. Have fun.</p></blockquote>
+<h2><a id="History_and_Hints_33"></a>History and Hints (ordered from smallest to largest hints)</h2>
+
+<button href="#" onclick="toggle_visibility('hint1');"><strong>Analytical: Boxes to rule out</strong></button>
+<div id="hint1" style="display:none;"><blockquote>
+<p>A few boxes can be thrown out immediately: the crappy basic ones (<em>Delete 4</em>, <em>Delete 8</em>, <em>Trim</em>, <em>Make 2</em>), <em>Convert Group</em> (strictly worse than <em>Replicate First</em>), and <em>Count A’s</em>.</p></blockquote></div>
+
+<button href="#" onclick="toggle_visibility('hint2');"><strong>Mindset: Small hint</strong></button>
+<div id="hint2" style="display:none;"><blockquote>
+<p>The standard solving of this puzzle is somewhat straightforward: <em>compare two groups at a time</em>; deleting pairs until just one group remains.</p>
+
+<button href="#" onclick="toggle_visibility('hint2-1');"><strong>14-box solution</strong></button>
+<div id="hint2-1" style="display:none;"><blockquote><p>
+This is what is used by this solution: <a href="https://gyazo.com/caecdc150be239843a21383332181381"><strong>14</strong> by mfs</a>.</p>
+</blockquote></div></blockquote></div>
+
+<button href="#" onclick="toggle_visibility('hint3');"><strong>Analytical: Structural inefficiency</strong></button>
+<div id="hint3" style="display:none;"><blockquote>
+<p>You’ll notice that it’s a very expensive operation in terms of boxes to store groups: Equal? and two Store Backs. It’s even worse if you have to do that twice (<strong>6</strong> boxes spent there!) - try making a structure that reuses boxes.</p>
+
+<button href="#" onclick="toggle_visibility('hint3-1');"><strong>12-box solution</strong></button>
+<div id="hint3-1" style="display:none;"><blockquote>
+<p>Such a structure is used in this solution: <a href="http://i.imgur.com/DkwsW02.png"><strong>12</strong> by mfs</a>.</p>
+</blockquote></div></blockquote></div>
+
+<button href="#" onclick="toggle_visibility('hint4');"><strong>Mindset: Large hint (below 12 boxes)</strong></button>
+<div id="hint4" style="display:none;"><blockquote>
+<p>So, how do you get below 12 boxes? Well, how about <em>throw the idea of comparing two groups at a time out the window.</em></p>
+
+<button href="#" onclick="toggle_visibility('hint4-1');"><strong>Mindset: Continue large hint</strong></button>
+<div id="hint4-1" style="display:none;"><blockquote>
+<p>It was independently discovered by me and someone else that there was another way to beat this - the thinking is, you can <em>Sink</em> each group (deleting one symbol off all the groups) and whichever remains (checking by <em>All Equal?</em>) must be the largest group. Of course, this means you’ll have to retrieve the symbols you deleted… or maybe even use Replicate First… hm…</p>
+
+<button href="#" onclick="toggle_visibility('hint4-2');"><strong>Mindset: Continue large hint</strong></button>
+<div id="hint4-2" style="display:none;"><blockquote>
+<p>If you pay close attention, you’ll see the synergy between Next Symbol and All Equal?. The 🔒 was foreshadowing it all along - anything that returns <span class="red-arrow"></span> from All Equal? is a valid target for Next Symbol.</p>
+<p>Here was my first solution that uses this idea. <a href="http://i.imgur.com/sI2ZqS3.png"><strong>14</strong> by main_gi</a>.</p>
+</blockquote></div></blockquote></div></blockquote></div>
+
+<button href="#" onclick="toggle_visibility('hint5');"><strong>Spoilers: 11-box solution and innovations that get lower</strong></button>
+<div id="hint5" style="display:none;"><blockquote>
+<p>Yeah, yeah. You can make the last part much more efficient, too. Check it! <a href="http://i.imgur.com/XgDaXd9.png"><strong>11</strong> by main_gi</a>.</p>
+<p>Because I’m not sharing this with many people yet… I won’t describe what the <strong>10</strong> and <strong>9</strong> box optimizations exactly are. The 11-box is already very close.</p>
+<p>One of the optimizations is ‘easy’ and requires paying close attention (I remember when I was trying to fall asleep, thinking about this level, and suddenly realized the breakthrough and couldn’t stop thinking about it!) - and the other is <em>insane</em>. It blasts the step count to massive levels. And it was found by what was almost an accident (by mfs). I would love to watch someone’s reaction of finding that.</p>
+<p>Ironically, the ‘insane’ optimization was discovered before the ‘easy’ one. But I think once you see the solution, you’ll understand why.</p>
+<p>There was no way the designer could have known that not only did the alternative solve exist, but that the 🔒 would open up this solution. It was not designed this way at all and is <em>that</em> deep of a puzzle.</p>
+<p>The 9-box is definitely not <em>Unique</em> for two reasons: it has modular-deletion, and a two-box pair can be replaced with an equivalent two-box pair. Hehehe. Is it <em>Minimum</em>? Well, every single box seems to have an equal share of the purpose, <em>but</em> it would seem that way in the 10-box one too. So… who knows. An 8-box would be absolutely crazy, though.</p>
+</blockquote></div>
+    
+
+  </div>
+  <div class="column right">
+    <div class="fancy-tab tooltip">Tests<span class="tooltiptext" style="padding: 3px; width: 300%; margin-left: -147.25px;">All test cases in the level. Underlines or linebreaks are not in the game, and are here for extra clarity. If your construction fails on other possible inputs not in the test cases, it is invalid.</span></div>
+  	<div class="tests">
+      <table style="max-width:100%; overflow-wrap: break-word;
+  word-wrap: break-word; word-break: break-all;">
+      <thead><tr><th style="min-width:46%">Input</th><th style="min-width:4%"></th><th style="min-width:46%">Output</th></tr></thead>
+      <tbody>
+  		<tr><td><span class="u">AAAA</span>BBCCC</td><td> → </td><td><span class="green-arrow"></span>AAAA</td></tr>
+  		<tr><td>JAH<span class="u">OO</span>M</td><td> → </td><td><span class="green-arrow"></span>OO</td></tr>
+  		<tr><td>A<span class="u">BBB</span></td><td> → </td><td><span class="green-arrow"></span>BBB</td></tr>
+  		<tr><td>AB<span class="u">C</span></td><td> → </td><td><span class="green-arrow"></span>C</td></tr>
+  		<tr><td><span class="u">AAA</span></td><td> → </td><td><span class="green-arrow"></span>AAA</td></tr>
+  		<tr><td><span class="u">AA</span></td><td> → </td><td><span class="green-arrow"></span>AA</td></tr>
+  		<tr><td><span class="u">A</span></td><td> → </td><td><span class="green-arrow"></span>A</td></tr>
+      <tr><td>[Empty]</td><td> → </td><td><span class="green-arrow"></span>[Empty]</td></tr>
+      <tr><td>A<span class="u">B</span></td><td> → </td><td><span class="green-arrow"></span>B</td></tr>
+      <tr><td>AA<span class="u">BB</span></td><td> → </td><td><span class="green-arrow"></span>BB</td></tr>
+      <tr><td>AAA<span class="u">BB</span></td><td> → </td><td><span class="green-arrow"></span>AAA</td></tr>
+      <tr><td>AA<span class="u">BBB</span>C</td><td> → </td><td><span class="green-arrow"></span>BBB</td></tr>
+      <tr><td>AABBCCDDDEE<span class="u">FFF</span>G</td><td> → </td><td><span class="green-arrow"></span>FFF</td></tr>
+      <tr><td>AABBCDDEE<span class="u">FF</span></td><td> → </td><td><span class="green-arrow"></span>FF</td></tr>
+      <tr><td>A<br>BB<br>CCC<br>DDDD<br>EEEEE<br>FFFFFF<br><span class="u">GGGGGGG</td><td> → </td><td><span class="green-arrow"></span>GGGGGGG</td></tr>
+      <tr><td>AAAAAAAAAA<br><span class="u">BBBBBBBBBBB</span><br>CCCCCCCCCC</td><td> → </td><td><span class="green-arrow"></span>BBBBBBBBBBB</td></tr>
+      <tr><td><span class="u">AAAAAAAAAAA</span><br>BBBBBBBBBB<br>CCCCCCCCCC</td><td> → </td><td><span class="green-arrow"></span>AAAAAAAAAAA</td></tr>
+      <tr><td>AAAAAAAAAA<br>BBBBBBBBBB<br><span class="u">CCCCCCCCCC</span><br>DDDDDDD<br>E<br>FF<br>GGGGGGGGG<br>HH<br>IIII<br>J<br>K<br>L<br>MM</td><td> → </td><td><span class="green-arrow">     </span>CCCCCCCCCC</td></tr>
+      <!-- Because AAAA is the largest group (size 4) of equal symbols, and it is the last group of its size (in fact, it's the only group of its size). -->
+  		<!-- Because AAAA is the largest group (size 0) of equal symbols, and it is the last size 0 group. -->
+      </tbody></table>
+  	</div>
+  </div>
+  
+</div> 
+</div></body>
+
+<!-- <tr class="boxinfos"><td><span class="primitive tooltip" style="color: #901717; background: #FF8564; border: solid #901717;"><p class="boxname">Delete</p>
+            <span class="tooltiptext"><table><tbody><tr><td>DELETE</td><td>→</td><td>ELETE</td></tr><tr>A → [Empty]</tr><tr>[Empty] → [Empty]</tr></tbody></table></span></span></td>
+            <td>Deletes the first symbol.</td></tr> SCREW THIS TABLE-->

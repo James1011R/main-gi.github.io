@@ -1,0 +1,229 @@
+html, body {
+	background: black url('images/milky-way-2750627_1920.jpg'); /* https://pixabay.com/en/milky-way-starry-sky-night-sky-star-2750627/*/
+	background-attachment: fixed;
+	font-size: 18px;
+	color: #444;
+	margin: 0px auto;
+	padding: 0 4px 0 4px;
+	line-height: 1.4;
+    font-family: 'Tajawal', sans-serif; /* Need to find a way to add client side font. ALSO, WTF COMMENTS! */
+}
+    
+
+/* Strongly considering reducing padding + adding minwidth for LB puzzles */
+
+h1,h2,h3{line-height: 0.8}
+img{max-width: 450px; 
+display: block;
+margin-left: auto;
+margin-right: auto;}
+.u {text-decoration: underline #bbb;}
+blockquote {
+background: rgba(139, 255, 255, 0.39); border-left: 6px solid #00fffc80; margin: 0.5em 10px; padding-left: 0.5em; padding-right: 0.5em;}
+
+.rester
+{
+	border-width: 0 5px 0 5px;
+	border-style: dotted;
+	border-color: #122;
+	background-image: linear-gradient(rgba(222, 255, 255, 0.98), rgba(156, 255, 235, 0.88));
+	box-shadow: 8px 8px rgba(0,0,0,0.4);
+	margin: 0px auto;
+	padding: 0em 5em 0em 5em;
+	min-height: calc(100vh - 70px);
+	min-width: 66%;
+	max-width: 850px;
+	display: table;
+}
+
+.info-dense {
+	padding: 0em 1em 0em 1em;
+	min-width: 90%;
+}
+
+.banner
+{
+	text-align: center;
+	background: aliceblue;
+	font-weight: bold;
+	font-size: 50px;
+}
+
+.smalltext {color: #888;font-size: 12px;text-align: center;}
+.column {float: left;}
+.left, .right {width: 25%; min-width: 25%;}
+.middle {width: 46%; padding: 0 2% 0 2%;} 
+
+.boxes, .tests {
+  background-color: #fff;
+  border: solid #ddd 1px;
+  margin: 2px 2px 2px 2px;
+  max-width: 95%;
+  padding: 1px 1%;
+  /*border-collapse: collapse; */
+}
+#boxcount-border {background: #fff; border: 5px solid #2C83D1; width: 10em; height: 10em; max-width: 10em; max-height: 10em; margin: 0 auto;}
+#boxcount {color: #2C83D1; font-weight: bold; font-size: 800%; font-family: Consolas; top: 5px; position: relative; 
+text-align: center; pointer-events: none;}
+#solvers {position: relative; text-align: right; top: 1.2em; font-size: 70%;}
+
+.fancy-tab {text-align: center; background: white; width: 35%; margin: 0 auto; border-radius: 3px; position: relative; top: 4px; font-size: 110%;}
+
+.tests {
+  font-family: Consolas;
+}
+
+#big-box {
+	width: 10em;
+	height: 10em;
+	min-width: 10em;
+	min-height: 10em;
+}
+
+.primitive, .constructed {  
+	font-family: Georgia;
+	color: #000;
+	background: #fff;
+	border: solid 3px #000;
+	width: 3em;
+	height: 3em;
+	display: flex;
+	text-align: center;
+	position: relative;
+	min-width: 3em;
+	min-height: 3em;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+} 
+
+.primitive, .rounded {border-radius: 6px;}
+
+.boxname {pointer-events: none;}
+
+.green-arrow, .red-arrow, .blue-arrow, .yellow-arrow {
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+	position: relative;
+	top: 3px;
+}
+.green-arrow {background: url(./icons/green-arrow.png) 0 center/auto 100% no-repeat;}
+.red-arrow {background: url(./icons/red-arrow.png) 0 center/auto 100% no-repeat; transform: rotate(180deg);}
+.blue-arrow {background: url(./icons/blue-arrow.png) 0 center/auto 100% no-repeat; transform: rotate(90deg);}
+.yellow-arrow {background: url(./icons/yellow-arrow.png) 0 center/auto 100% no-repeat; transform: rotate(-90deg);}
+
+.tooltip {
+  position: relative;
+  /*display: inline-block;*/
+}
+
+.tooltiptext { /* Tooltip text */ /* main_gi: I removed .tooltip from here, hope it don't break things */;
+  visibility: hidden; width: 120px; background-color: #122; color: #fff; font-size: 1em; text-align: center; padding: 5px 0; border-radius: 6px; opacity: 0; transition: opacity 1s;
+  position: absolute; z-index: 1; /* Position the tooltip text - see examples below! */
+  width: 150px;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -75px; /* Use half of the width (120/2 = 60), to center the tooltip */
+ }
+
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+} 
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext, .bottomtip:hover .bottomtiptext { 
+  visibility: visible;
+  opacity: 0.9;
+  font-family: Tajawal;
+}
+
+.tooltiptext .green-arrow, .tooltiptext .red-arrow, .tooltiptext .blue-arrow, .tooltiptext .yellow-arrow, .bottomtiptext .green-arrow, .bottomtiptext .red-arrow, .bottomtiptext .blue-arrow, .bottomtiptext .yellow-arrow {
+	width: 10px; height: 10px; top: 1px;
+}
+
+.bottomtip {
+	position: relative;
+}
+.bottomtiptext {
+  visibility: hidden; width: 120px; background-color: #122; color: #fff; font-size: 1em; text-align: center; padding: 5px 0; border-radius: 6px; opacity: 0; transition: opacity 1s;
+  position: absolute; z-index: 1; /* Position the tooltip text - see examples below! */
+  width: 150px;
+  top: 100%;
+  left: 50%;
+  margin-left: -75px; /* Use half of the width (120/2 = 60), to center the tooltip */
+}
+.bottomtip .bottomtiptext::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;  /* At the top of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+
+
+.tooltiptext .tooltip-longest-streak::after {
+}
+
+::-moz-selection { 
+	background-color: rgba(0, 100, 100, 0.5); 
+	color: #ffffff;
+}
+
+::selection {
+	background-color: rgba(0, 100, 100, 0.5); 
+	color: #ffffff;
+}
+
+button {
+	-moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	background-color:#3dcccc;
+	-webkit-border-top-left-radius:3px;
+	-moz-border-radius-topleft:3px;
+	border-top-left-radius:3px;
+	-webkit-border-top-right-radius:3px;
+	-moz-border-radius-topright:3px;
+	border-top-right-radius:3px;
+	-webkit-border-bottom-right-radius:3px;
+	-moz-border-radius-bottomright:3px;
+	border-bottom-right-radius:3px;
+	-webkit-border-bottom-left-radius:3px;
+	-moz-border-radius-bottomleft:3px;
+	border-bottom-left-radius:3px;
+	text-indent:0;
+	border:1px solid #337fed;
+	display:inline-block;
+	color:#ffffff;
+	font-family:'Tajawal';
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:22px;
+	line-height:22px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #1570cd;
+} button:hover {
+	background-color:#5ef6f6;
+} button:active {
+	position:relative;
+	background-color:#3ddddd;
+	color:#dff;
+	top:1px;
+} button:focus {
+	outline:thin dotted; }
+/* This button was generated using CSSButtonGenerator.com */
