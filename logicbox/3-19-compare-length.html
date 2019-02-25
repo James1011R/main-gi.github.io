@@ -1,0 +1,266 @@
+<link rel="stylesheet" type="text/css" href="../index.css">
+<!--<link href="https://fonts.googleapis.com/css?family=Tajawal" rel="stylesheet"> I don't like the way bold looks on Google's Tajawal. -->
+<link href="../fonts/Tajawal-Regular.ttf" rel="stylesheet">
+<link href="../fonts/consola.ttf" rel="stylesheet">
+<link href="../fonts/georgia.ttf" rel="stylesheet">
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.50, maximum-scale=3.0, minimum-scale=1.50">
+<title>Compare Length</title>
+<script type="text/javascript">
+<!--
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+    }
+//from https://css-tricks.com/snippets/javascript/showhide-element/ -->
+</script>
+<body><div class="rester info-dense">
+<!--<h1 id="longest-streak" style="text-align:center">Compare Length</h1>-->
+
+<div style="margin-bottom: 10px;"><table style="width:100%"><tbody><tr class="boxinfos" style="text-align:center"><td style="width:25%"><div>Level 3-19</div>
+<span class="constructed bottomtip" style="color: #165050; background: #9EFFB8; border: solid 5px #165050; margin: 0 auto" id="big-box"><p class="boxname" style="font-size:230%">Compare Length</p>
+<td style="font-size:200%; width:50%; text-align:left;"><span class="green-arrow" style="position:relative; width: 25px; height: 25px;"></span> if the first list is longer than the second, <span class="red-arrow" style="position:relative; width: 25px; height: 25px;"></span> if the first list is shorter, and <span class="blue-arrow" style="position:relative; width: 25px; height: 25px;"></span> if they are the same length. 🔒 The first two symbols must be lists.</td>
+<td style="width:25%"><div>World Record Lowest Boxes</div><div id="boxcount-border"><div id="boxcount">12</div><div id="solvers">Jinmago, main_gi</div></div></td></tr></tbody></table>
+
+</div>
+
+  <div class="row">
+    <div class="column left">
+      <div class="fancy-tab tooltip">Boxes<span class="tooltiptext" style="padding: 3px; width: 294.5px; margin-left: -148.5px;">All boxes available. This list is split into two sections: primitive and constructed. All constructed boxes are constructed from a previous level. You can hover over boxes to see some example tests.</span></div>
+  	  <div class="boxes rounded">
+        <table style="width:100%"><tbody> <!-- What a mess! TODO: Get those arrows centered. So: 
+           DELETE -> ELETE
+                A -> [Empty]
+          [Empty] -> [Empty]-->
+          <!-- TODO: Various displays: "Boxes Only", "Full Descriptions", "Only Relevant Boxes" -->
+          <tr class="boxinfos"><td><span class="startcircle tooltip tooltip-start2" style="color: #000000; background: #FFFFFF; border: solid #000000;"><p class="boxname" style="font-size:80%">Start(2)</p>
+            <span class="tooltiptext tooltip-start2">In the real game, this would cost 2 steps (if there were any extra symbols). Start boxes do not count as boxes in the lowest box count.</span></td>
+            <td>The computation starts with only the first two symbols. Any leftover symbols are added back at the end.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-delete" style="color: #901717; background: #FF8564; border: solid #901717;"><p class="boxname">Delete</p>
+            <span class="tooltiptext tooltip-delete">DELETE → <span class="green-arrow"></span>ELETE<br>BA → <span class="green-arrow"></span>A<br>A → <span class="green-arrow"></span>[Empty]<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Deletes the first symbol.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-equal" style="color: #778749; background: #DAFF75; border: solid #778749;"><p class="boxname" style="font-size:90%">Equal?</p>
+            <span class="tooltiptext tooltip-equal">EQUAL → <span class="red-arrow"></span>EQUAL<br>EEQUAL → <span class="green-arrow"></span>EEQUAL<br>EEEQUAL → <span class="green-arrow"></span>EEEQUAL<br>A → <span class="red-arrow"></span>A<br>[Empty] → <span class="red-arrow"></span>[Empty]</span></span></td>
+            <td><span class="green-arrow"></span> if the first two symbols are equal. <span class="red-arrow"></span> otherwise.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-copy" style="color: #19576E; background: #47CDFF; border: solid #19576E;"><p class="boxname">Copy</p>
+            <span class="tooltiptext tooltip-copy">COPY → <span class="green-arrow"></span>CCOPY<br>BA → <span class="green-arrow"></span>BBA<br>A → <span class="green-arrow"></span>AA<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Adds a copy of the first symbol to the front.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-move-back" style="color: #00B3C7; background: #DDE6ED; border: solid #00B3C7;"><p class="boxname">Move Back</p>
+            <span class="tooltiptext tooltip-move-back">MOVEBACK → <span class="green-arrow"></span>OVEBACKM<br>BA → <span class="green-arrow"></span>AB<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+          <td>Moves the first symbol to the back.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-switch" style="color: #8051A8; background: #FFF480; border: solid #8051A8;"><p class="boxname" style="font-size:90%">Switch</p>
+            <span class="tooltiptext tooltip-switch">
+              (Simply swaps strings. Storage starts [Empty] in every level. If the stored string is "STORED" and current is "CURRENT", Switch would make the current string "STORED" and the stored string "CURRENT".)
+            </span></span></td>
+          <td>Switches the current string with the stored string.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-store-back" style="color: #F25613; background: #DDE6ED; border: solid #F25613;"><p class="boxname">Store Back</p>
+            <span class="tooltiptext tooltip-store-back">
+              (If the current string is "CURRENT" and the stored string is "STORED", Store Back would make the current string "URRENT" and the stored string "STOREDC".)
+            </span></span></td>
+          <td>Moves the first symbol to the back of the stored string.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-store-front" style="color: #E0DA1D; background: #DDE6ED; border: solid #E0DA1D;"><p class="boxname">Store Front</p>
+            <span class="tooltiptext tooltip-store-back">
+              (If the current string is "CURRENT" and the stored string is "STORED", Store Front would make the current string "URRENT" and the stored string "CSTORED".)
+            </span></span></td>
+          <td>Moves the first symbol to the front of the stored string.</td></tr>
+
+
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-pack" style="color: #FF0FE0; background: #8AFF99; border: solid #FF0FE0;"><p class="boxname">Pack</p>
+            <span class="tooltiptext tooltip-pack">PACK → <span class="green-arrow"></span>[PA]CK<br>[PA]CK → <span class="green-arrow"></span>[[PA]C]K<br>[[PA]C]K → <span class="green-arrow"></span>[[[PA]C]K]<br>[[[PA]C]K] → <span class="green-arrow"></span>[[[PA]C]K]<br>[PA][CK] → <span class="green-arrow"></span>[[PA][CK]]<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+          <td>If there are two symbols in front, packs them into one symbol containing both, in order.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-unpack" style="color: #FF0FE0; background: #9BF3FA; border: solid #FF0FE0;"><p class="boxname" style="font-size:80%">Unpack</p>
+            <span class="tooltiptext tooltip-unpack">[UN]PACK → <span class="green-arrow"></span>UNPACK<br>[U[N[P[A[CK]]]]] → <span class="green-arrow"></span>U[N[P[A[CK]]]]<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+          <td>If the first symbol is packed, unpacks it to the two symbols it contained, in order.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-add-zero" style="color: #FF7722; background: #FFFFFF; border: solid #FF7722;"><p class="boxname">Add Zero</p>
+            <span class="tooltiptext tooltip-add-zero">ADDZERO → <span class="green-arrow"></span>0ADDZERO<br>AA → <span class="green-arrow"></span>0AA<br>A → <span class="green-arrow"></span>0A<br>[Empty] → <span class="green-arrow"></span>0</span></span></td>
+          <td>Adds the '0' symbol to the front.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-get-cell-a" style="color: #9ED136; background: #FFFFFF; border: solid #9ED136;"><p class="boxname">Get Cell A</p>
+            <span class="tooltiptext tooltip-get-cell-a">Assuming Cell A is 'A':<br>GET → <span class="green-arrow"></span>AGET<br>AB → <span class="green-arrow"></span>AAB<br>A → <span class="green-arrow"></span>AA<br>[Empty] → <span class="green-arrow"></span>A</span></span></td>
+          <td>Adds a copy of the symbol stored in Cell A to the front.</td></tr>
+          <tr class="boxinfos"><td><span class="primitive tooltip tooltip-set-cell-a" style="color: #7722FF; background: #FFFFFF; border: solid #7722FF;"><p class="boxname">Set Cell A</p>
+            <span class="tooltiptext tooltip-set-cell-a">SET → <span class="blue-arrow"></span>ET (Cell A is 'S')<br>AB → <span class="blue-arrow"></span>B (Cell A is 'A')<br>A → <span class="blue-arrow"></span>[Empty] (Cell A is 'A')<br>[Empty] → <span class="blue-arrow"></span>[Empty] (Cell A is [Empty])</span></span></td>
+          <td>Removes the first symbol, replacing Cell A with that symbol. If the input is [Empty], Cell A becomes [Empty].</td></tr>
+
+
+
+        </tbody></table>
+      </div>
+        <!-- 2nd table for constructeds -->
+      <div class="boxes">
+        <table style="width:100%"><tbody>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-delete-if-equal" style="color: #892313; background: #F2E0AE; border: solid #892313;"><p class="boxname" style="font-size:80%">Delete If Equal</p>
+            <span class="tooltiptext tooltip-delete-if-equal">EQUAL → <span class="red-arrow"></span>EQUAL<br>EEQUAL → <span class="green-arrow"></span>EQUAL<br>EEEQUAL → <span class="green-arrow"></span>EEQUAL<br>A → <span class="red-arrow"></span>A<br>[Empty] → <span class="red-arrow"></span>[Empty]</span></span></td>
+            <td><span class="green-arrow"></span> and delete the first symbol if the first two symbols are equal. <span class="red-arrow"></span> otherwise.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-equal-delete" style="color: #422031; background: #E4B3C5; border: solid #422031;"><p class="boxname">Equal Delete</p>
+            <span class="tooltiptext tooltip-equal-delete">EQUAL → <span class="red-arrow"></span>QUAL<br>EEQUAL → <span class="green-arrow"></span>EQUAL<br>EEEQUAL → <span class="green-arrow"></span>EEQUAL<br>A → <span class="red-arrow"></span>[Empty]<br>[Empty] → <span class="red-arrow"></span>[Empty]</span></span></td>
+            <td>Deletes the first symbol. <span class="green-arrow"></span> if the first two symbols were equal. <span class="red-arrow"></span> otherwise.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-empty" style="color: #4CC5D5; background: #FFFFFF; border: solid #4CC5D5;"><p class="boxname" style="font-size:80%">Empty?</p>
+            <span class="tooltiptext tooltip-empty">EMPTY → <span class="red-arrow"></span>EMPTY<br>EMPTYBLABLA → <span class="red-arrow"></span>EMPTYBLABLA<br>BA → <span class="red-arrow"></span>BA<br>A → <span class="red-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td><span class="green-arrow"></span> if the input is empty (contains no symbols). <span class="red-arrow"></span> otherwise.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-next-symbol" style="color: #B64133; background: #FFFFBD; border: solid #B64133;"><p class="boxname" style="font-size:80%">Next Symbol</p>
+            <span class="tooltiptext tooltip-next-symbol">NEXTSYMBOL → <span class="green-arrow"></span>EXTSYMBOLN<br>MMMMOOVE → <span class="green-arrow"></span>OOVEMMMM<br>AAAAA → [undefined]<br>A → [undefined]<br>[Empty] → [undefined]</span></span></td>
+            <td>Moves symbols to the back until the first symbol is different. 🔒 Requires at least two different symbols.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-first" style="color: #582337; background: #9DF3FF; border: solid #582337;"><p class="boxname">First</p>
+            <span class="tooltiptext tooltip-first">FIRST → <span class="green-arrow"></span>F<br>SECOND → <span class="green-arrow"></span>S<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Keeps only the first symbol.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-double-symbols" style="color: #B0FDFF; background: #984144; border: solid #B0FDFF;"><p class="boxname" style="font-size:70%">Double Symbols</p>
+            <span class="tooltiptext tooltip-double-symbols">DOUBLE → <span class="green-arrow"></span>DDOOUUBBLLEE<br>AAB → <span class="green-arrow"></span>AAAABB<br>A → <span class="green-arrow"></span>AA<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Makes an adjacent copy of each symbol.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-reverse" style="color: #BF2815; background: #DAFFFF; border: solid #BF2815;"><p class="boxname" style="font-size:80%">Reverse</p>
+            <span class="tooltiptext tooltip-reverse">REVERSE → <span class="green-arrow"></span>ESREVER<br>PSYCHOLOGY → <span class="green-arrow"></span>YGOLOHCSYP<br>RACECAR → <span class="green-arrow"></span>RACECAR<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Reverses the order of the input.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-swap" style="color: #E292C9; background: #A76170; border: solid #E292C9;"><p class="boxname">Swap</p>
+            <span class="tooltiptext tooltip-swap">SWAP → <span class="green-arrow"></span>WSAP<br>SSWAPPROOF → <span class="green-arrow"></span>SSWAPPROOF<br>AA → <span class="green-arrow"></span>AA<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Swaps the order of the first two symbols.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-two-or-more" style="color: #30494A; background: #F2FF9B; border: solid #30494A;"><p class="boxname" style="font-size:85%">Two or More?</p>
+            <span class="tooltiptext tooltip-two-or-more">ABC → <span class="green-arrow"></span>ABC<br>AB → <span class="green-arrow"></span>AB<br>A → <span class="red-arrow"></span>A<br>[Empty] → <span class="red-arrow"></span>[Empty]</span></span></td>
+            <td><span class="green-arrow"></span> if there are two or more symbols. <span class="red-arrow"></span> otherwise.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-move-front" style="color: #5D5A28; background: #FFE4B3; border: solid #5D5A28;"><p class="boxname">Move Front</p>
+            <span class="tooltiptext tooltip-move-front">MOVEFRONT → <span class="green-arrow"></span>TMOVEFRON<br>BA → <span class="green-arrow"></span>AB<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+          <td>Moves the last symbol to the front.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-replicate-first" style="color: #FFFE8D; background: #40AD5C; border: solid #FFFE8D;"><p class="boxname" style="font-size:70%">Replicate First</p>
+            <span class="tooltiptext tooltip-replicate-first">AAABB → <span class="green-arrow"></span>AAAAA<br>ABBBB → <span class="green-arrow"></span>AAAAA<br>AABBCC → <span class="green-arrow"></span>AAAAAA<br>AAAAA → <span class="green-arrow"></span>AAAAA<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Replaces all symbols with the first symbol.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-packall" style="color: #686411; background: #FFF7AA; border: solid #686411;"><p class="boxname">Pack All</p>
+            <span class="tooltiptext tooltip-packall">PACKALL → <span class="green-arrow"></span>[[[[[[PA]C]K]A]L]L]<br>A[BC]D → <span class="green-arrow"></span>[[A[BC]]D]<br>A → <span class="green-arrow"></span>A<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Packs all symbols into one symbol, in order.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-pairwise-pack" style="color: #1C7C2C; background: #C194FC; border: solid #1C7C2C;"><p class="boxname" style="font-size:80%">Pairwise Pack</p>
+            <span class="tooltiptext tooltip-pairwise-pack">PAIR → <span class="green-arrow"></span>[PA][IR]<br>PAIRS → <span class="green-arrow"></span>[PA][IR]S<br>PA[IR]S → <span class="green-arrow"></span>[PA][[IR]S]<br>[AB] → <span class="green-arrow"></span>[AB]<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Packs every two symbols. If there are an odd number, the last symbol won't be packed.</td></tr>
+
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-packed" style="color: #FFFFAA; background: #6763A8; border: solid #FFFFAA;"><p class="boxname" style="font-size:80%">Packed?</p>
+            <span class="tooltiptext tooltip-packed">UNPACKED → <span class="red-arrow"></span>UNPACKED<br>[IS]PACKED → <span class="green-arrow"></span>[IS]PACKED<br>[[AA]A]BCD → <span class="green-arrow"></span>[[AA]A]BCD<br>A[BC] → <span class="red-arrow"></span>A[BC]<br>A → <span class="red-arrow"></span>A<br>[Empty] → <span class="red-arrow"></span>[Empty]</span></span></td>
+            <td><span class="green-arrow"></span> if the first symbol is packed. <span class="red-arrow"></span> otherwise.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-unpack-list" style="color: #FFFFBA; background: #A36552; border: solid #FFFFBA;"><p class="boxname" style="font-size:80%">Unpack List</p>
+            <span class="tooltiptext tooltip-unpack-list">[L[I[S[T0]]]] → <span class="green-arrow"></span>L[I[S[T0]]]<br>[I[S[T0]]] → <span class="green-arrow"></span>I[S[T0]]<br>[S[T0]] → <span class="green-arrow"></span>S[T0]<br>[T0] → <span class="green-arrow"></span>T0<br>0 → <span class="red-arrow"></span>0<br>[NO]TALIST → <span class="green-arrow"></span>NOTALIST<br>AAAAA → [undefined]<br>A → [undefined]<br>[Empty] → [undefined]</span></span></td>
+            <td><span class="green-arrow"></span> and unpacks it if the first symbol is packed. <span class="red-arrow"></span> if the first symbol is '0'. 🔒 The first symbol must be either packed or '0'.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-trivial-list" style="color: #2E4997; background: #C1E6F6; border: solid #2E4997;"><p class="boxname" style="font-size:95%">Trivial List?</p>
+            <span class="tooltiptext tooltip-trivial-list">[A[B[C0]]] → <span class="red-arrow"></span>[A[B[C0]]]<br>[B[C0]] → <span class="red-arrow"></span>[B[C0]]<br>[C0] → <span class="green-arrow"></span>[C0]<br>0 → <span class="green-arrow"></span>0<br>A → [undefined]<br>[Empty] → [undefined]</span></span></td>
+
+            <td><span class="green-arrow"></span> if the list is length 0 or 1. <span class="red-arrow"></span> otherwise. 🔒 The first symbol must be a list.</td></tr>
+
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-make-r-list" style="color: #22CCCC; background: #FFF7AA; border: solid #22CCCC; background-image: repeating-linear-gradient(white, #f1f1f1 10%, white 20%);"><p class="boxname">Make R-List</p>
+            <span class="tooltiptext tooltip-make-r-list">LIST → <span class="green-arrow"></span>[T[S[I[L0]]]]<br>AB → <span class="green-arrow"></span>[B[A0]]<br>A → <span class="green-arrow"></span>[A0]<br>[Empty] → <span class="green-arrow"></span>0</span></span></td>
+            <td>Makes a reversed list of all the symbols.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-break-r-list" style="color: #C222CC; background: #C222CC; border: solid #C222CC; background-image: repeating-linear-gradient(white, #f1f1f1 10%, white 20%);"><p class="boxname">Break R-List</p>
+            <span class="tooltiptext tooltip-break-r-list">[T[S[I[L0]]]] → <span class="green-arrow"></span>LIST<br>[B[A0]] → <span class="green-arrow"></span>AB<br>[A0] → <span class="green-arrow"></span>A<br>0 → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Breaks a list into the string of symbols it contained, in reverse order. 🔒 The first symbol must be a list.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-make-list" style="color: #2255CC; background: #FFF7AA; border: solid #2255CC; background-image: repeating-linear-gradient(white, #f1f1f1 10%, white 20%);"><p class="boxname">Make List</p>
+            <span class="tooltiptext tooltip-make-list">LIST → <span class="green-arrow"></span>[L[I[S[T0]]]]<br>AB → <span class="green-arrow"></span>[A[B0]]<br>A → <span class="green-arrow"></span>[A0]<br>[Empty] → <span class="green-arrow"></span>0</span></span></td>
+            <td>Makes an in-order list of all the symbols.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-break-list" style="color: #CC2222; background: #FFF7AA; border: solid #CC2222; background-image: repeating-linear-gradient(white, #f1f1f1 10%, white 20%);"><p class="boxname">Break List</p>
+            <span class="tooltiptext tooltip-break-list">[L[I[S[T0]]]] → <span class="green-arrow"></span>LIST<br>[A[B0]] → <span class="green-arrow"></span>AB<br>[A0] → <span class="green-arrow"></span>A<br>0 → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Breaks a list into the string of symbols it contained, in order. 🔒 The first symbol must be a list.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-duplicate" style="color: #56C2D8; background: #615E44; border: solid #56C2D8;"><p class="boxname">Dupl-icate</p>
+            <span class="tooltiptext tooltip-duplicate">ABCD → <span class="green-arrow"></span>ABCDABCD<br>[AB] → <span class="green-arrow"></span>[AB][AB]<br>AAB → <span class="green-arrow"></span>AABAAB<br>[Empty] → <span class="green-arrow"></span>[Empty]</span></span></td>
+            <td>Returns two copies of the input.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-distribute" style="color: #501C49; background: #FFFFB4; border: solid #501C49;"><p class="boxname">Distr-ibute</p>
+            <span class="tooltiptext tooltip-distribute">X[A[B0]] → <span class="green-arrow"></span>[[XA][[XB]0]]<br>[AB][[AB]0] → <span class="green-arrow"></span>[[AB][AB]0]<br>00 → <span class="green-arrow"></span>0<br>[Empty] → [undefined]</span></span></td>
+            <td>Packs the first symbol with each element in the list. 🔒 The second symbol must be a list.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-concat" style="color: #CEFFFF; background: #73763A; border: solid #CEFFFF;"><p class="boxname" style="font-size:90%">Concat</p>
+            <span class="tooltiptext tooltip-concat">[A[B0]][C[D0]] → <span class="green-arrow"></span>[A[B[C[D0]]]]<br>[A[B0]]0 → <span class="green-arrow"></span>[A[B0]]<br>00 → <span class="green-arrow"></span>0<br>[Empty] → [undefined]</span></span></td>
+            <td>Combine all symbols from the two lists into one list. 🔒 The first two symbols must be lists.</td></tr>
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-split-list" style="color: #580E33; background: #FFED7E; border: solid #580E33;"><p class="boxname">Split List</p>
+            <span class="tooltiptext tooltip-split-list">[A[B[C[D0]]]] → <span class="green-arrow"></span>[A[C0]][B[D0]]<br>[A[B[C0]]] → <span class="green-arrow"></span>[A[C0]][B0]<br>[A[B0]] → <span class="green-arrow"></span>[A0][B0]<br>[A0] → <span class="green-arrow"></span>[A0]0<br>NOTLIST → [undefined]</span></span></td>
+            <td>Splits the list into two lists, one containing all odd-indexed symbols, and the other containing the rest. 🔒 The first symbol must be a list.</td></tr>
+
+          <tr class="boxinfos"><td><span class="constructed tooltip tooltip-cartesian-product" style="color: #0AAF31; background: #6BFFFF; border: solid #0AAF31;"><p class="boxname" style="font-size:70%">Cartesian Product</p>
+            <span class="tooltiptext tooltip-cartesian-product">[A[B0]][C[D0]] → <span class="green-arrow"></span>[[AC][[AD][[BC][[BD]0]]]]<br>[A[B0]][C0] → <span class="green-arrow"></span>[[AC][[BC]0]]<br>[A[B0]]0 → <span class="green-arrow"></span>0<br>[Empty] → [undefined]</span></span></td>
+            <td>Returns a list of all possible pairs of symbols from each of the two lists. 🔒 The first two symbols must be lists.</td></tr>
+          </tbody></table>
+        </div>
+  	  </div>
+  <div class="column middle">
+    
+
+<button href="#" onclick="toggle_visibility('spoilers-info');"><strong>Info about this site and the game</strong></button>
+<div id="spoilers-info" style="display:none;"><blockquote>
+<p><strong>Goal:</strong> Create a sequence of boxes that fulfills the description (top middle). Match, or beat, the world record (top right). Test cases (right) provide examples of what a solved box should return for various strings - each box takes any possible string of text as input.</p>
+<p><strong>Rules:</strong> You can use any of the boxes shown (left), in any sequence. Each box exits in one direction, green <span class="green-arrow"></span>, by default, but can have more for branching paths <span class="red-arrow"></span> <span class="blue-arrow"></span> <span class="yellow-arrow"></span>. Boxes can point to any other box in the sequence, or point to an exit arrow color. Once your sequence exits through an arrow color, the test is over.</p>
+<p><strong>Example:</strong> Imagine a sequence [Equal?, Delete]. The <span class="green-arrow"></span> of Equal? points to Delete which points to the <span class="green-arrow"></span> exit. The <span class="red-arrow"></span> of Equal? points to the <span class="red-arrow"></span> exit. Depending on the input string, it may or may not delete the first symbol, based on if the first two symbols match. This functions identically to Delete If Equal, and is exactly how such a box is built.</p>
+<p>These rules are a slightly simplified interpretation of a playable game, <a href="https://logicbox.jahooma.com">Jahooma’s LogicBox</a>. It's recommended (but not necessary) to play that first.</p>
+<p>You can hover over a lot of things on this page for more information.</p>
+<p>🔒 represents an input restriction ("lock condition"). The text following the 🔒 describes things that should never be in an input. If such locked things are passed into the box anyway, the result is [undefined] and any construction where such a thing can happen is invalid. If the level you're solving has a 🔒, you can guarantee that no string you get will break the lock condition.</p>
+<p>(!) represents an output restriction, or output warning. Certain inputs from a (!) box will produce an unknown output, and cannot be relied on. If a construction uses a (!) box, the rest of the construction cannot assume anything about the output or it is invalid.</p>
+<p>Credits:</p>
+<ul class="smalltext">
+  <li>Writing, programming: main_gi</li>
+  <li>Stylesheet: main_gi, some parts from mfs's previous work on the LB subreddit stylesheet</li>
+  <li>Rules, arrow pictures, creator of the game this is based off: jahooma</li>
+  <li>Tooltip template: w3schools</li>
+</ul>
+<div class="smalltext">This project is not 100% complete. Some parts of the HTML still annoy me, like not being able to see a button's expanded/unexpanded status, bad zoom scaling, the lack of arrows on the box visual, my inability to build this in a non-directly-HTML-JS-CSS way, and wanting for people to confirm solutions before they spoil themselves too much. But now it's finally in a state I feel proud of.</div>
+</p>
+</blockquote>
+</div>
+<p>This level… is a real optimization blueballer.</p>
+<p>Comparing is not special. We kinda already did it in 2-16. But optimizing and keeping the original input is the main issue of this level. Not only do you have to exit the correct arrow, but return to your original input. This means a lot of boxes are tied down to that: if you wanted to put the original input in storage, you’d need 3 Switch boxes for each arrow as a final move for each branch.</p>
+<p>Stats: Boxes: <strong>12</strong>. Maybe <em>Minimum</em>. Not <em>Unique</em>.</p>
+<h3><a id="Original_descriptions_7"></a>Original descriptions</h3>
+<blockquote><p>Objective: Given two lists, exit green if the first list is longer, red if the second list is longer, and blue if they are the same length.</p>
+<p>Comments: Did you notice? In the last three levels, you’ve been building arithmetic functions over the length of lists.</p>
+<p><strong>Concat</strong> is add, <strong>Cartesian Product</strong> is multiply, and <strong>Split List</strong> is divide by 2.</p>
+<p>This level you build compare. You could easily build increment: <strong>Add Zero</strong> then <strong>Pack</strong>.<br>
+Congrats, you’ve implemented numbers from only packed symbols and zero!</p></blockquote>
+<h2><a id="History_and_Hints_17"></a>History and Hints</h2>
+<button href="#" onclick="toggle_visibility('hint1');"><strong>Spoilers: 12-box solution and everything I've tried</strong></button>
+<div id="hint1" style="display:none;"><blockquote>
+<p>There is not much history with this level. Getting 14 boxes is fairly straightforward. Of course, <em>Duplicate</em> is quite a strong box, and you really don’t want to <em>Store Back</em> twice and then <em>Switch</em> for each of the three ends.</p>
+<p>Jinmago found this (after I submitted a 12-box of my own, but was invalid) <a href="https://gyazo.com/81882e3ab997487c37b3d0dee3f6393c"><strong>12</strong> by Jinmago</a></p>
+<p>The box economy makes Equal Delete suddenly really amazing. We’d really love to use the same machine for each section, but the effort it takes to get into that position is… too much. I’d say this is the level where an outsider who’s never played the game would have the easiest time trying to break the record. I don’t really think I’ve explored deep enough yet.</p>
+<p>Other things I’ve tried were using <em>Replicate First</em> and especially the unused list math boxes: <em>Distribute</em>, <em>Split List</em>, and <em>Cartesian Product</em>. Distribute would give you access to a list symbol immediately. Remember that you can store both lists as one symbol with <em>Pack</em> at the beginning. Because of the sheer number of <em>Deletes</em> in the 12-box solution, you can gain small amounts of info replacing them with something else (Equal Delete, Store Back, Store Front, Set Cell A). But none of them seem to have helped me.</p>
+<p>I believe I even ‘found’ a 11-box solution with <em>Even Count?</em>. Yes. That. But I think I was wrong. It wouldn’t work for lists of both even, differing length.</p>
+<p>Update <strong>2/3/2019</strong>: I have found a 12-box solution that does not look like the image at all. It uses a comparison loop of just 3 boxes, but spends a lot of boxes sorting out the differences between lengths. The fact that it exists makes a lower solution <em>much</em> more plausible. Will keep y'all posted.</p>
+</blockquote></div>
+    
+
+  </div>
+  <div class="column right">
+    <div class="fancy-tab tooltip">Tests<span class="tooltiptext" style="padding: 3px; width: 294.5px; margin-left: -148.5px;">All test cases in the level. Underlines or linebreaks are not in the game, and are here for extra clarity. If your construction fails on other possible inputs not in the test cases, it is invalid.</span></div>
+  	<div class="tests">
+      <table style="max-width:100%; overflow-wrap: break-word;
+  word-wrap: break-word; word-break: break-all;     white-space: pre-wrap; /* css-3 */    
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */    
+    white-space: -o-pre-wrap; /* Opera 7 */    
+    word-wrap: break-word; /* Internet Explorer 5.5+ */; table-layout: fixed; width: 100%; border-collapse: collapse;">
+      <thead><tr style="background: #F7F7FF"><th style="min-width:46%; max-width: 46%; width: 46%">Input</th><th style="min-width:4%; max-width: 4%; width: 4%"></th><th style="min-width:46%; max-width: 46%; width: 46%">Output</th></tr></thead>
+      <tbody>
+  		<tr><td><ruby>[A[B[C<rt>length-3-list</rt></ruby>0]]]<ruby>[X[Y0]]<rt>length-2-list</rt></ruby></td><td>→</td><td><span class="green-arrow"></span>[A[B[C0]]][X[Y0]]</td></tr>
+  		<tr><td><ruby>[A[B0]]<rt>length-2-list</rt><ruby>[X[Y[Z0]]]<rt>length-3-list</rt></ruby></td><td>→</td><td><span class="red-arrow"></span>[A[B0]][X[Y[Z0]]]</td></tr>
+      <tr><td><ruby>[A[B0]]<rt>length-2-list</rt><ruby>[X[Y0]]<rt>length-2-list</rt></ruby></td><td>→</td><td><span class="blue-arrow"></span>[A[B0]][X[Y0]]</td></tr>
+      <tr><td><ruby>0<rt>length-0-list</rt><ruby>0<rt>length-0-list</rt></ruby></td><td>→</td><td><span class="blue-arrow"></span>00</td></tr>
+      <tr><td><ruby>[00]<rt>length-1-list</rt></ruby><ruby>0<rt>length-0-list</rt></ruby></td><td>→</td><td><span class="green-arrow"></span>[00]0</td></tr>
+      <tr><td><ruby>0<rt>length-0-list</rt></ruby><ruby>[00]<rt>length-1-list</rt></ruby></td><td>→</td><td><span class="red-arrow"></span>0[00]</td></tr>
+      <tr><td><ruby>[A[B[C<rt>length-4-list</rt></ruby>[D0]]]]<ruby>[X[Y0]]<rt>length-2-list</rt></ruby></td><td>→</td><td><span class="green-arrow"></span>[A[B[C[D0]]]][X[Y0]]</td></tr>
+      <tr><td><ruby>[A[B0]]<rt>length-2-list</rt><ruby>[W[X[Y<rt>length-4-list</rt></ruby>[Z0]]]]</td><td>→</td><td><span class="red-arrow"></span>[A[B0]][W[X[Y[Z0]]]]</td></tr>
+      <tr><td><ruby>[0[0[0<rt>length-4-list</rt></ruby>[00]]]]<ruby>[0[0[0<rt>length-4-list</rt></ruby>[[00]0]]]]</td><td>→</td><td><span class="blue-arrow"></span>[0[0[0[00]]]][0[0[0[[00]0]]]]</td></tr>
+      <tr><td><ruby>[0[0[0<rt>length-6-list</rt></ruby>[0[0[00]]]]]]<br><ruby>[0[0[0<rt>length-5-list</rt></ruby>[0[00]]]]]</td><td>→</td><td><span class="green-arrow"></span>[0[0[0[0[0[00]]]]]][0[0[0[0[00]]]]]</td></tr>
+      <tr><td><ruby>[0[0[0<rt>length-5-list</rt></ruby>[0[00]]]]]<br><ruby>[0[0[0<rt>length-6-list</rt></ruby>[0[0[00]]]]]]</td><td>→</td><td><span class="red-arrow"></span>[0[0[0[0[00]]]]][0[0[0[0[0[00]]]]]]</td></tr>
+      <tr><td><ruby>[0[0[0<rt>length-15-list</rt></ruby>[0[0[0[0[0[0[0[0[0[0[0[00]]]]]]]]]]]]]]]<br><ruby>[0[0[0<rt>length-3-list</rt></ruby>0]]]</td><td>→</td><td><span class="green-arrow"></span>[0[0[0[0[0[0[0[0[0[0[0[0[0[0[00]]]]]]]]]]]]]]][0[0[00]]]</td></tr>
+      <tr><td><ruby>[0[0[0<rt>length-3-list</rt></ruby>0]]]<ruby>[0[0[0<rt>length-15-list</rt></ruby>[0[0[0[0[0[0[0[0[0[0[0[00]]]]]]]]]]]]]]]</td><td>→</td><td><span class="red-arrow"></span>[0[0[00]]][0[0[0[0[0[0[0[0[0[0[0[0[0[0[00]]]]]]]]]]]]]]]</td></tr>
+      <tr><td><ruby>[[[A[B<rt>length-4-list</rt></ruby>[C0]]][[A[B[C0]]]0]][A[B[C0]]]]<ruby>[E[D[C<rt>length-9-list</rt></ruby>[B[A[[[A[B[C0]]][[A[B[C0]]]0]][A[B[C0]]]]]]]]]</td><td>→</td><td><span class="red-arrow"></span>[[[A[B[C0]]][[A[B[C0]]]0]][A[B[C0]]]][E[D[C[B[A[[[A[B[C0]]][[A[B[C0]]]0]][A[B[C0]]]]]]]]]</td></tr>
+      </tbody></table>
+  	</div>
+  </div>
+  
+</div> 
+</div></body>
+
+<!-- <tr class="boxinfos"><td><span class="primitive tooltip" style="color: #901717; background: #FF8564; border: solid #901717;"><p class="boxname">Delete</p>
+            <span class="tooltiptext"><table><tbody><tr><td>DELETE</td><td>→</td><td>ELETE</td></tr><tr>A → [Empty]</tr><tr>[Empty] → [Empty]</tr></tbody></table></span></span></td>
+            <td>Deletes the first symbol.</td></tr> SCREW THIS TABLE-->

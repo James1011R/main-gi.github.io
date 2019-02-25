@@ -1,11 +1,18 @@
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 html, body {
-	background: black url('images/milky-way-2750627_1920.jpg'); /* https://pixabay.com/en/milky-way-starry-sky-night-sky-star-2750627/*/
+	background: black url('images/milky-way-2750627_1920.jpg'); /* https://pixabay.com/en/milky-way-starry-sky-night-sky-star-2750627/ - Just a stock photo. Maybe the idea of photographing something unique and awesome will get me outside. :P */
 	background-attachment: fixed;
 	font-size: 18px;
 	color: #444;
 	margin: 0px auto;
 	padding: 0 4px 0 4px;
 	line-height: 1.4;
+	word-break: all;
     font-family: 'Tajawal', sans-serif; /* Need to find a way to add client side font. ALSO, WTF COMMENTS! */
 }
     
@@ -19,7 +26,10 @@ margin-left: auto;
 margin-right: auto;}
 .u {text-decoration: underline #bbb;}
 blockquote {
-background: rgba(139, 255, 255, 0.39); border-left: 6px solid #00fffc80; margin: 0.5em 10px; padding-left: 0.5em; padding-right: 0.5em;}
+background: rgba(139, 255, 255, 0.39); border-left: 6px solid #00fffc80; margin: 0.5em 2px 0.5em 1px; padding-left: 0.5em; padding-right: 0.5em;}
+
+rt {font-family: Tajawal; margin: 0px 1px;}
+h1,h2,h3,ul {margin-top: 0.4vw; margin-bottom: 0.4vw}
 
 .rester
 {
@@ -31,7 +41,7 @@ background: rgba(139, 255, 255, 0.39); border-left: 6px solid #00fffc80; margin:
 	margin: 0px auto;
 	padding: 0em 5em 0em 5em;
 	min-height: calc(100vh - 70px);
-	min-width: 66%;
+	min-width: 85%;
 	max-width: 850px;
 	display: table;
 }
@@ -48,56 +58,63 @@ background: rgba(139, 255, 255, 0.39); border-left: 6px solid #00fffc80; margin:
 	font-weight: bold;
 	font-size: 50px;
 }
+.bordered {
+  background-color: #fff;
+  border: solid #222 1px;
+  margin: 2px 2px 2px 2px;
+  max-width: 95%;
+  padding: 1px 1%;/* This doesn't work due to some crap hardcode HTML
+  border-collapse: collapse; */
+}
+.all {display: flex;}
+.navbar {width: 25%;}
+.content {width: 75%;}
 
 .smalltext {color: #888;font-size: 12px;text-align: center;}
 .column {float: left;}
 .left, .right {width: 25%; min-width: 25%;}
-.middle {width: 46%; padding: 0 2% 0 2%;} 
+.middle {width: 50%; padding: 0 2% 0 2%;} 
 
 .boxes, .tests {
   background-color: #fff;
   border: solid #ddd 1px;
   margin: 2px 2px 2px 2px;
   max-width: 95%;
-  padding: 1px 1%;
-  /*border-collapse: collapse; */
+  padding: 1px 1%;/* This doesn't work due to some crap hardcode HTML
+  border-collapse: collapse; */
 }
 #boxcount-border {background: #fff; border: 5px solid #2C83D1; width: 10em; height: 10em; max-width: 10em; max-height: 10em; margin: 0 auto;}
-#boxcount {color: #2C83D1; font-weight: bold; font-size: 800%; font-family: Consolas; top: 5px; position: relative; 
+#boxcount {color: #2C83D1; font-weight: bold; font-size: 800%; font-family: Consolas; position: relative; 
 text-align: center; pointer-events: none;}
-#solvers {position: relative; text-align: right; top: 1.2em; font-size: 70%;}
+#solvers {position: relative; text-align: right; top: 0.3em; font-size: 70%;}
 
 .fancy-tab {text-align: center; background: white; width: 35%; margin: 0 auto; border-radius: 3px; position: relative; top: 4px; font-size: 110%;}
 
-.tests {
-  font-family: Consolas;
-}
+.tests {font-family: Consolas;}
+.tests tr:nth-child(odd){ background: #FDFDFF;}
+/*  Define the background color for all the EVEN background rows  */
+.tests tr:nth-child(even){background: #F7F7FF;}
 
-#big-box {
-	width: 10em;
-	height: 10em;
-	min-width: 10em;
-	min-height: 10em;
-}
+#big-box { width: 10em; height: 10em; min-width: 10em; min-height: 10em; }
 
-.primitive, .constructed {  
+.primitive, .constructed, .startcircle {  
 	font-family: Georgia;
 	color: #000;
 	background: #fff;
 	border: solid 3px #000;
-	width: 3em;
-	height: 3em;
+	width: 3.25em;
+	height: 3.25em;
 	display: flex;
 	text-align: center;
 	position: relative;
-	min-width: 3em;
-	min-height: 3em;
+	min-width: 3.25em;
+	min-height: 3.25em;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 } 
 
-.primitive, .rounded {border-radius: 6px;}
+.primitive, .rounded {border-radius: 6px;} .startcircle {border-radius: 100%}
 
 .boxname {pointer-events: none;}
 
@@ -119,12 +136,12 @@ text-align: center; pointer-events: none;}
 }
 
 .tooltiptext { /* Tooltip text */ /* main_gi: I removed .tooltip from here, hope it don't break things */;
-  visibility: hidden; width: 120px; background-color: #122; color: #fff; font-size: 1em; text-align: center; padding: 5px 0; border-radius: 6px; opacity: 0; transition: opacity 1s;
+  visibility: hidden; width: 120px; background-color: #122; color: #fff; font-size: 1em; text-align: center; padding: 5px 3px; border-radius: 6px; opacity: 0; transition: opacity 1s;
   position: absolute; z-index: 1; /* Position the tooltip text - see examples below! */
   width: 150px;
   bottom: 100%;
   left: 50%;
-  margin-left: -75px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  margin-left: -74px; /* Use half of the width (120/2 = 60), to center the tooltip. Because of padding, I had to 'add' -3 onto it as well! */
  }
 
 
@@ -146,15 +163,13 @@ text-align: center; pointer-events: none;}
   font-family: Tajawal;
 }
 
-.tooltiptext .green-arrow, .tooltiptext .red-arrow, .tooltiptext .blue-arrow, .tooltiptext .yellow-arrow, .bottomtiptext .green-arrow, .bottomtiptext .red-arrow, .bottomtiptext .blue-arrow, .bottomtiptext .yellow-arrow {
-	width: 10px; height: 10px; top: 1px;
-}
+.tooltiptext .green-arrow, .tooltiptext .red-arrow, .tooltiptext .blue-arrow, .tooltiptext .yellow-arrow, .bottomtiptext .green-arrow, .bottomtiptext .red-arrow, .bottomtiptext .blue-arrow, .bottomtiptext .yellow-arrow {width: 12px; height: 12px; top: 0px;}
 
 .bottomtip {
 	position: relative;
 }
 .bottomtiptext {
-  visibility: hidden; width: 120px; background-color: #122; color: #fff; font-size: 1em; text-align: center; padding: 5px 0; border-radius: 6px; opacity: 0; transition: opacity 1s;
+  visibility: hidden; width: 120px; background-color: #122; color: #fff; font-size: 1em; text-align: center; padding: 5px 3px; border-radius: 6px; opacity: 0; transition: opacity 1s;
   position: absolute; z-index: 1; /* Position the tooltip text - see examples below! */
   width: 150px;
   top: 100%;
