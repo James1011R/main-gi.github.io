@@ -1,19 +1,37 @@
-* {
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+:root {
+  --primary: #fff;
+  --text: #eff;
+  --secondary-text: #cdd;
+  --linkcolor: #0ff;
+  --linkvisitedcolor: #0cc;
+  --bg-gradient-top: rgba(12, 32, 55, 0.98);
+  --bg-gradient-bottom: rgba(12, 155, 155, 0.88);
+  --bg-links: #5cc;
+  --bg-table-even: #bee;
+  --bg-table-odd: #cff;
+  --blockquote-border: #00fffc80;
+  --selection-color: rgba(155, 255, 255, 0.5);
 }
 
+[data-theme="light"] {
+  --primary: #fff;
+  --text: #444;
+  --secondary-text: #888;
+  --linkcolor: #155;
+  --linkvisitedcolor: #1aa;
+  --bg-gradient-top: rgba(222, 255, 255, 0.98);
+  --bg-gradient-bottom: rgba(156, 255, 235, 0.88);
+  --bg-links: #5cc;
+  --bg-table-even: #bee;
+  --bg-table-odd: #cff;
+  --blockquote-border: #00fffc80;
+  --selection-color: rgba(0, 100, 100, 0.5);
+}
+* {-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+
 html, body {
-	background: black url('images/milky-way-2750627_1920.jpg'); /* https://pixabay.com/en/milky-way-starry-sky-night-sky-star-2750627/ - Just a stock photo. Maybe the idea of photographing something unique and awesome will get me outside. :P */
-	background-attachment: fixed;
-	font-size: 18px;
-	color: #444;
-	margin: 0px auto;
-	padding: 0 4px 0 4px;
-	line-height: 1.4;
-	word-break: all;
-    font-family: 'Tajawal', sans-serif; /* Need to find a way to add client side font. ALSO, WTF COMMENTS! */
+	background: black url('images/background.jpg'); /* https://pixabay.com/en/milky-way-starry-sky-night-sky-star-2750627/ - Just a stock photo. Maybe the idea of photographing something unique and awesome will get me outside. :P */
+	background-attachment: fixed; font-size: 18px; color: var(--text); margin: 0px auto; line-height: 1.4; word-break: all; letter-spacing: -0.17px; padding: 0;  width: 100%; height: 100%;  position: relative;  overflow: hidden; font-family: 'Tajawal', sans-serif; text-shadow: rgba(0, 60, 60, 10%) 1px 1px 1px;
 }
     
 
@@ -24,19 +42,57 @@ img{max-width: 450px;
 display: block;
 margin-left: auto;
 margin-right: auto;}
-.u {text-decoration: underline #bbb;}
-blockquote {
-background: rgba(139, 255, 255, 0.39); border-left: 6px solid #00fffc80; margin: 0.5em 2px 0.5em 1px; padding-left: 0.5em; padding-right: 0.5em;}
+audio{max-width: 450px; 
+display: block;
+margin-left: auto;
+margin-right: auto;}
+
+.u {text-decoration: underline #bbb;} .s {text-decoration: line-through #bbb;}
+.sub {} .sup {}
+blockquote {background: rgba(139, 255, 255, 0.39); border-left: 6px solid var(--blockquote-border); margin: 0.5em 2px 0.5em 1px; padding-left: 0.5em; padding-right: 0.5em;}
 
 rt {font-family: Tajawal; margin: 0px 1px;}
 h1,h2,h3,ul {margin-top: 0.4vw; margin-bottom: 0.4vw}
+table {border-collapse: collapse}
+tr:nth-child(even) {background: var(--bg-table-even)}
+tr:nth-child(odd) {background: var(--bg-table-odd)}
+td {border: solid 0.5px; padding: 4px;}
+li p {margin-top: 0; margin-bottom: 0;}
+ul,ol {padding-left: 20px;}
+a {
+  background:
+     linear-gradient(
+       to bottom, rgba(0, 0, 0, 0) 0%, var(--bg-links) 100%
+     );
+    background-position: 0 100%; background-repeat: repeat-x; background-size: 2px 2px;
+  color: var(--linkcolor); text-decoration: none; transition: background-size .2s; padding: 0 2px 0 2px; /* Padding is a bit of a bandaid to have a larger underline */
+}
+
+a:hover {background-size: 4px 50px;}
+a:active:hover {background: linear-gradient(to bottom, rgba(100, 225, 225, 100%) 0%, rgba(20, 225, 225, 100%) 100%); transition: background .2s;}
+
+a:visited {color: var(--linkvisitedcolor);}
+/* ^ Table code (default). MUST change if new tables are added and this still goes through. */
+li.asterisk {
+  position: relative;
+  list-style: none;
+}
+li.asterisk:before {
+  content: "*";
+  position: absolute;
+  left: -15px;
+  bottom: -3px;
+}
+.current-article-link {
+background: linear-gradient(to bottom, rgb(27, 162, 179) 0%, var(--linkcolor) 100% ); background-position: 0 100%; background-repeat: repeat-x; background-size: 4px 50px; color: var(--linkcolor); text-decoration: none; transition: background-size .2s; padding: 0 2px 0 2px; color: #a2f9ff; /* Padding is a bit of a bandaid to have a larger underline */
+}
 
 .rester
 {
 	border-width: 0 5px 0 5px;
 	border-style: dotted;
 	border-color: #122;
-	background-image: linear-gradient(rgba(222, 255, 255, 0.98), rgba(156, 255, 235, 0.88));
+	background-image: linear-gradient(var(--bg-gradient-top), var(--bg-gradient-bottom));
 	box-shadow: 8px 8px rgba(0,0,0,0.4);
 	margin: 0px auto;
 	padding: 0em 5em 0em 5em;
@@ -46,18 +102,147 @@ h1,h2,h3,ul {margin-top: 0.4vw; margin-bottom: 0.4vw}
 	display: table;
 }
 
-.info-dense {
-	padding: 0em 1em 0em 1em;
-	min-width: 90%;
-}
+.info-dense {padding: 0em 1em 0em 1em; min-width: 95%; height: 100%;}
 
-.banner
-{
-	text-align: center;
-	background: aliceblue;
-	font-weight: bold;
-	font-size: 50px;
+.banner {text-align: center; background: #022; background-image: none; color: #0ff; font-weight: bold; font-size: 50px; border: 5px; border-radius: 0 0 10px 10px; background-image: linear-gradient(rgba(75, 176, 176, 0.98), rgba(55, 151, 146, 0.88));}
+.banner-text {background: -webkit-linear-gradient(#0ff, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
+
+.short-text {float: left; width: 66%; max-width: 66%;}
+.aside-text {float: right; background-color: #202; color: #fef; padding: 6px; width: 33%; max-width: 33%;}
+.definition {background-color: white; padding: 6px; border: solid 2px #0ff;}
+.definition-title {font-weight: bold; font-size: 150%;}
+
+.columns-box {display: flex;}
+.c1-2 {width: 50%; flex-grow: 0;}
+.c2-2 {width: 50%; flex-grow: 1;}
+
+.c1-3 {width: 33%; flex-grow: 0;}
+.c2-3 {width: 33%; flex-grow: 1;}
+.c3-3 {width: 33%; flex-grow: 1;}
+
+.c1-5 {width: 20%; flex-grow: 0;}
+.c2--5 {width: 80%; flex-grow: 1;}
+
+.os-scrollbar.os-scrollbar-horizontal.os-scrollbar-unusable {display: none;}
+
+.pcatit-center-box {position: relative; padding: 2px; outline: 2px solid #17355f33; background: rgba(200, 247, 255, 0.95) linear-gradient(rgba(69, 212, 218, 0.95), rgba(200, 255, 246, 0.95));}
+
+/*GOLDEN
+ rgba(254, 255, 200, 0.95) linear-gradient(rgba(206, 194, 0, 0.95), rgba(254, 255, 200, 0.95));} */
+
+.pcatit-puzbg {background-color: #c0ffee; padding: 6px; border: dashed 2px #00ffcf;}
+.pcatit-puzbg2 {background-color: #c0ffee; padding: 6px; border: dashed 2px #00ffcf;} /* This is a very heavy cyan to green, use for dramatic puzzles */
+.pcatit-puzcorner {position: absolute; font-family: 'Limelight'; font-weight: bold; color: #582B01;}
+.pcatit-puzno {font-size: 60%; text-align: center;}
+.pcatit-puznum {color: #A05502; font-size: 300%; line-height: 1; text-align: center;}
+.pcatit-puztitle {font-size: 250%; font-weight: bold; text-align: center; color: #17355f;}
+
+.pcatit-border {width: 400px; height: 100px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid;}
+
+.pcatit-textoverlay {width: 90%; height: 225px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid black; background: white; padding: 7px; z-index: 2; transition: opacity 0.1s ease-out; opacity: 1; box-shadow: 5px 5px 5px #00000080}
+.pcatit-textoverlay.hidden {opacity: 0; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; z-index: -1;} /* Using this for PCATIT */
+/*.pcatit-textoverlay.brighter {filter: brightness(200%);}*/
+.pcatit-textoverlay:not(.brighter) {background-image: url("https://www.transparenttextures.com/patterns/batthern.png");}
+.pcatit-textoverlay.brighter {background-image: url("https://www.transparenttextures.com/patterns/always-grey.png");}
+/* Currently for testing purposes these are url's but use the ones in the folder on production */
+
+.pcatit-answer {min-height: 300px; height: 300px; max-height: 300px; max-width: 850px; background-color: #c0ffee; padding: 6px; border: solid 2px #00ffcf; background-repeat: no-repeat; position: relative; margin: 0 auto; background-size: contain;}
+.pcatit-writeanswer {width: 396px; height: 96px; text-align: center; font-size: 75px; font-weight: bold; background: rgba(255, 255, 255, 0.25); color: #999;} /* Width and height have -4 due to borders */
+
+.pcatit-buttons {width: 100%; height: 20px;}
+
+.pcatit-button {float: right; padding: 1px 8px 1px 8px; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; border-radius: 0.25px; cursor: pointer; box-shadow: 0px 3px #011, 0 0 0 transparent inset; color: white; transition: transform .01s ease-out; text-align: center; font-weight: bold; margin-left: 5px; transform: translateY(0px); text-shadow: -1px -1px 1px #000, 1px -1px 1px #000, -1px 1px 1px #000, 1px 1px 1px #000;}
+
+.pcatit-hint1 {border: 2px solid #cf9227; background: #fafa2b;}
+.pcatit-hint2 {border: 2px solid #27cf31; background: #84ff7e;}
+.pcatit-hint3 {border: 2px solid #2751cf; background: #7ed5ff;}
+.pcatit-hint4 {border: 2px solid #cf2727; background: #ff7ea5;}
+.pcatit-memo {border: 2px solid #58b553; background: #a9e8d5;}
+.pcatit-calculator {border: 2px solid #21b8c6; background: #02dbce;}
+.pcatit-restart {border: 2px solid #c7c7c7; background: #ababab;}
+
+.pcatit-correct {border: 2px solid #c7c7c7; background: #ababab;}
+.pcatit-incorrect {border: 2px solid #c7c7c7; background: #ababab;}
+.pcatit-trivia {border: 2px solid #c7c7c7; background: #ababab;}
+.pcatit-submit {position: absolute; top: 45px; right: 6px; border: 2px solid #e923c3; background: #dd24a0;}
+
+.pcatit-overlay1 {border: 2px solid #cf9227; background-color: #ffa;}
+.pcatit-overlay2 {border: 2px solid #27cf31; background-color: #cfb;}
+.pcatit-overlay3 {border: 2px solid #2751cf; background-color: #9ef;}
+.pcatit-overlay4 {border: 2px solid #cf2727; background-color: #fbc;}
+.pcatit-overlay1.brighter {border: 2px solid #cf9227; background-color: #ffc;}
+.pcatit-overlay2.brighter {border: 2px solid #27cf31; background-color: #dfc;}
+.pcatit-overlay3.brighter {border: 2px solid #2751cf; background-color: #cef;}
+.pcatit-overlay4.brighter {border: 2px solid #cf2727; background-color: #fde;}
+
+.pcatit-overlaycorrect {border: 2px solid #09f; background: #cef;}
+.pcatit-unlockhint {text-align: center;}
+
+.pcatit-hint {border: 2px solid #754725; background: #9d4001;}
+
+.pcatit-fadein {
+  position: absolute;
+  top: 0px; left: 0px; width: 100%; height: 100%;
+  margin: auto;
 }
+.pcatit-fadein img {
+  position: absolute; max-width: 100%; height: auto; overflow: hidden;
+  top: 0;
+  /*animation-name: pcatit-fade;*/
+  /*animation-iteration-count: infinite;*/
+  /*animation-duration: 4s;*/
+  object-fit: cover; transition: opacity 0.3s ease;
+}
+/*
+@keyframes pcatit-fade {
+  0% {opacity: 0;}
+  20% {opacity: 1;}
+  25% {opacity: 1;}
+  45% {opacity: 0;}
+  100% {opacity: 0;}
+}*/
+
+#pcatit-f1 {background-color: black;} #pcatit-f2 {-webkit-animation-delay: -3s; background-color: blue;}
+#pcatit-f3suc, #pcatit-f3fail {-webkit-animation-delay: -2s; background-color: lightblue;}
+#pcatit-f4suc, #pcatit-f4fail {-webkit-animation-delay: -1s; background-color: cyan;}
+
+.pcatit-button:hover {
+  box-shadow: 0px 0px 5px #999 inset, 0px 3px #433e11; z-index: 1
+}
+.pcatit-button:active:hover {
+  box-shadow: 0px 1px 3px #0009 inset, 0px 0px 0px #000; transform: translateY(3px); transition: transform .01s ease-out;
+}
+.pcatit-button.pcatit-pressed {box-shadow: 0px 0px 0px #000; transform: translateY(3px); transition: transform .01s ease-out;}
+.pcatit-button.pcatit-pressed:hover {box-shadow: 0px 0px 5px #999 inset, 0px 0px 0px #000}
+
+.pcatit-button:before, .pcatit-button:after {
+    content: ""; position: absolute; height: 100%; width: 4px; top: 0px;
+background-image: radial-gradient(circle at center, black 2px, transparent 2px), radial-gradient(circle at center, black 2px, transparent 2px); background-size: 4px 4px;
+    background-position: top center, bottom center;
+    background-repeat: no-repeat;
+} /* https://stackoverflow.com/questions/20964278/css-dots-in-corners-of-div */
+
+.pcatit-button:before {left: 0px;}
+.pcatit-button:after {right: 0px;}
+
+.p74t {background-image: linear-gradient(rgba(185, 255, 238, 0.95), rgba(200, 255, 226, 0.95)), url("Games/74-top.png");}
+.p78t {background-image: linear-gradient(rgba(185, 255, 238, 0.95), rgba(200, 255, 226, 0.95)), url("Games/78-top.png");}
+
+
+
+
+#interval-chart {border-collapse: collapse;}
+#interval-chart td {width: 2em; height: 2em; text-align: center}
+/*.pen {background-color: #0ff;}
+.hex {background-color: #99f;}
+.dia {background-color: #ff9;}
+.chr {background-color: #fbb;}*/
+.pen {background-color: #0ff; background-image: radial-gradient(#0ff, #fff);}
+.hex {background-color: #99f; background-image: radial-gradient(#99f, #fff);}
+.dia {background-color: #ff9; background-image: radial-gradient(#ff9, #fff);}
+.chr {background-color: #fbb; background-image: radial-gradient(#fbb, #fff);}
+
+
 .bordered {
   background-color: #fff;
   border: solid #222 1px;
@@ -67,14 +252,40 @@ h1,h2,h3,ul {margin-top: 0.4vw; margin-bottom: 0.4vw}
   border-collapse: collapse; */
 }
 .all {display: flex;}
-.navbar {width: 25%;}
-.content {width: 75%;}
 
-.smalltext {color: #888;font-size: 12px;text-align: center;}
+#content, #sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+}
+
+#sidebar {
+  right: 0; padding-right: 20px;
+  width: 25%; /* sidebar width */
+   /*min-width: 100px; sidebar min width */
+}
+
+#content {
+  left: 0;
+  width: calc(100% - 25%); /* 100% - sidebar width */
+  max-width: calc(100% - 100px); /* 100% - sidebar min width */
+}
+
+.smalltext {color: var(--secondary-text); font-size: 12px; text-align: center; margin-top: 1px;}
 .column {float: left;}
 .left, .right {width: 25%; min-width: 25%;}
 .middle {width: 50%; padding: 0 2% 0 2%;} 
 
+/* Speech Bubbles */
+.bubble-left {border: 2px solid #dedede; background-color: #f1f1f1; border-radius: 5px; padding: 5px; margin: 10px 0; color: black;}
+.bubble-right {border: 2px solid #7eaaff; background-color: #99bcff; border-radius: 5px; padding: 5px; margin: 10px 0; color: black;}
+/*
+.bubble-left::after {content: ""; position: absolute; top: 50%; right: 100%; margin-top: -5px; border-width: 5px; border-style: solid; border-color: transparent #f1f1f1 transparent transparent;}
+.bubble-right::after {content: ""; position: absolute; top: 50%; left: 100%; margin-top: -5px; border-width: 5px; border-style: solid; border-color: transparent transparent transparent #8888f1;}*/
+
+
+/* LB */
 .boxes, .tests {
   background-color: #fff;
   border: solid #ddd 1px;
@@ -102,13 +313,9 @@ text-align: center; pointer-events: none;}
 	color: #000;
 	background: #fff;
 	border: solid 3px #000;
-	width: 3.25em;
-	height: 3.25em;
-	display: flex;
+	width: 3.25em; height: 3.25em;  min-width: 3.25em;  min-height: 3.25em; display: flex;
 	text-align: center;
 	position: relative;
-	min-width: 3.25em;
-	min-height: 3.25em;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
@@ -193,12 +400,12 @@ text-align: center; pointer-events: none;}
 }
 
 ::-moz-selection { 
-	background-color: rgba(0, 100, 100, 0.5); 
+	background-color: var(--selection-color); 
 	color: #ffffff;
 }
 
 ::selection {
-	background-color: rgba(0, 100, 100, 0.5); 
+	background-color: var(--selection-color); 
 	color: #ffffff;
 }
 
