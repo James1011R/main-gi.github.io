@@ -137,7 +137,8 @@ function parseName(x, style=false) {
   rv = rv.charAt(0).toUpperCase() + rv.slice(1) // Uppercase the first letter, might as well.
 
   if (!unitnames.includes(rv) && !tokens.includes(rv)) { // Doesn't appear in the list of units...
-    return style? {"color": "red"}:""
+    return style? {"color": "red"}:x
+  // Originally this returned nothing, but I think for future-update purposes, this should work
   }
   if (style) { // Return green if it matches
     return {"color": "green"}
