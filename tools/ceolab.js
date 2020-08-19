@@ -129,12 +129,11 @@ function parseName(x, style=false) {
   if (bonusreplacements.includes(x)) {x = bonusreplacetos[bonusreplacements.indexOf(x)]} // Bonus replacements 
   rv = x.replace(/\+.*?$|\d$/g, "") // Remove the extra bits at the end, to just get the piece name
 
+  rv = rv.charAt(0).toUpperCase() + rv.slice(1) // Uppercase the first letter, might as well.
   // Test if this name appears in the list
   if (unitaliases.includes(rv)) {
     rv = unitnames[unitaliases.indexOf(rv)]
   }
-
-  rv = rv.charAt(0).toUpperCase() + rv.slice(1) // Uppercase the first letter, might as well.
 
   if (!unitnames.includes(rv) && !tokens.includes(rv)) { // Doesn't appear in the list of units...
     return style? {"color": "red"}:x
