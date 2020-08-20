@@ -299,7 +299,7 @@ Vue.component('ceolab-component', {
     </tr>
     <tr>
         <td contenteditable="true" spellcheck="false" class="ceolab" @input="updateText($event, 48)"></td>
-        <td contenteditable="true" spellcheck="false" class="ceolab" @input="updateText($event, 59)"></td>
+        <td contenteditable="true" spellcheck="false" class="ceolab" @input="updateText($event, 49)"></td>
         <td contenteditable="true" spellcheck="false" class="ceolab" @input="updateText($event, 50)"></td>
         <td contenteditable="true" spellcheck="false" class="ceolab" @input="updateText($event, 51)"></td>
         <td contenteditable="true" spellcheck="false" class="ceolab" @input="updateText($event, 52)"></td>
@@ -319,20 +319,20 @@ Vue.component('ceolab-component', {
     </tr>
 </table>
 <div style="margin-left: auto; margin-right: auto; display: block; text-align: center">
-Extra morale for White: <div contenteditable="true" spellcheck="false" class="ceolab" style="padding: 0px 6px; display: inline" @input="updateText($event, -1)">0</div>, for black: <div contenteditable="true" spellcheck="false" class="ceolab" style="padding: 0px 6px; display: inline" @input="updateText($event, -2)">0</div>
+Extra morale for White: <div contenteditable="true" spellcheck="false" class="ceolab" style="padding: 0px 6px; display: inline" @input="updateText($event, -1)">0</div>, for Black: <div contenteditable="true" spellcheck="false" class="ceolab" style="padding: 0px 6px; display: inline" @input="updateText($event, -2)">0</div>
 
 <button v-on:click="flip('moraledecay')">{{moraledecaystate}}</button>
 <button v-on:click="flip('kingdecay')">{{kingdecaystate}}</button>
 <button v-on:click="flip('enchlifestones')">{{enchlifestonesstate}}</button>
   </div>
 <hr>
-<div><strong>Quickfire Tutorial</strong>: The top grid is the board, which takes piece names. Examples of what you get, <span style="color: cyan">cyan is highlighted to show a specific feature</span>: <br>
+<span class="c1-2" style="font-size: 78%; position: absolute; color: white; text-rendering: optimizeLegibility; white-space: break-spaces; word-wrap: break-word; width: 45%; line-height: 15px;">{{message}}</span>
+<div class="c2-2" style="float: right"><strong>Quickfire Tutorial</strong>: The top grid is the board, which takes piece names. Examples of what you get, <span style="color: cyan">cyan is highlighted to show a specific feature</span>: <br>
 • <strong>Aquarius<span style="color: cyan">3</span></strong> = Aquarius<span style="color: cyan">+++</span>.<br>
-• <strong><span style="color: cyan">Aq</span>+2</strong> = <strong><span style="color: cyan">Aq</span></strong>uarius++ (short for the first two letters; not all shorthands work because some pieces have the same shorthand).<br>
+• <strong><span style="color: cyan">Aq</span>+2</strong> = <strong><span style="color: cyan">Aq</span></strong>uarius++.<br>
 • <strong><span style="color: cyan">EE</span></strong> = <strong><span style="color: cyan">E</span></strong>arth<strong><span style="color: cyan">E</span></strong>lemental, base.<br>
+• Every piece has an abbreviated version by just using the first two letters of the name, <strong>except for the ones with two capital letters like EarthElemental</strong>, which use the capital letters instead. Not all shorthands work because some pieces have the same shorthand.<br>
 • <strong><span style="color: cyan">-</span>King</strong> = King, but <strong><span style="color: cyan">on Black's side</span>. Putting a minus sign before the name makes it Black's piece.</strong></div>
-<hr>
-<span style="font-size: 78%; position: absolute; color: white; text-rendering: optimizeLegibility; white-space: break-spaces; word-wrap: break-word; width: 750px; line-height: 15px;">{{message}}</span>
 <div style="height: 100px"></div>
 
 </div></div>
