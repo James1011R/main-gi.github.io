@@ -207,7 +207,6 @@ Vue.component('ceolab-component', {
       
       }
       rv = rv.trim().split(",")
-      if (rv.length < 165) {return}
 
       this.otherdata = rv.slice(0, 32).join(",") // First 32 elements are "otherdata"
       this.kingdecay = rv.slice(32, 33).join(",")
@@ -226,7 +225,7 @@ Vue.component('ceolab-component', {
         let j = numify(fixnumber(i.toString())) // kinda stupid, because "i" is an actual number and not a string this time
         if (i == 64)      {entries[i].textContent = this.bonuswhite}
         else if (i == 65) {entries[i].textContent = this.bonusblack}
-        else              {this.display[i] = (tempsides[j] == "1"? "-":"") + tempboard[j].replace("4", "+++").replace("3", "++").replace("2", "+"); this.board[j] = tempboard[j]; this.sides[j] = tempsides[j]}
+        else              {this.display[i] = (tempsides[j] == "1"? "-":"") + tempboard[j]; this.board[j] = tempboard[j]; this.sides[j] = tempsides[j]}
         // Note that only the display's "i" is legit.
       }
       //this.board = tempboard.join(",")
