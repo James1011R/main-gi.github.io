@@ -28,9 +28,14 @@
 });
 </script>
 <style>
-  .ceolab {width: 11.25vw; min-width: 11.25vw; max-width: 11.25vw; height: 20px; text-align: center; font-weight: bold; background: rgba(255, 255, 255, 0.25); color: #FFF; overflow-y: auto}
-    }
-
+  .ceotableouter {position: relative; width: 11.25vw; min-width: 11.25vw; max-width: 11.25vw; padding: 0;}
+  .ceotableinner {display: inherit; width: 11.25vw; height: 1.4em; text-align: center; font-weight: bold; background: rgba(255, 255, 255, 0.25); color: #FFF; overflow-y: auto}
+  .ceotablemark {position: absolute; text-align: center; font-weight: bold; color: #DFF; padding-left: 3.5px; font-size: 70%; pointer-events: none;}
+  /*
+  .ceosmallertable {width: 20px; height: 20px; text-align: center; font-weight: bold; background: rgba(255, 255, 255, 0.25); color: #999; overflow-y: auto}*/
+[contenteditable=true]:empty {
+    padding-left: 50%;
+}
 </style>
 </head>
 <title>CEO Replay Tool</title>
@@ -43,7 +48,7 @@
   <p></p>
 <h1>Chess Evolved Online Scenario / Puzzle Creator</h1>
 <p></p>
-  <ceolab-component></ceolab-component></div>
+  <ceo-component></ceo-component></div>
 </div></div>
 </body>
 </html>
