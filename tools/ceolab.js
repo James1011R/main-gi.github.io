@@ -226,7 +226,7 @@ Vue.component('ceo-component', {
       // Yes really I'm doing it this way. It's time to update this.
       // Remember we have to convert the sides data onto the board representation!
 
-      entries = document.getElementsByClassName("ceotable")
+      entries = document.getElementsByClassName("ceotableinner")
       for (let i = 0; i < entries.length; i++) {
         let j = numify(fixnumber(i.toString())) // kinda stupid, because "i" is an actual number and not a string this time
         if (i == 64)      {entries[i].textContent = this.bonuswhite}
@@ -411,7 +411,7 @@ These buttons replace the entire board with a template.
 <button v-on:click="importcode('Chess960')">Use Template: Chess960</button>
 <hr>
 <b>Replay Data</b><br>
-These position codes also store replay data, stored as additional numbers after the code. The numbers correspond to positions of the chessboard, and come in pairs - each pair represents an action in a turn, where the first number is the piece that was used, and the second number is where you targeted it.
+These position codes also store replay data, stored as additional numbers after the code. They correspond to positions of the chessboard (the number is shown on the grid, from 0 to 63), and come in pairs - each pair represents an action in a turn, where the first number is the piece that was used, and the second number is where you targeted it. Ex: "56, 7" means the unit in the bottom left corner targeted the square in the top right corner.
 
 <br>
 <br>If you have replay data, you can put it here:<br><textarea v-model="positiondata" @input="upd()"></textarea>
