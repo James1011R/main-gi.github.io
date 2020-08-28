@@ -10,7 +10,6 @@ console.log("Script loaded!")
 var javascriptsucks = true;
 javascriptsucks = 0;
 function l(x) {if (isUndefined(x)) {console.log("ping"); return}; console.log(x)}
-function log(x) {console.log(x)}
 function print(x) {console.log(x)}
 
 function isNumber (value) {return (value === 0 || (!isNaN(value) && value !== "" && value != false))? 1 : 0}
@@ -89,6 +88,8 @@ function parseUnitName (x) {
 
 unitnames = "Pawn, Rook, Bishop, Queen, Knight, Wizard, Ninja, Dragon, Wisp, Militia, Swordsman, Spearman, Shieldsman, Warrior, Legionary, Guardian, Paladin, Pyromancer, Axeman, Berserker, Dryad, Lilith, Banshee, Lich, Skeleton, Archer, Ranger, Spider, FrostMage, Fireball, Basilisk, MageTower, PoisonMage, Medusa, Antimage, Enchantress, SoulKeeper, Ghost, Phantasm, Princess, GiantSlime, Slime, MoonFox, Minotaur, Prince, Tiger, Samurai, Phoenix, Behemoth, RoyalGuard, Portal, WindMage, FrostMephit, Penguin, Harpy, Gemini, Valkyrie, LifeStone, Alchemist, Vampire, Demon, Necromancer, Crusader, Comet, Bat, Ghast, HauntedArmor, Summoner, ThunderMage, Lust, Drake, Duelist, Hostage, Fencer, Beacon, Salamander, FireElemental, GravityMage, SoulFlare, Sylph, AirElemental, Aquarius, Greed, Snake, Pikeman, Reaver, Mercenary, Envy, Undine, WaterElemental, Angel, Gnome, EarthElemental, Wrath, Apprentice, Pride, Hoplite, Nexus, Siren, Butterfly, Phalanx, Taurus, Patience, Temperance, Chastity, Dove, StoneMage, Hydromancer, FireMage, ArchBishop, Fortress, Arachnid, Templar, Frog, Toad, Tombstone, NullMage, VoidMage, Gluttony".split(", ")
 
+unitnamesbutlowercase = unitnames.map(x => x.toLowerCase())
+
 unitaliases = []
 
 function getindices (x) {
@@ -129,6 +130,9 @@ function parseName(x, style=false) {
   rv = rv.charAt(0).toUpperCase() + rv.slice(1) // Uppercase the first letter, might as well.
   if (bonusreplacements.includes(rv)) {rv = bonusreplacetos[bonusreplacements.indexOf(rv)]} // Bonus replacements 
   // Test if this name appears in the list
+  if (unitnamesbutlowercase.includes(rv.toLowerCase())) {
+    rv = unitnames[unitnamesbutlowercase.indexOf(rv.toLowerCase())]
+  }
   if (unitaliases.includes(rv)) {
     rv = unitnames[unitaliases.indexOf(rv)]
   }
@@ -182,7 +186,9 @@ Vue.component('ceo-component', {
       kingdecaystate: "King Decay (OFF)",
       enchlifestonesstate: "Enchanted LifeStones (OFF)",
       importtext: "",
+      userpositiondata: "",
       positiondata: "",
+      positiondatamessage: "",
       rerenderplease: 0
     }
   },
@@ -193,6 +199,8 @@ Vue.component('ceo-component', {
 
       if (unless == "Classic") {
         rv = "54,whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False,Rook,Pawn,,,,,Pawn,Rook,Knight,Pawn,,,,,Pawn,Knight,Bishop,Pawn,,,,,Pawn,Bishop,Queen,Pawn,,,,,Pawn,Queen,King,Pawn,,,,,Pawn,King,Bishop,Pawn,,,,,Pawn,Bishop,Knight,Pawn,,,,,Pawn,Knight,Rook,Pawn,,,,,Pawn,Rook,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0"
+      } else if (unless == "Clear") {
+        rv = "54,whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
       } else if (unless == "Chess960") {
         rv = "54,whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0"
         // Each 'placeholder' will be filled in
@@ -246,11 +254,11 @@ Vue.component('ceo-component', {
       // Thanks a lot Vue for this very easy to figure out RERENDERING solution stupid stupid stupid stupid stupid stupid stupid
       // Also, I like how you can tell this is a hack, because the console will screech about duplicate keys when you try to do this
 
-
+      this.checkpositiondata()
       this.upd()
     },
     upd: function () {
-      this.message = [trimCommas(this.otherdata), this.kingdecay, this.moraledecay, this.bonuswhite, this.bonusblack, this.enchlifestones, this.board, this.sides, trimCommas(this.positiondata)].join(",")
+      this.message = [trimCommas(this.otherdata), this.kingdecay, this.moraledecay, this.bonuswhite, this.bonusblack, this.enchlifestones, this.board, this.sides, this.positiondata].join(",")
 
     },
     flip: function (x, y="") {
@@ -261,7 +269,7 @@ Vue.component('ceo-component', {
         this.kingdecay = this.kingdecay == "1"? "0" : "1"
         this.kingdecaystate = parsestate(this.kingdecaystate, this.kingdecay)
       } else if (x == "enchlifestones") {
-        this.enchlifestones = this.enchlifestones == "False"? "True" : "False"
+        this.enchlifestones = this.enchlifestones == "False"||this.enchlifestones == "0"? "True" : "False"
         this.enchlifestonesstate = parsestate(this.enchlifestonesstate, this.enchlifestones)
       }
       this.upd()
@@ -289,6 +297,71 @@ Vue.component('ceo-component', {
       this.board[number] = parseName(rv)
       this.boardstyle[number] = parseName(rv, true)
       this.upd()
+    },
+    checkpositiondata: function () {
+      let actions = trimCommas(this.userpositiondata).replace(", ", ",").split(",")
+      this.positiondata = actions
+      let numbers = actions.length // Pair of numbers is a half-turn
+
+
+
+      let OPENPANDORASBOX = false // I QUIT WORKING ON THIS CODE!
+      if (OPENPANDORASBOX) {
+      // Simulate a really low quality mockup of the game where only moves/attacks/swaps exist.
+
+      function chunk(array, chunkSize) {
+        return Array(Math.ceil(array.length/chunkSize)).fill().map(function(_,i){
+            return array.slice(i*chunkSize,i*chunkSize+chunkSize);
+        });
+      } // https://ourcodeworld.com/articles/read/278/how-to-split-an-array-into-chunks-of-the-same-size-easily-in-javascript
+
+      let log = []
+      let boardsimulation = chunk([...this.board], 8)
+      boardsimulation = boardsimulation.map((_, colIndex) => boardsimulation.map(row => row[colIndex])).flat(); // THANKS
+      let sidessimulation = chunk([...this.sides], 8)
+      sidessimulation = sidessimulation.map((_, colIndex) => sidessimulation.map(row => row[colIndex])).flat(); // GRAND
+
+      // You see, the board numbers only correspond to the positions in the action log, which go left to right, then top to bottom. But it is not that way in the output. It starts columns first for whatever reason.
+
+      let whichcolorshoulditbe = "0" // 0 = White
+
+      // Gotta love all the added spaghetti because everything's a string, so you can't do simple boolean comparisons!
+
+      // So, we made a new copy of the board and sides so we could modify it in the middle of this log, to simulate the game's moves
+      // boardsimulation[actions[i]] = the piece on the board of the first number
+      // boardsimulation[actions[i+1]] = the piece on the board of the second number
+      // sidessimulation[actions[i]] = if the first number's piece is white or black
+      // sidessimulation[actions[i+1]] = if the second number's piece is white or black
+
+      for (let i = 0; i < actions.length; i+=2) {
+        if (sidessimulation[actions[i]] != whichcolorshoulditbe && whichcolorshoulditbe != -1) {log.push("Note: " + sidessimulation[actions[i]]=="0"?"White":"Black" + " played this turn but it should've been the other player's turn."); whichcolorshoulditbe = -1} else {whichcolorshoulditbe = whichcolorshoulditbe == "0"?"1" : "0"}
+        if (boardsimulation[actions[i]] == "") {log.push(`Note: [${actions[i]}] is an empty square, but you tried to move it somewhere?`); continue}
+
+        let movedattackedorswapped = boardsimulation[actions[i+1]] == ""? "moved to" : sidessimulation[actions[i]] != sidessimulation[actions[i+1]]? "attacked" : "swapped" // If no unit on the 2nd number, it's moved. If sides don't match / match, it's an attack / swap.
+
+        let targetedpiece = `${sidessimulation[actions[i+1]]=="0"?"White":"Black"} ${boardsimulation[actions[i+1]]}` // We don't display this if it turned out it was a move.
+        log.push(`[${actions[i]}] ${sidessimulation[actions[i]]=="0"?"White":"Black"} ${boardsimulation[actions[i]]} ${movedattackedorswapped} [${actions[i+1]}] ${movedattackedorswapped == "moved to"?"":targetedpiece}`)
+
+        if (movedattackedorswapped == "moved to") {
+          boardsimulation[actions[i]]
+        }
+      }
+
+      if (numbers % 2 == 1) {log.push("<b>Error:</b> Your recorded moves have an error, they're not paired!")}
+       //else {this.positiondatamessage = "(" + numbers/4 + " turn game)"}
+
+      this.positiondatamessage = log.join("<br>")
+      if (numbers/2 < 1) {this.positiondatamessage = ""}
+      }
+
+      // The above code was supposed to represent an action log but I decided screw it. Too much work and useless near the end.
+
+      // If I cared enough I would check if the numbers are between 0-63
+      print(actions)
+      if (actions == "") {this.positiondatamessage = ""}
+      else if (numbers % 2 == 1) {this.positiondatamessage = (`You have <b style="color: red">${numbers}</b> position${numbers==1?"":"s"} recorded, you need to add another number that represents the target location.`)}
+      else {this.positiondatamessage = `You have <b>${numbers}</b> positions recorded, representing ${numbers/2} half-turns in a ${numbers/4} turn game.`}
+      this.upd()
     }
   },
   created: function () {
@@ -301,84 +374,84 @@ Vue.component('ceo-component', {
   <div>
   <table>
     <tr>
-        <td class="ceotableouter"><span class="ceotablemark">0</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 0)" v-text="display[0]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">1</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 1)" v-text="display[1]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">2</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 2)" v-text="display[2]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">3</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 3)" v-text="display[3]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">4</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 4)" v-text="display[4]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">5</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 5)" v-text="display[5]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">6</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 6)" v-text="display[6]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">7</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 7)" v-text="display[7]"></span></td>
+        <td class="ceotableouter"><span class="ceotablemark">0</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 0)" v-text="display[0]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">1</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 1)" v-text="display[1]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">2</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 2)" v-text="display[2]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">3</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 3)" v-text="display[3]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">4</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 4)" v-text="display[4]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">5</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 5)" v-text="display[5]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">6</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 6)" v-text="display[6]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">7</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 7)" v-text="display[7]"></div></td>
     </tr>
     <tr>
-        <td class="ceotableouter"><span class="ceotablemark">8</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 8)" v-text="display[8]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">9</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 9)" v-text="display[9]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">10</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 10)" v-text="display[10]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">11</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 11)" v-text="display[11]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">12</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 12)" v-text="display[12]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">13</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 13)" v-text="display[13]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">14</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 14)" v-text="display[14]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">15</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 15)" v-text="display[15]"></span></td>
+        <td class="ceotableouter"><span class="ceotablemark">8</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 8)" v-text="display[8]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">9</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 9)" v-text="display[9]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">10</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 10)" v-text="display[10]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">11</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 11)" v-text="display[11]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">12</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 12)" v-text="display[12]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">13</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 13)" v-text="display[13]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">14</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 14)" v-text="display[14]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">15</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 15)" v-text="display[15]"></div></td>
     </tr>
     <tr>
-        <td class="ceotableouter"><span class="ceotablemark">16</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 16)" v-text="display[16]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">17</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 17)" v-text="display[17]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">18</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 18)" v-text="display[18]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">19</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 19)" v-text="display[19]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">20</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 20)" v-text="display[20]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">21</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 21)" v-text="display[21]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">22</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 22)" v-text="display[22]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">23</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 23)" v-text="display[23]"></span></td>
+        <td class="ceotableouter"><span class="ceotablemark">16</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 16)" v-text="display[16]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">17</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 17)" v-text="display[17]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">18</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 18)" v-text="display[18]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">19</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 19)" v-text="display[19]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">20</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 20)" v-text="display[20]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">21</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 21)" v-text="display[21]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">22</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 22)" v-text="display[22]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">23</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 23)" v-text="display[23]"></div></td>
     </tr>
     <tr>
-        <td class="ceotableouter"><span class="ceotablemark">24</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 24)" v-text="display[24]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">25</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 25)" v-text="display[25]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">26</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 26)" v-text="display[26]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">27</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 27)" v-text="display[27]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">28</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 28)" v-text="display[28]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">29</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 29)" v-text="display[29]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">30</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 30)" v-text="display[30]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">31</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 31)" v-text="display[31]"></span></td>
+        <td class="ceotableouter"><span class="ceotablemark">24</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 24)" v-text="display[24]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">25</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 25)" v-text="display[25]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">26</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 26)" v-text="display[26]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">27</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 27)" v-text="display[27]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">28</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 28)" v-text="display[28]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">29</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 29)" v-text="display[29]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">30</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 30)" v-text="display[30]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">31</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 31)" v-text="display[31]"></div></td>
     </tr>
     <tr>
-        <td class="ceotableouter"><span class="ceotablemark">32</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 32)" v-text="display[32]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">33</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 33)" v-text="display[33]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">34</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 34)" v-text="display[34]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">35</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 35)" v-text="display[35]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">36</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 36)" v-text="display[36]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">37</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 37)" v-text="display[37]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">38</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 38)" v-text="display[38]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">39</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 39)" v-text="display[39]"></span></td>
+        <td class="ceotableouter"><span class="ceotablemark">32</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 32)" v-text="display[32]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">33</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 33)" v-text="display[33]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">34</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 34)" v-text="display[34]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">35</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 35)" v-text="display[35]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">36</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 36)" v-text="display[36]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">37</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 37)" v-text="display[37]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">38</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 38)" v-text="display[38]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">39</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 39)" v-text="display[39]"></div></td>
     </tr>
     <tr>
-        <td class="ceotableouter"><span class="ceotablemark">40</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 40)" v-text="display[40]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">41</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 41)" v-text="display[41]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">42</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 42)" v-text="display[42]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">43</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 43)" v-text="display[43]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">44</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 44)" v-text="display[44]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">45</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 45)" v-text="display[45]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">46</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 46)" v-text="display[46]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">47</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 47)" v-text="display[47]"></span></td>
+        <td class="ceotableouter"><span class="ceotablemark">40</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 40)" v-text="display[40]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">41</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 41)" v-text="display[41]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">42</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 42)" v-text="display[42]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">43</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 43)" v-text="display[43]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">44</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 44)" v-text="display[44]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">45</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 45)" v-text="display[45]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">46</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 46)" v-text="display[46]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">47</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 47)" v-text="display[47]"></div></td>
     </tr>
     <tr>
-        <td class="ceotableouter"><span class="ceotablemark">48</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 48)" v-text="display[48]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">49</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 49)" v-text="display[49]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">50</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 50)" v-text="display[50]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">51</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 51)" v-text="display[51]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">52</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 52)" v-text="display[52]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">53</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 53)" v-text="display[53]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">54</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 54)" v-text="display[54]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">55</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 55)" v-text="display[55]"></span></td>
+        <td class="ceotableouter"><span class="ceotablemark">48</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 48)" v-text="display[48]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">49</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 49)" v-text="display[49]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">50</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 50)" v-text="display[50]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">51</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 51)" v-text="display[51]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">52</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 52)" v-text="display[52]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">53</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 53)" v-text="display[53]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">54</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 54)" v-text="display[54]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">55</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 55)" v-text="display[55]"></div></td>
     </tr>
     <tr>
-        <td class="ceotableouter"><span class="ceotablemark">56</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 56)" v-text="display[56]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">57</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 57)" v-text="display[57]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">58</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 58)" v-text="display[58]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">59</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 59)" v-text="display[59]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">60</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 60)" v-text="display[60]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">61</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 61)" v-text="display[61]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">62</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 62)" v-text="display[62]"></span></td>
-        <td class="ceotableouter"><span class="ceotablemark">63</span><span contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 63)" v-text="display[63]"></span></td>
+        <td class="ceotableouter"><span class="ceotablemark">56</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 56)" v-text="display[56]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">57</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 57)" v-text="display[57]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">58</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 58)" v-text="display[58]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">59</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 59)" v-text="display[59]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">60</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 60)" v-text="display[60]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">61</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 61)" v-text="display[61]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">62</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 62)" v-text="display[62]"></div></td>
+        <td class="ceotableouter"><span class="ceotablemark">63</span><div contenteditable="true" spellcheck="false" class="ceotableinner" @input="updateText($event, 63)" v-text="display[63]"></div></td>
     </tr>
 </table>
 <div style="margin-left: auto; margin-right: auto; display: block; text-align: center">
@@ -388,7 +461,7 @@ Extra morale for White: <div contenteditable="true" spellcheck="false" class="ce
 <button v-on:click="flip('kingdecay')" :key="rerenderplease">{{kingdecaystate}}</button>
 <button v-on:click="flip('enchlifestones')" :key="rerenderplease">{{enchlifestonesstate}}</button>
 
-<br>Other data: <textarea v-model="otherdata" @input="upd()"></textarea> (don't touch if you don't know what you're doing)
+<br>Other data: <textarea v-model="otherdata" @input="upd()" style="height: 25px"></textarea> (don't touch if you don't know what you're doing)
   </div>
 <hr>
 <span class="c1-2" style="font-size: 78%; position: absolute; color: white; text-rendering: optimizeLegibility; white-space: break-spaces; word-wrap: break-word; width: 45%; line-height: 15px; height: 50%; user-select: all">{{message}}</span>
@@ -403,23 +476,39 @@ Extra morale for White: <div contenteditable="true" spellcheck="false" class="ce
 
 This site has no saving. After you're done making your position, copy the code (on the left side) and save it somewhere.<br>
 You can use this <b>Import Tool</b> to put replay codes into the UI:<br>
-<textarea v-model="importtext"></textarea>
+<textarea v-model="importtext" style="height: 25px"></textarea>
 <button v-on:click="importcode()">Import Replay Code</button>
 <hr>
-These buttons replace the entire board with a template.
-<button v-on:click="importcode('Classic')">Use Template: Classic Chess</button>
-<button v-on:click="importcode('Chess960')">Use Template: Chess960</button>
-<hr>
-<b>Replay Data</b><br>
-These position codes also store replay data, stored as additional numbers after the code. They correspond to positions of the chessboard (the number is shown on the grid, from 0 to 63), and come in pairs - each pair represents an action in a turn, where the first number is the piece that was used, and the second number is where you targeted it. Ex: "56, 7" means the unit in the bottom left corner targeted the square in the top right corner.
+<b>Action Log</b><br>
+These position codes can also store a replay of actions done, stored as additional numbers after the code. They correspond to positions of the chessboard (the number is shown on the grid, from 0 to 63), and come in pairs - each pair represents an action in a turn, where the first number is the piece that was used, and the second number is where you targeted it. Ex: "56, 7" means the unit in the bottom left corner targeted the square in the top right corner.
 
 <br>
-<br>If you have replay data, you can put it here:<br><textarea v-model="positiondata" @input="upd()"></textarea>
 
+
+
+<div style="display: flex">
+
+<div class="c1-2">
+If you have actions, put them here:<br><textarea v-model="userpositiondata" @input="checkpositiondata()" style="height: 25px"></textarea>
+<div style="height: 100px"></div>
+</div>
+
+<div class="c2-2" style="float: right">
+<span v-html="positiondatamessage"></span>
+
+</div>
+
+</div>
+
+<hr>
+These buttons replace the entire board with a template. You can't undo these!<br>
+<button v-on:click="importcode('Classic')">Use Template: Classic Chess</button>
+<button v-on:click="importcode('Chess960')">Use Template: Chess960</button>
+<button v-on:click="importcode('Clear')">Clear Entire Board</button>
+<div style="height: 20px"></div>
 
 
 </div>
-<div style="height: 100px"></div>
 
 </div></div>
   </div>
