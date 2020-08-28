@@ -230,6 +230,7 @@ Vue.component('ceo-component', {
       let tempboard = rv.slice(37, 101)
       let tempsides = rv.slice(101, 165)
       this.positiondata = rv.slice(165).join(",") // Might have a problem with lower/upper casing?
+      this.userpositiondata = this.positiondata
 
       // Yes really I'm doing it this way. It's time to update this.
       // Remember we have to convert the sides data onto the board representation!
