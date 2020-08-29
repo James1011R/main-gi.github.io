@@ -481,7 +481,13 @@ You can use this <b>Import Tool</b> to put replay codes into the UI:<br>
 <button v-on:click="importcode()">Import Replay Code</button>
 <hr>
 <b>Action Log</b><br>
-These position codes can also store a replay of actions done, stored as additional numbers after the code. They correspond to positions of the chessboard (the number is shown on the grid, from 0 to 63), and come in pairs - each pair represents an action in a turn, where the first number is the piece that was used, and the second number is where you targeted it. Ex: "56, 7" means the unit in the bottom left corner targeted the square in the top right corner.
+These position codes can also store a replay of actions done on the board, stored as numbers that represents each square of the 8x8 chessboard, from 0 to 63 (shown on the grid above). The numbers come in pairs, the first is the piece that was used, and the second is where you targeted it.<br>
+Ex: If you use the Classic Chess template, "<b>51,35,1,18</b>" represents two moves:<br>
+* "<b>51,35</b>" is White moving their d2 Pawn (on "<b>51</b>") to d4 (on "<b>35</b>").<br>
+* "<b>1,18</b>" is Black moving their b8 Knight (on "<b>1</b>") to c6 (on "<b>18</b>").<br>
+This system can describe any move, attack, or ability.
+<br>
+
 
 <br>
 
