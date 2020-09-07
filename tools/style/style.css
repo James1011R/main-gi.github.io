@@ -628,11 +628,18 @@ button, #tooltip, nav a {
 .cd body {background: linear-gradient(rgba(220, 245, 247, 0.9),rgba(238,238,238,0.9)), url("../resources/bg.jpg");}
 .cd .name {font-family: Merriweather; font-variant: normal; padding-bottom: 3px;}
 .cd .cost + div > ul p {font-family: 'Merriweather Sans' !important}
-.cd .passives, .cd div.passives::after {font-family: 'Merriweather Sans' !important;}
+.cd .passives, .cd div.passives::after {font-family: 'Merriweather Sans' !important; text-align: center !important; margin-left: 6px !important; margin-right: 6px !important;}
+.cd .passives::before {content: none;}
 .cd .cost {display: block; position: absolute; left: 0rem; top: 8.5rem; padding: .4rem 0; width: 2rem; height: 2rem; /* border: .2rem outset #83471f; */ /* border-radius: 50%; */ box-sizing: border-box; background: url(../resources/cdblood.png); background-position: center; text-align: center; font-size: 0; font-weight: normal; background-size: 100%;
 } /* font-size 0 is to hide the word "Cost" */
 .cd .cost input {font-family: 'Arial'; font-weight: bold; font-size: 20px; position: absolute; top: 60%; left: 45%; transform: translate(-50%, -50%); text-align: center; -webkit-text-stroke-width: 0.7px; -webkit-text-stroke-color: black; color: white; letter-spacing: -2px;}
 .cd .tile {stroke-width: 0;}
+
+/* All this makes passives appear above the action descriptions */
+.cd .passives {margin-bottom: 0px; margin-top: 6px;}
+.cd .cost + div > ul {padding: 5px 10px 0px 10px; order: 2;}
+.cd .passivepanel {display: flex; flex-direction: column; padding-bottom: 30px;} /* the bottommost text may overlap, the 'padding-bottom' should fix it */
+.cd .passives:empty {margin-bottom: 0px; margin-top: -12px; height: 15px !important; min-height: 3px;} /* collapse when empty, idk, the hitbox looks janky but works pretty well */
 
 
 
@@ -654,7 +661,7 @@ button, #tooltip, nav a {
 .fc .cost input {font-weight: normal; font-size: 18px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center}
 
 .fc .passivepanel {background: none; border: none; box-shadow: none; filter: blur(.3px);}
-.fc .passives, .fc div.passives::after {font-family: Arial !important; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important; font-weight: normal !important; filter: blur(.3px); line-height: 20px}
+.fc .passives, .fc div.passives::after {font-family: Arial !important; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important; font-weight: normal !important; filter: blur(.3px); line-height: 120%}
 .fc div.passives::after {font-size: 20px !important;}
 .fc .passives::before {content: none;}
 

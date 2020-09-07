@@ -202,7 +202,10 @@ function cusLoadEdit(moves) {
   }
 
   function updateCustom(){
+    let prevspellstyle = spellstyle
+    spellstyle = [10, 1, 9]
     $(".giant").html(makeSpellSVG());
+    spellstyle = prevspellstyle // main_gi: This "prevspellstyle" stuff is a bit of a hack but it prevents the stylesheet style from messing up the giant-spell-SVG look (if I didn't put it there, the giant spell SVG would also be scaled up to the point where you couldn't see the border)
   }
   //Load actual menu
   $(".modalwrapper").show();
@@ -1573,7 +1576,6 @@ function randarray(array) {return array[randint(array.length-1)]}
 
 
 
-
 $("#makeceo").click(function() { // main_gi: Make Chess Evolved Online (piece)
   let nameinput = $("#nameinput").val().trim();
 
@@ -1583,6 +1585,9 @@ $("#makeceo").click(function() { // main_gi: Make Chess Evolved Online (piece)
     nameinput = nameinput + randarray(["ae", "a", "e", "o", "ung", "nt", "og", "sh", "shine", "place", "doke", "marr", "sen", "xo", "ox", "la", "nu", "inpai", "ushi", "unga", "onga", "ish", "ocho", "onti", "peku", "nura", "siba", "su", "luka", "coco", "no", "uper", "oob", "sucker", "eater", "butt", "dog", "ten", "life", "ushiga", "yamoto", "smol", "uwa", "pora", "nga", "nya", "chya", "yang", "tong", "ren", "nin", "m", "kek", "ke", "pper", "llula", "lust", "saga", "nori", "mura", "yuki", "ntacle", "norse", "indi", "blyat"])}
   }
   nameinput = nameinput.slice(0,1).toUpperCase() + nameinput.slice(1) // cap first letter
+  $("#kocmessage").text(kocmessage(nameinput))
+  $("#sspmessage").text(sspmessage(nameinput))
+
   if (Object.keys(CEO[`${lastCEOversion}`]).includes(nameinput.replace(/\d/, ""))) {getgallery(nameinput)}
   else {validate(makepiece(nameinput));}
 });
@@ -1612,6 +1617,66 @@ c1,Ranged Wind\\o Push unit 1 space\\a Fire Burn kills next move.,◌,,255,199,0
 c4,NoBlock\\o Move or Attack.,,,0,151,0,127,199,127,20,151,24,20,151,24,false
 c1,Ranged Electric\\o Charge area. Destroy there after 2 turns.,⚡,,0,0,0,255,255,255,255,255,0,87,218,40,false
 c7,NoBlock\\o Teleport.,,,127,0,127,191,127,191,121,19,153,121,19,153,false
+
+BambooswordMan,Minion,Common,Forest
+
+2,,c3:57977579,c4:66886886
+3,,c3:57977579,c4:88688666,c7:55599599
+5,,c7:55995995,c5:87677678,c3:57757997,c4:66688688
+6,,c7:55959959,c5:87677678,c4:66688688,c3:57759779,c8:47a7747a
+c3,Move or Attack.,,,0,0,0,127,127,127,0,0,0,0,0,0,false
+c4,Move only.,,,0,0,255,127,127,255,0,0,0,0,0,0,false
+c5,NoBlock\\o Attack only.,,,127,0,0,215,127,127,255,0,0,0,0,0,false
+c7,NoBlock\\o Move only.,,,127,127,255,0,0,255,0,0,0,0,0,0,false
+c8,Attack Minion.,⎚,,255,95,95,255,255,255,255,95,95,0,0,0,false
+
+VWave Sergeant,Champion,Plasma,Epic
+
+7,Wave\o Width 3\a inward V\a 1 use\a\nFired adjc\a advances 1/opp move.,c1:47747aa7,c3:67877678,c7:5665586989989685
+10,Wave\o Width 3\a inward V\a 1 use\a\nFired adjc\a advances 1/opp move.,c1:47747aa7,c7:5665586989989685,c3:6787767866688688
+14,Wave\o Width 3\a inward V\a 2 uses\a\nFired adjc\a advances 1/opp move.,c1:47747aa7,c7:5665586989989685,c3:6787767866688688
+20,Wave\o Width 3\a inward V\a 3 uses\a\nFired adjc\a advances 1/opp move.,c1:47747aa799595595,c7:5665586989989685,c3:66688688,c2:67768778
+c2,NoBlock\o Move|Attack|Swap ally.,,,255,199,0,255,239,127,0,0,0,0,0,0,false
+c1,Ranged Wave\o Destroy on impact.,^,,255,0,0,255,255,255,255,0,0,255,0,0,false
+c3,Move or Attack.,,,0,0,0,127,127,127,0,0,0,0,0,0,false
+c7,Move only. Adjc Dgnl1 first.,×,,0,0,255,127,127,255,0,0,255,0,0,0,false
+
+CatswordMan,Minion,Basic,Forest
+
+1,,c3:66886886
+2,,c3:66886886,c4:7576787987
+3,,c2:66886886,c5:87,c7:75767879
+4,,c1:7c66688688,c6:7576787987
+c2,NoBlock\o Move or Attack.,,,0,151,0,127,199,127,0,0,0,0,0,0,false
+c1,NoBlock\o Move|Attack|Swap ally.,,,255,199,0,255,239,127,0,0,0,0,0,0,false
+c3,Move or Attack.,,,0,0,0,127,127,127,0,0,0,0,0,0,false
+c4,Move only.,,,0,0,255,127,127,255,0,0,255,0,0,255,false
+c5,Move|Swap ally.,,,0,0,255,127,127,255,0,0,0,0,0,0,false
+c6,NoBlock\o Move|Swap ally.,,,127,127,255,0,0,255,0,0,0,0,0,0,false
+c7,NoBlock\o Move only.,,,127,127,255,0,0,255,0,0,0,0,0,0,false
+
+KingShinLion+,King,Royal,Unique
+
+5,Kingmove x2\a in adjc range.\nCastling\o 1 Use.\nLoss\o -25 Morale.\nKingless\o -3 Morale/Turn.,c6:8687887868676676,c3:444a3b33a4b3aabb
+15,Kingmove x2\a in square range2.\nCastling\o 1 Use.\nLoss\o -25 Morale.\nKingless\o -3 Morale/Turn.,c6:8687887868676676,c3:444a3b33a4b3aabb
+30,Kingmove x3\a in radius range3.\nCastling\o 1 Use.\nLoss\o -25 Morale.\nKingless\o -3 Morale/Turn.,c6:8687887868676676,c3:444a3b33a4b3aabb
+50,Kingmove x4\a in radius range4.\nCastling\o 1 Use.\nLoss\o -25 Morale.\nKingless\o -3 Morale/Turn.,c6:8687887868676676,c3:444a3b33a4b3aabb
+c3,Move before it Ally Champion\a pass it around this unit.,♖,,0,0,0,255,255,255,0,0,0,0,0,0,false
+c6,Move or Attack.,,,0,0,0,127,127,127,0,0,0,0,0,0,false
+
+RoyalKnight,Champion,Royal,Rare
+
+7,Max 2 King Move to Target.,c3:76786787,c5:5665586989989685
+10,Max 3 King Move to Target.,c5:5665586989989685,c3:7678876668678688,c7:57757997
+14,Max 3 Kingmove to Target.,c5:5665586989989685,c3:66688688,c7:57757997,c1:67767887
+19,Max 4 Kingmove to Target.,c4:5665859698896958,c3:66688688,c1:67767887,c6:57797597
+c4,NoBlock\o Move|Attack|SwapAlly.,,,255,199,0,255,223,127,20,151,24,20,151,24,false
+c3,Ally King may Move to here\a may turn once for that.,!,,255,159,0,255,255,255,0,0,0,0,0,0,false
+c5,NoBlock\o Move or Attack.,,,0,151,0,127,199,127,20,151,24,20,151,24,false
+c6,Move or Attack.,,,0,0,0,127,127,127,0,0,0,0,0,0,false
+c2,Ally King may Move to here\a may turn once for that. Move only.,!,,0,0,255,255,255,255,0,0,0,0,0,0,false
+c1,Ally King may Move to here\a may turn once for that. Move|Attack.,!,,0,0,0,255,255,255,0,0,0,0,0,0,false
+c7,Move only.,,,0,0,255,127,127,255,0,0,255,0,0,255,false
 `]
 
   let rv = randarray(sspunits)
@@ -1678,30 +1743,59 @@ function clearmovechanges() {
   changedmoves = []
 }
 
+function resetSpellLooks() {
+  $(".spell").attr("height", 10)
+  $(".spell").attr("width", 10)
+  $(".spell").attr("x", 1)
+  $(".spell").attr("y", 1)
+  $(".spell-symbol").attr("font-size", 9)
+  $(".spell-gallery").css("transform", "none")
+  spellstyle = [10, 1, 9]
+}
+
 $("#switchceo").click(function() { // main_gi: Switch to ceo stylings
   $("html").removeClass("cd")
   $("html").removeClass("fc")
   $("html").removeClass("cba")
   clearmovechanges()
+  resetSpellLooks()
 }) 
 $("#switchcd").click(function() { // main_gi: Switch to CD stylings
   $("html").addClass("cd")
   $("html").removeClass("fc")
   $("html").removeClass("cba")
   clearmovechanges()
+  resetSpellLooks()
 
+  let unblockablesymbol = "⛶" //"◜"
   changemove("moveattack", "Move or Attack.", [0, 0, 0], [255, 255, 255], "⚫", [0, 0, 0])
   changemove("move", "Move only.", [0, 0, 255], [255, 255, 255], "⚫", [0, 0, 255])
   changemove("movestart", "Move from your second row.", [0, 0, 255], [255, 255, 255], "o", [0, 0, 255])
   changemove("attack", "Attack only.", [255, 0, 0], [255, 255, 255], "⚫", [255, 0, 0])
-  changemove("jump", "(Unblockable) Move or Attack.", [255, 255, 255], [255, 255, 255])
-  changemove("teleport", "(Unblockable) Move only.", [0, 0, 255], [255, 255, 255])
-  changemove("teleportstart", "(Unblockable) Move from your second row.", [0, 0, 255], [255, 255, 255], "o")
-  changemove("jumpattack", "(Unblockable) Attack only.", [255, 0, 0], [255, 255, 255])
+  changemove("jump", "(Unblockable) Move or Attack.", [0, 0, 0], [255, 255, 255], unblockablesymbol)
+  changemove("teleport", "(Unblockable) Move only.", [0, 0, 255], [255, 255, 255], unblockablesymbol)
+  changemove("teleportstart", "(Unblockable) Move from your second row.", [0, 0, 255], [255, 255, 255], "o", [0, 0, 255], unblockablesymbol, [0, 0, 255])
+  changemove("jumpattack", "(Unblockable) Attack only.", [255, 0, 0], [255, 255, 255], unblockablesymbol)
+
+  changemove("jumpswap", "(Unblockable) Move, Attack, or swap places with ally.", [0, 0, 0], [255, 255, 255], "🗘", [0, 0, 0], unblockablesymbol)
+  changemove("moveattackswap", "Move, Attack, or swap places with ally.", [0, 0, 0], [255, 255, 255], "⚫", [0, 0, 0], "🗘", [0, 0, 0])
+  changemove("swap", "(Unblockable) Swap places with ally.", [0, 0, 0], [255, 255, 255], "🗘", [0, 0, 255], 0, 0, "true")
+
+  changemove("moveswap", "Move or swap places with ally.", [0, 0, 255], [255, 255, 255], "🗘", [0, 0, 255])
+  changemove("teleportswap", "(Unblockable) Move or swap places with ally.", [0, 0, 255], [255, 255, 255], "🗘", [0, 0, 255], unblockablesymbol)
+  changemove("attackswap", "Attack or swap places with ally.", [255, 0, 0], [255, 255, 255], "🗘", [255, 0, 0])
+  changemove("jumpattackswap", "(Unblockable) Attack or swap places with ally.", [255, 0, 0], [255, 255, 255], "🗘", [255, 0, 0], unblockablesymbol)
 
   /* Thing we want to modify: <rect height="10" width="10" stroke="rgb(0,0,255)" stroke-width="2" stroke-alignment="outer" x="1" y="1" fill="rgb(255,255,255)" class="spell" data-id="2"></rect>
 
   the height, width, x, and y*/
+  spellstyle = [16, -2.25, 12]
+  $(".spell").attr("height", spellstyle[0])
+  $(".spell").attr("width", spellstyle[0])
+  $(".spell").attr("x", spellstyle[1])
+  $(".spell").attr("y", spellstyle[1])
+  $(".spell-symbol").attr("font-size", spellstyle[2])
+  $(".spell-gallery").css("transform", "scale(0.8) translate(3px, 3px)")
 
 
 }) 
@@ -1710,6 +1804,7 @@ $("#switchfc").click(function() { // main_gi: Switch to favuor chess stylings
   $("html").addClass("fc")
   $("html").removeClass("cba")
   clearmovechanges()
+  resetSpellLooks()
 
 
   changemove("moveattack", "move or attack", 0, 0, "■", [0, 0, 0], 0, 0, "true")
@@ -1736,6 +1831,7 @@ $("#switchcba").click(function() { // main_gi: Switch to favuor chess stylings
   $("html").removeClass("fc")
   $("html").addClass("cba")
   clearmovechanges()
+  resetSpellLooks()
 }) 
 
 // CEO's: linear-gradient(rgba(238,238,238,0.9),rgba(238,238,238,0.9)), url("../resources/bg.jpg")
@@ -1771,3 +1867,30 @@ $('#gallery').change(function(){
 });
 
 
+
+
+
+var thing1 = ["teleporting ally king", "summoning ally pieces", "summoning enemy pieces", "summoning pieces", "teleporting pieces", "moving pieces", "status effect", "stun effect", "swapping enemy", "dealing damage", "on death effect", "on kill effect", "promote", "that ability", "turn 1 checkmate", "magic destroy", "charm", "range 4 attack", "jumping over ally", "killing allies", "morale", "petrify", "freeze", "double damage", "downgrade", "upgrade", "invisible pieces", "rng", "random effect", "revive", "graveyard", "banish", "push", "pull mechanic", "fps mechanic", "pie rule mechanic", "morale decay mechanic", "domain victory", "threefold repetition", "checkmate", "classic chess", "blitz token mechanic", "transformation mechanic", "summoning a sapling", "teleporting caster", "destroying all adjacent pieces", "battle royale mechanic", "thundermage thunder", "lightning strike", "armored unit effect", "favorchess berserk", "caste system", "concentration camp mechanic", "sodomy", "bukkake", "brainfluid keyword", "low-iq mode", "pooping on enemy piece", "piss on ally unit", "add extra army points", "on death lose morale", "lose the game mechanic", "anal mechanic", "does not block movement", "phoenixegg passive", "sextoy mechanic", "pinkdildo keyword", "path mechanic", "anti-grandmaster unit", "naked status effect", "circumcision mechanic", "buttplug", "footfetish mechanic", "vore", "necrophilia", "assclench mechanic", "nosepick mechanic", "headlice", "coronavirus", "itchybutt", "white supremacy", "flatearth", "racism", "heterophobia", "eyegouge", "penisize", "boogereat mechanic", "buttlick mechanic", "big boob art", "anime girl art", "2 men kissing", "freeze foot off", "block enemy attack", "stealth", "hidden information mechanic", "market crash mechanic", "infinite ruby farm", "gain contribution using ability", "use ability limited number of times", "pay to use ability", "sacrifice this piece", "diarrhea", "prostitution", "behead", "earwax", "masturb8", "message deletion mechanic", "deleting messages", "attacking f3", "attacking newceo members", "leaking newceo", "making fun of favorchess", "obesity", "suicide", "suicide forest", "adjust cost", "market system", "contribution farming", "farting in mouth", "tooth removal", "death by hanging", "suffocation", "wind magic", "stonepillar", "shock opponent with electric shock", "steal time from opponent", "punch opponent through screen", "reputation system", "gravity", "insult opponent", "destroy opponents coins", "fingernail clipping", "toenail eating", "bleeding", "kidney stone", "blood transfusion", "add morale", "lose value", "vampire drain", "transform into bat and fly", "unstoppable ability", "stealing pieces from another game", "winking to girl", "cut loose skin", "excercize machine", "treadmill", "banning opponent unit for sexism", "swastika moveset", "void unit", "swap with ally", "swap with empty square", "ban evasion on favorchess", "alt infiltration", "rp trading", "bribing with rp", "get crowns for using ability", "quest system", "trolling awetalehu", "bat transformation", "kill temporarily", "stun unit for 20 turns", "internal bleeding", "waterboarding", "enchant", "throwing up", "giving birth", "intercourse", "ruby farming", "gold farming", "stock market", "shortselling stock", "abusing player", "grooming", "losing hair", "pubeshaving", "armpit smell", "turning gay", "custom pieces", "using words", "using english language", "translate to chinese", "french translator", "spanish translator", "using numbers", "using english alphabet", "using piecemaker", "using brain", "throw water at computer", "break controller", "throw mouse at computer", "drink water", "eatass", "copy enemy piece", "copy ally piece", "countDown to 0", "lifespan", "crack skull open", "destroy all ally pieces", "win the game on turn 3", "cant move until turn 3", "summon soulkeeper instead of ghost", "gain life", "add morale", "add iq", "smell like shit", "pay to win", "put camera in ass", "lying", "welcoming alts to abstract strategy game server", "national surveillance", "licking keyboard", "declaw", "spend money to win", "drop tv on foot", "lose finger", "pick nose", "infect opponent", "take off clothes", "cat scam", "sodomy is good, but the other ability", "yesterdays bukkake was bad, this bukkake is dull and", "bad voice acting", "voicecrack", "being past prime at 15", "losing to 46 point army", "delete kong account", "report kong account", "make 5 kong accounts", "banned on discord", "using vpn", "trolling opponent", "troll awetalehu", "making fake username", "making fun of me", "paradox", "7 cost piece", "14 cost piece", "21 cost piece", "152 cost piece", "move only", "attack only", "unblockable", "magic", "video game development", "go to the moon", "go to mars", "teleport to corner", "rename enemy unit", "make enemy catch cold", "HIV", "turn enemy piece female", "spamming prismata server", "demod everyone", "go on power trip", "sending rp to scammer", "40 people online on ceo", "spending money on scholarship", "scammed by university", "taking out stupid student loan", "turn ally into incel", "create vpn", "make sexual joke", "emojis", "pixel art", "lick enemy legs", "sit on enemys face", "bdsm", "masochism enemy unit", "fart on face", "messing with clock", "an extended leap attack", "more path mechanics", "poison 6", "starting move decay on turn 25"]
+var beendone = ["is something that has been done", "has been done", "was done before", "has already been done", "isnt original", "isnt new", "is oveursed", "is overdone", "has been done in hex", "has been done on boardgames", "has been done before", "is something that has been done before", "has been done and is overused", "is too obvious and already done", "is my idea", "is just a copy of a ceo mechanic", "is just a copy of tetris and puyopuyo", "is stolen from hex", "has been done by grand", "has been proven as too luckbaased", "has been established as lame", "has been done, is just a variant of move or attack", "has been done, just a variant on magic destroy", "has been done, just a basic variant on teleport", "too predictable", "is too obvious, just a variant on move or attack", "has been done, it is basically just attack only with a small twist", "is really unoriginal, just the worst of 2 ceo mechanics", "is a thing thats been done before", "is a babys first idea for a mechanic", "is already implemeneted", "is uncreative, already beeen done", "has been done, too easy to think of", "has been done, babys first mechanic", "has been done before by 6 other people", "has already been done before", "is something thats already been done, has never been interesting", "has been done, the mechanic is already fully explored by better piecemakers than you", "has been done several times in the past", "is way too obvious has been done", "has been done already", "sucks, its been done", "is lame, its been done", "has been done by ssp", "has been done, its just transform with extra steps", "has been done, its just a vanilla unit with a useless ability", "has been done, its useless", "has been done, just part of firemage ability with a twist", "has been done, ssp did it 4 years ago", "has been done, i did it 3 years ago", "has been done, just an obvious variant of ranged destroy", "has been done, just a ripoff of comet and a favorchess piece", "has been done by newceo already", "has been done, just a ripoff of other kongregate games", "has been done, just stealing ideas from facebook pages", "has been done on miniclip", "has been done in krunker", "has been done, its just a hearthstone mechanic", "has been done by lormand", "has been done by gracelesshawk", "has been done, by ssp and grand", "has been done by james", "has been done by stormcommando", "is horrible, been done already", "sucks, ive seen it a billion times", "has been done by CBA", "has been done better by ssp", "sux, come up with something thats not been done", "is boring, come up with something new", "is useless, not new", "is not new", "is not new at all", "isnt original, has been done", "isnt new, its been done too many times", "is so boring, its been done too many times", "has been done way too many times", "has been done, you posted this same piece 2 weeks ago, get a new idea", "is just a more powerful tiger", "is like enchanting pieces as a downside, has been done and doesnt excite me", "doesnt add anything good to the game", "doesnt do anything exciting", "is ugly and inconsistent"]
+
+var nointerest = ["this isnt very thought provoking", "this isnt very striking", "pretty boring", "this isnt new at all", "not very interesting", "pretty uninteresting", "quite boring", "not intriguing at all", "not well thought out", "pretty stupid", "kinda stupid", "not really intelligently built", "messes with the strategicality tactics balance", "should use pawndrops", "needs credits system to be interesting", "could be more like favor chess", "just an obvious copy of a ceo mechanic", "completely overpowered", "totally underpowered", "unusable", "uninspiring", "just lazy", "too much like favor chess", "just change for changes sake", "pretty parasitic", "this sucks compared to my early pieces", "too much like newceo", "would be better with 2 click ability", "doesnt interact with enough mechanics", "has too much synergy", "just made to farm contribution", "too many words to explain simple ability", "not understandable enough", "hard to read", "not enough depth", "needs an ability that regards piece by its relative position in the game", "doesnt add anything good", "also too many typos in the descripition", "its supposed to be on more pieces", "it needs to be on more pieces", "it needs more token pieces to work", "high complexity low depth", "unstrategic", "nothing interesting to see here", "why is it designed in such a boring way", "ive seen better pieces from stratshotplayer", "grand makes better pieces than this", "ghostly can make better pieces than this", "i can make much better pieces than this", "james would get a hardon seeing this mechanic tho", "seems like you would easily forget where your king went with this", "really a braindead design", "youre a bad designer", "youre a boring designer", "youre a crappy designer lel", "i think your bad at this", "designer was on crack making this", "designer was on drugs like lormand", "designer mustve been smoking weed lel", "really underwhelming", "kinda ugly too", "i dont like the art", "art looks like a random scribble", "name is just random scrambled letters", "u probably smell bad irl", "i need glasses to understand this", "i need ssp to translate this for me", "just dumb", "just idiotic", "no depth", "this isnt striking at all", "this isnt thought provoking in the slightest", "all those pieces are op", "all those pieces are bad", "all your pieces suck", "your piece sucks", "nothing good about this", "nothing striking here", "nothing to see here", "nothing thought provoking", "nothing good about this piece", "impossible to balance", "prismata did it better", "favorchess would do it better", "nothing interesting about this piece", "waste of time", "wasting my time", "just a waste of time", "no depth to this one", "nothing good about this one", "nothing new to offer", "brings nothing new to the table", "this is very boring", "unstriking", "needs to promote to a better piece", "also doesnt say what sodomy does", "noone would use this", "nobody liked that", "its much worse than my pieces", "theres a reason noone llikes it", "i dont like this", "i dont like this verymuch", "just a bad copy of newceo", "whats the point of this", "no point in this", "theres no point in this", "theres no point doing this", "no point using this", "whats this even trying to do", "what does this even mean", "too much math", "too many numbers", "too many numbers wtf", "wtf is this", "wtf were you thinking", "wtf is wrong with you", "is cursed like the abstract strategy games server", "this is something i dont believe in", "you put this on alotta pieces but theyre all bad", "overall your pieces suck compared to my beginning pieces, and i dont think that you have a bright future in piecemaking", "not that cool but its fine", "meh", "never make another piece again please", "just die"]
+var igiveit = ["", "", "", "", "", "", "i give it a", "i give it a", "i give it a", "i give it", "it deserves a", "it's pretty bad,", "pretty bad,", "not good,", "pretty terrible,", "garbage,", "do better next time,", "trash,", "not worth thinking about,", "so boring,", "bad,", "its not very good,", "not very good,", "i give it only a", "its around a", "NEXT,", "awful,", "what a joke,", "laziest designer ever,"]
+var ratings = ["0/10", "1/10", "2/10", "3/10", "4/10", "0/10", "1/10", "2/10", "3/10", "4/10", "5/10", "almost 5/10", "-1/10", "1.1/10", "0.6/10", "3.2/10", "2.4/10"]
+var period = ["", "."]
+var periodorcomma = [".", ","/*, ".", ",", ".", ",", ""*/]
+
+function kocmessage (name) {
+  return name+": "+randarray(thing1)+" "+randarray(beendone)+randarray(periodorcomma)+" "+randarray(nointerest)+", "+randarray(igiveit)+" "+randarray(ratings)+randarray(period)
+}
+
+function sspmessage (name) {
+  let ratings = [`SS`, `S`, `A`, `B`, `C`, `D`, `F`]
+  return `${name}: ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}. ${randarray(ssp1)} ${randarray(ssp2)} ${randarray(sspratings)} ${randarray(sspratings2)}|10.`.replace(/{\[NAME\]}/, name)
+}
+
+var plusorminus = [`+`, ``, ``, ``, `-`, `-`, `--`]
+var ssp1 = [`Strong synergy and power right from setup.`, `This has been Vaccinated it appears.`, `This alone is level expected.`, `Weak.`, `You don't know scratch about balance.`, `Blatantly Broken.`, `Turn 1 checkmate is a valid game design...`, `That's my Unit, the regime's enforcement cops.`, `It's very specialized, so it's cheap. Can be used as Pawn, to develop a Champion or rescue some unit.`, `No, it can't kill 2 units in 1 turn.`, `No joke pieces.`, `That should cost 25.`, `Needs to be harder to trade well.`, `Upgraded it's 1 too cheap.`, `Fairly weak, may become Stuck on 8th row, bad upgrades.`, `Weak moves, fair ability, risky emergency ability.`, `Fine, but +2 sucks.`, `Overcosted, weak high tiers.`, `A bit cheap, class typo.`, `Mostly gimmick.`, `Weak moves, fair ability, risky emergency ability.`, `Strong combo potential, plus, overcosted, sidegrade.`, `It doesn't fill any challenges.`, `Too dificult to provide Dementia.`, `Broken dodgespam, brokener from Plus, too cheap.`, `Good support, cheap,`, `Too expensive, gets cheaper,`, `Balanced, but passive hardly matters.`, `Overcosted for what it does,`, `UP base, sudden OP Knight attack at plus, rest is not too OP.`, `Overcosted for range ability, otherwise balanced.`, `Weak without support, balanced at base and +.`, `Fair & Balanced.`
+]
+var ssp2 = ["Es basura, no puede definir ganancia.", "Lacks Chess Battle Advanced tenets.", "Unclear templating.", "It's like one of my designs.", "Unclear description.", "Uncreative name, bad poison.", "Clearly, this makes the Unit too punishing for these armies.", `So, this ends up losing|giving King X-4 Worth. X=6|5|5|4, but 5|4|5|4 for a King. Net balance being -(4|5|4|6).`, `It should get Tired after 3 moves.`, `Same as with Valk portal.`, `That'd actually make little difference.`, `BAN Armored Range 3 to Enemy 2nd.`, `It's almost strictly worse.`, `Also, {[NAME]} is Broken as long as it sticks to White squares.`, `Solution: Reduce the Petrify duration to 2 turns.`, `Also, fullquote is stupid.`, `An attack to left corner then to the right can't be interfered by Samurai.`, `Really weak, may break some units.`, `Broken with Hoplites at +2.`, `meaningless passive,`, `unspecified path for attack.`, `Broken with Hostage for King threat...`, `Balanced, protect and attack, slightly weak +2.`, `Not very strong, +2 may be sidegrade.`]
+var sspratings = `0 3.5 4 4.5 5 5.5 6 6.5`.split(` `)
+var sspratings2  = `-0.5 -1 -1.5 -2`.split(` `)

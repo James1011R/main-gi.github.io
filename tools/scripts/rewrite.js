@@ -51,13 +51,13 @@ function makeSpellSVG () {
   var gTag = container.lastElementChild;
   if (config.color1 && config.color2 && !config.nobox) {
     gTag.insertAdjacentHTML('beforeend', makeSVGTag("rect", {
-      height: 10,
-      width: 10,
+      height: spellstyle[0],
+      width: spellstyle[0],
       stroke: config.color1,
       "stroke-width": 2,
       "stroke-alignment": "outer",
-      x: 1,
-      y: 1,
+      x: spellstyle[1],
+      y: spellstyle[1],
       fill: config.color2,
       class: "spell",
       "data-id": config.id
@@ -68,7 +68,7 @@ function makeSpellSVG () {
       x: 6,
       y: 6,
       "font-family": "'monospac', 'fallspac'",
-      "font-size": 9,
+      "font-size": spellstyle[2],
       "text-anchor": "middle",
       "dominant-baseline": "middle",
       stroke: "none",
@@ -82,7 +82,7 @@ function makeSpellSVG () {
       x: 6,
       y: 6,
       "font-family": "'monospac', 'fallspac'",
-      "font-size": 9,
+      "font-size": spellstyle[2],
       "text-anchor": "middle",
       "dominant-baseline": "middle",
       stroke: "none",
