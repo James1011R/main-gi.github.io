@@ -12,7 +12,10 @@
   <script src="scripts/rasterizeHTML.allinone.js"></script>
   <script src="scripts/lodash.js"></script>
   <script src="scripts/definitions.js"></script>
-  <script>var CEO, nouns, verbs;</script>
+  <script>var CEO, nouns, verbs;
+  var spellstyle = [10, 1, 9]; // "spellstyle" exists so that making custom spells preserves the styles of the spells. This is a global variable that is referred to in rewrite.js and main.js
+
+  </script>
   <script defer src="scripts/randomunitnames.js"></script>
   <script defer src="scripts/unitgallerydata.js"></script>
   <script defer src="scripts/rewrite.js"></script>
@@ -130,7 +133,10 @@
     <button id="makefc" style="border: .4rem ridge #83471f; background-color: #581416; color: white; font-family: 'Times New Roman'; filter: blur(0.25px);">FC</button>
     <button id="makecba" style="border: 2px solid red; border-radius: 0px; padding-top: 0px; padding-bottom: 0px; font-family: 'Chess Battle Advanced'; font-weight: bold; background: black; color: white">CBA</button>-->
     </div>
-    Generated pretend unit name here (optional):     <textarea id="nameinput" cols="20" rows="1"></textarea>
+    Generated pretend unit name here (optional): <textarea id="nameinput" cols="20" rows="1"></textarea>
+    <br>Koc Feedback:
+    <div id="kocmessage" style="font-family: Whitney, Arial, sans-serif; background: black; color: white"></div>
+    <div id="sspmessage" style="font-family: Arial, sans-serif; background: black; color: white"></div>
     <br>Unit Gallery:
     <select id="galleryversion"></select>
     <select id="gallery"></select>
