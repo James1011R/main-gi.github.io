@@ -1305,7 +1305,7 @@ function makepiece(seed) { // Somehow I feel like this being in my life is a ref
 
   let actionstouse = r(randoms[50], 1, 4); rr(50) // This is the NUMBER of random actions involved
   let shuffledactions = shuffleArray(arrayToX(182).slice(6), 50).filter(x=>!MOVES[x].text.includes("random") && (minionorchampion || !MOVES[x].text.includes("starting position"))).slice(0, actionstouse) // Remove the first 6 'basic' abilities, we'll use them later
-  if (shuffledactions.filter(x => MOVES[x].text.includes("Ability Target")).length > 0 && !shuffledactions.includes(26-1)) {shuffledactions = shuffledactions.concat(26-1)} // number of Ability Target. -1 is a reminder that it's "25" in this code
+  if (shuffledactions.filter(x => MOVES[x].text.includes("Ability Target")).length > 0 && !shuffledactions.includes(26-1)) {shuffledactions = ([26-1]).concat(shuffledactions)} // number of Ability Target. -1 is a reminder that it's "25" in this code
   // Shuffle an array that goes [0, 1, 2, 3, ...] using a random seed number, then take the first few, which simulates picking that many random elements 
   // The filters are: no random, and no "starting position" unless minion
 
@@ -1338,22 +1338,24 @@ function makepiece(seed) { // Somehow I feel like this being in my life is a ref
   let genericactionassignments2 = [] // another list like that, but if there were 2 random actions picked
   
   if (genericactions.length != 0) {
-    let horizontal = r(randoms[40], 0, 7); rr(40)
-    let vertical = r(randoms[40], 0, 7); rr(40)
-    let diagonal = r(randoms[40], 0, 7); rr(40)
+    let rangelimit = minionorchampion==0? 2:7
 
-    let hDisplace = (r(randoms[40], 0, 6)==6?1:0); rr(40) // displace should be rare
-    let vDisplace = (r(randoms[40], 0, 6)==6?1:0); rr(40)
-    let dDisplace = (r(randoms[40], 0, 6)==6?1:0); rr(40)
+    let horizontal = r(randoms[40], 0, rangelimit); rr(40)
+    let vertical = r(randoms[40], 0, rangelimit); rr(40)
+    let diagonal = r(randoms[40], 0, rangelimit); rr(40)
+
+    let hDisplace = (r(randoms[40], 0, 6)==6? 1:0); rr(40) // displace should be rare (1/7 chance right now)
+    let vDisplace = (r(randoms[40], 0, 6)==6? 1:0); rr(40)
+    let dDisplace = (r(randoms[40], 0, 6)==6? 1:0); rr(40)
     //l(horizontal); l(vertical); l(diagonal); l(hDisplace); l(vDisplace); l(dDisplace)
 
     genericactionassignments = [].concat(arrayToX(horizontal).slice(hDisplace).map(x=>[0, x+hDisplace]), arrayToX(vertical).slice(vDisplace).map(x=>[x+vDisplace, 0]), arrayToX(diagonal).slice(dDisplace).map(x=>[x+dDisplace, x+dDisplace]))
     genericactionassignments = onlyUnique(limitGridSpots(legitSpotsOnly(genericactionassignments), symmetrytype), symmetrytype)
 
     if (genericactions.length == 2) {
-      let horizontal2 = r(randoms[40], 1, 7-horizontal); rr(40)
-      let vertical2 = r(randoms[40], 1, 7-vertical); rr(40)
-      let diagonal2 = r(randoms[40], 1, 7-diagonal); rr(40)
+      let horizontal2 = r(randoms[40], 1, rangelimit-horizontal); rr(40)
+      let vertical2 = r(randoms[40], 1, rangelimit-vertical); rr(40)
+      let diagonal2 = r(randoms[40], 1, rangelimit-diagonal); rr(40)
       genericactionassignments2 = [].concat(arrayToX(horizontal2).slice(hDisplace+horizontal).map(x=>[0, x+hDisplace+horizontal]), arrayToX(vertical2).slice(vDisplace+vertical).map(x=>[x+vDisplace+vertical, 0]), arrayToX(diagonal2).slice(dDisplace+diagonal).map(x=>[x+dDisplace+diagonal, x+dDisplace+diagonal]))
       genericactionassignments2 = onlyUnique(limitGridSpots(legitSpotsOnly(genericactionassignments2), symmetrytype), symmetrytype)
       if (genericactionassignments2.length == 0) {genericactions.slice(0, 1)} // whoops, no action!
@@ -1442,6 +1444,8 @@ function makepiece(seed) { // Somehow I feel like this being in my life is a ref
         break
       } else if (actionassignments[scan] == 1 || actionassignments[scan] == 2) { // Move only / attack only, upgrade it to move or attack
         actionassignments[scan] = 0; shuffledactions.push(0); shuffledactions = onlyUnique(shuffledactions); break
+      } else if (actionassignments[scan] == 5) { // Teleport. upgrade to jump
+        actionassignments[scan] = 3; shuffledactions.push(3); shuffledactions = onlyUnique(shuffledactions); break
       } else if (arraysequal(scanspots[i], [2, 2]) && arrayindexof(selectedgridspots, [2, 1]) == -1) { // Knight attack is missing? Let's put it in!
         selectedgridspots.push([2, 1]); actionassignments.push(52);
         if (symmetrytype == "horizontal") {selectedgridspots.push([1, 2]); actionassignments.push(52)}
@@ -1457,8 +1461,8 @@ function makepiece(seed) { // Somehow I feel like this being in my life is a ref
   costs[2] = costs[1] + upgradeamount + r(randoms[125], 0, 2); rr(125)
 
 
-  upgradeamount = r(randoms[150], 1, 7); rr(150)
-  if (upgradeamount >= 5) {upgradeamount = 1}
+  upgradeamount = r(randoms[150], 1, 9); rr(150)
+  if (upgradeamount >= 6 && upgradeamount != 9) {upgradeamount = 1}
 
   scanspots = (legitSpotsOnly(weave(arrayToX(7).map(x => [x,0]), arrayToX(7).map(x => [x,x])))) // switch to axials first
 
@@ -1468,22 +1472,30 @@ function makepiece(seed) { // Somehow I feel like this being in my life is a ref
       if (scan == -1) {
         selectedgridspots.push(scanspots[i]); actionassignments.push(0); shuffledactions.push(0); shuffledactions = onlyUnique(shuffledactions) // RANDOM ATTACKS!
         break
-      } else if (actionassignments[scan] == 0) { // Upgrade move/attack to swap, but 1/4 the time upgrade it to armor
-        let swaporarmor = r(randoms[301], 3)!=3? 4:34; rr(301)
+      } else if (actionassignments[scan] == 0) { // Upgrade move/attack to swap, but 1/7 the time upgrade it to armor
+        let swaporarmor = r(randoms[301], 6)!=6? 4:34; rr(301)
         actionassignments[scan] = swaporarmor; shuffledactions.push(swaporarmor); shuffledactions = onlyUnique(shuffledactions); break
-      } else if (arraysequal(scanspots[i], [2, 2]) && actionassignments[arrayindexof(selectedgridspots, [2, 1])] == 5) { // Knight teleport? Upgrade it to teleswap
+
+      } else if (arraysequal(scanspots[i], [2, 0]) && actionassignments[arrayindexof(selectedgridspots, [2, 1])] == 5) { // Knight teleport? Upgrade it to teleswap
         actionassignments[arrayindexof(selectedgridspots, [2, 1])] = 30; shuffledactions.push(30);
         shuffledactions = onlyUnique(shuffledactions); break
 
         shuffledactions.push(52); shuffledactions = onlyUnique(shuffledactions); break
-      } else if (arraysequal(scanspots[i], [2, 2]) && actionassignments[arrayindexof(selectedgridspots, [2, 1])] == 3) { // Knight jump? SWAPPPPP
+      } else if (arraysequal(scanspots[i], [2, 0]) && actionassignments[arrayindexof(selectedgridspots, [2, 1])] == 3) { // Knight jump? SWAPPPPP
         actionassignments[arrayindexof(selectedgridspots, [2, 1])] = 4; shuffledactions.push(4);
         shuffledactions = onlyUnique(shuffledactions); break
-      } else if (arraysequal(scanspots[i], [2, 2]) && arrayindexof(selectedgridspots, [3, 1]) == -1) { // No valk teleport? Go!
+      } else if (arraysequal(scanspots[i], [2, 0]) && arrayindexof(selectedgridspots, [3, 1]) == -1) { // No valk teleport? Go!
         selectedgridspots.push([3, 1]); actionassignments.push(5);
         if (symmetrytype == "horizontal") {selectedgridspots.push([1, 3]); actionassignments.push(5)}
         shuffledactions.push(52); shuffledactions = onlyUnique(shuffledactions); break
+
+      } else if (actionassignments[scan] == 1 || actionassignments[scan] == 2) { // Move only / attack only, upgrade it to jswap
+        actionassignments[scan] = 4; shuffledactions.push(4); shuffledactions = onlyUnique(shuffledactions); break
+      } else if (actionassignments[scan] == 5) { // Teleport. upgrade to jswap
+        actionassignments[scan] = 4; shuffledactions.push(4); shuffledactions = onlyUnique(shuffledactions); break
+
       }
+
     }
   }
 
@@ -1744,13 +1756,13 @@ function clearmovechanges() {
 }
 
 function resetSpellLooks() {
-  $(".spell").attr("height", 10)
-  $(".spell").attr("width", 10)
-  $(".spell").attr("x", 1)
-  $(".spell").attr("y", 1)
-  $(".spell-symbol").attr("font-size", 9)
-  $(".spell-gallery").css("transform", "none")
   spellstyle = [10, 1, 9]
+  $(".spell").attr("height", spellstyle[0])
+  $(".spell").attr("width", spellstyle[0])
+  $(".spell").attr("x", spellstyle[1])
+  $(".spell").attr("y", spellstyle[1])
+  $(".spell-symbol").attr("font-size", spellstyle[2])
+  $(".spell-gallery").css("transform", "none")
 }
 
 $("#switchceo").click(function() { // main_gi: Switch to ceo stylings
@@ -1767,24 +1779,25 @@ $("#switchcd").click(function() { // main_gi: Switch to CD stylings
   clearmovechanges()
   resetSpellLooks()
 
+  let white = [255, 255, 255]; let black = [0, 0, 0]; let red = [255, 0, 0]; let blue = [20, 125, 255] // [0, 102, 255] is the real color in game
   let unblockablesymbol = "⛶" //"◜"
-  changemove("moveattack", "Move or Attack.", [0, 0, 0], [255, 255, 255], "⚫", [0, 0, 0])
-  changemove("move", "Move only.", [0, 0, 255], [255, 255, 255], "⚫", [0, 0, 255])
-  changemove("movestart", "Move from your second row.", [0, 0, 255], [255, 255, 255], "o", [0, 0, 255])
-  changemove("attack", "Attack only.", [255, 0, 0], [255, 255, 255], "⚫", [255, 0, 0])
-  changemove("jump", "(Unblockable) Move or Attack.", [0, 0, 0], [255, 255, 255], unblockablesymbol)
-  changemove("teleport", "(Unblockable) Move only.", [0, 0, 255], [255, 255, 255], unblockablesymbol)
-  changemove("teleportstart", "(Unblockable) Move from your second row.", [0, 0, 255], [255, 255, 255], "o", [0, 0, 255], unblockablesymbol, [0, 0, 255])
-  changemove("jumpattack", "(Unblockable) Attack only.", [255, 0, 0], [255, 255, 255], unblockablesymbol)
+  changemove("moveattack", "Move or Attack.", black, white, "⚫", black)
+  changemove("move", "Move only.", blue, white, "⚫", blue)
+  changemove("movestart", "Move from your second row.", blue, white, "o", blue)
+  changemove("attack", "Attack only.", red, white, "⚫", red)
+  changemove("jump", "(Unblockable) Move or Attack.", black, white, unblockablesymbol)
+  changemove("teleport", "(Unblockable) Move only.", blue, white, unblockablesymbol)
+  changemove("teleportstart", "(Unblockable) Move from your second row.", blue, white, "o", blue, unblockablesymbol, blue)
+  changemove("jumpattack", "(Unblockable) Attack only.", red, white, unblockablesymbol)
 
-  changemove("jumpswap", "(Unblockable) Move, Attack, or swap places with ally.", [0, 0, 0], [255, 255, 255], "🗘", [0, 0, 0], unblockablesymbol)
-  changemove("moveattackswap", "Move, Attack, or swap places with ally.", [0, 0, 0], [255, 255, 255], "⚫", [0, 0, 0], "🗘", [0, 0, 0])
-  changemove("swap", "(Unblockable) Swap places with ally.", [0, 0, 0], [255, 255, 255], "🗘", [0, 0, 255], 0, 0, "true")
+  changemove("jumpswap", "(Unblockable) Move, Attack, or swap places with ally.", black, white, "🗘", black, unblockablesymbol)
+  changemove("moveattackswap", "Move, Attack, or swap places with ally.", black, white, "", black, "🗘", black) // first symbol was ⚫, removed it
+  changemove("swap", "(Unblockable) Swap places with ally.", black, white, "🗘", blue, 0, 0, "true")
 
-  changemove("moveswap", "Move or swap places with ally.", [0, 0, 255], [255, 255, 255], "🗘", [0, 0, 255])
-  changemove("teleportswap", "(Unblockable) Move or swap places with ally.", [0, 0, 255], [255, 255, 255], "🗘", [0, 0, 255], unblockablesymbol)
-  changemove("attackswap", "Attack or swap places with ally.", [255, 0, 0], [255, 255, 255], "🗘", [255, 0, 0])
-  changemove("jumpattackswap", "(Unblockable) Attack or swap places with ally.", [255, 0, 0], [255, 255, 255], "🗘", [255, 0, 0], unblockablesymbol)
+  changemove("moveswap", "Move or swap places with ally.", blue, white, "🗘", blue)
+  changemove("teleportswap", "(Unblockable) Move or swap places with ally.", blue, white, "🗘", blue, unblockablesymbol)
+  changemove("attackswap", "Attack or swap places with ally.", red, white, "🗘", red)
+  changemove("jumpattackswap", "(Unblockable) Attack or swap places with ally.", red, white, "🗘", red, unblockablesymbol)
 
   /* Thing we want to modify: <rect height="10" width="10" stroke="rgb(0,0,255)" stroke-width="2" stroke-alignment="outer" x="1" y="1" fill="rgb(255,255,255)" class="spell" data-id="2"></rect>
 
@@ -1806,23 +1819,23 @@ $("#switchfc").click(function() { // main_gi: Switch to favuor chess stylings
   clearmovechanges()
   resetSpellLooks()
 
-
-  changemove("moveattack", "move or attack", 0, 0, "■", [0, 0, 0], 0, 0, "true")
-  changemove("move", "move", 0, 0, "■", [97, 119, 224], 0, 0, "true")
-  changemove("attack", "attack", 0, 0, "■", [237, 28, 36], 0, 0, "true")
-  changemove("jump", "move or attack (unblockable)", 0, 0, "●", [0, 0, 0], 0, 0, "true")
-  changemove("teleport", "move (unblockable)", 0, 0, "●", [97, 119, 224], 0, 0, "true")
-  changemove("jumpattack", "attack (unblockable)", 0, 0, "●", [237, 28, 36], 0, 0, "true")
-  changemove("movestart", "move (only from starting position)", 0, 0, "■", [97, 119, 224], "S", [255, 255, 255], "true")
-  changemove("teleportstart", "move (unblockable) (only from starting position)", 0, 0, "●", [97, 119, 224], "S", [255, 255, 255], "true")
-  changemove("moveattackswap", "move or attack or swap ally", 0, 0, "■", [0, 0, 0], "🗘", [255, 255, 255], "true")
-  changemove("moveswap", "move or swap ally", 0, 0, "■", [97, 119, 224], "🗘", [255, 255, 255], "true")
-  changemove("attackswap", "attack or swap ally", 0, 0, "■", [237, 28, 36], "🗘", [255, 255, 255], "true")
-  changemove("blockableswap", "swap ally", 0, 0, "■", [127, 127, 127], "🗘", [255, 255, 255], "true")
-  changemove("jumpswap", "move or attack or swap ally (unblockable)", 0, 0, "●", [0, 0, 0], "🗘", [255, 255, 255], "true")
-  changemove("teleportswap", "move or swap ally (unblockable)", 0, 0, "●", [97, 119, 224], "🗘", [255, 255, 255], "true")
-  changemove("jumpattackswap", "attack or swap ally (unblockable)", 0, 0, "●", [237, 28, 36], "🗘", [255, 255, 255], "true")
-  changemove("swap", "swap ally (unblockable)", 0, 0, "●", [127, 127, 127], "🗘", [255, 255, 255], "true")
+  let white = [255, 255, 255]; let black = [0, 0, 0]; let movecolor = [97, 119, 224]; let attackcolor = [237, 28, 36];
+  changemove("moveattack", "move or attack", 0, 0, "■", black, 0, 0, "true")
+  changemove("move", "move", 0, 0, "■", movecolor, 0, 0, "true")
+  changemove("attack", "attack", 0, 0, "■", attackcolor, 0, 0, "true")
+  changemove("jump", "move or attack (unblockable)", 0, 0, "●", black, 0, 0, "true")
+  changemove("teleport", "move (unblockable)", 0, 0, "●", movecolor, 0, 0, "true")
+  changemove("jumpattack", "attack (unblockable)", 0, 0, "●", attackcolor, 0, 0, "true")
+  changemove("movestart", "move (only from starting position)", 0, 0, "■", movecolor, "S", white, "true")
+  changemove("teleportstart", "move (unblockable) (only from starting position)", 0, 0, "●", movecolor, "S", white, "true")
+  changemove("moveattackswap", "move or attack or swap ally", 0, 0, "■", black, "🗘", white, "true")
+  changemove("moveswap", "move or swap ally", 0, 0, "■", movecolor, "🗘", white, "true")
+  changemove("attackswap", "attack or swap ally", 0, 0, "■", attackcolor, "🗘", white, "true")
+  changemove("blockableswap", "swap ally", 0, 0, "■", [127, 127, 127], "🗘", white, "true")
+  changemove("jumpswap", "move or attack or swap ally (unblockable)", 0, 0, "●", black, "🗘", white, "true")
+  changemove("teleportswap", "move or swap ally (unblockable)", 0, 0, "●", movecolor, "🗘", white, "true")
+  changemove("jumpattackswap", "attack or swap ally (unblockable)", 0, 0, "●", attackcolor, "🗘", white, "true")
+  changemove("swap", "swap ally (unblockable)", 0, 0, "●", [127, 127, 127], "🗘", white, "true")
 
 
 }) 
@@ -1843,7 +1856,7 @@ var currentlySelectedGalleryVersion = lastCEOversion
 
 
 $.each(CEO, function(key, value) {
-  items+=`<option ${lastCEOversion == key?'selected':''}value=${key}>${key}</option>`
+  items+=`<option ${lastCEOversion == key?'selected':''}value=${key}>${key}</option>` // Trying to fix "v52" to "v0.52" does not work. It's not important enough to bother.
  });
 $("#galleryversion").html(items);
 
@@ -1870,8 +1883,8 @@ $('#gallery').change(function(){
 
 
 
-var thing1 = ["teleporting ally king", "summoning ally pieces", "summoning enemy pieces", "summoning pieces", "teleporting pieces", "moving pieces", "status effect", "stun effect", "swapping enemy", "dealing damage", "on death effect", "on kill effect", "promote", "that ability", "turn 1 checkmate", "magic destroy", "charm", "range 4 attack", "jumping over ally", "killing allies", "morale", "petrify", "freeze", "double damage", "downgrade", "upgrade", "invisible pieces", "rng", "random effect", "revive", "graveyard", "banish", "push", "pull mechanic", "fps mechanic", "pie rule mechanic", "morale decay mechanic", "domain victory", "threefold repetition", "checkmate", "classic chess", "blitz token mechanic", "transformation mechanic", "summoning a sapling", "teleporting caster", "destroying all adjacent pieces", "battle royale mechanic", "thundermage thunder", "lightning strike", "armored unit effect", "favorchess berserk", "caste system", "concentration camp mechanic", "sodomy", "bukkake", "brainfluid keyword", "low-iq mode", "pooping on enemy piece", "piss on ally unit", "add extra army points", "on death lose morale", "lose the game mechanic", "anal mechanic", "does not block movement", "phoenixegg passive", "sextoy mechanic", "pinkdildo keyword", "path mechanic", "anti-grandmaster unit", "naked status effect", "circumcision mechanic", "buttplug", "footfetish mechanic", "vore", "necrophilia", "assclench mechanic", "nosepick mechanic", "headlice", "coronavirus", "itchybutt", "white supremacy", "flatearth", "racism", "heterophobia", "eyegouge", "penisize", "boogereat mechanic", "buttlick mechanic", "big boob art", "anime girl art", "2 men kissing", "freeze foot off", "block enemy attack", "stealth", "hidden information mechanic", "market crash mechanic", "infinite ruby farm", "gain contribution using ability", "use ability limited number of times", "pay to use ability", "sacrifice this piece", "diarrhea", "prostitution", "behead", "earwax", "masturb8", "message deletion mechanic", "deleting messages", "attacking f3", "attacking newceo members", "leaking newceo", "making fun of favorchess", "obesity", "suicide", "suicide forest", "adjust cost", "market system", "contribution farming", "farting in mouth", "tooth removal", "death by hanging", "suffocation", "wind magic", "stonepillar", "shock opponent with electric shock", "steal time from opponent", "punch opponent through screen", "reputation system", "gravity", "insult opponent", "destroy opponents coins", "fingernail clipping", "toenail eating", "bleeding", "kidney stone", "blood transfusion", "add morale", "lose value", "vampire drain", "transform into bat and fly", "unstoppable ability", "stealing pieces from another game", "winking to girl", "cut loose skin", "excercize machine", "treadmill", "banning opponent unit for sexism", "swastika moveset", "void unit", "swap with ally", "swap with empty square", "ban evasion on favorchess", "alt infiltration", "rp trading", "bribing with rp", "get crowns for using ability", "quest system", "trolling awetalehu", "bat transformation", "kill temporarily", "stun unit for 20 turns", "internal bleeding", "waterboarding", "enchant", "throwing up", "giving birth", "intercourse", "ruby farming", "gold farming", "stock market", "shortselling stock", "abusing player", "grooming", "losing hair", "pubeshaving", "armpit smell", "turning gay", "custom pieces", "using words", "using english language", "translate to chinese", "french translator", "spanish translator", "using numbers", "using english alphabet", "using piecemaker", "using brain", "throw water at computer", "break controller", "throw mouse at computer", "drink water", "eatass", "copy enemy piece", "copy ally piece", "countDown to 0", "lifespan", "crack skull open", "destroy all ally pieces", "win the game on turn 3", "cant move until turn 3", "summon soulkeeper instead of ghost", "gain life", "add morale", "add iq", "smell like shit", "pay to win", "put camera in ass", "lying", "welcoming alts to abstract strategy game server", "national surveillance", "licking keyboard", "declaw", "spend money to win", "drop tv on foot", "lose finger", "pick nose", "infect opponent", "take off clothes", "cat scam", "sodomy is good, but the other ability", "yesterdays bukkake was bad, this bukkake is dull and", "bad voice acting", "voicecrack", "being past prime at 15", "losing to 46 point army", "delete kong account", "report kong account", "make 5 kong accounts", "banned on discord", "using vpn", "trolling opponent", "troll awetalehu", "making fake username", "making fun of me", "paradox", "7 cost piece", "14 cost piece", "21 cost piece", "152 cost piece", "move only", "attack only", "unblockable", "magic", "video game development", "go to the moon", "go to mars", "teleport to corner", "rename enemy unit", "make enemy catch cold", "HIV", "turn enemy piece female", "spamming prismata server", "demod everyone", "go on power trip", "sending rp to scammer", "40 people online on ceo", "spending money on scholarship", "scammed by university", "taking out stupid student loan", "turn ally into incel", "create vpn", "make sexual joke", "emojis", "pixel art", "lick enemy legs", "sit on enemys face", "bdsm", "masochism enemy unit", "fart on face", "messing with clock", "an extended leap attack", "more path mechanics", "poison 6", "starting move decay on turn 25"]
-var beendone = ["is something that has been done", "has been done", "was done before", "has already been done", "isnt original", "isnt new", "is oveursed", "is overdone", "has been done in hex", "has been done on boardgames", "has been done before", "is something that has been done before", "has been done and is overused", "is too obvious and already done", "is my idea", "is just a copy of a ceo mechanic", "is just a copy of tetris and puyopuyo", "is stolen from hex", "has been done by grand", "has been proven as too luckbaased", "has been established as lame", "has been done, is just a variant of move or attack", "has been done, just a variant on magic destroy", "has been done, just a basic variant on teleport", "too predictable", "is too obvious, just a variant on move or attack", "has been done, it is basically just attack only with a small twist", "is really unoriginal, just the worst of 2 ceo mechanics", "is a thing thats been done before", "is a babys first idea for a mechanic", "is already implemeneted", "is uncreative, already beeen done", "has been done, too easy to think of", "has been done, babys first mechanic", "has been done before by 6 other people", "has already been done before", "is something thats already been done, has never been interesting", "has been done, the mechanic is already fully explored by better piecemakers than you", "has been done several times in the past", "is way too obvious has been done", "has been done already", "sucks, its been done", "is lame, its been done", "has been done by ssp", "has been done, its just transform with extra steps", "has been done, its just a vanilla unit with a useless ability", "has been done, its useless", "has been done, just part of firemage ability with a twist", "has been done, ssp did it 4 years ago", "has been done, i did it 3 years ago", "has been done, just an obvious variant of ranged destroy", "has been done, just a ripoff of comet and a favorchess piece", "has been done by newceo already", "has been done, just a ripoff of other kongregate games", "has been done, just stealing ideas from facebook pages", "has been done on miniclip", "has been done in krunker", "has been done, its just a hearthstone mechanic", "has been done by lormand", "has been done by gracelesshawk", "has been done, by ssp and grand", "has been done by james", "has been done by stormcommando", "is horrible, been done already", "sucks, ive seen it a billion times", "has been done by CBA", "has been done better by ssp", "sux, come up with something thats not been done", "is boring, come up with something new", "is useless, not new", "is not new", "is not new at all", "isnt original, has been done", "isnt new, its been done too many times", "is so boring, its been done too many times", "has been done way too many times", "has been done, you posted this same piece 2 weeks ago, get a new idea", "is just a more powerful tiger", "is like enchanting pieces as a downside, has been done and doesnt excite me", "doesnt add anything good to the game", "doesnt do anything exciting", "is ugly and inconsistent"]
+var thing1 = ["teleporting ally king", "summoning ally pieces", "summoning enemy pieces", "summoning pieces", "teleporting pieces", "moving pieces", "status effect", "stun effect", "swapping enemy", "dealing damage", "on death effect", "on kill effect", "promote", "that ability", "turn 1 checkmate", "magic destroy", "charm", "range 4 attack", "jumping over ally", "killing allies", "morale", "petrify", "freeze", "double damage", "downgrade", "upgrade", "invisible pieces", "rng", "random effect", "revive", "graveyard", "banish", "push", "pull mechanic", "fps mechanic", "pie rule mechanic", "morale decay mechanic", "domain victory", "threefold repetition", "checkmate", "classic chess", "blitz token mechanic", "transformation mechanic", "summoning a sapling", "teleporting caster", "destroying all adjacent pieces", "battle royale mechanic", "thundermage thunder", "lightning strike", "armored unit effect", "favorchess berserk", "caste system", "concentration camp mechanic", "sodomy", "bukkake", "brainfluid keyword", "low-iq mode", "pooping on enemy piece", "piss on ally unit", "add extra army points", "on death lose morale", "lose the game mechanic", "anal mechanic", "does not block movement", "phoenixegg passive", "sextoy mechanic", "pinkdildo keyword", "path mechanic", "anti-grandmaster unit", "naked status effect", "circumcision mechanic", "buttplug", "footfetish mechanic", "vore", "necrophilia", "assclench mechanic", "nosepick mechanic", "headlice", "coronavirus", "itchybutt", "white supremacy", "flatearth", "racism", "heterophobia", "eyegouge", "penisize", "boogereat mechanic", "buttlick mechanic", "big boob art", "anime girl art", "2 men kissing", "freeze foot off", "block enemy attack", "stealth", "hidden information mechanic", "market crash mechanic", "infinite ruby farm", "gain contribution using ability", "use ability limited number of times", "pay to use ability", "sacrifice this piece", "diarrhea", "prostitution", "behead", "earwax", "masturb8", "message deletion mechanic", "deleting messages", "attacking f3", "attacking newceo members", "leaking newceo", "making fun of favorchess", "obesity", "suicide", "suicide forest", "adjust cost", "market system", "contribution farming", "farting in mouth", "tooth removal", "death by hanging", "suffocation", "wind magic", "stonepillar", "shock opponent with electric shock", "steal time from opponent", "punch opponent through screen", "reputation system", "gravity", "insult opponent", "destroy opponents coins", "fingernail clipping", "toenail eating", "bleeding", "kidney stone", "blood transfusion", "add morale", "lose value", "vampire drain", "transform into bat and fly", "unstoppable ability", "stealing pieces from another game", "winking to girl", "cut loose skin", "excercize machine", "treadmill", "banning opponent unit for sexism", "swastika moveset", "void unit", "swap with ally", "swap with empty square", "ban evasion on favorchess", "alt infiltration", "rp trading", "bribing with rp", "get crowns for using ability", "quest system", "trolling awetalehu", "bat transformation", "kill temporarily", "stun unit for 20 turns", "internal bleeding", "waterboarding", "enchant", "throwing up", "giving birth", "intercourse", "ruby farming", "gold farming", "stock market", "shortselling stock", "abusing player", "grooming", "losing hair", "pubeshaving", "armpit smell", "turning gay", "custom pieces", "using words", "using english language", "translate to chinese", "french translator", "spanish translator", "using numbers", "using english alphabet", "using piecemaker", "using brain", "throw water at computer", "break controller", "throw mouse at computer", "drink water", "eatass", "copy enemy piece", "copy ally piece", "countDown to 0", "lifespan", "crack skull open", "destroy all ally pieces", "win the game on turn 3", "cant move until turn 3", "summon soulkeeper instead of ghost", "gain life", "add morale", "add iq", "smell like shit", "pay to win", "put camera in ass", "lying", "welcoming alts to abstract strategy game server", "national surveillance", "licking keyboard", "declaw", "spend money to win", "drop tv on foot", "lose finger", "pick nose", "infect opponent", "take off clothes", "cat scam", "sodomy is good, but the other ability", "yesterdays bukkake was bad, this bukkake is dull and", "bad voice acting", "voicecrack", "being past prime at 15", "losing to 46 point army", "delete kong account", "report kong account", "make 5 kong accounts", "banned on discord", "using vpn", "trolling opponent", "troll awetalehu", "making fake username", "making fun of me", "paradox", "7 cost piece", "14 cost piece", "21 cost piece", "152 cost piece", "move only", "attack only", "unblockable", "magic", "video game development", "go to the moon", "go to mars", "teleport to corner", "rename enemy unit", "make enemy catch cold", "HIV", "turn enemy piece female", "spamming prismata server", "demod everyone", "go on power trip", "sending rp to scammer", "40 people online on ceo", "spending money on scholarship", "scammed by university", "taking out stupid student loan", "turn ally into incel", "create vpn", "make sexual joke", "emojis", "pixel art", "lick enemy legs", "sit on enemys face", "bdsm", "masochism enemy unit", "fart on face", "messing with clock", "an extended leap attack", "more path mechanics", "poison 6", "starting move decay on turn 25", "talking trash about grand"]
+var beendone = ["is something that has been done", "has been done", "was done before", "has already been done", "isnt original", "isnt new", "is oveursed", "is overdone", "has been done in hex", "has been done on boardgames", "has been done before", "is something that has been done before", "has been done and is overused", "is too obvious and already done", "is my idea", "is just a copy of a ceo mechanic", "is just a copy of tetris and puyopuyo", "is stolen from hex", "has been done by grand", "has been proven as too luckbaased", "has been established as lame", "has been done, is just a variant of move or attack", "has been done, just a variant on magic destroy", "has been done, just a basic variant on teleport", "too predictable", "is too obvious, just a variant on move or attack", "has been done, it is basically just attack only with a small twist", "is really unoriginal, just the worst of 2 ceo mechanics", "is a thing thats been done before", "is a babys first idea for a mechanic", "is already implemeneted", "is uncreative, already beeen done", "has been done, too easy to think of", "has been done, babys first mechanic", "has been done before by 6 other people", "has already been done before", "is something thats already been done, has never been interesting", "has been done, the mechanic is already fully explored by better piecemakers than you", "has been done several times in the past", "is way too obvious has been done", "has been done already", "sucks, its been done", "is lame, its been done", "has been done by ssp", "has been done, its just transform with extra steps", "has been done, its just a vanilla unit with a useless ability", "has been done, its useless", "has been done, just part of firemage ability with a twist", "has been done, ssp did it 4 years ago", "has been done, i did it 3 years ago", "has been done, just an obvious variant of ranged destroy", "has been done, just a ripoff of comet and a favorchess piece", "has been done by newceo already", "has been done, just a ripoff of other kongregate games", "has been done, just stealing ideas from facebook pages", "has been done on miniclip", "has been done in krunker", "has been done, its just a hearthstone mechanic", "has been done by lormand", "has been done by gracelesshawk", "has been done, by ssp and grand", "has been done by james", "has been done by stormcommando", "is horrible, been done already", "sucks, ive seen it a billion times", "has been done by CBA", "has been done better by ssp", "sux, come up with something thats not been done", "is boring, come up with something new", "is useless, not new", "is not new", "is not new at all", "isnt original, has been done", "isnt new, its been done too many times", "is so boring, its been done too many times", "has been done way too many times", "has been done, you posted this same piece 2 weeks ago, get a new idea", "is just a more powerful tiger", "is like enchanting pieces as a downside, has been done and doesnt excite me", "doesnt add anything good to the game", "doesnt do anything exciting", "is ugly and inconsistent", "is stupid and boring"]
 
 var nointerest = ["this isnt very thought provoking", "this isnt very striking", "pretty boring", "this isnt new at all", "not very interesting", "pretty uninteresting", "quite boring", "not intriguing at all", "not well thought out", "pretty stupid", "kinda stupid", "not really intelligently built", "messes with the strategicality tactics balance", "should use pawndrops", "needs credits system to be interesting", "could be more like favor chess", "just an obvious copy of a ceo mechanic", "completely overpowered", "totally underpowered", "unusable", "uninspiring", "just lazy", "too much like favor chess", "just change for changes sake", "pretty parasitic", "this sucks compared to my early pieces", "too much like newceo", "would be better with 2 click ability", "doesnt interact with enough mechanics", "has too much synergy", "just made to farm contribution", "too many words to explain simple ability", "not understandable enough", "hard to read", "not enough depth", "needs an ability that regards piece by its relative position in the game", "doesnt add anything good", "also too many typos in the descripition", "its supposed to be on more pieces", "it needs to be on more pieces", "it needs more token pieces to work", "high complexity low depth", "unstrategic", "nothing interesting to see here", "why is it designed in such a boring way", "ive seen better pieces from stratshotplayer", "grand makes better pieces than this", "ghostly can make better pieces than this", "i can make much better pieces than this", "james would get a hardon seeing this mechanic tho", "seems like you would easily forget where your king went with this", "really a braindead design", "youre a bad designer", "youre a boring designer", "youre a crappy designer lel", "i think your bad at this", "designer was on crack making this", "designer was on drugs like lormand", "designer mustve been smoking weed lel", "really underwhelming", "kinda ugly too", "i dont like the art", "art looks like a random scribble", "name is just random scrambled letters", "u probably smell bad irl", "i need glasses to understand this", "i need ssp to translate this for me", "just dumb", "just idiotic", "no depth", "this isnt striking at all", "this isnt thought provoking in the slightest", "all those pieces are op", "all those pieces are bad", "all your pieces suck", "your piece sucks", "nothing good about this", "nothing striking here", "nothing to see here", "nothing thought provoking", "nothing good about this piece", "impossible to balance", "prismata did it better", "favorchess would do it better", "nothing interesting about this piece", "waste of time", "wasting my time", "just a waste of time", "no depth to this one", "nothing good about this one", "nothing new to offer", "brings nothing new to the table", "this is very boring", "unstriking", "needs to promote to a better piece", "also doesnt say what sodomy does", "noone would use this", "nobody liked that", "its much worse than my pieces", "theres a reason noone llikes it", "i dont like this", "i dont like this verymuch", "just a bad copy of newceo", "whats the point of this", "no point in this", "theres no point in this", "theres no point doing this", "no point using this", "whats this even trying to do", "what does this even mean", "too much math", "too many numbers", "too many numbers wtf", "wtf is this", "wtf were you thinking", "wtf is wrong with you", "is cursed like the abstract strategy games server", "this is something i dont believe in", "you put this on alotta pieces but theyre all bad", "overall your pieces suck compared to my beginning pieces, and i dont think that you have a bright future in piecemaking", "not that cool but its fine", "meh", "never make another piece again please", "just die"]
 var igiveit = ["", "", "", "", "", "", "i give it a", "i give it a", "i give it a", "i give it", "it deserves a", "it's pretty bad,", "pretty bad,", "not good,", "pretty terrible,", "garbage,", "do better next time,", "trash,", "not worth thinking about,", "so boring,", "bad,", "its not very good,", "not very good,", "i give it only a", "its around a", "NEXT,", "awful,", "what a joke,", "laziest designer ever,"]
@@ -1885,12 +1898,43 @@ function kocmessage (name) {
 
 function sspmessage (name) {
   let ratings = [`SS`, `S`, `A`, `B`, `C`, `D`, `F`]
-  return `${name}: ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}. ${randarray(ssp1)} ${randarray(ssp2)} ${randarray(sspratings)} ${randarray(sspratings2)}|10.`.replace(/{\[NAME\]}/, name)
+  let regexlist = [[/([A-Z]..).+([A-Z])/g, "$1$2"], [/dd/g, "d"], [/ff/g, "f"], [/mm/g, "m"], [/tt/g, "t"], [/pp/g, "p"], [/gg/g, "g"], [/ll/g, "l"], [/cc/g, "c"], [/rr/g, "r"], [/nn/g, "n"], [/ss/g, "s"], [/ee/g, "i"], [/^Ex/g, "X"], /a|e|i|o|u/g, /y/g, /h/g, /n/g, "DUMMYELEMENT"] // dummy so that the while loop and length check doesn't fall apart
+  let shtn = name
+  while (shtn.length > 4) {
+    let takefirstfour = shtn.slice(0, 4)
+    if (regexlist.length == 1) {shtn = takefirstfour}
+    if (regexlist[0].length == 2) { 
+      shtn = shtn.replace(regexlist[0][0], regexlist[0][1]);
+    } else {
+      shtn = shtn.replace(regexlist[0], '');
+    }
+    if (shtn.slice(0, 4).toLowerCase() == name.slice(0, 4).toLowerCase() && shtn.slice(0, 4) != name.slice(0, 4)) { // this is for cheesy "FirE" names
+      shtn = shtn.slice(0, 4)
+    }
+    if (shtn.length <= 3) {shtn = takefirstfour}
+    regexlist.shift() // remove first element
+  }
+
+
+  return `${shtn}: ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}. ${randarray(ssp1)} ${randarray(ssp2)}${randint(0, 5)==5?" "+rsspn.join("|")+".":""} ${randarray(sspratings)} ${randarray(sspratings2)}|10.`.replace(/{\[NAME\]}/, name).replace(/{\[SHTN\]}/, shtn) // the "rsspn" part: 1/6 chance for ssp to suggest his own unit rebalance
 }
 
 var plusorminus = [`+`, ``, ``, ``, `-`, `-`, `--`]
-var ssp1 = [`Strong synergy and power right from setup.`, `This has been Vaccinated it appears.`, `This alone is level expected.`, `Weak.`, `You don't know scratch about balance.`, `Blatantly Broken.`, `Turn 1 checkmate is a valid game design...`, `That's my Unit, the regime's enforcement cops.`, `It's very specialized, so it's cheap. Can be used as Pawn, to develop a Champion or rescue some unit.`, `No, it can't kill 2 units in 1 turn.`, `No joke pieces.`, `That should cost 25.`, `Needs to be harder to trade well.`, `Upgraded it's 1 too cheap.`, `Fairly weak, may become Stuck on 8th row, bad upgrades.`, `Weak moves, fair ability, risky emergency ability.`, `Fine, but +2 sucks.`, `Overcosted, weak high tiers.`, `A bit cheap, class typo.`, `Mostly gimmick.`, `Weak moves, fair ability, risky emergency ability.`, `Strong combo potential, plus, overcosted, sidegrade.`, `It doesn't fill any challenges.`, `Too dificult to provide Dementia.`, `Broken dodgespam, brokener from Plus, too cheap.`, `Good support, cheap,`, `Too expensive, gets cheaper,`, `Balanced, but passive hardly matters.`, `Overcosted for what it does,`, `UP base, sudden OP Knight attack at plus, rest is not too OP.`, `Overcosted for range ability, otherwise balanced.`, `Weak without support, balanced at base and +.`, `Fair & Balanced.`
+var ssp1 = [``, `Strong synergy and power right from setup.`, `This has been Vaccinated it appears.`, `This alone is level expected.`, `Weak.`, `You don't know scratch about balance.`, `Blatantly Broken.`, `Turn 1 checkmate is a valid game design...`, `That's my Unit, the regime's enforcement cops.`, `It's very specialized, so it's cheap. Can be used as Pawn, to develop a Champion or rescue some unit.`, `No, it can't kill 2 units in 1 turn.`, `No joke pieces.`, `That should cost 25.`, `Needs to be harder to trade well.`, `Upgraded it's 1 too cheap.`, `Fairly weak, may become Stuck on 8th row, bad upgrades.`, `Weak moves, fair ability, risky emergency ability.`, `Fine, but +2 sucks.`, `Overcosted, weak high tiers.`, `A bit cheap, class typo.`, `Mostly gimmick.`, `Weak moves, fair ability, risky emergency ability.`, `Strong combo potential, plus, overcosted, sidegrade.`, `It doesn't fill any challenges.`, `Too dificult to provide Dementia.`, `Broken dodgespam, brokener from Plus, too cheap.`, `Good support, cheap,`, `Too expensive, gets cheaper,`, `Balanced, but passive hardly matters.`, `Overcosted for what it does,`, `UP base, sudden OP Knight attack at plus, rest is not too OP.`, `Overcosted for range ability, otherwise balanced.`, `Weak without support, balanced at base and +.`, `Fair & Balanced.`, `Good, but may be too expensive. -1 cost.`, `Payless LfSt...`, `Ability is not that strong wthout combos, since it's ussually worse than Saplingkill.`, `Nice, but bad scaling, OP at +3.`, `Weak though balanced, niche unit,`, `Too weak for what it does. 1|2|4|6.`, `Broken with RespawnTarget units, otherwise broken from + tier, since it can Tport freely after 1 charge, and reload Destroy.`, `Sidegrades, and these aren't even good.`, `Broken upgrading, otherwise OK.`, `Powerful ranged ability and fast movement balanced by tempo and coverage.`, `Overcosted, situational ability.`, `Good but overcosted.`, `Frenzy is best single: Swap Frenzy1 1 Fwrd, Place and Attack repeatedly with Frenzy0s, end with Frenzy1. An attack like this drains 29|45|63 Morale, as well as 10 Value.`, `{[SHTN]} uses a powrful passive. it's sad that he didn't remove the "And lose this ability" part.`, `Gimmicky, unclear and useless.`, `{[SHTN]} is OP, may cheap 2x1, later T2 cheapmate.`, `{[SHTN]} is quick and deadly, but hard to use, later it may be slightly OP.`, `Is OKish, but OP for trading.`, `Nice and tactical.`, `{[SHTN]} is gud unit.`, `Small but kinda fair.`, `Is fair enough.`, `This is OP.`, `Powerful but balanced.`, `{[SHTN]} is undefined.`, `Poop.`, `Too cheap, but good design.`, `Half lazy.`, `Fast promoter but weak, can be used for cheese with Harmor, otherwise you'd just use Bat3|PriQ2.`, `Nice design, can defend well without being OP.`, `Decent moves but overcosted.`, `Obvious Joke, just like TheG.`, `Needs +, weak melee but balanced destroy.`, `Looks OP, and what happens if you fling them, or otherwise 2 triggers? I'd say front, opposite boardside first, so N, NW, NE, W, E, SW, SE, S when on right half.`, `{[SHTN]} is strong piece that can take unit behind, quite powerful, it is undercosted.`, `It is overcosted, and allows nasty cheese fighting.`, `Overcosted, has detrimental trigger.`, `Weak bomber that is undercosted, then OP, then Broken.`, `Horribly useless, wastes Champ for net loss. |||.`, `Decent power, wind seems random, high jump from Plus1 to Plus2. 6|7|13|14. Actually wait. 5|8|16|18...`, `Unit whose main power is on Push, which moves target diagonally until 5 spaces total, whenever possible. It may be used twice, which gives double attack potential. Its harmblock is not threatening, but may avoid defense, and it leaves attacker open. Upgrades give stronger defense, attack and movement.`, `WTF?`, `Looks like 1|2|3|6 unit at first... Unreadable Description, impossible to evaluate, learn English.`, `You're biased, and you should feel bad.`, `This piece trying to Imposteranate my piece design?`, `Improper and poor templating.`, `Very bad at moving Frward.`, `Barrage range of Drgn0 outer range.`, `It's Broken with Paladin, also with Guardian, Colonist and such.`, `I suggested these prices. It needs sliightly higher costs.`, `Too weak. Needs to be more threatening.`, `A friend tells another when he's being dumb, which it is.`, `Ability is like OverHead: Ranged, goes over Units. Can be blocked by things other than Units, such as ForceWalls.`, `I put this in my Site: Site is up! Here you can discuss Chess Evolved Online from a better design focus.`, `Levitated {[SHTN]}1 is Broken, can attack as much as it wants, while nigh invincible, at least against Chess army.`, `Fairly balanced unit, not OP or repetitive.`, `Rook|Rangestroy hybrid, encourages repetition.`, `Do you have brain damg?`, `Really bad ability. New Ability: It fires a fast reflecting Beam, bouncing changes square color unless bouncing from board corner. Can't use long range past 6th row, can Destroy diagonally at +2, has 2 Block areas at +3.`, `Not random, but most of these are more efficient at low tiers, more so with a discount.`, `Throw something cheaper at it, win.`, `Hey, SSP is my updated response. CC could be CosmiClasher.`, `It's just cheap. A cost of 10 makes it harder to trade, maybe too costly.`, `sShould cost 10, it's stronger than Warr2 at Range2, no Kingrange Attack but strong swap.`, `Suggestion 1: Base cost 12 moves Lgnr0. Plus cost 14 moves Warr2. Plus2 cost 16 moves Lgnr3. Plus3 cost 18 moves Bhmt3. Pros: No overly tradeable tiers, decent control ability. Cons: Move Only upgrades, not mandatory to buy Plus2|3.`, `Seems OK to counter Ranger2|3 and the like.`, `{[SHTN]}: 31 Cost, + Adjc NoBlock SwapAlly. If 34 cost, RangeImmune, ReactImmune, NgtvStatusImmune.`, `{[SHTN]}1 is worth about 8, costs 2, pnlt 10. With LfSt1 Buff is worth about 10, costs 6, pnlt 7, weak but defensive until used. Seems fairly good.`, `This is Pay2Play. Also, Knight0 meta.`, `It's not broken at all. Targeted minion would be cast out, and Ptgs would be wasted.`
 ]
-var ssp2 = ["Es basura, no puede definir ganancia.", "Lacks Chess Battle Advanced tenets.", "Unclear templating.", "It's like one of my designs.", "Unclear description.", "Uncreative name, bad poison.", "Clearly, this makes the Unit too punishing for these armies.", `So, this ends up losing|giving King X-4 Worth. X=6|5|5|4, but 5|4|5|4 for a King. Net balance being -(4|5|4|6).`, `It should get Tired after 3 moves.`, `Same as with Valk portal.`, `That'd actually make little difference.`, `BAN Armored Range 3 to Enemy 2nd.`, `It's almost strictly worse.`, `Also, {[NAME]} is Broken as long as it sticks to White squares.`, `Solution: Reduce the Petrify duration to 2 turns.`, `Also, fullquote is stupid.`, `An attack to left corner then to the right can't be interfered by Samurai.`, `Really weak, may break some units.`, `Broken with Hoplites at +2.`, `meaningless passive,`, `unspecified path for attack.`, `Broken with Hostage for King threat...`, `Balanced, protect and attack, slightly weak +2.`, `Not very strong, +2 may be sidegrade.`]
+var ssp2 = [``, "Es basura, no puede definir ganancia.", "Lacks Chess Battle Advanced tenets.", "Unclear templating.", "It's like one of my designs.", "Unclear description.", "Uncreative name, bad poison.", "Clearly, this makes the Unit too punishing for these armies.", `So, this ends up losing|giving King X-4 Worth. X=6|5|5|4, but 5|4|5|4 for a King. Net balance being -(4|5|4|6).`, `It should get Tired after 3 moves.`, `Same as with Valk portal.`, `That'd actually make little difference.`, `BAN Armored Range 3 to Enemy 2nd.`, `It's almost strictly worse.`, `Also, {[NAME]} is Broken as long as it sticks to White squares.`, `Solution: Reduce the Petrify duration to 2 turns.`, `Also, fullquote is stupid.`, `An attack to left corner then to the right can't be interfered by Samurai.`, `Really weak, may break some units.`, `Broken with Hoplites at +2.`, `meaningless passive,`, `unspecified path for attack.`, `Broken with Hostage for King threat...`, `Balanced, protect and attack, slightly weak +2.`, `Not very strong, +2 may be sidegrade.`, `Has "Equally Pointless" element demergency (dx emergency ~ dx obfuscation).`, `Broken with Knight|Valk, even Pyro, but also boosts Enemy unit. It may seem weird to be attacked by Trees.`, `Limit to 15 turns.`, `It's not that weak, it is an utility piece, overcosted though.`, `Strong tradeability upgraded.`, `OP in some Combos.`, `Randomness, bad scaling, gimmicky, broken, useless.`, `Balanced abilities, except BatV Tport, especially at +3.`, `Too tradeable, otherwise Balanced.`, `You aren't very good designer.`, `Overcosted by 2-3, weak upgrades.`, `Balanced power, HUGE morale pains to be worth it, overcosted.`, `Good but overcosted.`, `Also, sidegrades are UP. 6|8|8|8. Also, repeated Rook drilling in general.`, `I already have similar piece in Chess Battle Advanced.`, `That Trigger is Temporary Attack Power, NOT Auto Attack.`, `This piece got voted Higher than a thing that certain 4x1s at +3 with Portal? We ought better than to stay on such a bad pick selection. In my PPS, I held 50% score power due to this.`, `This is like Silk Spider poison which can Paralize, and Bind deactivates minion such as Revr, FzMp and SuFl, as well as Knight movers, a Queen2 doesn't want to downgrade 2 tiers.`, `and with Portal, nigh useless Bind.`, `Brokener at +3 with Portal, kills champ and 3 minions.`, `Never getting into CEO really.`, `Stolen idea from immature Awetalehu.`, `Fait unit is too weak at low tiers, turtling potential.`, `{[SHTN]} is weak for what it can do, best is +1.`, `Hates Knights, boo.`, `Costly at later tiers.`, `It can hold a position well, but too weak.`, `0 Cost triggerish wall is kinda OK, but using +1 may be Broken.`, `Use 4 letter Abrv, which are clearer.`, `Should lose 1 Value on ability use, to avoid spam`, `Need a lot less vwls.`, `I designed much better piece in CheBA.`, `That's a nice {[SHTN]}, seems OP for rushing tool though.`, `...Such procedures result in Egg mutating into a Fire Elemental of similar Tier and slightly higher Value... ...The mutation is not apparent until the Egg hatches, a large amount of Heat is released upwards then... ...Resulting creature does not appear hostile, but may be made attack nearby Entities for susteinance...`, `That's not a valid design. For all valid regular armies there shouldn't be a chance to unfair loss situation.`, `Reversing spots avoids Turn 2 swap secure with Minion, except at higher tiers. Like Legionary but not good at 9 for Base. Could use 2 Orthogonal move at base, cost 9, while Plus uses Warrior range, cost 11.`, `Rather weak, needs buff.`, `Underwhelming, but +3 looks pretty cool, and it's OP.`, `Slightly overcosted, as it's easy to know where it will strike.`, `Worth 11 without KillAllSame and Passive.`, `For some reason, Kongregate does not let me Flag this stupid unit, instead showing the Kongregate message tab blank. Please fix this.`, `James, no, that's a correct use of Augmented squares. Capy, you'd find that CloseUp means getting closer, and MeleeJab is Melee with an extend, no unexpected interactions, not NoBlock. Slash was stated to avoid BlowUp though, so you may have thought that of this too.`, `Actually... {[SHTN]}3 is broken. It's 2 tempos that you need to get rid of it, even into a Lust pull or whatever unit can get to attack their 5th row. This -2tempo attack is less problematic on champions. F300 was right on that.`, `Technically, it gets the most out of +1, and it has higher penalty too.`, `This is better as a standalone appeal.`, `Buff: Can Attack|SwapAlly on Rspw locations. Nerf: Costs 5|6|7|8, Penalty 4|7|9|11, Power 2(x-1).`
+
+]
+var rsspn = [randint(1, 12)]; rsspn.push(rsspn[0] + randint(1, 6)); rsspn.push(rsspn[1] + randint(1, 6)); rsspn.push(rsspn[2] + randint(1, 6)); 
 var sspratings = `0 3.5 4 4.5 5 5.5 6 6.5`.split(` `)
 var sspratings2  = `-0.5 -1 -1.5 -2`.split(` `)
+
+$("#confirmToolSize").click(function() {
+  let customToolSize = $("#customToolSize").val().trim();
+  sketch.set("size", customToolSize)
+})
+
+$("#confirmToolColor").click(function() {
+  let customToolColor = $("#customToolColor").val().trim();
+  sketch.set("color", customToolColor)
+})
