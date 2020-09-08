@@ -13,6 +13,8 @@
   --bg-table-odd: #066;
   --blockquote-border: #00fffc80;
   --selection-color: rgba(155, 255, 255, 0.5);
+  --slighthighlight: #DFF;
+  --stronghighlight: #0FF;
 }
 
 [data-theme="light"] {
@@ -30,6 +32,8 @@
   --bg-table-odd: #cff;
   --blockquote-border: #00fffc80;
   --selection-color: rgba(0, 100, 100, 0.5);
+  --slighthighlight: #033;
+  --stronghighlight: #088;
 }
 
 [data-theme="red"] {
@@ -92,7 +96,15 @@ ul,ol {padding-left: 20px;}
 /* ^ Table code (default). MUST change if new tables are added and this still goes through. */
 code {
   font-size: 90%; background: #000;
-  font-family: Consolas, Lucida Console, Droid Sans Mono, monospace}
+  font-family: Consolas, Lucida Console, Droid Sans Mono, monospace
+}
+textarea {
+  font-size: 80%; background: #000; background: var(--bg-gradient-top); color: var(--primary);
+  font-family: Consolas, Lucida Console, Droid Sans Mono, monospace; border: 1px solid var(--primary); border-radius: 2px; padding: 2px
+}
+textarea:focus {
+  border: 1px solid var(--linkcolor);
+}
 a {
   background:
      linear-gradient(
@@ -304,13 +316,10 @@ background-image: radial-gradient(circle at center, black 2px, transparent 2px),
   padding: 1px 1%;/* This doesn't work due to some crap hardcode HTML
   border-collapse: collapse; */
 }
-.all {display: flex;}
+.all {display: flex; overflow-x: hidden;}
 
 #content, #sidebar {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  overflow: auto;
+  position: absolute; top: 0; bottom: 0; overflow: auto;
 }
 
 #sidebar {
@@ -494,6 +503,6 @@ button {
   padding-block-end: 0px;
   padding-inline-start: 9px;
   border-style: inset;
-} button:focus {
-	outline:thin dotted; }
-/* This button was generated using CSSButtonGenerator.com */
+} button:focus:not(:hover) {
+  outline:thin dotted; }
+/* This button was (half) generated using CSSButtonGenerator.com */
