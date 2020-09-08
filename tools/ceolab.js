@@ -8,7 +8,6 @@ console.log("Script loaded!")
 </style> */
 
 var javascriptsucks = true;
-javascriptsucks = 0;
 function l(x) {if (isUndefined(x)) {console.log("ping"); return}; console.log(x)}
 function print(x) {console.log(x)}
 
@@ -51,7 +50,7 @@ function r(x, y) {
   } else if (rv.length == 2) {
     return randint(x, y)
   }
-} // random element out of array. should probably have options to return index/multiple objects, or not return already returned things.
+} 
 
 /*r() (Random Multitool) - NOT how it works, but how it maybe should work suggestion
 0 args: No args: Random float between 0 and 1
@@ -64,7 +63,7 @@ String with spaces: Random word out of the string.
 ​*/
 
 
-function convCSS(input) {
+function convCSS(input) { // convert CSS string to an object
   input = input.replace(/;\s*$/, ""); // Ignore the last ;
   let result = {}, attributes = input.split('; ').join(";").split(';');
 
@@ -75,18 +74,12 @@ function convCSS(input) {
   return result
 }
 
-function parseUnitName (x) {
-  // Is the unit name in the list of units?
-  // If not, take the first two letters.
-
-  unitnames.includes(x)
-
-
-  // Returns an array with a True/False value (if unit name found) and the unit name (error message if unfound)
-}
-
 
 unitnames = "Pawn, Rook, Bishop, Queen, Knight, Wizard, Ninja, Dragon, Wisp, Militia, Swordsman, Spearman, Shieldsman, Warrior, Legionary, Guardian, Paladin, Pyromancer, Axeman, Berserker, Dryad, Lilith, Banshee, Lich, Skeleton, Archer, Ranger, Spider, FrostMage, Fireball, Basilisk, MageTower, PoisonMage, Medusa, Antimage, Enchantress, SoulKeeper, Ghost, Phantasm, Princess, GiantSlime, Slime, MoonFox, Minotaur, Prince, Tiger, Samurai, Phoenix, Behemoth, RoyalGuard, Portal, WindMage, FrostMephit, Penguin, Harpy, Gemini, Valkyrie, LifeStone, Alchemist, Vampire, Demon, Necromancer, Crusader, Comet, Bat, Ghast, HauntedArmor, Summoner, ThunderMage, Lust, Drake, Duelist, Hostage, Fencer, Beacon, Salamander, FireElemental, GravityMage, SoulFlare, Sylph, AirElemental, Aquarius, Greed, Snake, Pikeman, Reaver, Mercenary, Envy, Undine, WaterElemental, Angel, Gnome, EarthElemental, Wrath, Apprentice, Pride, Hoplite, Nexus, Siren, Butterfly, Phalanx, Taurus, Patience, Temperance, Chastity, Dove, StoneMage, Hydromancer, FireMage, ArchBishop, Fortress, Arachnid, Templar, Frog, Toad, Tombstone, NullMage, VoidMage, Gluttony".split(", ")
+
+tokens = "King, Sapling, Tree, BonePile, StonePillar, PhoenixEgg, PhoenixEgg+, PhoenixEgg++, PhoenixEgg+++, Sorceress, GeminiTwin, GeminiTwin+, GeminiTwin++, GeminiTwin+++, ChaosPortal, Dummy, SuperDummy, MageDummy".split(", ")
+
+unitnames = unitnames.concat(tokens) // thanks JS for not letting me use +
 
 unitnamesbutlowercase = unitnames.map(x => x.toLowerCase())
 
@@ -118,8 +111,6 @@ for (let i = 0; i < unitnames.length; i++) {
 
 print(unitaliases)
 
-
-tokens = "King, Sapling, Tree, BonePile, StonePillar, PhoenixEgg, PhoenixEgg+, PhoenixEgg++, PhoenixEgg+++, Sorceress, GeminiTwin, GeminiTwin+, GeminiTwin++, GeminiTwin+++, ChaosPortal, Dummy, SuperDummy, MageDummy".split(", ")
 
 bonusreplacements = "P, N, B, R, Q, K, BP, SP, PE, GT, CP, PrQn, FzMp, FireE, ., Awetalehu, SSP".split(", ")
 bonusreplacetos = "Pawn, Knight, Bishop, Rook, Queen, King, BonePile, StonePillar, PhoenixEgg, GeminiTwin, ChaosPortal, Princess, FrostMephit, FireElemental, StonePillar, Dummy, Hostage".split(", ") // The "dot" is like, a wall character
@@ -259,7 +250,7 @@ Vue.component('ceo-component', {
       this.upd()
     },
     upd: function () {
-      this.message = [trimCommas(this.otherdata), this.kingdecay, this.moraledecay, this.bonuswhite, this.bonusblack, this.enchlifestones, this.board, this.sides, this.positiondata].join(",")
+      this.message = trimCommas([trimCommas(this.otherdata), this.kingdecay, this.moraledecay, this.bonuswhite, this.bonusblack, this.enchlifestones, this.board, this.sides, this.positiondata].join(","))
 
     },
     flip: function (x, y="") {
@@ -325,7 +316,6 @@ Vue.component('ceo-component', {
       // You see, the board numbers only correspond to the positions in the action log, which go left to right, then top to bottom. But it is not that way in the output. It starts columns first for whatever reason.
 
       let whichcolorshoulditbe = "0" // 0 = White
-
       // Gotta love all the added spaghetti because everything's a string, so you can't do simple boolean comparisons!
 
       // So, we made a new copy of the board and sides so we could modify it in the middle of this log, to simulate the game's moves
