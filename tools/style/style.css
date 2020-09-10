@@ -54,6 +54,14 @@
   font-family: "Chess Battle Advanced";
   src: url("../fonts/AdobeKaitiStd-Regular.otf");
 }
+@font-face {
+  font-family: "Favor Chess";
+  src: url("../fonts/ArbutusSlab-Regular.ttf");
+}
+@font-face {
+  font-family: "Whitney KOC";
+  src: url("../fonts/whitney.woff");
+}
 
 body {
   font-family: sans-serif;
@@ -371,9 +379,10 @@ ul {
 }
 div.passives{
   margin-left: 40px;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
   margin-right: 16px;
 }
+
 .cost + div > ul p {
   overflow-wrap: break-word; 
   font-size: 12px;
@@ -632,11 +641,11 @@ button, #tooltip, nav a {
 .cd .passives::before {content: none;}
 .cd .cost {display: block; position: absolute; left: 0rem; top: 8.5rem; padding: .4rem 0; width: 2rem; height: 2rem; /* border: .2rem outset #83471f; */ /* border-radius: 50%; */ box-sizing: border-box; background: url(../resources/cdblood.png); background-position: center; text-align: center; font-size: 0; font-weight: normal; background-size: 100%;
 } /* font-size 0 is to hide the word "Cost" */
-.cd .cost input {font-family: 'Arial'; font-weight: bold; font-size: 20px; position: absolute; top: 60%; left: 45%; transform: translate(-50%, -50%); text-align: center; -webkit-text-stroke-width: 0.7px; -webkit-text-stroke-color: black; color: white; letter-spacing: -2px;}
+.cd .cost input {font-family: 'Arial'; font-weight: bold; font-size: 22px; position: absolute; top: 60%; left: 45%; transform: translate(-50%, -50%); text-align: center; -webkit-text-stroke-width: 0.7px; -webkit-text-stroke-color: black; color: white; letter-spacing: -2px;}
 .cd .tile {stroke-width: 0;}
 
 /* All this makes passives appear above the action descriptions */
-.cd .passives {margin-bottom: 0px; margin-top: 6px;}
+.cd .passives {margin-bottom: 12px; margin-top: 6px;}
 .cd .cost + div > ul {padding: 5px 10px 0px 10px; order: 2;}
 .cd .passivepanel {display: flex; flex-direction: column; padding-bottom: 30px;} /* the bottommost text may overlap, the 'padding-bottom' should fix it */
 .cd .passives:empty {margin-bottom: 0px; margin-top: -12px; height: 15px !important; min-height: 3px;} /* collapse when empty, idk, the hitbox looks janky but works pretty well */
