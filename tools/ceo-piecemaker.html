@@ -5,6 +5,10 @@
   <!--[if IE]>
     <script>window.location = "https://www.mozilla.org/en-US/";</script>
   <![endif]-->
+  <script>var CEO, nouns, verbs;
+  var spellstyle = [10, 1, 9]; // "spellstyle" exists so that making custom spells preserves the styles of the spells. This is a global variable that is referred to in rewrite.js and main.js
+
+  </script>
   <script src="scripts/browser.js"></script>
   <script src="scripts/paper.js"></script>
   <script src="scripts/jquery.js"></script>
@@ -12,10 +16,6 @@
   <script src="scripts/rasterizeHTML.allinone.js"></script>
   <script src="scripts/lodash.js"></script>
   <script src="scripts/definitions.js"></script>
-  <script>var CEO, nouns, verbs;
-  var spellstyle = [10, 1, 9]; // "spellstyle" exists so that making custom spells preserves the styles of the spells. This is a global variable that is referred to in rewrite.js and main.js
-
-  </script>
   <script defer src="scripts/randomunitnames.js"></script>
   <script defer src="scripts/unitgallerydata.js"></script>
   <script defer src="scripts/rewrite.js"></script>
@@ -133,20 +133,21 @@
     <button id="makefc" style="border: .4rem ridge #83471f; background-color: #581416; color: white; font-family: 'Times New Roman'; filter: blur(0.25px);">FC</button>
     <button id="makecba" style="border: 2px solid red; border-radius: 0px; padding-top: 0px; padding-bottom: 0px; font-family: 'Chess Battle Advanced'; font-weight: bold; background: black; color: white">CBA</button>-->
     </div>
-    Generated pretend unit name here (optional): <textarea id="nameinput" cols="20" rows="1"></textarea>
-    <br>Koc Feedback:
-    <div id="kocmessage" style="font-family: Whitney, Arial, sans-serif; background: black; color: white"></div>
-    <div id="sspmessage" style="font-family: Arial, sans-serif; background: black; color: white"></div>
-    <br>Unit Gallery:
+    Optional pretend unit name: <textarea id="nameinput" cols="20" rows="1" style="min-height: 40px;"></textarea>
+    <br>
+    <div id="kocmessage" style="font-family: 'Whitney KOC', Arial, sans-serif; background: #444444; color: white; font-size: 75%; line-height: 140%; border: 1px solid olive; padding: 10px;"></div>
+    <div id="sspmessage" style="font-family: 'Lucida Grande', Arial, sans-serif; background: white; color: black; font-size: 75%; line-height: 140%; border: 1px solid olive; padding: 10px;"></div>
+    <br>Unit Gallery
     <select id="galleryversion"></select>
     <select id="gallery"></select>
-    <br>Style Switch (warning: may be slightly buggy):
+    <br>Style Switch
     <div class="note">
     <button id="switchceo"><span style="font-family: Impact">C</span><span style="font-family: lithos">E</span><span style="font-family: Comic Sans MS">O</span></button>
     <button id="switchcd" style="font-family: 'Merriweather'; background-image: linear-gradient(#ccffff, white)">CD</button>
-    <button id="switchfc" style="border: .4rem ridge #83471f; background-color: #581416; color: white; font-family: 'Times New Roman'; filter: blur(0.25px);">FC</button>
+    <button id="switchfc" style="border: .4rem ridge #83471f; background-color: #581416; color: white; font-family: 'Favor Chess', 'Times New Roman'; filter: blur(0.25px);">FC</button>
     <button id="switchcba" style="border: 2px solid red; border-radius: 0px; padding-top: 0px; padding-bottom: 0px; font-family: 'Chess Battle Advanced'; font-weight: bold; background: black; color: white">CBA</button>
-    </div>
+    </div><br>
+
 
     <div style="width: 10px; height: 50px"></div> <!-- filler space on small zoom levels -->
 
@@ -155,24 +156,16 @@
     Drawing Tools
     <div class="left">Tool Size</div>
       <nav>
-        <a id="ts0" href="#c" data-size="2">Thin</a>
-        <a id="ts1" href="#c" data-size="3">Medium</a>
-        <a id="ts2" href="#c" data-size="5">Thick</a>
-        <a id="ts3" href="#c" data-size="10">Rly Thick</a>
-      </nav>
-      <nav>
-        <a id="ts4" href="#c" data-size="1">Rly Thin</a>
+        <a id="ts0" href="#c" data-size="1">XS</a>
+        <a id="ts1" href="#c" data-size="2">S</a>
+        <a id="ts2" href="#c" data-size="3">M</a>
+        <a id="ts3" href="#c" data-size="5">L</a>
+        <a id="ts4" href="#c" data-size="10">XL</a>
         <a id="ts5" href="#c" data-size="0">Broken</a>
-        <a id="ts6" href="#c" data-size="0.5">Hair Thin</a>
-        <a id="ts7" href="#c" data-size="4">Size Four</a>
       </nav>
-    <div class="left">Fill Color (Shape only)</div>
       <nav>
-        <a id="tf0" href="#c" data-fill="0">Base</a>
-        <a id="tf1" href="#c" data-fill="1">Support</a>
-        <a id="tf2" href="#c" data-fill="2">Head</a>
-        <a id="tf3" href="#c" data-fill="3">Grey</a>
-      </nav>    
+        Custom Size: <textarea id="customToolSize" placeholder="3" rows="1" cols="10"></textarea><button id="confirmToolSize">Confirm</button>
+      </nav>
     <div class="left">Tool Type</div>
       <nav>
         <a id="tt0" href="#c" data-tool="marker">Marker</a>
@@ -184,6 +177,47 @@
         <a id="tt4" href="#c" data-tool="leraser">Line Eraser</a>
         <a id="tt5" href="#c" data-tool="vshape">Shape</a>
       </nav>
+    <div class="left">Tool Color</div>
+      <nav>
+        <a id="tc0" href="#c" data-color="#000">Black</a>
+        <a id="tc1" href="#c" data-color="#FFF">White</a>
+        <a id="tc2" href="#c" data-color="#C926F9">Purple</a>
+        <a id="tc3" href="#c" data-color="#C95418">Orange</a>
+        <a id="tc4" href="#c" data-color="#FC0D39">Red</a>
+      </nav>
+      <nav>
+        Custom Color: <textarea id="customToolColor" placeholder="#000000" rows="1" cols="10"></textarea><button id="confirmToolColor">Confirm</button>
+      </nav>
+    <details class="left">
+      <summary>Fill Color (Shape only, click here)</summary>
+      <nav>
+        <a id="tf0" href="#c" data-fill="0">Base</a>
+        <a id="tf1" href="#c" data-fill="1">Support</a>
+        <a id="tf2" href="#c" data-fill="2">Head</a>
+        <a id="tf3" href="#c" data-fill="3">Grey</a>
+      </nav>
+      <nav>
+        <a id="tf4" href="#c" data-fill="4">Black</a>
+        <a id="tf5" href="#c" data-fill="5">Red</a>
+        <a id="tf6" href="#c" data-fill="6">Green</a>
+        <a id="tf7" href="#c" data-fill="7">Blue</a>
+     </nav>
+     <nav>
+        <a id="tf8" href="#c" data-fill="8">Yellow</a>
+        <a id="tf9" href="#c" data-fill="9">Cyan</a>
+        <a id="tf10" href="#c" data-fill="10">Pink</a>
+        <a id="tf11" href="#c" data-fill="11">Shadow</a>
+     </nav>
+     <nav>
+        <a id="tf12" href="#c" data-fill="12">White</a>
+        <a id="tf13" href="#c" data-fill="13">Enchant</a>
+        <a id="tf14" href="#c" data-fill="14">Rainbow</a>
+        <a id="tf15" href="#c" data-fill="15">Chaos</a>
+     </nav>
+     <nav>
+        <a id="tf16" href="#c" data-fill="16">Testing</a>
+     </nav>
+    </details>
     <div class="left">Operations</div>
       <nav>
         <a id="do0" href="#c" data-operation="undo">Undo</a>
