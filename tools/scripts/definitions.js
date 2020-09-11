@@ -366,21 +366,21 @@ MOVES = [{
  }, {
    "id": "42",
    "cat": "official",
+   "name": "beacon",
+   "long": "cu]ru:set@pos=Athis",
+   "text": "(Magic) Teleport unit to Ability Target.",
+   "color": [155,20,208],
+   "color2": [255,255,255],
+   "symbol1": "\u25ef"
+ }, {
+   "id": "43",
+   "cat": "official",
    "name": "shoot",
    "long": "b]rn:attack",
    "text": "(Ranged) Destroy target.",
    "color": [255,0,0],
    "color2": [255,255,255],
    "symbol1": "\u2316"
- }, {
-   "id": "43",
-   "cat": "official",
-   "name": "beacon",
-   "long": "cu]ru:set@pos=Athis",
-   "text": "(Magic) Target unit is teleported to Ability Target.",
-   "color": [155,20,208],
-   "color2": [255,255,255],
-   "symbol1": "\u25ef"
  }, {
    "id": "44",
    "cat": "official",
@@ -433,7 +433,7 @@ MOVES = [{
    "cat": "official",
    "name": "magicpush",
    "long": "1c]ru:push#\\(mn:move@3(AWAY))",
-   "text": "[Pay 1]: (Magic) Push unit up to 3 spaces away from caster.",
+   "text": "[Pay 1]: (Magic) Push unit up to 3 spaces away.",
    "color": [87,218,40],
    "color2": [200,255,200],
    "symbol1": "\u25cb",

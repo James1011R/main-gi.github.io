@@ -1610,7 +1610,9 @@ function getgallery (nameinput, version=lastCEOversion) {
   let pieceset = ClanBoxList.includes(lename)? "Clan":ArcaneBoxList.includes(lename)? "Arcane":ForestBoxList.includes(lename)? "Forest":"Basic"
 
   // Don't forget to switch 42 and 43, because the piecemaker is literally wrong here
-  function r4243 (x) {return x.replaceAll("42:", "FOURTYTHREE").replaceAll("43:","42:").replaceAll("FOURTYTHREE", "43:")}
+  //function r4243 (x) {return x.replaceAll("42:", "FOURTYTHREE").replaceAll("43:","42:").replaceAll("FOURTYTHREE", "43:")}
+  function r4243 (x) {return x}
+
   function fixpassive (x) {return x? x.replaceAll(",","\\a"):""}
   function fixoutdatedactions (x, gamegallery) { // this looks at the whole export string and adds custom actions if the current ability text does not match the old version text
     let totalmoves;
@@ -1622,13 +1624,16 @@ function getgallery (nameinput, version=lastCEOversion) {
     
     for (let i=0; i < totalmoves.length; i++) {
       // The unit gallery data cleanses the passive text to properly parse newlines, so we have to do this for proper equality check
+      //let thisfourtytwoandfourtythreefix = totalmoves[i]
+      //if (totalmoves[i] == 42) {totalmoves[i] = 43} else if (totalmoves[i] == 43) {totalmoves[i] = 42}
+
       let tx1 = cleanseforexport(MOVES[numify(totalmoves[i])-1].text)
       let tx2 = gamegallery.actionlist[totalmoves[i]]
       
-        l(totalmoves[i]); l("CFE " + tx1); l("GG " + tx2); l(tx1 == tx2); 
+      l(totalmoves[i]); l("CFE " + tx1); l("GG " + tx2); l(tx1 == tx2); 
 
       if (tx1 != tx2) {
-        if (totalmoves[i] == 42) {totalmoves[i] = 43} else if (totalmoves[i] == 43) {totalmoves[i] = 42} // Have to fix this nonsense again.
+        //if (totalmoves[i] == 42) {totalmoves[i] = 43} else if (totalmoves[i] == 43) {totalmoves[i] = 42} // Have to fix this nonsense again.
 
         totalmoves[i]-- // We have to sub 1 first to get it to be accurate to the MOVES database, but we'll have to undo this after
 
