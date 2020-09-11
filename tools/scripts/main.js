@@ -1652,6 +1652,9 @@ $("#makeceo").click(function() { // main_gi: Make Chess Evolved Online (piece)
   nameinput = nameinput.slice(0,1).toUpperCase() + nameinput.slice(1) // cap first letter
   $("#kocmessage").text(kocmessage(nameinput))
   $("#sspmessage").text(sspmessage(nameinput))
+  if ($("#feedback")[0].style.display = "none") {
+    $("#feedback")[0].style.display = "initial"
+  }
 
   if (Object.keys(CEO[`${lastCEOversion}`]).includes(nameinput.replace(/\d/, ""))) {getgallery(nameinput)}
   else {validate(makepiece(nameinput));}
