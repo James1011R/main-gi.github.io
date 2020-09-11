@@ -1260,8 +1260,8 @@ function arrayindexof(arr, val, comparer=arraysequal) { // https://stackoverflow
 
 // I like how all these shitty array functions don't work as normal functions so they're still broken
 
-function fixpassiveformat (a) {
-  return a.replace(/\\/g, "\\b").replace(/\n/g, "\\n").replace(/,/g, "\\a").replace(/:/g, "\\o");
+function cleanseforexport (a) {
+  return a.replace(/\\/g, "\\b").replace(/\n/g, "\\n").replace(/,/g, "\\a").replace(/\:/g, "\\o").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 
@@ -1271,10 +1271,10 @@ function makepiece(seed) { // Somehow I feel like this being in my life is a ref
 
   // First, define the themes:
   let themes = []
-  let genericpassives = ["(Status-Immune).", "(Magic-Immune).", "(Ranged-Immune).", "Immune to Freeze.", "Immune to Poison.", "Immune to Petrify.", "Immune to Compel.", "(Displacement-Immune).", "On Kill: Lose # morale.", "On Death: Lose # morale.", "Does not block movement.", "Vanishes after attacking.", "On Melee Death: Destroy the attacker.", "Cannot be targeted by enemy minions.", "Blocks one ability.", "Destroyed on Freeze.", "Cannot move until turn 3.", "(Melee-Immune)."].map(x=>fixpassiveformat(x))
+  let genericpassives = ["(Status-Immune).", "(Magic-Immune).", "(Ranged-Immune).", "Immune to Freeze.", "Immune to Poison.", "Immune to Petrify.", "Immune to Compel.", "(Displacement-Immune).", "On Kill: Lose # morale.", "On Death: Lose # morale.", "Does not block movement.", "Vanishes after attacking.", "On Melee Death: Destroy the attacker.", "Cannot be targeted by enemy minions.", "Blocks one ability.", "Destroyed on Freeze.", "Cannot move until turn 3.", "(Melee-Immune)."].map(x=>cleanseforexport(x))
   let passivecosts = [0.5, 0.5, 0.5, 0.2, 0.2, 0.2, 0.2, 0, -1.5, -2, -0.5, -2, 5, 7, 6, 0, -1, 15]
 
-  let nongenericpassives = ["On Death: Kill all adjacent ally units.", "On Death: Petrify all adjacent ally units for 5 turns.", "On Kill: Kill all adjacent ally units.", "On Death: Enchant adjacent ally units for 2 turns.", "Cannot attack enemy units on your opponent's side of the field.", "Cannot attack enemy units until turn 200.", "Cannot attack enemies of lesser value than itself.", "Wins the game if it promotes.", "On Kill: Gains 6 value.\\nBeyond move 20, this unit loses 1 value per turn. If this unit reaches 0 value it is destroyed.", "If caught between 2 adjacent enemy champions, this unit is rescued and opponent gains 5 morale.", "(Status-Immune).\\n(Max Value: #).\\nOn Magic: All ally Tombstones gain 1 value.\\nRange 2 Augmented: Summon Skeleton at the location of a fallen ally and remove death location.", "Augmented: Teleport to any location adjacent to enemy King.", `On Kill: Opponent loses # morale and your King gains # value. If you do not have a King, this unit gains value instead.`, `On Kill: Swap places with enemy King.`, `On Champion Kill: Opponent loses 1 morale and this unit changes teams.`, `Made by StratShotPlayer.`, `On Kill: Transform into PieceReviver2.`, `Start of Game, On Kill, On Death: Gain # morale.`, `Cannot be Sodomy.`, `On Kill: Gain $5 in STEEM currency.`, `Cannot be targeted beyond Range 2. If targeted beyond Range 2, instantly dies.`, `On Kill: Lose 3 morale, which makes the unit unplayable trash.`, ``].map(x=>fixpassiveformat(x))
+  let nongenericpassives = ["On Death: Kill all adjacent ally units.", "On Death: Petrify all adjacent ally units for 5 turns.", "On Kill: Kill all adjacent ally units.", "On Death: Enchant adjacent ally units for 2 turns.", "Cannot attack enemy units on your opponent's side of the field.", "Cannot attack enemy units until turn 200.", "Cannot attack enemies of lesser value than itself.", "Wins the game if it promotes.", "On Kill: Gains 6 value.\\nBeyond move 20, this unit loses 1 value per turn. If this unit reaches 0 value it is destroyed.", "If caught between 2 adjacent enemy champions, this unit is rescued and opponent gains 5 morale.", "(Status-Immune).\\n(Max Value: #).\\nOn Magic: All ally Tombstones gain 1 value.\\nRange 2 Augmented: Summon Skeleton at the location of a fallen ally and remove death location.", "Augmented: Teleport to any location adjacent to enemy King.", `On Kill: Opponent loses # morale and your King gains # value. If you do not have a King, this unit gains value instead.`, `On Kill: Swap places with enemy King.`, `On Champion Kill: Opponent loses 1 morale and this unit changes teams.`, `Made by StratShotPlayer.`, `On Kill: Transform into PieceReviver2.`, `Start of Game, On Kill, On Death: Gain # morale.`, `Cannot be Sodomy.`, `On Kill: Gain $5 in STEEM currency.`, `Cannot be targeted beyond Range 2. If targeted beyond Range 2, instantly dies.`, `On Kill: Lose 3 morale, which makes the unit unplayable trash.`, ``].map(x=>cleanseforexport(x))
   let nongenericcosts = [-12, -8, -4, 4, 6, 8, 10, 4, -3, 4, 6, 6, 2, 0, -4, 5, -1, 1, 1, -3, -3, -3, 87] // last one just makes the cost ridiculous
 
   let actionvalues =
@@ -1600,6 +1600,8 @@ function getgallery (nameinput, version=lastCEOversion) {
   let lepiece2 = CEO[version][`${lename}2`]
   let lepiece3 = CEO[version][`${lename}3`]
   let lepiece4 = CEO[version][`${lename}4`]
+  if (lepiece === undefined || lename == "actionlist") {return} // don't output error in console
+
   ClanBoxList = ["Ninja","Swordsman","Spearman","Axeman","Legionary","Paladin","Berserker","Antimage","Warrior","Samurai"];
   ArcaneBoxList = ["Wizard","Bomber","Pyromancer","Banshee","Phantasm","FrostMage","Fireball","PoisonMage","SoulKeeper","WindMage","Portal","ThunderMage"];
   ForestBoxList = ["Dragon","Wisp","Guardian","Dryad","Ranger","Archer","Spider","Basilisk","Enchantress","Tiger","Drake"];
@@ -1608,10 +1610,68 @@ function getgallery (nameinput, version=lastCEOversion) {
   let pieceset = ClanBoxList.includes(lename)? "Clan":ArcaneBoxList.includes(lename)? "Arcane":ForestBoxList.includes(lename)? "Forest":"Basic"
 
   // Don't forget to switch 42 and 43, because the piecemaker is literally wrong here
-  function r4243 (x) {return x.replace("42:", "FOURTYTHREE").replace("43:","42:").replace("FOURTYTHREE", "43:")}
-  function fixpassive (x) {return x? x.replace(",","\\a"):""}
+  function r4243 (x) {return x.replaceAll("42:", "FOURTYTHREE").replaceAll("43:","42:").replaceAll("FOURTYTHREE", "43:")}
+  function fixpassive (x) {return x? x.replaceAll(",","\\a"):""}
+  function fixoutdatedactions (x, gamegallery) { // this looks at the whole export string and adds custom actions if the current ability text does not match the old version text
+    let totalmoves;
+    if (lepiece2 === undefined && lepiece3 === undefined && lepiece4 === undefined) {totalmoves = lepiece.movetypespmformat.split(", ")}
+    else {totalmoves = [...new Set(lepiece.movetypespmformat.split(", ").concat(lepiece2.movetypespmformat.split(", "), lepiece3.movetypespmformat.split(", "), lepiece4.movetypespmformat.split(", ")))].sort()}
+    let custommovesused = 0;
+    let custommovedefinitions = []
 
-  if (lepiece2 === undefined) {
+    
+    for (let i=0; i < totalmoves.length; i++) {
+      // The unit gallery data cleanses the passive text to properly parse newlines, so we have to do this for proper equality check
+      let tx1 = cleanseforexport(MOVES[numify(totalmoves[i])-1].text)
+      let tx2 = gamegallery.actionlist[totalmoves[i]]
+      
+        l(totalmoves[i]); l("CFE " + tx1); l("GG " + tx2); l(tx1 == tx2); 
+
+      if (tx1 != tx2) {
+        if (totalmoves[i] == 42) {totalmoves[i] = 43} else if (totalmoves[i] == 43) {totalmoves[i] = 42} // Have to fix this nonsense again.
+
+        totalmoves[i]-- // We have to sub 1 first to get it to be accurate to the MOVES database, but we'll have to undo this after
+
+        let y = []
+
+        if (MOVES[totalmoves[i]].symbol1) {y.push(MOVES[totalmoves[i]].symbol1)} else {y.push("")}
+        if (MOVES[totalmoves[i]].symbol2) {y.push(MOVES[totalmoves[i]].symbol2)} else {y.push("")}
+        if (MOVES[totalmoves[i]].color) {y.push(MOVES[totalmoves[i]].color[0]), y.push(MOVES[totalmoves[i]].color[1]), y.push(MOVES[totalmoves[i]].color[2])} else {y.push("0", "0", "0")} // in reality this is a joke, there always is a border color
+
+        let b = cur => Math.floor((255 - cur) / 2 + cur); // transforms a fill color into a bright equivalent by inverting each value kinda
+
+        if (MOVES[totalmoves[i]].color2) {y.push(MOVES[totalmoves[i]].color2[0]), y.push(MOVES[totalmoves[i]].color2[1]), y.push(MOVES[totalmoves[i]].color2[2])} else {y.push(b(MOVES[totalmoves[i]].color[0])), y.push(b(MOVES[totalmoves[i]].color[1])), y.push(b(MOVES[totalmoves[i]].color[2]))}
+        if (MOVES[totalmoves[i]].color3) {y.push(MOVES[totalmoves[i]].color3[0]), y.push(MOVES[totalmoves[i]].color3[1]), y.push(MOVES[totalmoves[i]].color3[2])} else {y.push(MOVES[totalmoves[i]].color[0]), y.push(MOVES[totalmoves[i]].color[1]), y.push(MOVES[totalmoves[i]].color[2])}
+        if (MOVES[totalmoves[i]].color4) {y.push(MOVES[totalmoves[i]].color4[0]), y.push(MOVES[totalmoves[i]].color4[1]), y.push(MOVES[totalmoves[i]].color4[2])} else {y.push(MOVES[totalmoves[i]].color[0]), y.push(MOVES[totalmoves[i]].color[1]), y.push(MOVES[totalmoves[i]].color[2])}
+        if (MOVES[totalmoves[i]].nobox) {y.push(MOVES[totalmoves[i]].nobox)} else {y.push("false")}
+
+        totalmoves[i]++
+
+        custommovesused++
+        x = x.replaceAll("," + totalmoves[i] + ":", ",c" + custommovesused + ":")
+        custommovedefinitions.push(`c${custommovesused},${gamegallery.actionlist[totalmoves[i]]},${y.join(",")}`)
+
+        // Makes a clone of the icon for the custom ability.
+        // This doesn't store the icons of past versions but the icons should just be better looking anyway.
+        // The order is: symbol1, symbol2, bordercolor RED, bordercolor GREEN, bordercolor BLUE, fillcolor RED, fillcolor GREEN, fillcolor BLUE, symbol1color RED, symbol1color GREEN, symbol1color BLUE, symbol2color RED, symbol2color GREEN, symbol2color BLUE, nobox
+      }
+    }
+    /*
+    CEO[version].actionlist
+    */
+    return x + "\n" + custommovedefinitions.join("\n")
+/* MoonFox,Champion,Basic,Legendary
+
+9,,1:444a5559666886889599a4aa,c1:87
+11,,1:333b444a5559666886889599a4aab3bb,c1:87
+13,,1:222c333b444a5559666886889599a4aab3bbc2cc,c1:87
+15,,1:222c333b444a5559666886889599a4aab3bbc2cc,3:67,c1:87
+c1,(Trigger) On Melee Death\o Revive into this empty location with value decreased by 10. If this unit's value is less than 10this ability cannot activate.,☽,,0,0,0,255,255,255,0,0,0,0,0,0,false
+*/
+
+  }
+
+  if (lepiece2 === undefined && lepiece3 === undefined && lepiece4 === undefined) {
     otherstuff = `0,,
 0,,
 0,,`
@@ -1621,10 +1681,10 @@ ${lepiece3.cost},${fixpassive(lepiece3.passive)},${r4243(lepiece3.movespmformat)
 ${lepiece4.cost},${fixpassive(lepiece4.passive)},${r4243(lepiece4.movespmformat)}`
   }
 
-  validate(`${lename},${lepiece.class},${pieceset},${lepiece.rarity}
+  validate(fixoutdatedactions(`${lename},${lepiece.class},${pieceset},${lepiece.rarity}
 
 ${lepiece.cost},${fixpassive(lepiece.passive)},${r4243(lepiece.movespmformat)}
-${otherstuff}`)
+${otherstuff}`, CEO[version]))
 
 }
 
@@ -1920,6 +1980,8 @@ var items=""
 var currentlySelectedGalleryUnit = "Pawn"
 var currentlySelectedGalleryVersion = lastCEOversion
 
+let isactualunit = (key, value) => (!key.match(/\d/) && value.rarity != "N/A" && value.rarity != "?" && !key.startsWith("GeminiTwin") && key != "actionlist")
+
 
 $.each(CEO, function(key, value) {
   items+=`<option ${lastCEOversion == key?'selected':''}value=${key}>${key}</option>` // Trying to fix "v52" to "v0.52" does not work. It's not important enough to bother.
@@ -1929,6 +1991,19 @@ $("#galleryversion").html(items);
 $('#galleryversion').change(function(){
   let data= $(this).val();
   currentlySelectedGalleryVersion = data
+  let increment = 0;
+  for (let i = 0; i < $("#gallery option").length; i++) {
+    $("#gallery option")[i].style = "color: gray"
+  }
+  $.each(CEO[`${currentlySelectedGalleryVersion}`], function(key, value) {
+    if (isactualunit(key, value)) {
+      $("#gallery option")[increment].style = "color: black"
+      increment++
+    }
+  });
+  // this grays out units that aren't in the update
+  $('#gallery')[0].style.color = $('#gallery')[0].options[$('#gallery')[0].selectedIndex].style.color; // copies style of the option value to the unit dropdown
+
   getgallery(currentlySelectedGalleryUnit, currentlySelectedGalleryVersion)
 });
 
@@ -1936,11 +2011,13 @@ $("#galleryversion").val(lastCEOversion);
 
 items = ""
 $.each(CEO[`${currentlySelectedGalleryVersion}`], function(key, value) {
-  if (!key.match(/\d/) && value.rarity != "N/A" && value.rarity != "?" && !key.startsWith("GeminiTwin")) {items+="<option value='" + key + "'>" + key + "</option>"}
+  if (isactualunit(key, value)) {items+="<option value='" + key + "'>" + key + "</option>"}
  });
 $("#gallery").html(items);
 
 $('#gallery').change(function(){
+  this.style.color = this.options[this.selectedIndex].style.color; // copies style of the option value
+
   currentlySelectedGalleryUnit = $(this).val();
   getgallery(currentlySelectedGalleryUnit, currentlySelectedGalleryVersion)
 });
@@ -2004,10 +2081,3 @@ $("#confirmToolColor").click(function() {
   let customToolColor = $("#customToolColor").val().trim();
   sketch.set("color", customToolColor)
 })
-
-
-/* MAKE CONTENTEDITABLE EDITING PASSIVES UPDATE CUSTOM PASSIVE*/
-
-
-//MOVES[SMOVE["custom13"]].text is what we want to modify
-
