@@ -1982,7 +1982,7 @@ function sspmessage (name) {
   }
 
 
-  return `${shtn}: ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}. ${randarray(ssp1)} ${randarray(ssp2)}${randint(0, 5)==5?" "+rsspn.join("|")+".":""} ${randarray(sspratings)} ${randarray(sspratings2)}|10.`.replace(/{\[NAME\]}/, name).replace(/{\[SHTN\]}/, shtn) // the "rsspn" part: 1/6 chance for ssp to suggest his own unit rebalance
+  return `${shtn}: ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}, ${randarray(ratings)}${randarray(plusorminus)}. ${randarray(ssp1)} ${randarray(ssp2)}${randint(0, 5)==5?" "+rsspn.join("|")+".":""} ${randarray(sspratings)} ${randarray(sspratings2)}|10.`.replace(/{\[NAME\]}/g, name).replace(/{\[SHTN\]}/g, shtn) // the "rsspn" part: 1/6 chance for ssp to suggest his own unit rebalance
 }
 
 var plusorminus = [`+`, ``, ``, ``, `-`, `-`, `--`]
