@@ -1274,7 +1274,7 @@ function makepiece(seed) { // Somehow I feel like this being in my life is a ref
   let genericpassives = ["(Status-Immune).", "(Magic-Immune).", "(Ranged-Immune).", "Immune to Freeze.", "Immune to Poison.", "Immune to Petrify.", "Immune to Compel.", "(Displacement-Immune).", "On Kill: Lose # morale.", "On Death: Lose # morale.", "Does not block movement.", "Vanishes after attacking.", "On Melee Death: Destroy the attacker.", "Cannot be targeted by enemy minions.", "Blocks one ability.", "Destroyed on Freeze.", "Cannot move until turn 3.", "(Melee-Immune)."].map(x=>cleanseforexport(x))
   let passivecosts = [0.5, 0.5, 0.5, 0.2, 0.2, 0.2, 0.2, 0, -1.5, -2, -0.5, -2, 5, 7, 6, 0, -1, 15]
 
-  let nongenericpassives = ["On Death: Kill all adjacent ally units.", "On Death: Petrify all adjacent ally units for 5 turns.", "On Kill: Kill all adjacent ally units.", "On Death: Enchant adjacent ally units for 2 turns.", "Cannot attack enemy units on your opponent's side of the field.", "Cannot attack enemy units until turn 200.", "Cannot attack enemies of lesser value than itself.", "Wins the game if it promotes.", "On Kill: Gains 6 value.\\nBeyond move 20, this unit loses 1 value per turn. If this unit reaches 0 value it is destroyed.", "If caught between 2 adjacent enemy champions, this unit is rescued and opponent gains 5 morale.", "(Status-Immune).\\n(Max Value: #).\\nOn Magic: All ally Tombstones gain 1 value.\\nRange 2 Augmented: Summon Skeleton at the location of a fallen ally and remove death location.", "Augmented: Teleport to any location adjacent to enemy King.", `On Kill: Opponent loses # morale and your King gains # value. If you do not have a King, this unit gains value instead.`, `On Kill: Swap places with enemy King.`, `On Champion Kill: Opponent loses 1 morale and this unit changes teams.`, `Made by StratShotPlayer.`, `On Kill: Transform into PieceReviver2.`, `Start of Game, On Kill, On Death: Gain # morale.`, `Cannot be Sodomy.`, `On Kill: Gain $5 in STEEM currency.`, `Cannot be targeted beyond Range 2. If targeted beyond Range 2, instantly dies.`, `On Kill: Lose 3 morale, which makes the unit unplayable trash.`, ``].map(x=>cleanseforexport(x))
+  let nongenericpassives = ["On Death: Kill all adjacent ally units.", "On Death: Petrify all adjacent ally units for 5 turns.", "On Kill: Kill all adjacent ally units.", "On Death: Enchant adjacent ally units for 2 turns.", "Cannot attack enemy units on your opponent's side of the field.", "Cannot attack enemy units until turn 200.", "Cannot attack enemies of lesser value than itself.", "Wins the game if it promotes.", "On Kill: Gains 6 value.\nBeyond move 20, this unit loses 1 value per turn. If this unit reaches 0 value it is destroyed.", "If caught between 2 adjacent enemy champions, this unit is rescued and opponent gains 5 morale.", "(Status-Immune).\n(Max Value: #).\nOn Magic: All ally Tombstones gain 1 value.\nRange 2 Augmented: Summon Skeleton at the location of a fallen ally and remove death location.", "Augmented: Teleport to any location adjacent to enemy King.", `On Kill: Opponent loses # morale and your King gains # value. If you do not have a King, this unit gains value instead.`, `On Kill: Swap places with enemy King.`, `On Champion Kill: Opponent loses 1 morale and this unit changes teams.`, `Made by StratShotPlayer.`, `On Kill: Transform into PieceReviver2.`, `Start of Game, On Kill, On Death: Gain # morale.`, `Cannot be Sodomy.`, `On Kill: Gain $5 in STEEM currency.`, `Cannot be targeted beyond Range 2. If targeted beyond Range 2, instantly dies.`, `On Kill: Lose 3 morale, which makes the unit unplayable trash.`, ``].map(x=>cleanseforexport(x))
   let nongenericcosts = [-12, -8, -4, 4, 6, 8, 10, 4, -3, 4, 6, 6, 2, 0, -4, 5, -1, 1, 1, -3, -3, -3, 87] // last one just makes the cost ridiculous
 
   let actionvalues =
@@ -1571,7 +1571,7 @@ function makepiece(seed) { // Somehow I feel like this being in my life is a ref
 
   if (minionorchampion==0 && symmetrytype == "horizontal") { // PROMOTES TO SOMETHING
     let nameinput;
-    if (Math.random() > 0.5) {nameinput = nouns[r(randoms[500], nouns.length-1)]}
+    if (randoms[499] < 0.5) {nameinput = nouns[r(randoms[500], nouns.length-1)]}
     else {let rv = verbs[r(randoms[501], verbs.length-1)]; if (rv.length > 3) {nameinput = rv.slice(0, r(randoms[502], rv.length-2, rv.length-3))} else {nameinput = rv};
     nameinput = nameinput + randomsuffixes[r(randoms[503], randomsuffixes.length-1)]}
     nameinput = nameinput.slice(0,1).toUpperCase() + nameinput.slice(1) // cap first letter
@@ -1717,6 +1717,7 @@ $("#makeceo").click(function() { // main_gi: Make Chess Evolved Online (piece)
   nameinput = nameinput.slice(0,1).toUpperCase() + nameinput.slice(1) // cap first letter
   $("#kocmessage").text(kocmessage(nameinput))
   $("#sspmessage").text(sspmessage(nameinput))
+  $("#koctime").text("Today at " + randint(1, 6) + ":" + randint(10, 59) + " AM")
   if ($("#feedback")[0].style.display = "none") {
     $("#feedback")[0].style.display = "initial"
   }
