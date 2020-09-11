@@ -62,6 +62,10 @@
   font-family: "Whitney KOC";
   src: url("../fonts/whitney.woff");
 }
+@font-face {
+  font-family: "Whitney KOC"; font-weight: bold; font-size: 82%;
+  src: url("../fonts/whitneymedium.woff");
+}
 
 body {
   font-family: sans-serif;
