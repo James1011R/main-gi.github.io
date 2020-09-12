@@ -1638,6 +1638,7 @@ function getgallery (nameinput, version=lastCEOversion) {
     let custommovesused = 0;
     let custommovedefinitions = []
 
+    if (totalmoves[0] == "NaN") {totalmoves = []}
     
     for (let i=0; i < totalmoves.length; i++) {
       // The unit gallery data cleanses the passive text to properly parse newlines, so we have to do this for proper equality check
