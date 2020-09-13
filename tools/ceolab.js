@@ -27,7 +27,7 @@ function randint(min, max) {
   if (max == null) {max = min; min = 0}
   min = Math.ceil(min); max = Math.floor(max); return Math.floor(Math.random() * (max - min + 1)) + min; // Fully inclusive
 }
-function randarray(array) {array[randint(array.length-1)]}
+function randarray(array) {return array[randint(array.length-1)]}
 function randproperty (obj) {
     var keys = Object.keys(obj);
     return obj[keys[keys.length * Math.random() << 0]];
@@ -75,11 +75,11 @@ function convCSS(input) { // convert CSS string to an object
 }
 
 
-unitnames = "Pawn, Rook, Bishop, Queen, Knight, Wizard, Ninja, Dragon, Wisp, Militia, Swordsman, Spearman, Shieldsman, Warrior, Legionary, Guardian, Paladin, Pyromancer, Axeman, Berserker, Dryad, Lilith, Banshee, Lich, Skeleton, Archer, Ranger, Spider, FrostMage, Fireball, Basilisk, MageTower, PoisonMage, Medusa, Antimage, Enchantress, SoulKeeper, Ghost, Phantasm, Princess, GiantSlime, Slime, MoonFox, Minotaur, Prince, Tiger, Samurai, Phoenix, Behemoth, RoyalGuard, Portal, WindMage, FrostMephit, Penguin, Harpy, Gemini, Valkyrie, LifeStone, Alchemist, Vampire, Demon, Necromancer, Crusader, Comet, Bat, Ghast, HauntedArmor, Summoner, ThunderMage, Lust, Drake, Duelist, Hostage, Fencer, Beacon, Salamander, FireElemental, GravityMage, SoulFlare, Sylph, AirElemental, Aquarius, Greed, Snake, Pikeman, Reaver, Mercenary, Envy, Undine, WaterElemental, Angel, Gnome, EarthElemental, Wrath, Apprentice, Pride, Hoplite, Nexus, Siren, Butterfly, Phalanx, Taurus, Patience, Temperance, Chastity, Dove, StoneMage, Hydromancer, FireMage, ArchBishop, Fortress, Arachnid, Templar, Frog, Toad, Tombstone, NullMage, VoidMage, Gluttony".split(", ")
+originalunitnames = "Pawn, Rook, Bishop, Queen, Knight, Wizard, Ninja, Dragon, Wisp, Militia, Swordsman, Spearman, Shieldsman, Warrior, Legionary, Guardian, Paladin, Pyromancer, Axeman, Berserker, Dryad, Lilith, Banshee, Lich, Skeleton, Archer, Ranger, Spider, FrostMage, Bomber, Fireball, Basilisk, MageTower, PoisonMage, Medusa, Antimage, Enchantress, SoulKeeper, Ghost, Phantasm, Princess, GiantSlime, Slime, MoonFox, Minotaur, Prince, Tiger, Samurai, Phoenix, Behemoth, RoyalGuard, Portal, WindMage, FrostMephit, Penguin, Harpy, Gemini, Valkyrie, LifeStone, Alchemist, Vampire, Demon, Necromancer, Crusader, Comet, Bat, Ghast, HauntedArmor, Summoner, ThunderMage, Lust, Drake, Duelist, Hostage, Fencer, Beacon, Salamander, FireElemental, GravityMage, SoulFlare, Sylph, AirElemental, Aquarius, Greed, Snake, Pikeman, Reaver, Mercenary, Envy, Undine, WaterElemental, Angel, Gnome, EarthElemental, Wrath, Apprentice, Pride, Hoplite, Nexus, Siren, Butterfly, Phalanx, Taurus, Patience, Temperance, Chastity, Dove, StoneMage, Hydromancer, FireMage, ArchBishop, Fortress, Arachnid, Templar, Frog, Toad, Tombstone, NullMage, VoidMage, Gluttony".split(", ")
 
-tokens = "King, Sapling, Tree, BonePile, StonePillar, PhoenixEgg, PhoenixEgg+, PhoenixEgg++, PhoenixEgg+++, Sorceress, GeminiTwin, GeminiTwin+, GeminiTwin++, GeminiTwin+++, ChaosPortal, Dummy, SuperDummy, MageDummy".split(", ")
+tokens = "King, Sapling, Tree, BonePile, StonePillar, PhoenixEgg, Sorceress, GeminiTwin, ChaosPortal, Dummy, SuperDummy, MageDummy".split(", ")
 
-unitnames = unitnames.concat(tokens) // thanks JS for not letting me use +
+let unitnames = originalunitnames.concat(tokens) // thanks JS for not letting me use +
 
 unitnamesbutlowercase = unitnames.map(x => x.toLowerCase())
 
@@ -112,8 +112,8 @@ for (let i = 0; i < unitnames.length; i++) {
 print(unitaliases)
 
 
-bonusreplacements = "P, N, B, R, Q, K, BP, SP, PE, GT, CP, PrQn, FzMp, FireE, ., Awetalehu, SSP".split(", ")
-bonusreplacetos = "Pawn, Knight, Bishop, Rook, Queen, King, BonePile, StonePillar, PhoenixEgg, GeminiTwin, ChaosPortal, Princess, FrostMephit, FireElemental, StonePillar, Dummy, Hostage".split(", ") // The "dot" is like, a wall character
+bonusreplacements = "P, N, B, R, Q, K, L, G, V, A, D, W, BP, SP, PE, GT, CP, PrQn, FzMp, FireE, ., Awetalehu, SSP, Vam, Pri,".split(", ")
+bonusreplacetos = "Pawn, Knight, Bishop, Rook, Queen, King, Legionary, Greed, Valkyrie, Angel, Dryad, Wizard, BonePile, StonePillar, PhoenixEgg, GeminiTwin, ChaosPortal, Princess, FrostMephit, FireElemental, StonePillar, Dummy, Hostage, Vampire, Pride".split(", ") // The "dot" is like, a wall character
 
 function parseName(x, style=false) {
   rv = x.replace(/\+.*?$|\d$/g, "") // Remove the extra bits at the end, to just get the piece name
@@ -126,6 +126,8 @@ function parseName(x, style=false) {
   }
   if (unitaliases.includes(rv)) {
     rv = unitnames[unitaliases.indexOf(rv)]
+  } else if (rv.length == 2 && unitaliases.includes(rv.toUpperCase())) {
+    rv = unitnames[unitaliases.indexOf(rv.toUpperCase())]
   }
 /*
   if (!unitnames.includes(rv) && !tokens.includes(rv)) { // Doesn't appear in the list of units...
@@ -150,13 +152,30 @@ function parsestate(string, x) {
 }
 function numify (x) {return parseInt(x, 10)}
 
-function fixnumber(x) { // Misread the code and that it goes by columns, so...
+function fixnumber(x) { // thx grnd
   x = numify(x)
   return ((x%8)*8 + Math.floor(x/8)).toString()
-}
+} 
+
 
 function trimCommas(x) {
   return x.replace(/(^[,\s]+)|([,\s]+$)/g, '');
+}
+
+function flipsign(x) {
+  if (x.slice(0, 1) == "-") {
+    x = x.slice(1)
+  } else {
+    x = "-" + x
+  }
+  return x
+}
+
+function removesign(x) {
+  if (x.slice(0, 1) == "-") {
+    x = x.slice(1)
+  }
+  return x
 }
 
 Vue.component('ceo-component', {
@@ -192,6 +211,14 @@ Vue.component('ceo-component', {
         rv = "54,whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False,Rook,Pawn,,,,,Pawn,Rook,Knight,Pawn,,,,,Pawn,Knight,Bishop,Pawn,,,,,Pawn,Bishop,Queen,Pawn,,,,,Pawn,Queen,King,Pawn,,,,,Pawn,King,Bishop,Pawn,,,,,Pawn,Bishop,Knight,Pawn,,,,,Pawn,Knight,Rook,Pawn,,,,,Pawn,Rook,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0"
       } else if (unless == "Clear") {
         rv = "54,whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+      } else if (unless == "Random") {
+        let randomunits = []
+        let randomsides = []
+        for (let i = 0; i <= 63; i++) {
+          randomunits.push(r(originalunitnames) + r(["", 2, 3, 4]).toString())
+          randomsides.push(r(0,1))
+        }
+        rv = "54,whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False," + randomunits.join(",") + "," + randomsides.join(",")
       } else if (unless == "Chess960") {
         rv = "54,whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0"
         // Each 'placeholder' will be filled in
@@ -252,6 +279,66 @@ Vue.component('ceo-component', {
     upd: function () {
       this.message = trimCommas([trimCommas(this.otherdata), this.kingdecay, this.moraledecay, this.bonuswhite, this.bonusblack, this.enchlifestones, this.board, this.sides, this.positiondata].join(","))
 
+    },
+    macro: function (x) {
+      if (x == "Board Upside Down") {
+        let bogusboard = []
+        let bogusdisplay = []
+        this.board = this.board.map((x,index) => { // If I used only one loop, it would overwrite itself halfway through.
+          index++;
+          bogusdisplay.push(this.display[63-index+1])
+          bogusboard.push(this.board[63-index+1])
+          return x
+        })
+
+        this.board = this.board.map((x,index) => {
+          index++;
+          this.display[index-1] = bogusdisplay[index-1]
+          return this.board[bogusdisplay[index-1]]
+        })
+
+      } else if (x == "Flip Team Colors") {
+        this.sides = this.sides.map((x,index) => {
+          index++;
+          let fixedindex = fixnumber(index-1) // display numbers are messed up
+          if (this.board[index-1] != "") { // still need to rely on board numbers here though
+            this.display[fixedindex] = flipsign(this.display[fixedindex])
+          }
+          return (x==0) && (this.board[index-1] != "")? 1:0
+        }) // index -1, because it would start at 1 otherwise
+        
+      } else if (x == "Bottom 4 Rows White, Top 4 Rows Black") {
+        this.sides = this.sides.map((x,index) => {
+          index++;
+          let fixedindex = fixnumber(index-1) // display numbers are messed up
+          if (this.display[fixedindex] != "") {
+            if (fixedindex > 31) {
+              this.display[fixedindex] = removesign(this.display[fixedindex])
+            } else {
+              this.display[fixedindex] = "-" + removesign(this.display[fixedindex])
+            }
+          }
+          return (x==0) && (fixedindex > 31)? 0:1
+        }) // index -1, because it would start at 1 otherwise
+        
+        
+      } else if (x == "Bottom 4 Rows Black, Top 4 Rows White") {
+        this.sides = this.sides.map((x,index) => {
+          index++;
+          let fixedindex = fixnumber(index-1) // display numbers are messed up
+          if (this.display[fixedindex] != "") {
+            if (fixedindex > 31) {
+              this.display[fixedindex] = "-" + removesign(this.display[fixedindex])
+            } else {
+              this.display[fixedindex] = removesign(this.display[fixedindex])
+            }
+          }
+          return (x==0) && (fixedindex > 31)? 1:0
+        }) // index -1, because it would start at 1 otherwise
+        
+      }
+      this.rerenderplease = this.rerenderplease? 0:1
+      this.upd()
     },
     flip: function (x, y="") {
       if (x == "moraledecay") {
@@ -498,9 +585,15 @@ If you have actions, put them here:<br><textarea v-model="userpositiondata" @inp
 </div>
 
 <hr>
-These buttons replace the entire board with a template. You can't undo these!<br>
+Extra Tools:<br>
+<button v-on:click="macro('Board Upside Down')">Board Upside Down</button>
+<button v-on:click="macro('Flip Team Colors')">Flip Team Colors</button>
+<button v-on:click="macro('Bottom 4 Rows White, Top 4 Rows Black')">Bottom 4 Rows White, Top 4 Rows Black</button>
+<button v-on:click="macro('Bottom 4 Rows Black, Top 4 Rows White')">Bottom 4 Rows Black, Top 4 Rows White</button>
+<br>These buttons replace the entire board with a template. You can't undo these!<br>
 <button v-on:click="importcode('Classic')">Use Template: Classic Chess</button>
 <button v-on:click="importcode('Chess960')">Use Template: Chess960</button>
+<button v-on:click="importcode('Random')">Use Template: Fill Board With Nonsense</button>
 <button v-on:click="importcode('Clear')">Clear Entire Board</button>
 <div style="height: 20px"></div>
 
