@@ -1766,7 +1766,7 @@ function makefcpiece (seed) {
       restofthing = seedrandomarray(nonsenseabilities, 71); rr(71)
 
     } else {// "no target" active
-      let nonsenseabilities = [`Increase your game clock's remaining time by ###%.`, `Steal ###% of your opponent's timer.`, `Your king cannot be killed for the next # turns.`, `Stop your opponent's king from moving.`]
+      let nonsenseabilities = [`Increase your game clock's remaining time by ###%.`, `Steal ###% of your opponent's timer.`, `Your king cannot be killed for the next # turns.`, `Stop your opponent's king from moving.`, `Scramble the digits of your timer.`, `Steal ##% of your opponent's timer. If you use this token when your timer ends in ":010" or ":60", steal an additional #% of your opponent's timer.`, `Your captures deal double damage for the next # turns.`, `Negate the next # enemy turns.`, `Steal your opponent's next turn.`, `You gain ##% more gold and experience after this game.`, `You gain ##% more rating after this game.`, `Every piece you summon this game gives you ## gold.`, `Declare that you plan to lose this game, then get # free turns. If you don't lose in that time, you lose ## rating.`, `Put ${aan(otherunit)} into your collection.`, `Put # ${plural(otherunit)} into your collection.`]
       restofthing = seedrandomarray(nonsenseabilities, 71); rr(71)
 
     }
@@ -1895,6 +1895,7 @@ function makefcpiece (seed) {
     let unitIsColorbound = selectedgridspots.filter(x => isMove(actionassignments[arrayindexof(selectedgridspots, x)]) && (Math.abs(x[0]) + Math.abs(x[1])) % 2 == 0).length > 0 // if upon adding their moves they're all even
     let unitIsDoublebound = selectedgridspots.filter(x => isMove(actionassignments[arrayindexof(selectedgridspots, x)]) && Math.abs(x[0]) % 2 == 0 && Math.abs(x[1]) % 2 == 0).length > 0 // if both x and y are all even
 
+    if (unittype == "Minion") {costs[0] += 2}
     if (unitHasAttacks) {costs[0] += 1} // ability to attack at all
     if (unitHasMoves) {costs[0] -= 2}
     else if (unitIsDoublebound) {costs[0] -= 1.5}
@@ -1908,7 +1909,7 @@ function makefcpiece (seed) {
       if (centraltest.length > 0) {passivelist.push("*Central")}
     }
     if (r(randoms[110], 0, 4) == 4) {passivelist.push("*Armored"); costs[0] += 4; costs[0] *= 1.4}; rr(110)
-    if (r(randoms[110], 0, 4) == 4) {passivelist.push("*Withdraw"); costs[0] += 0.1}; rr(110)
+    if (r(randoms[110], 0, 4) == 4 && unitHasMoves) {passivelist.push("*Withdraw"); costs[0] += 0.1}; rr(110)
     if (r(randoms[110], 0, 4) == 4 && unitHasAttacks) {passivelist.push("*Berserk"); costs[0] -= 1}; rr(110)
     if (r(randoms[110], 0, 4) == 4 && !unitHasAttacks && unittype != "King") {passivelist.push("*Indestructible"); setUnique(); if (passivelist.includes("*Armored")) {passivelist = passivelist.splice(passivelist.indexOf("Armored"), 1)}; costs[0] += 2.5}; rr(110) // no attacks
 
@@ -1923,9 +1924,10 @@ function makefcpiece (seed) {
       if (abilitycheck == 0) {passivelist.push("Ability: create " + aan(otherunit) + " once per game.")} // the "check == 0" does not mean it failed to check, it's just a random number that was declared before
       if (abilitycheck == 1) {passivelist.push("Ability: create " + aan(otherunit) + " three times per game."); costs[0] += 3}
     }
-    passives[0] = `${unittypeinpassive}\\n${passivelist.map(x=>cleanseforexport(x)).join("\\n")}\\n\\n${rarity} - ${ordinal(edition)} Edition`
+    passives[0] = `${unittypeinpassive}\\n${passivelist.map(x=>cleanseforexport(x)).join("\\n")}`
 
   }
+  passives[0] += `\\n\\n${rarity} - ${ordinal(edition)} Edition`
   costs = costs.map(x=>Math.floor(Math.max(0, costs[0])))
 
 
