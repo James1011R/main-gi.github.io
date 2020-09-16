@@ -638,51 +638,56 @@ button, #tooltip, nav a {
 }
 
 /* CD THEMES */
-.cd body {background: linear-gradient(rgba(220, 245, 247, 0.9),rgba(238,238,238,0.9)), url("../resources/bg.jpg");}
+.cd body {background: linear-gradient(rgba(220, 245, 247, 0.9),rgba(238,238,238,0.9)), url("../resources/bg.jpg"); background-attachment: fixed}
 .cd .name {font-family: Merriweather; font-variant: normal; padding-bottom: 3px;}
 .cd .cost + div > ul p {font-family: 'Merriweather Sans' !important}
-.cd .passives, .cd div.passives::after {font-family: 'Merriweather Sans' !important; text-align: center !important; margin-left: 6px !important; margin-right: 6px !important;}
+.cd .passives, .cd div.passives::after {font-family: 'Merriweather Sans' !important; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important}
 .cd .passives::before {content: none;}
 .cd .cost {display: block; position: absolute; left: 0rem; top: 8.5rem; padding: .4rem 0; width: 2rem; height: 2rem; /* border: .2rem outset #83471f; */ /* border-radius: 50%; */ box-sizing: border-box; background: url(../resources/cdblood.png); background-position: center; text-align: center; font-size: 0; font-weight: normal; background-size: 100%;
 } /* font-size 0 is to hide the word "Cost" */
 .cd .cost input {font-family: 'Arial'; font-weight: bold; font-size: 22px; position: absolute; top: 60%; left: 45%; transform: translate(-50%, -50%); text-align: center; -webkit-text-stroke-width: 0.7px; -webkit-text-stroke-color: black; color: white; letter-spacing: -2px;}
 .cd .tile {stroke-width: 0;}
+.cd .c {border: none} /* picture */
 
 /* All this makes passives appear above the action descriptions */
-.cd .passives {margin-bottom: 12px; margin-top: 6px;}
-.cd .cost + div > ul {padding: 5px 10px 0px 10px; order: 2;}
-.cd .passivepanel {display: flex; flex-direction: column; padding-bottom: 30px;} /* the bottommost text may overlap, the 'padding-bottom' should fix it */
-.cd .passives:empty {margin-bottom: 0px; margin-top: -12px; height: 15px !important; min-height: 3px;} /* collapse when empty, idk, the hitbox looks janky but works pretty well */
-
+.cd .passives, .fc .passives {margin-bottom: 12px; margin-top: 6px;}
+.cd .cost + div > ul, .fc .cost + div > ul {padding: 5px 10px 0px 10px; order: 2;}
+.cd .passivepanel, .fc .passivepanel {display: flex; flex-direction: column; padding-bottom: 30px;} /* the bottommost text may overlap, the 'padding-bottom' should fix it */
+.cd .passives:empty, .fc .passives:empty {margin-bottom: 0px; margin-top: -12px; height: 15px !important; min-height: 3px;} /* collapse when empty, idk, the hitbox looks janky but works pretty well */
 
 
 
 /* FAVOR CHESS THEMES */
-.fc body {background: linear-gradient(rgba(238,238,238,0.8),rgba(238,238,238,0.8)), url('../resources/fcwood.jpg')}
+.fc body {background: linear-gradient(rgba(238,238,210,0.4),rgba(238,238,210,0.4)), url('../resources/fcwood.jpg')}
 
-.fc {filter: blur(.25px);}
+.fc {/*filter: blur(.1px);*/}
 
 /* NOT ABSOLUTELY POSITIONED -
 .fc .name {font-family: Arial; font-variant: normal; display: block; left: .1rem; top: .1rem; width: 16rem; height: 1.5rem; border: .2rem outset #83471f; border-radius: .4rem; box-sizing: border-box; font-weight: normal; text-align: center}
 .fc .c {background-image: url(../resources/fccamel.png); background-repeat: no-repeat; background-size: 70%; background-position-x: center; border: none;}
 .fc .cost {display: block; position: absolute; left: .1rem; top: 8.75rem; padding: .4rem 0; width: 1.5rem; height: 1.5rem; border: .2rem outset #83471f; border-radius: 50%; box-sizing: border-box; background: url(../resources/fccost.png); background-position: center; text-align: center; font-size: 0; font-weight: normal;} */
 
-.fc .name {position: absolute; font-family: Arial; font-variant: normal; display: block; left: .2rem; top: .1rem; width: 16rem; height: 1.5rem; border: .2rem outset #83471f; border-radius: .4rem; box-sizing: border-box; font-weight: normal; text-align: center}
+.fc .name {position: absolute; font-family: Arial; font-variant: normal; display: block; top: .1rem; width: 16.5rem; height: 1.5rem; border: .2rem outset #83471f; border-radius: .4rem; box-sizing: border-box; font-weight: normal; text-align: center; background: #E7DBBD;}
 .fc .c {top: 30px; padding-bottom: 30px; background-image: url(../resources/fccamel.png); background-repeat: no-repeat; background-size: 70%; background-position-x: center; border: none;}
 
 .fc .cost {display: block; position: absolute; left: .1rem; top: 1.7rem; padding: .4rem 0; width: 2rem; height: 2rem; border: .2rem outset #83471f; border-radius: 50%; box-sizing: border-box; background: url(../resources/fccost.png); background-position: center; text-align: center; font-size: 0; font-weight: normal;} /* font-size 0 is to hide the word "Cost" */
 .fc .cost input {font-weight: normal; font-size: 18px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center}
 
-.fc .passivepanel {background: none; border: none; box-shadow: none; filter: blur(.3px);}
-.fc .passives, .fc div.passives::after {font-family: Arial !important; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important; font-weight: normal !important; filter: blur(.3px); line-height: 120%}
-.fc div.passives::after {font-size: 20px !important;}
+.fc .passivepanel {background: none; border: none; box-shadow: none; filter: blur(.1px);}
+.fc .passives, .fc div.passives::after {font-family: Arial !important; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important; font-weight: normal !important; filter: blur(.1px); line-height: 120%}
+.fc div.passives:focus, .fc div.passives::after {font-size: 20px !important; line-height: 120%}
 .fc .passives::before {content: none;}
 
-.fc .passivepanel .moves {display: none;}
+.fc .passivepanel .moves {background: #464538; border: 3px #3E3D31 solid; color: white; padding-right: 5px; margin-bottom: 10px; border-radius: 8px; /*display: none;*/}
+/*
+.fc .passivepanel .moves::has(p) {background: red}*/
+.fc .cost + div > ul p {font-family: Arial; font-weight: normal; text-transform: lowercase;}
+.fc .moves svg {box-shadow: none;}
+
 .fc .info {display: none;}
 
 .fc .tile {stroke-width: 0;}
-.fc section {border: .4rem ridge #83471f;}
+.fc section {border: .4rem ridge #83471f; background: url(../resources/fcborder.png); background-size: cover; background-position: center;}
 /*.fc .board {box-shadow: inset 0 0 10px #000000;}*/
 
 .fc .tile[x="1"], .fc .tile[x="239"], .fc .tile[y="1"], .fc .tile[y="239"] {display: none;}
@@ -696,3 +701,7 @@ button, #tooltip, nav a {
 .cba .cost + div > ul p {font-family: 'Chess Battle Advanced' !important; font-weight: bold}
 .cba .passives, .cba div.passives::after {font-family: 'Chess Battle Advanced' !important; font-weight: bold; }
 .cba .c {background-image: url(../resources/fccamelblack.png); background-repeat: no-repeat; background-size: 70%; background-position-x: center; border: none;}
+
+@media screen and (max-width: 1600px) {
+  #contents { justify-content: left; } /* make the boards left-align on certain zoom levels where the sidebar may overlap */
+}
