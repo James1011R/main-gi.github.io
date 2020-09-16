@@ -1923,7 +1923,7 @@ function makefcpiece (seed) {
       if (abilitycheck == 0) {passivelist.push("Ability: create " + aan(otherunit) + " once per game.")} // the "check == 0" does not mean it failed to check, it's just a random number that was declared before
       if (abilitycheck == 1) {passivelist.push("Ability: create " + aan(otherunit) + " three times per game."); costs[0] += 3}
     }
-    passives[0] = `${unittype}\\n${passivelist.map(x=>cleanseforexport(x)).join("\\n")}\\n\\n${rarity} - ${ordinal(edition)} Edition`
+    passives[0] = `${unittypeinpassive}\\n${passivelist.map(x=>cleanseforexport(x)).join("\\n")}\\n\\n${rarity} - ${ordinal(edition)} Edition`
 
   }
   costs = costs.map(x=>Math.floor(Math.max(0, costs[0])))
