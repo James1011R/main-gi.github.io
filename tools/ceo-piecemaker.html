@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html><head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width"> <!-- for responsive display -->
   <title>Grand PieceMaker UPLE: Ultra Pretend Limited Edition</title>
   <!--[if IE]>
     <script>window.location = "https://www.mozilla.org/en-US/";</script>
@@ -129,23 +130,24 @@
     Generate Pretend Piece From:
     <div class="note">
     <button id="makeceo"><span style="font-family: Impact">C</span><span style="font-family: lithos">E</span><span style="font-family: Comic Sans MS">O</span></button>
+    <button id="makefc" style="border: .4rem ridge #83471f; background-color: #581416; color: white; font-family: 'Favor Chess', 'Times New Roman'; filter: blur(0.25px);">FC</button>
     <!--
     <button id="makecd" style="font-family: 'Merriweather'; background-image: linear-gradient(#ccffff, white)">CD</button>
     <button id="makefc" style="border: .4rem ridge #83471f; background-color: #581416; color: white; font-family: 'Times New Roman'; filter: blur(0.25px);">FC</button>
     <button id="makecba" style="border: 2px solid red; border-radius: 0px; padding-top: 0px; padding-bottom: 0px; font-family: 'Chess Battle Advanced'; font-weight: bold; background: black; color: white">CBA</button>-->
     </div>
-    Optional pretend unit name: <textarea id="nameinput" cols="20" rows="1" style="min-height: 40px;"></textarea>
+    Optional pretend unit name: <input id="nameinput" cols="20" rows="1" style="min-height: 30px; font-family: lithos; text-align: center; text-transform: capitalize; font-size: 125%"></input>
     <br>
     <div id="feedback" style="display: none">
       <div style="border: 1px solid olive; padding: 8px; background: #36393E; font-size: 90%; font-family: 'Whitney KOC'; ">
-        <div style="display: inline-block; color: white; font-family: 'Whitney KOC'; font-weight: bold;">kocbftn</div>
+        <div id="kocname" style="display: inline-block; color: white; font-family: 'Whitney KOC'; font-weight: bold;">kocbftn</div>
         <div id="koctime" style="display: inline-block; margin-left:.5em; font-size: 75%; color: #72767D;">Today at 2:34 AM</div>
         <div id="kocmessage" style="font-family: 'Whitney KOC', Arial, sans-serif; color: white; line-height: 140%; font-size: 90%"></div> 
       </div>
       <div style="border: 1px solid #ddd; background: white; font-size: 75%">
         <div style="background: #efefef; padding: 5px">
           <div style="font-family: Verdana, Tahoma; font-weight: bold; display: inline-block;">StratShotPlayer</div>
-          <a style="display: inline-block; float: right; font: 11px Verdana,Arial,sans-serif; margin-left: 5px; color: #900; text-decoration: underline; padding: 5px; cursor: pointer" onclick="if (repq < 16440) {repq++; alert('Post has been flagged for spam. Please be patient as our staff gets to the report. Current reported posts queue: ' +repq)} else {alert(`ERROR: We apologize, but due to abuse, the Flag Post feature is having technical difficulties and is currently under maintenance, along with the sticker system and the chat system and the blocks system and the game upload system. Please stand by.\r\n\r\nIn the meantime, we have automatically cleared the report queue.`); this.style.cursor = 'not-allowed';
+          <a style="display: inline-block; float: right; font: 11px Verdana,Arial,sans-serif; margin-left: 5px; color: #900; text-decoration: underline; padding: 5px; cursor: pointer" onclick="if (repq < 16440) {repq++; alert('Post has been flagged for spam. Please be patient as our staff gets to the report. Current reported posts queue: ' +repq)} else {alert(`ERROR: Apologies, but due to abuse, the Flag Post feature is having technical difficulties and is currently under maintenance, along with the sticker system and the chat system and the blocks system and the game upload system. Please stand by.\r\n\r\nIn the meantime, we have automatically cleared the report queue.`); this.style.cursor = 'not-allowed';
           $('#sspmessage').html('<i>This post has been removed by an administrator or moderator</i>')}">Flag Post</a>
         </div>
         <div id="sspmessage" style="font-family: 'Lucida Grande', Arial, sans-serif;  color: black; font-size: 90%; line-height: 140%; padding: 10px;"></div>
@@ -163,9 +165,15 @@
     <button id="switchfc" style="border: .4rem ridge #83471f; background-color: #581416; color: white; font-family: 'Favor Chess', 'Times New Roman'; filter: blur(0.25px);">FC</button>
     <button id="switchcba" style="border: 2px solid red; border-radius: 0px; padding-top: 0px; padding-bottom: 0px; font-family: 'Chess Battle Advanced'; font-weight: bold; background: black; color: white">CBA</button>
     </div><br>
+    <br><br>
+    <button id="creditsbutton" style="box-shadow: inset 0px 1px 0px 0px #97c4fe; padding-block-start: 0px; padding-inline-end: 8px; padding-block-end: 0px; padding-inline-start: 8px; border: 2px outset #3daaaa; border-radius: 2px; background-color: #3dcccc; text-indent: 0; display: inline-block; font-family: 'Chess Battle Advanced'; color: #ffffff; font-size: 15px; font-weight: bold; font-style: normal; height: 22px; line-height: 22px; text-decoration: none; text-align: center; text-shadow: 1px 1px 0px #1570cd; border-radius: 5px; padding-bottom: 20px; font-size: 140%;">?</button> 
 
 
     <div style="width: 10px; height: 50px"></div> <!-- filler space on small zoom levels -->
+
+    <!--
+
+    -->
 
   </div>
   <div mode="tools">
@@ -180,7 +188,7 @@
         <a id="ts5" href="#c" data-size="0">Broken</a>
       </nav>
       <nav>
-        Custom Size: <textarea id="customToolSize" placeholder="3" rows="1" cols="10"></textarea><button id="confirmToolSize">Confirm</button>
+        Custom Size: <textarea style="height: 22px; text-align: center" id="customToolSize" placeholder="3" rows="1" cols="18"></textarea>
       </nav>
     <div class="left">Tool Type</div>
       <nav>
@@ -202,10 +210,10 @@
         <a id="tc4" href="#c" data-color="#FC0D39">Red</a>
       </nav>
       <nav>
-        Custom Color: <textarea id="customToolColor" placeholder="#000000" rows="1" cols="10"></textarea><button id="confirmToolColor">Confirm</button>
+        Custom Color: <textarea style="height: 22px; text-align: center" id="customToolColor" placeholder="#000000" rows="1" cols="19"></textarea>
       </nav>
     <details class="left">
-      <summary>Fill Color (Shape only, click here)</summary>
+      <summary style="cursor: pointer">Fill Color (Shape only, click here)</summary>
       <nav>
         <a id="tf0" href="#c" data-fill="0">Base</a>
         <a id="tf1" href="#c" data-fill="1">Support</a>
@@ -231,7 +239,18 @@
         <a id="tf15" href="#c" data-fill="15">Chaos</a>
      </nav>
      <nav>
-        <a id="tf16" href="#c" data-fill="16">Testing</a>
+        <a id="tf16" href="#c" data-fill="16">Warped</a>
+        <a id="tf17" href="#c" data-fill="17">Forest</a>
+        <a id="tf18" href="#c" data-fill="18">Wind</a>
+        <a id="tf19" href="#c" data-fill="19">Grass</a>
+     </nav>
+     <nav>
+       <a id="tf20" href="#c" data-fill="20">Custom</a>
+       <br>
+       <input type="color" id="CustomizationFeaaaa_customColorsStops_0"
+         onchange="CustomizationFeaaaa.updateStops('0')" value="#222222">
+       <input type="color" id="CustomizationFeaaaa_customColorsStops_1"
+         onchange="CustomizationFeaaaa.updateStops('1')" value="#EEEEEE">
      </nav>
     </details>
     <div class="left">Operations</div>
@@ -295,4 +314,64 @@
 
 <div id="bgproc" style="visibility:hidden;position:absolute;"></div>
 <div id="tooltip">Yolo<br>buddy<br>how's<br>life?</div>
+
+<div id="credits" style="font-family: Arial; position: fixed; top: 10%; margin: 0 auto; background: white; z-index: 100; width: 92%; left: 3%; padding: 10px; border: 2px solid black; height: 70%; display: none">
+  <div style="overflow-y: auto; height: 100%">
+    <p style="text-align: center; margin: 0; font-size: 150%"><b>Credits</b></p><br>
+  Tony2: original piecemaker<br>
+  Logo (ABC_Boy): piecemaker v2 with massive graphical and UI improvements, programming in the custom ability icon creator, all custom unicode icon glyphs, board svg rewrite<br>
+  Aplet123: board svg rewrite<br>
+  main_gi: piecemaker v2 original UI feedback, auto symmetry, unit gallery, pretend unit generator and meme feedback, CD/FC/CBA styles<br>
+  Elund (James1011R): all UPLE abilities, fill color customization<br>
+<br>
+    <p style="text-align: center; margin: 0; font-size: 100%"><b>Special Thanks</b></p><br>
+  F300XEN: favor chess random piece generator was the inspiration for the pretend unit generator<br>
+  <i>definitely not an alt account</i>: the idea to seed unit names for the generator<br>
+  awetalehu and StratShotPlayer: for making insanely memeable reviews<br>
+<br>
+    <p style="text-align: center; margin: 0; font-size: 100%"><b>Changelog</b></p><br>
+  - <b>Visuals:</b> Cost number enlarged and no longer uses monospace font<br>
+  - <b>Visuals:</b> Fixed the strange svg setting that made the outlines of the board look like a sudoku puzzle<br>
+  - <b>Visuals:</b> Letters are more naturally spaced apart<br>
+  - <b>Feature:</b> Can double-click the origin to add an action into the infopanel but not the actions (like RoyalGuard that shows an augmented Teleport) (not actually a new feature)<br>
+  - <b>Feature:</b> Can put [+] or 3[+1], for example (including the brackets) to signify unit names that are upgraded or numbers that increase or decrease by the same value across upgrades. "Promotes to Knight[+]. On Death: Lose 4[+1] morale." is usable as the passive for the entire Militia (not actually a new feature)<br>
+  - <b>Feature:</b> Can drag from the origin to any adjacent square to create Rook/Bishop lines (reimplemented)<br>
+  - <b>Bugfix:</b> Exports can no longer change your selected action for no reason<br>
+  - <b>Bugfix:</b> Empty passives no longer keep the minus sign in the infopanel<br>
+  - <b>Bugfix:</b> Right clicking twice on the board no longer forces you to double left-click to be functional<br>
+  - <b>Feature:</b> You can edit action text straight from in the infopanel and it automatically updates the text. This also works on non-custom abilities but won't save on export. You can also change the names of upgraded pieces, but this doesn't save on export either.<br>
+  - <b>Feature:</b> Scrollbar in the sidebar, and also if the screen is too zoomed-in, it will left-align the boards<br>
+  - <b>Feature:</b> Ability to flag SSP's post<br>
+  - <b>Feature:</b> Ability to put things like "v0.50 BonePile" in CEO pretend generator to get old versions of uncollectible units<br>
+  - <b>Change:</b> The order of the "(Ranged) Destroy target." ability and "(Magic) Teleport unit to Ability Target." have been switched to match the game's order. This breaks a very small amount of previous piecemaker export codes<br>
+  - <b>Change:</b> Ability descriptions and icons match v0.54<br>
+  <br>
+  - Also, to add a passive in the CD and FC styles, click the space between the board and the actions list.<br>
+<br><br>
+    <p style="text-align: center; margin: 0; font-size: 100%"><b>Remaining Issues:</b></p><br>
+  - <b>CEO Unitgen:</b> You can have more than one ability target on the same unit.<br>
+  - <b>CEO Unitgen:</b> Due to poor coding choices, it may be possible to get overlapping actions which cause temporary bugs if you try to interact with the overlapping actions. The CEO unitgen code is a lot less polished than the FC unitgen code but at this point I am not rewriting it.<br>
+  - <b>CEO Unitgen:</b> There's no actual cost formula.<br>
+  - <b>CEO Unitgen:</b> There's no random chance to create a custom ability, like "[Pay 5]: (Magic) Create a RANDOMUNIT, or transform enemy into ally RANDOMUNIT."<br>
+  - <b>FC Unitgen:</b> Tokens are kind of a meme. Maybe minions could be more realistic.<br>
+  - <b>Visuals:</b> In the FC style, an empty actionlist still shows a thin black rectangle.<br>
+  - <b>Visuals:</b> This section of the credits ends each sentence with a period, while the one above it didn't. This bug will never be fixed.<br>
+  - <b>Visuals:</b> The gallery uses terms like "v41" when it should be "v0.41". Too bad, the data is stored as an object and it doesn't like periods in the name. Fixing this would be half a day's wasted time.<br>
+  - <b>Visuals:</b> The "fill color" should really be contextual on if you've selected Shape. It's just a bunch of useless settings without Shape selected.<br>
+  - <b>Bug:</b> Some parts of the export may not be saved and maybe the image function will randomly break. I don't know because I haven't used it often.<br>
+  - <b>Bug:</b> In v0.41, Phoenix++ shows that it has "Move or Attack" when it doesn't. This is permanently etched in the gallery because that was an actual mistake in v0.41.<br>
+  - <b>Bug:</b> It's possible to get a passive that appears on upgraded versions of the unit, but then disappears when you click on it, which is a CEO unitgen or gallery issue.<br>
+  - <b>Bug:</b> Path abilities do not look correct in the unitgen and do not work well with horizontal symmetry. Path is a boring mechanic so I don't care.<br>
+  - <b>Feature?:</b> All previous versions for the unit gallery, syncing CEO art, and a search function.<br>
+  - <b>Feature?:</b> Export codes to be able to use pretend piece notation: for example, "KDjN" is code for Dragon.<br>
+  - <b>Feature?:</b> Unit gallery somehow detects reused unit names and passives so that promotes also use the [+] and [+1] convention.<br>
+  - <b>Feature?:</b> UI rework, with many buttons being placed on the bottom instead, which is more convenient to scroll down a small amount rather than click some buttons and mess with tabs.<br>
+  - <b>Feature?:</b> The custom action editor is only like 8 variables, it doesn't need a full-screen popup! Also a better color selector, or a way to only show one half of a unicode symbol.<br>
+  - <b>Feature?:</b> The FC style could maybe have a token style, and the CD style could have a different selector for the "[Minion]-[Basic]-[Rare]".<br>
+  - <b>Complaint:</b> A lot of the pretend abilities are bad game design, with probably a good quarter of them literally being copies of other abilities but ignoring status effects, or having slightly different interactions with 1/100 of the game's units. This will never be fixed.<br>
+  <br><br>
+  My code is <a href="https://github.com/main-gi/main-gi.github.io/tree/master/tools">here</a>. Eventually I will probably regret stuffing all the relevant files in "/tools/" when there's like 20 tools in it, but it works for now.<br>
+</div>
+</div>
+
 </body></html>
