@@ -1,4 +1,4 @@
-// This file is the parser for data, you can put in the right file in the .swf and it just automatically reads it out.
+// This file is the parser for data, just look at the "ChessEvolved" script in the .swf and copy from the "Dummy" part to the last "SpellFX" line soon after it, and set the whole string equal to "CEO.v##". It just automatically parses it.
 
 let CEO = {};
 CEO.v41 = `
