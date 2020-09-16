@@ -2109,8 +2109,10 @@ $("#makeceo").click(function() { // main_gi: Make Chess Evolved Online (piece)
   dealwithpiecename(makepiece)
 });
 
+let madefcyet = false
+
 $("#makefc").click(function () { // main_gi: Make Favuor Chess (piece)
-  globalswitchfc()
+  if (madefcyet == false) {globalswitchfc(); madefcyet = true}  // only switch to fc the first time
   dealwithpiecename(makefcpiece, "fc")
 
 })
