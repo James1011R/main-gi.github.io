@@ -597,6 +597,8 @@ MOVES = [{
    "long": "b]mu:!ally?swap",
    "text": "(Unblockable) Swap places with enemy.",
    "color": [127,0,59],
+   "color3": [0, 0, 0],
+   "symbol1": "\u{1f5d8}",
    "hide": true
  }, {
    "id": "0c",
@@ -605,6 +607,8 @@ MOVES = [{
    "long": "b]mu:*ally?swap",
    "text": "(Unblockable) Swap places with unit.",
    "color": [127,105,0],
+   "color3": [0, 0, 0],
+   "symbol1": "\u{1f5d8}",
    "hide": true
  }, {
    "id": "9a",
@@ -1088,7 +1092,9 @@ MOVES = [{
    "name": "teleportswapenemy",
    "long": "b]mu:move/!ally?swap",
    "text": "(Unblockable) Teleport or swap places with enemy.",
-   "color": [255,0,100],
+   "color": [255,0,177],
+   "color3": [0, 0, 0],
+   "symbol1": "\u{1f5d8}",
    "hide": true
  }, {
    "id": "18e",
@@ -1170,12 +1176,56 @@ MOVES = [{
    "symbol1": "\ue907",
    "hide": true
  }, {
+    "id": "4crit",
+    "cat": "limited",
+    "name": "critjump",
+    "long": "b]mz:move/attack",
+    "text": "(Critical) Move or Attack.",
+    "color": [0, 127, 0],
+    "color2": [0, 255, 0],
+    "hide": true
+ }, {
+    "id": "6crit",
+    "cat": "limited",
+    "name": "critmove",
+    "long": "b]mz:move",
+    "text": "(Critical) Move only.",
+    "color": [0, 127, 127],
+    "color2": [0, 255, 255],
+    "hide": true
+ }, {
+    "id": "53crit",
+    "cat": "limited",
+    "name": "critlunge",
+    "long": "b]mz:move/attack",
+    "text": "(Critical) Attack only.",
+    "color": [127, 0, 0],
+    "color2": [255, 0, 0],
+    "hide": true
+ }, {
+   "id": "5crit",
+   "cat": "limited",
+   "name": "critjumpswap",
+   "long": "b]mz:move/attack/swap",
+   "text": "(Critical) Move, Attack, or swap places with ally.",
+   "color": [127,127,0],
+    "color2": [255, 255, 0],
+   "hide": true
+ }, {
     "id": "4a",
     "cat": "limited",
     "name": "superjump",
     "long": "b]mz:move/attack",
     "text": "(Unstoppable) Move or Attack.",
-    "color": [200,151,24],
+    "color": [125, 235, 0],
+    "hide": true
+ }, {
+    "id": "53c",
+    "cat": "limited",
+    "name": "superjumpattack",
+    "long": "b]mz:move/attack",
+    "text": "(Unstoppable) Attack only.",
+    "color": [155, 0, 0],
     "hide": true
  }, {
     "id": "6a",
@@ -1183,7 +1233,7 @@ MOVES = [{
     "name": "fly",
     "long": "b]mz:move",
     "text": "(Unstoppable) Fly.",
-    "color": [0,255,200],
+    "color": [125, 0, 255],
     "hide": true
  }, {
    "id": "5a",
@@ -1191,14 +1241,14 @@ MOVES = [{
    "name": "superjumpswap",
    "long": "b]mz:move/attack/swap",
    "text": "(Unstoppable) Move, Attack, or swap places with ally.",
-   "color": [210,210,255],
+   "color": [0,210,255],
    "hide": true
  }, {
     "id": "7a",
     "cat": "limited",
     "name": "moonflare",
     "long": "b]rz:attack",
-    "text": "(Magic) Destroy target, even if you can't act normally.",
+    "text": "(Unstoppable) Destroy enemy.",
     "color": [34,117,253],
     "hide": true
  }, {
@@ -1959,7 +2009,7 @@ PASSIVES = ["Does not block movement.",
 ];
 LABELS = {
     rank: ["Minion", "Champion", "King", "Outcast"],
-    faction: ["Basic", "Clan", "Arcane", "Forest", "Unique", "Hero"],
+    faction: ["Basic", "Clan", "Arcane", "Forest", "Unique", "Royal"],
     rarity: ["Common", "Rare", "Epic", "Legendary", "Mythic"]
 }
 LEVELS = ["base", "plus", "plusplus", "plusplusplus"];

@@ -709,14 +709,39 @@ $("input[type=number]").on("wheel", function(e) {
   e.preventDefault();
 }); //Lazy approach to support edge cases: Remove them :D
 
+let royalStyle = false // so we don't spam class operations
+
+function checkSpecialStyles() {
+  let faction = $(".info span.faction")[0].textContent
+  let boardcolor1 = "#ccc"; let royalcolor1 = "#ee7"
+  let boardcolor2 = "#eee"; let royalcolor2 = "#ff8"
+  if (royalStyle == false && (faction == "Royal" || faction == "Hero") && currentstyle == "cd") {
+    royalStyle = true
+    $("html").addClass("royal")
+    $(".tile").each(function(index) {
+      if (this.getAttribute("fill") == boardcolor1) {this.setAttribute("fill", royalcolor1)}
+      else {this.setAttribute("fill", royalcolor2)}
+    })
+  } else if (royalStyle == true) {
+    royalStyle = false
+    $("html").removeClass("royal")
+    $(".tile").each(function(index) {
+      if (this.getAttribute("fill") == royalcolor1) {this.setAttribute("fill", boardcolor1)}
+      else {this.setAttribute("fill", boardcolor2)}
+    })
+  }
+}
+
 //Toggle labels
 $(".info span").click(function() {
   var labels = LABELS[this.className],
     ix = labels.indexOf(this.innerText);
   ix += 1;
-  ix %= labels.length;
+  ix %= labels.length; // loop around
+
   $(".info span." + this.className).text(labels[ix]);
   DATA.labels[this.className] = labels[ix];
+  checkSpecialStyles()
 });
 
 // Tabs
@@ -1034,8 +1059,10 @@ function restore() {
   restoreLabels();
   restorePassives();
   restoreImage();
+
   ACTION = prevaction;
   loadMove(MOVES[SMOVE[prevaction]]); // main_gi: There seems to be an import bug with actions, I'm pretty sure this fixes it
+  checkSpecialStyles()
 }
 
 function restoreName() {
@@ -2077,6 +2104,7 @@ $("#nameinput").keyup(function(event) {
 
 function dealwithpiecename (passitoffto, extradata="") { // passitoffto is the function that #makeceo, #makefc, etc. use for the game specific piece
   let nameinput = $("#nameinput").val().trim();
+  if (nameinput.toLowerCase() == "piecereviver2") {nameinput = `PieceReviver2`} // don't want lowercase to ruin joke
 
   if (nameinput.length == 0) {
     if (extradata == "fc") {nameinput = randarray(fcnouns)}
@@ -2101,7 +2129,6 @@ function dealwithpiecename (passitoffto, extradata="") { // passitoffto is the f
 
 
   if (extradata == "fc") {validate(passitoffto(nameinput)); return}
-  if (nameinput.toLowerCase() == "piecereviver2") {nameinput = `PieceReviver2`} // don't want lowercase to ruin joke
 
   if (Object.keys(CEO[`${lastCEOversion}`]).includes(nameinput.replace(/\d/g, ""))) {getgallery(nameinput)}
   else if (Object.keys(CEO).includes(nameinput.replace(/[vV]0?\.?(\d+) ?.+/g, "v$1")) && Object.keys(CEO[nameinput.replace(/[vV]0?\.?(\d+) ?.+/g, "v$1")]).includes(nameinput.replace(/[vV]0?\.?\d+ ?(.+)/g, "$1"))) {
@@ -2306,6 +2333,7 @@ function resetSpellLooks() {
   $(".spell").attr("y", spellstyle[1])
   $(".spell-symbol").attr("font-size", spellstyle[2])
   $(".spell-gallery").css("transform", "none")
+  checkSpecialStyles() // Not exactly part of the "spell looks" reset but we should do it anyway
 }
 
 let currentstyle = "ceo"
