@@ -316,7 +316,7 @@ textarea, input, button{
   margin: 0;
 }
 input[type=number]{
-  width: 3em;
+  width: 2.5em;
   -moz-appearance: textfield;
   border: none; background: none; text-align: left; font-family: 'Arial'; font-size: large; font-weight: bold;
 }
@@ -651,17 +651,32 @@ button, #tooltip, nav a {
 	cursor: pointer;
 }
 
+.extratext {display: none;}
+
 /* CD THEMES */
 .cd body {background: linear-gradient(rgba(220, 245, 247, 0.9),rgba(238,238,238,0.9)), url("../resources/bg.jpg"); background-attachment: fixed}
 .cd .name {font-family: Merriweather; font-variant: normal; padding-bottom: 3px;}
 .cd .cost + div > ul p {font-family: 'Merriweather Sans' !important}
-.cd .passives, .cd div.passives::after {font-family: 'Merriweather Sans' !important; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important}
+.cd .passives, .cd div.passives::after {font-family: 'Merriweather Sans' !important; text-align: center !important;}
+.cd .passives {margin-left: 6px !important; margin-right: 6px !important}
 .cd .passives::before {content: none;}
+
 .cd .cost {display: block; position: absolute; left: 0rem; top: 8.5rem; padding: .4rem 0; width: 2rem; height: 2rem; /* border: .2rem outset #83471f; */ /* border-radius: 50%; */ box-sizing: border-box; background: url(../resources/cdblood.png); background-position: center; text-align: center; font-size: 0; font-weight: normal; background-size: 100%;
 } /* font-size 0 is to hide the word "Cost" */
-.cd .cost input {font-family: 'Arial'; font-weight: bold; font-size: 22px; position: absolute; top: 58%; left: 50%; transform: translate(-50%, -50%); text-align: center; -webkit-text-stroke-width: 0.7px; -webkit-text-stroke-color: black; color: white; letter-spacing: -2px; text-indent: -2.1px;} /* indent is to offset the letter-spacing which is, for some reason, added to the RIGHT of each character instead of between them, good job idiot designers */
+.cd .cost input, .cd.royal .extratext textarea {font-family: 'Arial'; font-weight: bold; font-size: 22px; position: absolute; top: 58%; left: 50%; transform: translate(-50%, -50%); text-align: center; -webkit-text-stroke-width: 0.7px; -webkit-text-stroke-color: black; color: white; letter-spacing: -2px; text-indent: -2.1px;} /* indent is to offset the letter-spacing which is, for some reason, added to the RIGHT of each character instead of between them, good job idiot designers */
 .cd .tile {stroke-width: 0;}
 .cd .c {border: none} /* picture */
+
+
+.cd.royal .passivepanel {background: linear-gradient(rgba(251, 255, 135, 0.93),rgba(230, 232, 159, 0.93)), url("../resources/dbg.jpg");
+box-shadow: 0 0 0 4px #d2d796cc inset;}
+/*.cd.body {background: linear-gradient(rgba(253, 247, 156, 0.9),rgba(255, 251, 14, 0.9)), url("../resources/bg.jpg");}*/
+
+.cd.royal .extratext {display: block; position: absolute; right: 0.5rem; top: 8.5rem; padding: .4rem 0; width: 2rem; height: 2rem; box-sizing: border-box; background: url(../resources/cdcrown.png); background-position: center; text-align: center; font-size: 0; font-weight: normal; background-size: 100%;}
+.cd.royal .extratext textarea {width: 2.5em; -moz-appearance: textfield; border: none; background: none; margin: 0 auto; padding: 0 auto; height: inherit;}
+
+
+
 
 /* All this makes passives appear above the action descriptions */
 .cd .passives, .fc .passives {margin-bottom: 12px; margin-top: 6px;}
@@ -713,6 +728,10 @@ button, #tooltip, nav a {
 .fc .tile[x="1"], .fc .tile[x="239"], .fc .tile[y="1"], .fc .tile[y="239"] {display: none;}
 .fc .spell-display[x="4"], .fc .spell-display[x="242"], .fc .spell-display[y="4"], .fc .spell-display[y="242"] {display: none;}
 .fc .ignore-mouse {display: none;}
+
+
+.fc.token .board {display: none;} /* unfinished lol, use 'extratext' class if you wanna fix/implement this */
+
 
 .cba body {background: black;}
 .cba .name {font-family: 'Chess Battle Advanced'; font-weight: bold; font-variant: normal; padding-bottom: 11px; color: white;}
