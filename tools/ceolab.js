@@ -283,19 +283,21 @@ Vue.component('ceo-component', {
     macro: function (x) {
       if (x == "Board Upside Down") {
         let bogusboard = []
+        let bogussides = []
         let bogusdisplay = []
         this.board = this.board.map((x,index) => { // If I used only one loop, it would overwrite itself halfway through.
           index++;
           bogusdisplay.push(this.display[63-index+1])
           bogusboard.push(this.board[63-index+1])
+          bogussides.push(this.sides[63-index+1])
           return x
         })
 
-        this.board = this.board.map((x,index) => {
-          index++;
-          this.display[index-1] = bogusdisplay[index-1]
-          return this.board[bogusdisplay[index-1]]
-        })
+        for (let i = 0; i < this.board.length; i++) {
+          this.display[i] = bogusdisplay[i];
+          this.board[i] = bogusboard[i];
+          this.sides[i] = bogussides[i];
+        }
 
       } else if (x == "Flip Team Colors") {
         this.sides = this.sides.map((x,index) => {
