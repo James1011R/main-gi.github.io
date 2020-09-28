@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" type="text/css" href="../index.css"><link href="https://fonts.googleapis.com/css?family=Tajawal:400,700&display=swap" rel="stylesheet"><link href="../fonts/Tajawal-Regular.ttf" rel="stylesheet"><link type="text/css" href="../OverlayScrollbars.min.css" rel="stylesheet"/><link type="text/css" href="../os-theme-thick-light.css" rel="stylesheet"/><link type="image/ico" href="../favicon.ico" rel="shortcut icon" id="icon"/><script type="text/javascript" src="../OverlayScrollbars.min.js"></script><script type="text/javascript" src="../global.js"></script><script type="text/javascript" src='vue.js'></script><script type="text/javascript" src='marked.min.js'></script><script type="text/javascript" src='ceolab.js' defer></script>
+<link rel="stylesheet" type="text/css" href="../index.css"><link href="https://fonts.googleapis.com/css?family=Tajawal:400,700&display=swap" rel="stylesheet"><link href="../fonts/Tajawal-Regular.ttf" rel="stylesheet"><link type="text/css" href="../OverlayScrollbars.min.css" rel="stylesheet"/><link type="text/css" href="../os-theme-thick-light.css" rel="stylesheet"/><link type="image/ico" href="../favicon.ico" rel="shortcut icon" id="icon"/><script type="text/javascript" src="../OverlayScrollbars.min.js"></script><script type="text/javascript" src="../global.js"></script><script type="text/javascript" src='vue.js'></script><script type="text/javascript" src='marked.min.js'></script><script type="text/javascript" src='ceolab.js' defer></script><script type="module" src='ceolabfitty.js' defer></script>
 <meta http-equiv="content-type" content="text/html;charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
   document.addEventListener("DOMContentLoaded", function() {
@@ -36,6 +36,12 @@
 [contenteditable=true]:empty {
     padding-left: 50%;
 }
+table.checkered tr td {background-color: var(--bg-table-odd); outline: 1px solid white}
+table.checkered tr:nth-child(even) td:nth-child(odd), table.checkered tr:nth-child(odd) td:nth-child(even) {background-color: var(--bg-table-even)}
+
+#board textarea {font-size: 100%; font-family: inherit; border: none; resize: none; padding: 0; overflow-y: auto;}
+/* outline: solid 0.5px white; */
+
 </style>
 </head>
 <title>CEO Replay Tool</title>
