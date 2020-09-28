@@ -368,8 +368,10 @@ Vue.component('ceo-component', {
       this.upd()
     },
     updateText: function (event, number) {
-      //let rv = event.target.textContent.trim() // old code when it was using contenteditable divs
-      let rv = this.display[number]
+      let rv;
+      if (number < 0) {rv = event.target.textContent.trim().replace(/^0+(?!$)/g, "")} else {rv = this.display[number]}
+      // that trims leading zeros - ?!$ is a pretty funny line
+
       if (number < 0) {
         if (number == -1) { // White extra morale
           this.bonuswhite = rv
