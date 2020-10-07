@@ -151,6 +151,33 @@ function initializeBoards() {
 
   // Events moved to here because reasons
 
+  function usesymmetries (i, l) {
+    let currentlyselectedaction = config.name
+    let switchpath = false
+    if (currentlyselectedaction.startsWith("antidiagonalpath")) {switchpath = currentlyselectedaction.slice(4)} // main_gi: ugh,
+    else if (currentlyselectedaction.startsWith("diagonalpath")) {switchpath = "anti" + currentlyselectedaction} // path symmetry support
+
+    if (autoFullSymmetry) { // main_gi: HOW DO YOU NOT SPAGHETTIFY THIS
+      changeSpell(fixxy(y(i), x(i)), l)
+      changeSpell(fixxy(-y(i), -x(i)), l)
+      changeSpell(fixxy(-x(i), -y(i)), l)
+      if (switchpath) {setAction(switchpath)} // These four should switch, these have one positive and one negative
+      changeSpell(fixxy(y(i), -x(i)), l)
+      changeSpell(fixxy(-y(i), x(i)), l)
+      changeSpell(fixxy(-x(i), y(i)), l)
+      changeSpell(fixxy(x(i), -y(i)), l)
+      if (switchpath) {setAction(currentlyselectedaction)}
+    } else {
+      if (autoHorizontalSymmetry && autoVerticalSymmetry && x(i) != 0 && y(i) != 0)
+        {changeSpell(fixxy(-x(i), -y(i)), l)}
+      if (switchpath) {setAction(switchpath)}
+      if (autoHorizontalSymmetry && x(i) != 0)   {changeSpell(fixxy(-x(i), y(i)), l)}
+      if (autoVerticalSymmetry   && y(i) != 0)   {changeSpell(fixxy(x(i), -y(i)), l)}
+      if (switchpath) {setAction(currentlyselectedaction)}
+    }
+    // main_gi: The spaghetti of this code uses makeshift "setAction" logic instead of having way too many if-elses.
+  }
+
   $(".tile").on("mousedown", function (e) {
     e.preventDefault();
     updateSVG(this.dataset.level); // main_gi: Mental note to self: "level" refers to each of the 4 boards
@@ -167,20 +194,8 @@ function initializeBoards() {
 
     changeSpell(this.dataset.index, this.dataset.level);
     let i = this.dataset.index
-    if (autoFullSymmetry)
-      {changeSpell(fixxy(y(i), x(i)), this.dataset.level)
-       changeSpell(fixxy(y(i), -x(i)), this.dataset.level)
-       changeSpell(fixxy(-y(i), x(i)), this.dataset.level)
-       changeSpell(fixxy(-y(i), -x(i)), this.dataset.level)
-       changeSpell(fixxy(-x(i), y(i)), this.dataset.level)
-       changeSpell(fixxy(x(i), -y(i)), this.dataset.level)
-       changeSpell(fixxy(-x(i), -y(i)), this.dataset.level) // main_gi: HOW DO YOU NOT SPAGHETTIFY THIS
-    } else {
-      if (autoHorizontalSymmetry && x(i) != 0)   {changeSpell(fixxy(-x(i), y(i)), this.dataset.level)}
-      if (autoVerticalSymmetry   && y(i) != 0)   {changeSpell(fixxy(x(i), -y(i)), this.dataset.level)}
-      if (autoHorizontalSymmetry && autoVerticalSymmetry && x(i) != 0 && y(i) != 0)
-        {changeSpell(fixxy(-x(i), -y(i)), this.dataset.level)}
-    }
+    let l = this.dataset.level
+    usesymmetries(i, l)
 
   });
 
@@ -195,27 +210,11 @@ function initializeBoards() {
     updateSVG(this.dataset.level);
 
     if (this.dataset.index == 112) return;
-    changeSpell(this.dataset.index, this.dataset.level);
+    changeSpell(this.dataset.index, this.dataset.level); // normal change
+
     let i = this.dataset.index
-    if (autoFullSymmetry)
-      {changeSpell(fixxy(y(i), x(i)), this.dataset.level)
-       changeSpell(fixxy(y(i), -x(i)), this.dataset.level)
-       changeSpell(fixxy(-y(i), x(i)), this.dataset.level)
-       changeSpell(fixxy(-y(i), -x(i)), this.dataset.level)
-       changeSpell(fixxy(-x(i), y(i)), this.dataset.level)
-       changeSpell(fixxy(x(i), -y(i)), this.dataset.level)
-       changeSpell(fixxy(-x(i), -y(i)), this.dataset.level) // main_gi: HOW DO YOU NOT SPAGHETTIFY THIS
-    } else {
-      if (autoHorizontalSymmetry && x(i) != 0)   {changeSpell(fixxy(-x(i), y(i)), this.dataset.level)}
-      if (autoVerticalSymmetry   && y(i) != 0)   {changeSpell(fixxy(x(i), -y(i)), this.dataset.level)}
-      if (autoHorizontalSymmetry && autoVerticalSymmetry && x(i) != 0 && y(i) != 0)
-        {changeSpell(fixxy(-x(i), -y(i)), this.dataset.level)}
-    }
-
-
-
-
-
+    let l = this.dataset.level
+    usesymmetries(i, l)
   });
 
 
