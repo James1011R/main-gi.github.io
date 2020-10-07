@@ -367,7 +367,7 @@ function appendPassive(text) {
   setPassive(oldtext + text, curPASSIVE);
 }
 
-function setPassive(text, level, exporting=false) {
+function setPassive(text, level, importing=false) {
   var old = $("#" + level + " .passives").attr("data-raw");
   var oldhtml = $("#" + level + " .passives").html();
   text = cleanseText(text);
@@ -375,7 +375,8 @@ function setPassive(text, level, exporting=false) {
   DATA[level].passives = text;
   //if (level != curPASSIVE)
   //    $("#" + level + " .passives").text(DATA[level].passives);
-  if ((level = nextLevel(level)) && old == $("#" + level + " .passives").attr("data-raw") && exporting == false) { // main_gi: TODO: There must be a bug involving this line and exports, where if you export from say Gemini to BonePile, the +1, +2, and +3 versions still show text even though it should be empty. This is an official piecemaker bug too. The "level = nextLevel" assignment doesn't look great.
+  if ((level = nextLevel(level)) && old == $("#" + level + " .passives").attr("data-raw") && importing == false) { // main_gi: TODO: There must be a bug involving this line and exports, where if you export from say Gemini to BonePile, the +1, +2, and +3 versions still show text even though it should be empty. This is an official piecemaker bug too. The "level = nextLevel" assignment doesn't look great.
+    // main_gi: Fixed.
     $("#" + level + " .passives").html(oldhtml);
     setPassive(text, level);
   }
@@ -1986,7 +1987,7 @@ function getgallery (nameinput, version=lastCEOversion) {
   ClanBoxList = ["Ninja","Swordsman","Spearman","Axeman","Legionary","Paladin","Berserker","Antimage","Warrior","Samurai"];
   ArcaneBoxList = ["Wizard","Bomber","Pyromancer","Banshee","Phantasm","FrostMage","Fireball","PoisonMage","SoulKeeper","WindMage","Portal","ThunderMage"];
   ForestBoxList = ["Dragon","Wisp","Guardian","Dryad","Ranger","Archer","Spider","Basilisk","Enchantress","Tiger","Drake"];
-  // Hardcoded because this info is not anywhere near the piece data itself
+  // Hardcoded because this info is not anywhere near the piece data itself. Grand also hardcoded it this way.
 
   let pieceset = ClanBoxList.includes(lename)? "Clan":ArcaneBoxList.includes(lename)? "Arcane":ForestBoxList.includes(lename)? "Forest":"Basic"
 
@@ -2343,7 +2344,9 @@ function resetSpellLooks() {
   $(".spell").attr("x", spellstyle[1])
   $(".spell").attr("y", spellstyle[1])
   $(".spell-symbol").attr("font-size", spellstyle[2])
-  $(".spell-gallery").css("transform", "none")
+  //$(".spell-gallery").css("transform", "none") // bug on chrome only, setting transform to none will not fix the scale on the attributes. Thanks to ABC for pointing this one out.
+  $(".spell-gallery").css("transform", "scale(1.25, 1.25)")
+
   checkSpecialStyles() // Not exactly part of the "spell looks" reset but we should do it anyway
 }
 
@@ -2440,7 +2443,7 @@ function globalswitchfc() { // main_gi: Switch to favuor chess stylings, this is
   changemove("swap", "swap ally (unblockable)", 0, 0, "●", [127, 127, 127], "🗘", white, "true")
 }
 
-$("#switchfc").click(function(){globalswitchfc()}) // Yes, this is absaolutely ridiculous, but otherwise js autocalls this for no reason when the page loads. js sux
+$("#switchfc").click(function(){globalswitchfc()}) // Yes, this is absolutely ridiculous that I need to wrap it around a "function()", but otherwise js autocalls this for no reason when the page loads. js sux
 
 $("#switchcba").click(function() { // main_gi: Switch to favuor chess stylings
   $("html").removeClass("cd")
