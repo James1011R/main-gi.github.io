@@ -717,7 +717,7 @@ box-shadow: 0 0 0 4px #d2d796cc inset;}
 /*
 .fc .passivepanel .moves::has(p) {background: red}*/
 .fc .cost + div > ul p {font-family: Arial; font-weight: normal; text-transform: lowercase;}
-.fc .moves svg {box-shadow: none;}
+.fc section .moves svg {box-shadow: none;}
 
 .fc .info {display: none;}
 
