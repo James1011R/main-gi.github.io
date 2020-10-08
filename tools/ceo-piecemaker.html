@@ -159,7 +159,7 @@
       <div style="border: 1px solid #ddd; background: white; font-size: 75%">
         <div style="background: #efefef; padding: 5px">
           <div style="font-family: Verdana, Tahoma; font-weight: bold; display: inline-block;">StratShotPlayer</div>
-          <a style="display: inline-block; float: right; font: 11px Verdana,Arial,sans-serif; margin-left: 5px; color: #900; text-decoration: underline; padding: 5px; cursor: pointer" onclick="if (repq < 16440) {repq++; alert('Post has been flagged for spam. Please be patient as our staff gets to the report. Current reported posts queue: ' +repq)} else {alert(`ERROR: Apologies, but due to abuse, the Flag Post feature is having technical difficulties and is currently under maintenance, along with the sticker system and the chat system and the blocks system and the game upload system. Please stand by.\r\n\r\nIn the meantime, we have automatically cleared the report queue.`); this.style.cursor = 'not-allowed';
+          <a style="display: inline-block; float: right; font: 11px Verdana,Arial,sans-serif; margin-left: 5px; color: #900; text-decoration: underline; padding: 5px; cursor: pointer; user-select: none" onclick="if (repq < 16440) {repq++; alert('Post has been flagged for spam. Please be patient as our staff gets to the report. Current reported posts queue: ' +repq)} else {alert(`ERROR: Apologies, but due to abuse, the Flag Post feature is having technical difficulties and is currently under maintenance, along with the sticker system and the chat system and the blocks system and the game upload system. Please stand by.\r\n\r\nIn the meantime, we have automatically cleared the report queue.`); this.style.cursor = 'not-allowed';
           $('#sspmessage').html('<i>This post has been removed by an administrator or moderator</i>')}">Flag Post</a>
         </div>
         <div id="sspmessage" style="font-family: 'Lucida Grande', Arial, sans-serif;  color: black; font-size: 90%; line-height: 140%; padding: 10px;"></div>
@@ -207,11 +207,13 @@
         <a id="tt0" href="#c" data-tool="marker">Marker</a>
         <a id="tt1" href="#c" data-tool="line">Line</a>
         <a id="tt2" href="#c" data-tool="vector">Path</a>
+        <a id="tt3" href="#c" data-tool="eraser">Eraser</a>
       </nav>
       <nav>
-        <a id="tt3" href="#c" data-tool="eraser">Eraser</a>
         <a id="tt4" href="#c" data-tool="leraser">Line Eraser</a>
         <a id="tt5" href="#c" data-tool="vshape">Shape</a>
+        <a id="tt6" href="#c" data-tool="veraser">Cutout</a>
+        <a id="tt7" href="#c" data-tool="shape">Doodle</a>
       </nav>
     <div class="left">Tool Color</div>
       <nav>
@@ -331,7 +333,7 @@
   <div style="overflow-y: auto; height: 100%">
     <p style="text-align: center; margin: 0; font-size: 150%"><b>Credits</b></p><br>
   Tony2: original piecemaker<br>
-  Logo (ABC_Boy): piecemaker v2 with massive graphical and UI improvements, programming in the custom ability icon creator, all custom unicode icon glyphs, board svg rewrite<br>
+  Logo (ABC_Boy): piecemaker v2 with massive graphical and UI improvements, programming in the custom ability icon creator, all custom unicode icon glyphs, board svg rewrite, sharing versions v0.42-v0.53 for this piecemaker<br>
   Aplet123: board svg rewrite<br>
   main_gi: piecemaker v2 original UI feedback, auto symmetry, unit gallery, pretend unit generator and meme feedback, CD/FC/CBA styles<br>
   Elund (James1011R): all UPLE abilities, fill color customization and "UPLE" fill colors, "tool tray" scrollbar<span style="font-size: 1%">I have no idea what this means</span><br>
@@ -348,11 +350,11 @@
   - <b>Feature:</b> Can double-click the origin to add an action into the infopanel but not the actions (like RoyalGuard that shows an augmented Teleport) (not actually a new feature)<br>
   - <b>Feature:</b> Can put [+] or 3[+1], for example (including the brackets) to signify unit names that are upgraded or numbers that increase or decrease by the same value across upgrades. "Promotes to Knight[+]. On Death: Lose 4[+1] morale." is usable as the passive for the entire Militia (not actually a new feature)<br>
   - <b>Feature:</b> Can drag from the origin to any adjacent square to create Rook/Bishop lines (reimplemented)<br>
-  - <b>Bugfix:</b> Exports can no longer change your selected action for no reason<br>
-  - <b>Bugfix:</b> Empty passives no longer keep the minus sign in the infopanel<br>
-  - <b>Bugfix:</b> Right clicking twice on the board no longer forces you to double left-click to be functional<br>
-  - <b>Bugfix:</b> Exporting no longer has strange interactions with empty passives on higher tiers<br>
-  - <b>Feature:</b> You can edit action text straight from in the infopanel and it automatically updates the text. This also works on non-custom abilities but won't save on export. You can also change the names of upgraded pieces, but this doesn't save on export either.<br>
+  - <b>Bugfix:</b> Imports can no longer change your selected action for no reason<br>
+  - <b>Bugfix:</b> Empty passives no longer keep the - in the infopanel<br>
+  - <b>Bugfix:</b> Right clicking twice on the board no longer puts the cursor in an unfunctional mode that forces you to double left-click to fix<br>
+  - <b>Bugfix:</b> Importing no longer has strange interactions with empty passives on higher tiers<br>
+  - <b>Feature:</b> You can edit action text straight from in the infopanel and it automatically updates the text. This also works on non-custom abilities but won't save on export. You can also change the names of upgraded pieces, but this doesn't save on export either<br>
   - <b>Feature:</b> Scrollbar in the sidebar, and also if the screen is too zoomed-in, it will left-align the boards<br>
   - <b>Feature:</b> Ability to flag SSP's post<br>
   - <b>Feature:</b> Ability to put things like "v0.50 BonePile" in CEO pretend generator to get old versions of uncollectible units<br>
