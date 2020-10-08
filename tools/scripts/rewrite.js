@@ -162,10 +162,13 @@ function initializeBoards() {
       changeSpell(fixxy(-y(i), -x(i)), l)
       changeSpell(fixxy(-x(i), -y(i)), l)
       if (switchpath) {setAction(switchpath)} // These four should switch, these have one positive and one negative
-      changeSpell(fixxy(y(i), -x(i)), l)
-      changeSpell(fixxy(-y(i), x(i)), l)
-      changeSpell(fixxy(-x(i), y(i)), l)
-      changeSpell(fixxy(x(i), -y(i)), l)
+
+      if (x(i) != 0 && y(i) != 0 && Math.abs(x) != Math.abs(y)) {
+        changeSpell(fixxy(-y(i), x(i)), l)
+        changeSpell(fixxy(x(i), -y(i)), l)
+        changeSpell(fixxy(y(i), -x(i)), l)
+        changeSpell(fixxy(-x(i), y(i)), l)
+      }
       if (switchpath) {setAction(currentlyselectedaction)}
     } else {
       if (autoHorizontalSymmetry && autoVerticalSymmetry && x(i) != 0 && y(i) != 0)
@@ -190,7 +193,7 @@ function initializeBoards() {
     }
 
     var curMove = getSpell(this.dataset.index);
-    if (curMove.dataset && curMove.dataset.id == config.id) mouse.mode = "remove"; // Changes functionality to erase
+    if (e.buttons == 2 || curMove.dataset && curMove.dataset.id == config.id) mouse.mode = "remove"; // Changes functionality to erase. "e.buttons == 2" is by ABC, it means if right click is held.
 
     changeSpell(this.dataset.index, this.dataset.level);
     let i = this.dataset.index
