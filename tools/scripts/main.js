@@ -362,7 +362,7 @@ $("#ctrlclear").click(function() {
 });
 
 function appendPassive(text) {
-  var oldtext = $("#" + curPASSIVE + " .passives").attr("data-description") && $("#" + curPASSIVE + " .passives").attr("data-description").concat("\n") || "";
+  var oldtext = $("#" + curPASSIVE + " .passives").attr("data-raw") && $("#" + curPASSIVE + " .passives").attr("data-description").concat("\n") || "";
   $("#" + curPASSIVE + " .passives").text(oldtext + text);
   setPassive(oldtext + text, curPASSIVE);
 }
@@ -859,7 +859,7 @@ $("#exjh").click(function() {
     q: toCSV(DATA)
   };
   if (CUSTOM) uri.c = CUSTOM;
-  history.replaceState("", "", "index.html?" + $.param(uri));
+  history.replaceState("", "", "?" + $.param(uri));
 });
 $("#imj").click(function() {
   var code = $("#code").val();
@@ -1192,7 +1192,9 @@ function replaceAll(string, changethis, tothis) { // Because this is unsupported
 
 
 function numify (x) {return parseInt(x, 10)}
-function tob15 (x) {rv = numify(x).toString(15); return (rv.length==1?"0":"") + rv} // adds the zeros
+function tob15 (x) {rv = numify(x).toString(15); return (rv.length==1?"0":"") + rv} // "tob15" = "to base 15". Adds leading zeros too.
+
+function tob10 (x) {return parseInt(x, 15)} // adds the zeros
 
 function x (i) {
   return (i % 15) - 7
@@ -2626,3 +2628,64 @@ window.onclick = function(event) {
   }
 } // https://stackoverflow.com/questions/33060993/click-outside-div-to-hide-div-in-pure-javascript
 modal.scrollTop = 0; // thanks for autoscrolling to the bottom for some reason
+
+
+var grand2 = `not sure I like the idea, seems hollow, bypasses gameplay elements, robs opponent of satisfaction in taking it, removes charm nuance, and more`
+
+
+
+function exportasgame () {
+  // Exports to ingame code. Only for people trying to make a piece gallery, or think their ideas are so good that it needs as little time as possible to import.
+  // THIS DOES NOT ACTUALLY MAKE IT COMPLETELY ACCURATE INGAME CODE, the result is only like half accurate, but all info in the result is enough to work for the gallery parser.
+  function arrayspamming(value, len) {return Array.from({length: len}).map(x => value)} // array spammed with a value, length times
+
+  rv = ``
+
+  for (let level in LEVELS) { // "LEVELS" is an array ["base", "plus", "plusplus", "plusplusplus"]. Conveniently, x is [0, 1, 2, 3] throughout this.
+    let movelist = arrayspamming(0, 15*15)
+    for (let levelmoves in DATA[`${LEVELS[level]}`].moves) {
+      if (DATA[`${LEVELS[level]}`].moves[levelmoves].length > 0) { // This line is necessary so it doesn't error if it's blank.
+        let moveresults = (DATA[`${LEVELS[level]}`].moves[levelmoves].match(/.{1,2}/g).map(z=>tob10(z)))
+        for (i = 0; i < moveresults.length; i++) {
+          movelist[moveresults[i]] = levelmoves
+        }
+      }
+    }
+    a = level==0? "":(numify(level)+1).toString()    // this changes [0, 1, 2, 3] to ["", "2", "3", "4"]
+    plusses = arrayspamming("+", level).join("") // nice function reuse
+
+    LEVELS[level]
+    rv += `
+    D_${DATA.name}${a} = new Object();
+    UnitLibrary[Place] = "${DATA.name}${a}";
+    D_${DATA.name}${a}.Name = "${DATA.name}${plusses}";
+    D_${DATA.name}${a}.Index = Place;
+    Place++;
+    D_${DATA.name}${a}.Cost = ${DATA[`${LEVELS[level]}`].cost};
+    D_${DATA.name}${a}.Rarity = "${DATA.labels.rarity}";
+    D_${DATA.name}${a}.Moves = [${movelist.map(x=>numify(x)+1).join(",")}];
+    D_${DATA.name}${a}.MoveTypes = [${Object.keys(DATA[`${LEVELS[level]}`].moves).map(x=>numify(x)+1).join(",")}];${DATA[`${LEVELS[level]}`].passives? `\n    ` + `D_${DATA.name}${a}.Passive = "${DATA[`${LEVELS[level]}`].passives}";`.replace(/\n/g, "\\n") : ``}
+    D_${DATA.name}${a}.Minion = ${DATA.labels.rank == "Minion"?"true":"false"};
+    D_${DATA.name}${a}.Tier = ${level};
+    D_${DATA.name}${a}.AIskip = 50;`
+
+  }
+  return rv
+}
+
+document.addEventListener('keydown', function (e) {
+  if (`${e.code}` == "Backquote") {
+     document.getElementById("hiddengameexporter").style.display = "initial"; 
+  }
+});
+
+
+
+document.getElementById("copyButton").addEventListener("click", function() {
+  document.getElementById("copyTarget").value = exportasgame()
+  copyToClipboard(document.getElementById("copyTarget"));
+});
+
+// main_gi: Isn't it great that this simple feature is so much filler?
+// https://stackoverflow.com/questions/22581345/click-button-copy-to-clipboard-using-jquery
+function copyToClipboard(e){var t,n,o="INPUT"===e.tagName||"TEXTAREA"===e.tagName;if(o)c=e,t=e.selectionStart,n=e.selectionEnd;else{if(!(c=document.getElementById("_hiddenCopyText_"))){var c=document.createElement("textarea");c.style.position="absolute",c.style.left="-9999px",c.style.top="0",c.id="_hiddenCopyText_",document.body.appendChild(c)}c.textContent=e.textContent}var a,d=document.activeElement;c.focus(),c.setSelectionRange(0,c.value.length);try{a=document.execCommand("copy")}catch(e){a=!1}return d&&"function"==typeof d.focus&&d.focus(),o?e.setSelectionRange(t,n):c.textContent="",a}

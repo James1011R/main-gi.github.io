@@ -395,7 +395,7 @@ MOVES = [{
    "cat": "official",
    "name": "omnishield",
    "long": "bt]:ally?(CHAMPION)?targeted?+move?this+move?(mu:swap)",
-   "text": "(Trigger) Ally Champion targeted by enemy ability or attack: this unit instantly swaps places with targeted champion.",
+   "text": "(Trigger) Ally Champion targeted by enemy ability or attack: This unit instantly swaps places with targeted champion.",
    "color": [0,0,153],
    "color2": [153,255,255],
    "symbol1": "\ue905"
@@ -414,7 +414,7 @@ MOVES = [{
    "cat": "official",
    "name": "splash",
    "long": "cs]ru:push#\\(mn:move@1(AWAY))?&freeze#flag@3-move",
-   "text": "(Magic) Push enemy unit 1 space away from caster and freeze it for 2 turns.",
+   "text": "(Magic) Push enemy unit 1 space away and freeze it for 2 turns.",
    "color": [0,153,255],
    "color2": [255,255,255],
    "symbol1": "\ue904"
