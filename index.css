@@ -104,6 +104,7 @@ textarea {
 }
 textarea:focus {
   border: 1px solid var(--linkcolor);
+  outline: none;
 }
 a {
   background:
@@ -496,13 +497,38 @@ button {
 	background-color:#5ef6f6;
   cursor: pointer;
 } button:hover:active {
-	background-color:#3ddddd;
+	background-color:#019595;
 	color:#dff;
   padding-block-start: 0px;
   padding-inline-end: 7px;
   padding-block-end: 0px;
   padding-inline-start: 9px;
   border-style: inset;
-} button:focus:not(:hover) {
-  outline:thin dotted; }
+}
+
+:focus{outline: 1px solid cyan;}
+
+button:focus{
+  outline: none;
+}
+.focuson button:focus {
+  box-shadow: 0 0 2px 3px rgba(182, 255, 248, 0.7);
+}
+
+button.dangerous {
+  background-color: #df3c3c;
+  border: 2px outset #a33;
+  box-shadow: inset 0px 1px 0px 0px #fe9797;
+  text-shadow: 1px 1px 0px #ab1515;
+
+}
+button.dangerous:hover {
+  background-color: #f30;
+}
+button.dangerous:hover:active {
+  background-color: #8a0000;
+  color:#fdd;
+}
+
+
 /* This button was (half) generated using CSSButtonGenerator.com */
