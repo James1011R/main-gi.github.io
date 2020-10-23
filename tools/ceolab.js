@@ -4108,12 +4108,15 @@ Vue.component('ceo-component', {
           this.sides[i] = bogussides[i];
         }
 
-        let newpositiondata = this.positiondata
-        for (let i = 0; i < newpositiondata.length; i++) {
-          newpositiondata[i] = 63 - newpositiondata[i];
+        if (this.positiondata != "") {
+          let newpositiondata = this.positiondata
+          for (let i = 0; i < newpositiondata.length; i++) {
+            newpositiondata[i] = 63 - newpositiondata[i];
+          }
+          this.userpositiondata = newpositiondata.join(",")
+          this.checkpositiondata()
         }
-        this.userpositiondata = newpositiondata.join(",")
-        this.checkpositiondata()
+
 
       } else if (x == "Flip Team Colors") {
         this.sides = this.sides.map((x,index) => {
@@ -4526,6 +4529,12 @@ The bottom two buttons have very limited use, and are only there to support one 
 <div style="height: 20px"></div>
 Oh, and check out <a href="https://igniam.xyz/tools/ceo-piecemaker.html">my version of the piecemaker</a>, another tool I worked on.
 <div style="height: 20px"></div>
+<details>
+<summary>Unit Reference List (click and scroll down to expand)</summary>
+<div style="font-size: 90%">
+${originalunitnames.sort().join(" ")}
+</div>
+</details>
 
 
 </div>
