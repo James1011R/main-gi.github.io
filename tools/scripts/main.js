@@ -2034,9 +2034,11 @@ function newUnitsParse(a) {
 
 function updateGalleryChangelog(version) {
   let log = CEO[version].misc.parsedlog
-  if (!log) {$("#gallerychangestext2").html(""); return}
+  if (!log) {$("#gallerychangestext2").html(`<b>${version}</b> (${CEO[version].misc.release})`); return
+
+}
   $("#gallerychangestext2").html(uncleanseforhtml(
-    `<b>Changelog for ${version}</b><br>
+    `<b>Changelog for ${version} (${CEO[version].misc.release})</b><br>
     ${newUnitsParse(CEO[version].misc.newunits)} <br>
     ${log? log.join("\n").replace(/\n/g, "<br>") :""}`))
 }
@@ -2792,7 +2794,7 @@ function exportasgame () {
   return rv
 }
 
-document.addEventListener('keydown', function (e) {
+document.addEventListener('keydown', function (e) { // dev tools
   if (`${e.code}` == "Backquote") {
      document.getElementById("devtools").style.display = "initial"; 
      $(".hiddendisplay").attr("style", "display: initial")
