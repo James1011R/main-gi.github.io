@@ -499,7 +499,8 @@ MOVES = [{
    "text": "(Path) Move or Attack.",
    "color": [0,0,0],
    "color3": [255,0,0],
-   "symbol1": "\ue702"
+   "symbol1": "\ue702",
+   "hide": true
  }, {
    "id": "57",
    "cat": "official",
@@ -507,7 +508,8 @@ MOVES = [{
    "text": "(Path) Move or Attack.",
    "color": [0,0,0],
    "color3": [255,0,0],
-   "symbol1": "\ue700"
+   "symbol1": "\ue700",
+   "hide": true
  }, {
    "id": "58",
    "cat": "official",
@@ -515,7 +517,8 @@ MOVES = [{
    "text": "(Path) Move or Attack.",
    "color": [0,0,0],
    "color3": [255,0,0],
-   "symbol1": "\ue701"
+   "symbol1": "\ue701",
+   "hide": true
  }, {
    "id": "59",
    "cat": "official",
@@ -523,7 +526,8 @@ MOVES = [{
    "text": "(Path) Move or Attack.",
    "color": [0,0,0],
    "color3": [255,0,0],
-   "symbol1": "\ue703"
+   "symbol1": "\ue703",
+   "hide": true
  }, {
    "id": "60",
    "cat": "official",
@@ -1745,7 +1749,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "b49",
-   "cat": "limited",
+   "cat": "pretend",
    "name": "movementswitch",
    "text": "Switch the caster's Move actions to Attack, and vice versa.",
    "color": [0,0,255],
@@ -1755,7 +1759,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "b50",
-   "cat": "limited",
+   "cat": "pretend",
    "name": "empower",
    "text": "(Magic) Empower ally unit, allowing them to destroy an adjacent enemy unit for 3 turns.",
    "color": [255,127,127],
@@ -1765,7 +1769,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "b51",
-   "cat": "limited",
+   "cat": "pretend",
    "name": "chill",
    "text": "(Magic) Chill enemy unit for 5 turns, freezing them if they act.",
    "color": [107,205,253],
@@ -1775,7 +1779,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "b52",
-   "cat": "limited",
+   "cat": "pretend",
    "name": "overlap",
    "text": "Move to location, overlapping any unit on that location until that location is unoccupied.",
    "color": [0,0,0],
@@ -1784,7 +1788,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "b53",
-   "cat": "limited",
+   "cat": "pretend",
    "name": "forcefield",
    "text": "[Pay 3]: (Magic) Marked location can't be targeted by abilities other than Move for 3 turns.",
    "color": [0,0,255],
@@ -1796,7 +1800,17 @@ MOVES = [{
    "hide": true
  }, {
    "id": "b54",
-   "cat": "limited",
+   "cat": "pretend",
+   "name": "pathblocker",
+   "text": "(Passive) Abilities can't be cast through this location.",
+   "color": [0,0,0],
+   "color2": [255,255,255],
+   "symbol1": "\ue700",
+   "symbol2": "x",
+   "hide": true
+  }, {
+   "id": "b54a",
+   "cat": "pretend",
    "name": "invokepathblocker",
    "text": "(Passive) Abilities can't be cast through this location. Invoke to toggle between on and off.",
    "color": [0,0,0],
@@ -1804,6 +1818,139 @@ MOVES = [{
    "color4": [255,0,0],
    "symbol1": "\ue700",
    "symbol2": "x",
+   "hide": true
+ }, {
+   "id": "b55",
+   "cat": "pretend",
+   "name": "truestrike",
+   "long": "bc]mz:move/(REMOVE)",
+   "text": "(Unstoppable) Move or Attack and remove target from the game. This ability ignores all abilities and passives.",
+   "color": [64,0,127],
+   "color3": [0,0,0],
+   "symbol1": "\u2bce",
+   "hide": true
+ }, {
+   "id": "b55a",
+   "cat": "pretend",
+   "name": "truestrikeswap",
+   "long": "bc]mz:move/swap/(REMOVE)",
+   "text": "(Unstoppable) Move, swap places with ally, or Attack and remove target from the game. This ability ignores all abilities and passives.",
+   "color": [127,0,127],
+   "color3": [255,210,0],
+   "symbol1": "\u2bce",
+   "hide": true
+ }, {
+   "id": "b56",
+   "cat": "pretend",
+   "name": "feint",
+   "text": "Move or Attack target and then instantly move 1 space in the opposite direction.",
+   "color": [0,0,0],
+   "color2": [127,127,127],
+   "color3": [0,0,255],
+   "color4": [127,127,127],
+   "symbol1": "\u2389",
+   "symbol2": "\u25cb",
+   "hide": true
+ }, {
+   "id": "b57",
+   "cat": "pretend",
+   "name": "jolt",
+   "text": "[Pay 1]: (Magic) Jolt enemy unit, allowing you to immediately move it to a space where it can't be targeted by you.",
+   "color": [255,196,127],
+   "color3": [255,255,0],
+   "symbol1": "\u26a1",
+   "hide": true
+ }, {
+   "id": "b58",
+   "cat": "pretend",
+   "name": "rally",
+   "text": "(Magic) Teleport unit 2 spaces toward the other side of the field.",
+   "color": [102,0,102],
+   "symbol1": "\u2b9d",
+   "hide": true
+ }, {
+   "id": "b59",
+   "cat": "variation",
+   "name": "jumponce",
+   "text": "(Unblockable) Move or Attack, and lose this ability.",
+   "color": [20,151,24],
+   "color3": [127,127,127],
+   "symbol1": "\uf23d",
+   "hide": true
+ }, {
+   "id": "b60",
+   "cat": "pretend",
+   "name": "enchantedmove",
+   "text": "Move only, then enchant ally units orthogonally adjacent to you for 1 turn.",
+   "color": [0,0,255],
+   "color3": [0,255,255],
+   "symbol1": "+",
+   "hide": true
+ }, {
+   "id": "b61",
+   "cat": "pretend",
+   "name": "banishexile",
+   "text": "(Magic) Exile unit, then return them at starting position in 3 turns.",
+   "color": [0,200,200],
+   "color3": [0,0,0],
+   "symbol1": "\u2742",
+   "hide": true
+  }, {
+   "id": "b62",
+   "cat": "pretend",
+   "name": "darkexile",
+   "text": "(Magic) Exile unit, then return them after any unit dies.",
+   "color": [87,218,40],
+   "color3": [0,0,0],
+   "symbol1": "\u2742",
+   "hide": true
+  }, {
+   "id": "b63",
+   "cat": "pretend",
+   "name": "stormwind",
+   "text": "[Pay 1]: (Magic) Push unit up to 3 spaces away from caster and mark destination to be destroyed by Magic in 3 turns.",
+   "color": [0,127,255],
+   "color2": [0,0,0],
+   "color3": [255,255,255],
+   "color4": [0,127,255],
+   "symbol1": "\u26a1",
+   "symbol2": "\u25cc",
+   "hide": true
+  }, {
+   "id": "b64",
+   "cat": "pretend",
+   "name": "oddpoisonevenfreeze",
+   "text": "Odd Move: (Magic) Poison enemy unit for 3 turns. Even Move: (Magic) Freeze enemy unit for 3 turns.",
+   "color": [27,152,100],
+   "symbol1": "\u2685",
+   "hide": true
+ }, {
+   "id": "b65",
+   "cat": "pretend",
+   "name": "jumplose",
+   "text": "[Lose 1]: (Unblockable) Move or Attack.",
+   "color": [20,151,24],
+   "color3": [0,0,0],
+   "symbol1": "\u{1f505}",
+   "hide": true
+ }, {
+   "id": "b65a",
+   "cat": "pretend",
+   "name": "jumpswaplose",
+   "text": "[Lose 1]: (Unblockable) Move, Attack, or swap places with ally.",
+   "color": [255,210,0],
+   "color3": [0,0,0],
+   "symbol1": "\u{1f505}",
+   "hide": true
+ }, {
+   "id": "b66",
+   "cat": "pretend",
+   "name": "evasion",
+   "text": "(Trigger) This unit targeted by enemy: This unit instantly swaps places with unit on this location.",
+   "color": [0,0,255],
+   "color2": [0,0,0],
+   "color3": [0,0,255],
+   "symbol1": "\u2389",
    "hide": true
  }, {
    "id": "6zz",
