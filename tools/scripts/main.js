@@ -2802,6 +2802,10 @@ document.getElementById("copyButton").addEventListener("click", function() {
   document.getElementById("copyTarget").value = exportasgame()
   copyToClipboard(document.getElementById("copyTarget"));
 });
+document.getElementById("movesetArray").addEventListener("click", function() {
+  document.getElementById("copyTarget").value = ("[" + (/Moves = \[(.+)\]/gi).exec(  exportasgame()  )[1] + "]")
+  copyToClipboard(document.getElementById("copyTarget"));
+});
 // main_gi: Isn't it great that this simple feature is so much filler?
 // https://stackoverflow.com/questions/22581345/click-button-copy-to-clipboard-using-jquery
 function copyToClipboard(e){var t,n,o="INPUT"===e.tagName||"TEXTAREA"===e.tagName;if(o)c=e,t=e.selectionStart,n=e.selectionEnd;else{if(!(c=document.getElementById("_hiddenCopyText_"))){var c=document.createElement("textarea");c.style.position="absolute",c.style.left="-9999px",c.style.top="0",c.id="_hiddenCopyText_",document.body.appendChild(c)}c.textContent=e.textContent}var a,d=document.activeElement;c.focus(),c.setSelectionRange(0,c.value.length);try{a=document.execCommand("copy")}catch(e){a=!1}return d&&"function"==typeof d.focus&&d.focus(),o?e.setSelectionRange(t,n):c.textContent="",a}
