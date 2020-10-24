@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html><head>
   <meta charset="utf-8">
+  <meta property="og:title" content="Feature Creep CEO PieceMaker (modded by main_gi)">
+  <meta property="og:image" content="https://i.imgur.com/r0hs6BZ.png">
+  <meta property="og:description" content="CEO piecemaker with generator, piece gallery, and other new features.">
+
   <meta name="viewport" content="width=device-width"> <!-- for responsive display -->
-  <title>Grand PieceMaker UPLE: Ultra Pretend Limited Edition</title>
+  <title>Feature Creep PieceMaker (modded by main_gi)</title>
   <!--[if IE]>
     <script>window.location = "https://www.mozilla.org/en-US/";</script>
   <![endif]-->
@@ -138,7 +142,7 @@
     <div class="note"><button id="avs">Automatic Vertical Symmetry (off)</button></div>
     <div class="note"><button id="ars">Automatic Full Symmetry (off)</button></div>
     <div class="note"><button id="clear1">Clear</button><button id="clear2">Clear+</button><button id="clear3">Clear++</button><button id="clear4">Clear+++</button></div>
-    <hr>
+    <br>
     Generate Pretend Piece From:
     <div class="note">
     <button id="makeceo"><span style="font-family: Impact">C</span><span style="font-family: lithos">E</span><span style="font-family: Comic Sans MS">O</span></button>
@@ -170,6 +174,12 @@
       <select id="galleryversion"></select>
       <select id="gallery"></select>
     </div>
+    <div id="gallerychanges" style="display: none">
+      <div style="border: 1px solid black; padding: 4px; background: #36393E; font-size: 90%; font-family: 'Whitney KOC'; width: 275px; max-height: 200px; word-break: break-word; overflow-y: auto">
+        <div id="gallerychangestext" style="font-family: 'Lucida Grande', Arial, sans-serif; color: white; font-size: 90%; line-height: 140%; padding: 3px;"></div>
+        <div id="gallerychangestext2" style="font-family: 'Lucida Grande', Arial, sans-serif; color: white; font-size: 90%; line-height: 140%; padding: 3px;"></div>
+      </div>      
+    </div>
     <br>Style Switch
     <div class="note">
     <button id="switchceo"><span style="font-family: Impact">C</span><span style="font-family: lithos">E</span><span style="font-family: Comic Sans MS">O</span></button>
@@ -181,11 +191,13 @@
     <button id="creditsbutton" style="box-shadow: inset 0px 1px 0px 0px #97c4fe; padding-block-start: 0px; padding-inline-end: 8px; padding-block-end: 0px; padding-inline-start: 8px; border: 2px outset #3daaaa; border-radius: 2px; background-color: #3dcccc; text-indent: 0; display: inline-block; font-family: 'Chess Battle Advanced'; color: #ffffff; font-size: 15px; font-weight: bold; font-style: normal; height: 22px; line-height: 22px; text-decoration: none; text-align: center; text-shadow: 1px 1px 0px #1570cd; border-radius: 5px; padding-bottom: 20px; font-size: 140%;">?</button>
     <div style="height: 20px"></div>
 
-    <div id="hiddengameexporter" style="display: none; font-family: Arial">
-      <b>GALLERY/INGAME DEV TOOL</b>
-      (This is normally hidden and the backtick button reveals this, you probably accidentally revealed it.)<br>
-      This is basically another 'export' feature, but for the piece gallery. Basically a tool for those who are trying to reconstruct previous versions of the game from memory or from video.
-    <textarea type="text" id="copyTarget" value=""></textarea> <button id="copyButton">Copy to Clipboard</button></div>
+    <div id="devtools" style="display: none; font-family: Arial; text-align: center">
+      <b style="text-align: center">DEV TOOOOOOLS</b><br>
+      (This is normally hidden and the backtick button reveals this. You probably accidentally revealed it.)<br>
+      <br>
+      <b style="text-align: center">CEO Source Code Export</b><br>
+      This is basically another 'export' feature, but exports to CEO's source code format. Basically a tool for those who are trying to pretend up other versions of the game. Or Grand.
+    <textarea type="text" id="copyTarget" value="" cols="36"></textarea> <button id="copyButton">Copy Current Piece to Clipboard</button></div>
     <br><br>
 
     <div style="width: 10px; height: 50px"></div> <!-- filler space on small zoom levels -->
@@ -338,6 +350,8 @@
 
 <div id="credits" style="font-family: Arial; position: fixed; top: 10%; margin: 0 auto; background: white; z-index: 100; width: 92%; left: 3%; padding: 10px; border: 2px solid black; height: 70%; display: none">
   <div style="overflow-y: auto; height: 100%">
+    <p style="text-align: center; margin: 0; font-size: 200%"><b>Feature Creep PieceMaker</b></p><br>
+    <div style="text-align: center">a piecemaker modification by primarily main_gi</div><br>
     <p style="text-align: center; margin: 0; font-size: 150%"><b>Credits</b></p><br>
   Tony2: original piecemaker<br>
   Logo (ABC_Boy): piecemaker v2 with massive graphical and UI improvements, programming in the custom ability icon creator, all custom unicode icon glyphs, board svg rewrite, sharing versions v0.42-v0.53 for this piecemaker and significantly helping with reconstructing v0.39 and v0.40<br>
@@ -351,7 +365,8 @@
   awetalehu and StratShotPlayer: for making insanely memeable reviews<br>
   Bennylin: compiling <a href="https://chess-evolved-online.fandom.com/wiki/User:Bennylin" class="link">the images that were transcribed to make the v0.37 gallery</a><br>
   RXA623: compiling <a href="https://chess-evolved-online.fandom.com/wiki/Special:Contributions/RXA623" class="link">the images that were transcribed to make the v0.38 gallery</a><br>
-  Bogden: compiling <a href="http://www.kongregate.com/forums/32630-chess-evolved-online/topics/637670-v0-39-community-changelist?page=1" class="link">a list of v0.39 changes</a>, gilisepic mentioned the Necromancer costs as well which was invaluable<br>
+  Bogden: compiling <a href="http://www.kongregate.com/forums/32630-chess-evolved-online/topics/637670-v0-39-community-changelist?page=1" class="link">a list of v0.39 changes</a>, gilisepic mentioned the Necromancer costs as well which was invaluable, also Tecness's <a href="https://youtu.be/loGHTsqlW8A?t=23" class="link">challenge</a> <a href="https://youtu.be/VcH3AABKsLU?t=139" class="link">videos</a> showed accurate old descriptions<br>
+  Kashira: compiling <a href="https://chess-evolved-online.fandom.com/wiki/Template:Unit_Table?action=edit&oldid=2592" class="link">v0.40 unit costs</a><br>
   iridium137: compiling <a href="http://www.kongregate.com/forums/32630-chess-evolved-online/topics/734704-v0-48-changes" class="link">a list of v0.48 changes</a> to reconstruct the version, although it was slightly inaccurate<br>
 <br>
     <p style="text-align: center; margin: 0; font-size: 100%"><b>Changelog</b></p><br>
@@ -362,18 +377,19 @@
   - <b>Feature:</b> Can put [+] or 3[+1], for example (including the brackets) to signify unit names that are upgraded or numbers that increase or decrease by the same value across upgrades. "Promotes to Knight[+]. On Death: Lose 4[+1] morale." is usable as the passive for the entire Militia (not actually a new feature).<br>
   - <b>Feature:</b> Can drag from the origin to any adjacent square to create Rook/Bishop lines (reimplemented).<br>
   - <b>Bugfix:</b> Imports can no longer change your selected action for no reason.<br>
-  - <b>Bugfix:</b> Empty passives no longer incorrectly display the - in the infopanel.<br>
+  - <b>Bugfix:</b> Empty passives no longer incorrectly display the - in the infopanel (would happen if you unfocused, refocused, then deleted the passive).<br>
   - <b>Bugfix:</b> Right clicking twice on the board no longer puts the cursor in an unfunctional mode that forces you to double left-click to fix it.<br>
   - <b>Bugfix:</b> Importing no longer has strange interactions with empty passives on higher tiers.<br>
   - <b>Feature:</b> You can edit action text straight from in the infopanel and it automatically updates the text. This also works on non-custom abilities but won't save on export. You can also change the names of upgraded pieces, but this doesn't save on export either.<br>
   - <b>Feature:</b> Scrollbar in the sidebar, and also if the screen is too zoomed-in, it will left-align the boards.<br>
   - <b>Feature:</b> Ability to flag SSP's post.<br>
   - <b>Feature:</b> Ability to put things like "v0.50 BonePile" in CEO pretend generator to get old versions of uncollectible units.<br>
+  - <b>Feature:</b> You can now use a modified version of Betza notation in the import code.<br>
   - <b>Change:</b> The order of the "(Ranged) Destroy target." ability and "(Magic) Teleport unit to Ability Target." have been switched to match the game's order. This breaks a very small amount of previous piecemaker export codes.<br>
-  - <b>Change:</b> Ability descriptions and icons match v0.54.<br>
-  - <b>Historical Inaccuracy:</b> In the real v0.41, Phoenix++'s infopanel actually showed a "Move or Attack" movetype when it didn't have it, because Grand is a good consistent designer who codes in the displayed movetypes differently than the given movetypes. This has been fixed but is historically inaccurate.<br>
+  - <b>Change:</b> Action descriptions and icons match v0.54.<br>
+  - <b>Historical Inaccuracy:</b> In the real v0.41, Phoenix++'s infopanel actually showed a "Move or Attack" movetype when it didn't have it, because Grand is a good consistent designer who codes in the displayed movetypes differently than the movetypes the unit actually has. This has been fixed but is historically inaccurate.<br>
   - <b>Historical Inaccuracy:</b> In the real v0.47, GravityMage+ infopanel didn't show the "Move, Attack, or swap places with ally" movetype even though it had it.<br>
-  - <b>Historical Inaccuracy:</b> In the real v0.47 and v0.49, GravityMage++ infopanel actually showed a "Move or Attack" movetype when it didn't have it.<br>
+  - <b>Historical Inaccuracy:</b> In the real v0.47, v0.48, and v0.49, GravityMage++ infopanel actually showed a "Move or Attack" movetype when it didn't have it.<br>
   <br>
   - Also, to add a passive in the CD and FC styles, click the space between the board and the actions list.<br>
 <br><br>
@@ -388,11 +404,10 @@
   - <b>Visuals:</b> The gallery uses terms like "v41" when it should be "v0.41". Too bad, the data is stored as an object and it doesn't like periods in the name. Fixing this would be half a day's wasted time.<br>
   - <b>Visuals:</b> The "fill color" should really be contextual on if you've selected Shape. It's just a bunch of useless settings without Shape selected.<br>
   - <b>Visuals:</b> The size of the infopanel should maybe be the same on all tiers.<br>
+  - <b>Visuals:</b> Fancy temporary glow to modified elements (mostly the cost) when you change units in the gallery. This requires some CSS animation nonsense and probably the ability to detect changes between objects.<br>
   - <b>Bug:</b> Some parts of the export may not be saved and maybe the image function will randomly break. I don't know because I haven't used it often.<br>
-  - <b>Bug:</b> Path abilities do not look correct in the unitgen and do not work well with horizontal symmetry. Path is a boring mechanic so I don't care.<br>
   - <b>Feature?:</b> All previous versions for the unit gallery, syncing CEO art, and a search function.<br>
   - <b>Feature?:</b> Double-clicking a non-custom ability should set the next unused custom ability to a clone of whatever you clicked.<br>
-  - <b>Feature?:</b> Export codes to be able to use pretend piece notation: for example, "KDjN" is code for Dragon.<br>
   - <b>Feature?:</b> Unit gallery somehow detects reused unit names and passives so that promotes also use the [+] and [+1] convention.<br>
   - <b>Feature?:</b> UI rework, with many buttons being placed on the bottom instead, which is more convenient to scroll down a small amount rather than click some buttons and mess with tabs.<br>
   - <b>Feature?:</b> The custom action editor is only like 8 variables, it doesn't need a full-screen popup! Also a better color selector, or a way to only show one half of a unicode symbol.<br>
@@ -401,6 +416,12 @@
   <br><br>
   My code is <a href="https://github.com/main-gi/main-gi.github.io/tree/master/tools" class="link">here</a>. Eventually I will probably regret stuffing all the relevant files in "/tools/" when there's like 20 tools in it, but it works for now.<br>
 </div>
+</div>
+
+<div id="notationexplanation" style="font-family: Arial; position: fixed; top: 10%; margin: 0 auto; background: white; z-index: 100; width: 92%; left: 3%; padding: 10px; border: 2px solid black; height: 70%; display: none">
+  <div style="overflow-y: auto; height: 100%">
+    Here is a mildly condescending explanation on the notation system.
+  </div>
 </div>
 
 </body></html>
