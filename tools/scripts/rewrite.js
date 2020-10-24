@@ -152,31 +152,51 @@ function initializeBoards() {
   // Events moved to here because reasons
 
   function usesymmetries (i, l) {
-    let currentlyselectedaction = config.name
+    let curaction = config.name // currently selected action
     let switchpath = false
-    if (currentlyselectedaction.startsWith("antidiagonalpath")) {switchpath = currentlyselectedaction.slice(4)} // main_gi: ugh,
-    else if (currentlyselectedaction.startsWith("diagonalpath")) {switchpath = "anti" + currentlyselectedaction} // path symmetry support
+    if (curaction.startsWith("antidiagonalpath")) {switchpath = curaction.slice("anti".length)} // main_gi: ugh,
+    else if (curaction.startsWith("diagonalpath")) {switchpath = "anti" + curaction} // path symmetry support
+    let verticalrotate = false
+    if (curaction.startsWith("verticalpath")) {verticalrotate = "horizontal" + curaction.slice("vertical".length)}
+    else if (curaction.startsWith("horizontalpath")) {verticalrotate = "vertical" + curaction.slice("horizontal".length)}
 
-    if (autoFullSymmetry) { // main_gi: HOW DO YOU NOT SPAGHETTIFY THIS
-      changeSpell(fixxy(y(i), x(i)), l)
-      changeSpell(fixxy(-y(i), -x(i)), l)
+    let likeAtom = (Math.abs(x(i)) == Math.abs(y(i)))? "F" : (x(i) != 0 && y(i) != 0)? "W" : "N"
+
+    if (autoFullSymmetry && verticalrotate) {
+      changeSpell(fixxy(x(i), -y(i)), l)
+      changeSpell(fixxy(-x(i), y(i)), l)
+      changeSpell(fixxy(-x(i), -y(i)), l)
+
+      if (likeAtom != "F") { // Without this 'if', it would overlap with the wrong abilities on F-like atoms.
+        setAction(verticalrotate)
+        changeSpell(fixxy(y(i), x(i)), l)
+        changeSpell(fixxy(-y(i), -x(i)), l)
+        changeSpell(fixxy(y(i), -x(i)), l)
+        changeSpell(fixxy(-y(i), x(i)), l)
+        setAction(curaction)
+      }
+
+    } else if (autoFullSymmetry) { // main_gi: HOW DO YOU NOT SPAGHETTIFY THIS
+
+      if (likeAtom != "F") {
+        changeSpell(fixxy(y(i), x(i)), l)
+        changeSpell(fixxy(-y(i), -x(i)), l)
+      }
       changeSpell(fixxy(-x(i), -y(i)), l)
       if (switchpath) {setAction(switchpath)} // These four should switch, these have one positive and one negative
+      changeSpell(fixxy(-y(i), x(i)), l)
+      changeSpell(fixxy(x(i), -y(i)), l)
+      changeSpell(fixxy(y(i), -x(i)), l)
+      changeSpell(fixxy(-x(i), y(i)), l)
+      if (switchpath) {setAction(curaction)}
 
-      if (x(i) != 0 && y(i) != 0 && Math.abs(x) != Math.abs(y)) {
-        changeSpell(fixxy(-y(i), x(i)), l)
-        changeSpell(fixxy(x(i), -y(i)), l)
-        changeSpell(fixxy(y(i), -x(i)), l)
-        changeSpell(fixxy(-x(i), y(i)), l)
-      }
-      if (switchpath) {setAction(currentlyselectedaction)}
     } else {
       if (autoHorizontalSymmetry && autoVerticalSymmetry && x(i) != 0 && y(i) != 0)
         {changeSpell(fixxy(-x(i), -y(i)), l)}
       if (switchpath) {setAction(switchpath)}
       if (autoHorizontalSymmetry && x(i) != 0)   {changeSpell(fixxy(-x(i), y(i)), l)}
       if (autoVerticalSymmetry   && y(i) != 0)   {changeSpell(fixxy(x(i), -y(i)), l)}
-      if (switchpath) {setAction(currentlyselectedaction)}
+      if (switchpath) {setAction(curaction)}
     }
     // main_gi: The spaghetti of this code uses makeshift "setAction" logic instead of having way too many if-elses.
   }
