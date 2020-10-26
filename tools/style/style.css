@@ -530,6 +530,19 @@ a.link:active {
   text-decoration: underline;
 }
 
+a.darklink { 
+  color: #55bfff;
+  text-decoration: underline;
+}
+a.darklink:visited {
+  color: #da55ff;
+  text-decoration: underline;
+}
+a.darklink:active {
+  color: red;
+  text-decoration: underline;
+}
+
 
 nav > a:hover, button:hover{
   border-color: rgb(64,64,64);
