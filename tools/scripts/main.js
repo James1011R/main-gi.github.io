@@ -1029,7 +1029,8 @@ function toJSON(a) {
   return data;
 }
 
-function validate(source) {
+function validate(source) { // THIS IS BASICALLY PART OF IMPORTING
+
   // main_gi: Check if Betza notation is being used. If so, fix up the notation.
   // Yes, no more than 1 person will ever use this.
   if (!source.match(",")) { // No commas.
@@ -2006,23 +2007,25 @@ ${customabilitydeclarations}
 
 }
 
+function bold (s) {return `<b>${s}</b>`}
+
 function newUnitsParse(a) {
   if (a == undefined || a.length == 0) {return ""}
   let tokens = "King, Sapling, Tree, BonePile, StonePillar, PhoenixEgg, PhoenixEgg+, PhoenixEgg++, PhoenixEgg+++, Sorceress, GeminiTwin, GeminiTwin+, GeminiTwin++, GeminiTwin+++, ChaosPortal, Dummy, SuperDummy, MageDummy, Blank".split(", ")
   a = a.filter(x => !tokens.includes(x)).concat(a.filter(x => tokens.includes(x))) // Puts tokens at the very end
 
-  let veryOP = `GravityMage, AirElemental, Greed, Snake, Reaver, Pikeman, Gnome, Apprentice, Nexus, VoidMage`
-  let overpowered = `Salamander, FireElemental, Angel, EarthElemental`.split(', ')
-  let underpowered = `Summoner, ThunderMage, Lust, Duelist, Beacon, SoulFlare, Sylph, ArchBishop, Fortress, Templar, Wrath, Phalanx, Patience, Gluttony, StoneMage, Hydromancer, FireMage, Toad, Tombstone`.split(', ')
-  let veryUP = `Hostage, Fencer, Beacon, Mercenary, Envy, Hoplite, Siren, Butterfly, Taurus, Temperance, NullMage`
+  let veryOP = `GravityMage, AirElemental, Greed, Snake, Reaver, Pikeman, Nexus, VoidMage`
+  let overpowered = `Salamander, FireElemental, Angel, EarthElemental, Gnome, Apprentice`.split(', ')
+  let underpowered = `Summoner, Lust, Duelist, SoulFlare, Sylph, ArchBishop, Fortress, Templar, Wrath, Phalanx, Patience, Gluttony, StoneMage, Hydromancer, FireMage, Toad, Tombstone`.split(', ')
+  let veryUP = `ThunderMage, Hostage, Fencer, Beacon, Mercenary, Envy, Hoplite, Siren, Butterfly, Taurus, Temperance, NullMage`
 
   let partialOP = `Aquarius, Undine, WaterElemental, Pride`.split(', ')
 
 
   function boldcolor(x, color) {return `<span style="font-weight: bold; color: ${color}">${x}</span>`}
-  function token (x) {return `<span style="font-style: italic; color: #999">${x}</span>`}
+  function token (x) {return `<span style="font-style: italic; color: #aaa">${x}</span>`}
 
-  return `New Units: ` + a.map(x =>
+  return `${bold("New units:")} ` + a.map(x =>
     veryOP.includes(x)?        boldcolor(x, "#0FF") // Cyan = very OP
     :overpowered.includes(x)?  boldcolor(x, "#8F0") // Lime = OP
     :partialOP.includes(x)?    boldcolor(x, "#FF0") // Yellow = partial OP/UP
@@ -2033,13 +2036,42 @@ function newUnitsParse(a) {
 }
 
 function updateGalleryChangelog(version) {
-  let log = CEO[version].misc.parsedlog
-  if (!log) {$("#gallerychangestext2").html(`<b>${version}</b> (${CEO[version].misc.release})`); return
+  let log = CEO[version].misc.parsedlog; let timePast = ``
 
-}
+  if (CEO[version].misc.prevversionnumber && CEO[version].misc.release) {
+    let daysPast = Math.round((Date.parse(CEO[version].misc.release) - Date.parse(CEO[CEO[version].misc.prevversionnumber].misc.release))/(1000*60*60*24)) // there is some stupid leap year stuff probably, hope JS takes care of it.
+    let monthsPast = 0
+    let yearsPast = 0
+    if (daysPast >= 30) {
+      monthsPast = Math.floor(daysPast/30); daysPast = daysPast % 30
+    }
+    if (monthsPast >= 12) {
+      yearsPast = Math.floor(monthsPast/12); monthsPast = monthsPast % 12
+    }
+    function plural (n, s) {if (n != 1) {return s + "s"} else {return s}}
+    timePast = [`${yearsPast > 0? yearsPast + " " + plural(yearsPast, "year"):``}`,
+    `${monthsPast > 0? monthsPast + " " + plural(monthsPast, "month"):``}`,
+    `${daysPast > 0? daysPast + " " + plural(daysPast, "day"):``}`].filter(x => x != ``) .join(", ") + ` past`
+    if (timePast == ` past`) {timePast = ``}
+  }
+
+  let release = CEO[version].misc.release? `(${CEO[version].misc.release}, ${timePast})` : ``
+  let highlights = CEO[version].misc.highlights? `<div style="padding: 5px; border: 1px solid white; background: radial-gradient(#242440, #1416bc); line-height: 120%">${CEO[version].misc.highlights.replace(/(^\s*(?!.+)\n+)|(\n+\s+(?!.+)$)/g, "")}</div>`.replace(/\n/g, "<br>") : ``
+  let firstlogsection = `<div style="text-align: center; border-top: 1px solid white; border-bottom: 1px solid white; background: radial-gradient(#242440, #1416bc);"><b>${version} changes</b> ${release}
+    <br><span style="color: #aaa; font-size: 60%">(warning: changelog compression is somewhat potato)</span>
+    </div>`
+
+  if (!log && !highlights) {$("#gallerychangestext2").html(`<b>${version}</b> ${release}`); return}
+  else if (!log) {$("#gallerychangestext2").html(uncleanseforhtml(
+    `${firstlogsection}
+    <div style="height: 10px"></div>
+    ${highlights}`)); return
+  }
   $("#gallerychangestext2").html(uncleanseforhtml(
-    `<b>Changelog for ${version} (${CEO[version].misc.release})</b><br>
-    ${newUnitsParse(CEO[version].misc.newunits)} <br>
+    `${firstlogsection}
+    <div style="height: 10px"></div>
+    ${highlights}<div style="height: 10px"></div>
+    ${newUnitsParse(CEO[version].misc.newunits)} <div style="height: 10px"></div>
     ${log? log.join("\n").replace(/\n/g, "<br>") :""}`))
 }
 
@@ -2055,7 +2087,7 @@ function getgallery (nameinput, version=lastCEOversion, versionChangedAtAll=fals
   lepieces = lepieces.map(x=> x != undefined? x : { cost: "0", rarity: " ", movesraw: "1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1", movetypespmformat: "NaN", movespmformat: "", betza: "", class: " ", changes: "" })
   
   for (let i=0; i < lepieces.length; i++) { // Would have been a one-liner with good map syntax.
-    x = lepieces[i]
+    let x = lepieces[i]
     if ((x.movetypespmformat) == "NaN") {lepieces[i].movetypespmformat = ""}
   }
   
@@ -2073,7 +2105,7 @@ function getgallery (nameinput, version=lastCEOversion, versionChangedAtAll=fals
     $("#gallerychanges")[0].style.display = "initial"
   }
 
-  $("#gallerychangestext").html(lepieces.map(x=>x.betza? x.betza : "").join("<br>"))
+  $("#gallerychangestext").html(lepieces.map(x=>x.betza? x.betza : 0).filter(x => x != 0).join("<br>"))
 
   if (versionChangedAtAll) { // should save on performance, recentlychangedversion stuff
     updateGalleryChangelog(version)
@@ -2583,10 +2615,6 @@ $('#galleryversion').change(function(){
 
       $("#gallery option")[increment].style = "color: black"; increment++
       // This is some effort to save processing by taking advantage of this: the order of the latest gallery versions' pieces should generally match the order of the older version's. There are exceptions, like with v0.50, though, but this solution should account for those as well.
-
-
-      // if (currentlySelectedGalleryVersion.endsWith("50") && key == "Dove") {$("#gallery option")[106].style = "color: black"; $("#gallery option")[104].style = "color: gray"} // Thanks grand (for messing with the unit order and putting Temperance and Chastity between Patience and Dove, causing a visual bug that has to be fixed here.)
-
     }
   });
   // this grays out units that aren't in the update
