@@ -132,7 +132,7 @@
       <input id="savenoinfo" type="checkbox">Hide categories<br>
       <input id="savefirst" type="checkbox">First Tier only
       <input id="savecompact" type="checkbox">Compact View<br>
-      If these features are broken change your browser I guess.</div><hr>
+      If these features are broken change your browser I guess. Also they ONLY affect the "save image to computer" picture, nothing else.</div><hr>
     <div class="note"><button id="exj">Export</button><button id="exjh">Export as URL</button><button id="imj">Import</button><br><textarea id="code" cols="36" rows="4"></textarea></div><hr>
     Non-Export Toggles
     <div class="note"><button id="hsc">Hide/Show Cost (shown)</button></div>
@@ -175,7 +175,7 @@
       <select id="gallery"></select>
     </div>
     <div id="gallerychanges" style="display: none">
-      <div style="border: 1px solid black; padding: 4px; background: #36393E; font-size: 90%; font-family: 'Whitney KOC'; width: 275px; max-height: 200px; word-break: break-word; overflow-y: auto">
+      <div style="border: 1px solid black; padding: 4px; background: #36393E; font-size: 90%; font-family: 'Whitney KOC'; width: 275px; max-height: 300px; word-break: break-word; overflow-y: auto">
         <div id="gallerychangestext" style="font-family: 'Lucida Grande', Arial, sans-serif; color: white; font-size: 90%; line-height: 140%; padding: 3px;"></div>
         <div id="gallerychangestext2" style="font-family: 'Lucida Grande', Arial, sans-serif; color: white; font-size: 90%; line-height: 140%; padding: 3px;"></div>
       </div>      
@@ -351,10 +351,10 @@
 <div id="credits" style="font-family: Arial; position: fixed; top: 10%; margin: 0 auto; background: white; z-index: 100; width: 92%; left: 3%; padding: 10px; border: 2px solid black; height: 70%; display: none">
   <div style="overflow-y: auto; height: 100%">
     <p style="text-align: center; margin: 0; font-size: 200%"><b>Feature Creep PieceMaker</b></p><br>
-    <div style="text-align: center">a piecemaker modification by primarily main_gi</div><br>
+    <div style="text-align: center">main_gi's piecemaker modification</div><br>
     <p style="text-align: center; margin: 0; font-size: 150%"><b>Credits</b></p><br>
   Tony2: original piecemaker<br>
-  Logo (ABC_Boy): piecemaker v2 with massive graphical and UI improvements, programming in the custom ability icon creator, all custom unicode icon glyphs, board svg rewrite, sharing versions v0.42-v0.53 for this piecemaker and significantly helping with reconstructing v0.39 and v0.40<br>
+  Logo (ABC_Boy): <a href="https://ceopiecemaker.github.io/" class=link">piecemaker v2</a> with massive graphical and UI improvements, programming in the custom ability icon creator, all custom unicode icon glyphs, board svg rewrite, sharing versions v0.42-v0.53 for this piecemaker and significantly helping with reconstructing v0.39 and v0.40<br>
   Aplet123: board svg rewrite<br>
   main_gi: piecemaker v2 original UI feedback, auto symmetry, unit gallery, pretend unit generator and meme feedback, CD/FC/CBA styles<br>
   Elund (James1011R): all UPLE abilities, fill color customization and "UPLE" fill colors, "tool tray" scrollbar<span style="font-size: 1%">I have no idea what this means</span><br>
@@ -387,6 +387,7 @@
   - <b>Feature:</b> You can now use a modified version of Betza notation in the import code.<br>
   - <b>Change:</b> The order of the "(Ranged) Destroy target." ability and "(Magic) Teleport unit to Ability Target." have been switched to match the game's order. This breaks a very small amount of previous piecemaker export codes.<br>
   - <b>Change:</b> Action descriptions and icons match v0.54.<br>
+  - <b>Historical Inaccuracy:</b> The change involving Portal and Antimage's descriptions, changing to immunity keywords instead of "Immune to all ranged and magic attacks.", isn't known when it happened, between v0.39 - v0.40.<br>
   - <b>Historical Inaccuracy:</b> In the real v0.41, Phoenix++'s infopanel actually showed a "Move or Attack" movetype when it didn't have it, because Grand is a good consistent designer who codes in the displayed movetypes differently than the movetypes the unit actually has. This has been fixed but is historically inaccurate.<br>
   - <b>Historical Inaccuracy:</b> In the real v0.47, GravityMage+ infopanel didn't show the "Move, Attack, or swap places with ally" movetype even though it had it.<br>
   - <b>Historical Inaccuracy:</b> In the real v0.47, v0.48, and v0.49, GravityMage++ infopanel actually showed a "Move or Attack" movetype when it didn't have it.<br>
