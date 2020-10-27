@@ -2016,10 +2016,10 @@ function newUnitsParse(a) {
 
   let veryOP = `GravityMage, AirElemental, Greed, Snake, Reaver, Pikeman, Nexus, VoidMage`
   let overpowered = `Salamander, FireElemental, Angel, EarthElemental, Gnome, Apprentice`.split(', ')
-  let underpowered = `Summoner, Lust, Duelist, SoulFlare, Sylph, ArchBishop, Fortress, Templar, Wrath, Phalanx, Patience, Gluttony, StoneMage, Hydromancer, FireMage, Toad, Tombstone`.split(', ')
-  let veryUP = `ThunderMage, Hostage, Fencer, Beacon, Mercenary, Envy, Hoplite, Siren, Butterfly, Taurus, Temperance, NullMage`
+  let underpowered = `Summoner, Lust, Duelist, SoulFlare, Sylph, ArchBishop, Fortress, Templar, Wrath, Phalanx, Gluttony, Hydromancer, Toad, Tombstone`.split(', ')
+  let veryUP = `ThunderMage, Hostage, Fencer, Beacon, Mercenary, Envy, Hoplite, Siren, Butterfly, Taurus, Temperance, NullMage, StoneMage, FireMage`
 
-  let partialOP = `Aquarius, Undine, WaterElemental, Pride`.split(', ')
+  let partialOP = `Aquarius, Undine, WaterElemental, Pride, Chastity`.split(', ')
 
 
   function boldcolor(x, color) {return `<span style="font-weight: bold; color: ${color}">${x}</span>`}
@@ -2032,7 +2032,7 @@ function newUnitsParse(a) {
     :underpowered.includes(x)? boldcolor(x, "#F80") // Orange = UP
     :veryUP.includes(x)?       boldcolor(x, "#F00") // Red = very UP
     :tokens.includes(x)?       token(x)             // Gray = token piece
-    :x).join(", ")
+    :bold(x)).join(", ")
 }
 
 function updateGalleryChangelog(version) {
@@ -2055,10 +2055,10 @@ function updateGalleryChangelog(version) {
     if (timePast == ` past`) {timePast = ``}
   }
 
-  let release = CEO[version].misc.release? `(${CEO[version].misc.release}, ${timePast})` : ``
+  let release = CEO[version].misc.release? `(${CEO[version].misc.release}) <i style="font-size: 80%">${timePast}</i>` : ``
   let highlights = CEO[version].misc.highlights? `<div style="padding: 5px; border: 1px solid white; background: radial-gradient(#242440, #1416bc); line-height: 120%">${CEO[version].misc.highlights.replace(/(^\s*(?!.+)\n+)|(\n+\s+(?!.+)$)/g, "")}</div>`.replace(/\n/g, "<br>") : ``
-  let firstlogsection = `<div style="text-align: center; border-top: 1px solid white; border-bottom: 1px solid white; background: radial-gradient(#242440, #1416bc);"><b>${version} changes</b> ${release}
-    <br><span style="color: #aaa; font-size: 60%">(warning: changelog compression is somewhat potato)</span>
+  let firstlogsection = `<div style="text-align: center; border-top: 1px solid white; border-bottom: 1px solid white; background: radial-gradient(#242440, #1416bc);"><b style="font-size: 120%">${version}</b> ${release}
+    <br><div style="color: #aaa; font-size: 80%; line-height: 100%">(warning: changelog compression is somewhat potato, also summaries are partially just my opinion)</div>
     </div>`
 
   if (!log && !highlights) {$("#gallerychangestext2").html(`<b>${version}</b> ${release}`); return}
