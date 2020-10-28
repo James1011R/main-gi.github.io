@@ -4095,12 +4095,12 @@ Vue.component('ceo-component', {
       }
 
       if (this.whitesetmorale) {
-        bw = wcm - this.whitecountedmorale // remove the bonus numbers that were added before
-        this.whitecountedmorale = wcm
+        bw = wcm - this.whitecountedmorale + numify(this.bonuswhite) // the numify() part actually UNDOES the bonus number,
+        this.whitecountedmorale = wcm                                // as it is negative from this.whitecountedmorale
       }
       if (this.blacksetmorale) {
-        bb = bcm - this.blackcountedmorale // remove the bonus numbers that were added before
-        this.blackcountedmorale = bcm
+        bb = bcm - this.blackcountedmorale + numify(this.bonusblack) // the numify() part actually UNDOES the bonus number,
+        this.blackcountedmorale = bcm                                // as it is negative from this.whitecountedmorale
       }
 
       // This is the most important part, but we do it last:
