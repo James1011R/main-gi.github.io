@@ -3985,6 +3985,8 @@ Vue.component('ceo-component', {
       positiondatamessage: "",
       whitecountedmorale: 0,
       blackcountedmorale: 0,
+      whitesetmorale: false,
+      blacksetmorale: false,
       rerenderplease: 0
     }
   },
@@ -4074,10 +4076,14 @@ Vue.component('ceo-component', {
 
     },
     upd: function () {
-      this.message = trimCommas([trimCommas(this.otherdata), this.kingdecay, this.moraledecay, this.bonuswhite, this.bonusblack, this.enchlifestones, this.board, this.sides, this.positiondata].join(","))
+      let wcm = this.whitecountedmorale // Yes, we have to store this in order to restore it.
+      let bcm = this.blackcountedmorale // Because v-model is not customizable enough.
+      let bw = numify(this.bonuswhite) // Yes, we have to store this in order to restore it.
+      let bb = numify(this.bonusblack) // Because v-model is not customizable enough.
 
       this.whitecountedmorale = numify(this.bonuswhite);
       this.blackcountedmorale = numify(this.bonusblack);
+
       for (let i = 0; i < this.board.length; i++) { // Count white/black morale.
         try {
           let lecost = numify(v54[this.board[i]].cost)
@@ -4087,6 +4093,18 @@ Vue.component('ceo-component', {
 
         }
       }
+
+      if (this.whitesetmorale) {
+        bw = wcm - this.whitecountedmorale // remove the bonus numbers that were added before
+        this.whitecountedmorale = wcm
+      }
+      if (this.blacksetmorale) {
+        bb = bcm - this.blackcountedmorale // remove the bonus numbers that were added before
+        this.blackcountedmorale = bcm
+      }
+
+      // This is the most important part, but we do it last:
+      this.message = trimCommas([trimCommas(this.otherdata), this.kingdecay, this.moraledecay, bw, bb, this.enchlifestones, this.board, this.sides, this.positiondata].join(","))
 
     },
     macro: function (x) {
@@ -4351,9 +4369,7 @@ Vue.component('ceo-component', {
     keydownBlockNonNumbers: function (event) { // mostly not my code but i had to fix a bug where symbols like & were allowed because they count as numbers (as it's like shift + a number)
       // Backspace, tab, enter, end, home, delete, left, right
       let controlKeys = [8, 9, 35, 36, 37, 46, 39, 189];  // main_gi: Removed "13" for enter, there should be no newlines. 189 is minus sign
-      // IE doesn't support indexOf
       let isControlKey = controlKeys.join(",").match(new RegExp(event.which)); // Some browsers just don't raise events for control keys
-
       if (!event.which || // Control keys in most browsers. e.g. Firefox tab is 0
           (event.key.match(/\d|-/)) ||
           isControlKey) { // Opera assigns values for control keys.
@@ -4361,6 +4377,26 @@ Vue.component('ceo-component', {
       } else {
         event.preventDefault();
       }
+    },
+    setMoraleModified: function (event) {
+      l(event)
+      let id = event.target.id
+      let finalvalue = event.target.value
+
+      if ((finalvalue == "" || finalvalue == "0") && (event.code == "Backspace" || event.code == "Delete")) {
+        this[`${id}`] = false
+      } else {
+        if (this[`${id}`] != false || finalvalue.startsWith("0")) { // You probably didn't intend the starting 0, let's get rid of it.
+
+          if (`${id}` == "whitesetmorale") {
+            this.whitecountedmorale = finalvalue.replace(/^0+/, "")
+          } else {
+            this.blackcountedmorale = finalvalue.replace(/^0+/, "")
+          }
+        }
+        this[`${id}`] = numify(finalvalue)
+      }
+      this.upd()
     }
   },
   created: function () {
@@ -4459,13 +4495,19 @@ Extra morale for White: <span contenteditable="true" spellcheck="false" class="c
 <button v-on:click="flip('moraledecay')" :key="rerenderplease">{{moraledecaystate}}</button>
 <button v-on:click="flip('kingdecay')" :key="rerenderplease">{{kingdecaystate}}</button>
 <button v-on:click="flip('enchlifestones')" :key="rerenderplease">{{enchlifestonesstate}}</button>
-<br>Using v0.54 piece costs, White has <span style="font-weight: bold" v-text="whitecountedmorale"></span> morale and Black has <span style="font-weight: bold" v-text="blackcountedmorale"></span> morale.
+<br>Using v0.54 piece costs, White has <input type="number" id="whitesetmorale" class="fixed" style="font-weight: bold; -webkit-appearance: none; margin: 0; -moz-appearance: textfield;" v-model="whitecountedmorale" @keydown="keydownBlockNonNumbers($event)" @input="setMoraleModified($event)" v-bind:style="{color: whitesetmorale? 'var(--stronghighlight)':'inherit'}"></input> morale and Black has <input type="number" id="blacksetmorale" class="fixed" style="font-weight: bold; -webkit-appearance: none; margin: 0; -moz-appearance: textfield;" v-model="blackcountedmorale" @keydown="keydownBlockNonNumbers($event)" @input="setMoraleModified($event)" v-bind:style="{color: blacksetmorale? 'var(--stronghighlight)':'inherit'}"></input> morale.
+<div id="setmoralemessage" style="font-size: 90%; margin-top: 15px; border: 1px solid black; background: #333" v-bind:style="{display: whitesetmorale || blacksetmorale? 'block' : 'none'}">
+Modifying <b style="color: cyan">that number</b> (it's <b style="color: cyan">cyan</b> right now) will set the total starting morale to the number you typed. Revert it by deleting the number or setting it to 0. (only valid for v0.54)</div>
+
+<!-- I'd just like to put this here: GOD DAMN VUE WHY ARE YOU DELAYED. This
+ @keydown="keydownBlockNonNumbers($event)" @input="setMoraleModified($event)"
+ nonsense is kinda trash, I had setMoraleModified in the keydown AND IT WAS DELAYED BY ONE INPUT! -->
 
 <br><span style="color: #aaa">Other data: <textarea v-model="otherdata" @input="upd()" style="height: 25px"></textarea> (don't touch if you don't know what you're doing)</span>
   </div>
 <hr>
 <span class="c1-2" style="font-size: 78%; position: absolute; color: white; text-rendering: optimizeLegibility; white-space: break-spaces; word-wrap: break-word; width: 45%; line-height: 15px; height: 50%; user-select: all">{{message}}</span>
-<div class="c2-2" style="float: right"><strong>Quickfire Tutorial</strong>: The top grid is the chessboard, which takes piece names. Examples of what you get, <span style="color: cyan">cyan is highlighted to show a specific feature</span>: <br>
+<div class="c2-2" style="float: right"><strong>Quickfire Tutorial</strong >: The top grid is the chessboard, which takes piece names. Examples of what you get, <span style="color: cyan">cyan is highlighted to show a specific feature</span>: <br>
 • <strong>Aquarius<span style="color: cyan">3</span></strong> = Aquarius<span style="color: cyan">+++</span>.<br>
 • <strong><span style="color: cyan">Aq</span>+2</strong> = <strong><span style="color: cyan">Aq</span></strong>uarius++.<br>
 • <strong><span style="color: cyan">EE</span></strong> = <strong><span style="color: cyan">E</span></strong>arth<strong><span style="color: cyan">E</span></strong>lemental, base.<br>
