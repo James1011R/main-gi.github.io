@@ -3,6 +3,11 @@
 <head>
 <link rel="stylesheet" type="text/css" href="../index.css"><link href="https://fonts.googleapis.com/css?family=Tajawal:400,700&display=swap" rel="stylesheet"><link href="../fonts/Tajawal-Regular.ttf" rel="stylesheet"><link type="text/css" href="../OverlayScrollbars.min.css" rel="stylesheet"/><link type="text/css" href="../os-theme-thick-light.css" rel="stylesheet"/><link type="image/ico" href="../favicon.ico" rel="shortcut icon" id="icon"/><script type="text/javascript" src="../OverlayScrollbars.min.js"></script><script type="text/javascript" src="../global.js"></script><script type="text/javascript" src='vue.js'></script><script type="text/javascript" src='marked.min.js'></script><script type="text/javascript" src='ceolab.js' defer></script><script type="module" src='ceolabfitty.js' defer></script>
 <meta http-equiv="content-type" content="text/html;charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="CEO Replay Tool">
+  <meta property="og:image" content="https://i.imgur.com/bUbEt2Z.png">
+  <meta property="og:description" content="UI to make Chess Evolved replays and scenarios.">
+
 <script>
   document.addEventListener("DOMContentLoaded", function() {
   OverlayScrollbars(document.getElementById("sidebar"), {
@@ -40,13 +45,16 @@ table.checkered tr td {background-color: var(--bg-table-odd); outline: 1px solid
 table.checkered tr:nth-child(even) td:nth-child(odd), table.checkered tr:nth-child(odd) td:nth-child(even) {background-color: var(--bg-table-even)}
 
 #board textarea {font-size: 100%; font-family: inherit; border: none; resize: none; padding: 0; white-space: nowrap; overflow-y: hidden; scrollbar-width: thin;}
+
+input.fixed {font-size: 100%; font-family: inherit; border: none; resize: none; padding: 0; white-space: nowrap; overflow-y: hidden; scrollbar-width: thin; text-align: center; height: 25px; width: 40px; font-weight: bold; background: var(--bg-gradient-top);
+color: var(--primary);}
 /* outline: solid 0.5px white; */
 
 </style>
 </head>
 <title>CEO Replay Tool</title>
 <body>
-<div class="all"><div id="content" class="content" style="width: 100%; max-width: 100%"><div class="rester info-dense">
+<div id="all" class="all"><div id="content" class="content" style="width: 100%; max-width: 100%"><div class="rester info-dense">
 <!-- REPLACE WITH vue.min.js LATER -->
 
 
