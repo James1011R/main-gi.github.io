@@ -159,8 +159,7 @@ function initializeBoards() {
     let verticalrotate = false
     if (curaction.startsWith("verticalpath")) {verticalrotate = "horizontal" + curaction.slice("vertical".length)}
     else if (curaction.startsWith("horizontalpath")) {verticalrotate = "vertical" + curaction.slice("horizontal".length)}
-
-    let likeAtom = (Math.abs(x(i)) == Math.abs(y(i)))? "F" : (x(i) != 0 && y(i) != 0)? "W" : "N"
+    let likeAtom = (Math.abs(x(i)) == Math.abs(y(i)))? "F" : (x(i) == 0 || y(i) == 0)? "W" : "N"
 
     if (autoFullSymmetry && verticalrotate) {
       changeSpell(fixxy(x(i), -y(i)), l)
@@ -183,12 +182,17 @@ function initializeBoards() {
         changeSpell(fixxy(-y(i), -x(i)), l)
       }
       changeSpell(fixxy(-x(i), -y(i)), l)
+
+      if (likeAtom != "W") {
+
       if (switchpath) {setAction(switchpath)} // These four should switch, these have one positive and one negative
       changeSpell(fixxy(-y(i), x(i)), l)
       changeSpell(fixxy(x(i), -y(i)), l)
       changeSpell(fixxy(y(i), -x(i)), l)
       changeSpell(fixxy(-x(i), y(i)), l)
       if (switchpath) {setAction(curaction)}
+
+      }
 
     } else {
       if (autoHorizontalSymmetry && autoVerticalSymmetry && x(i) != 0 && y(i) != 0)
