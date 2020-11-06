@@ -305,7 +305,7 @@ MOVES = [{
    "cat": "official",
    "name": "moveattackblock",
    "long": "bv]:block@(mn:attack)&(LOSEABILTY)/(mn:move/attack)",
-   "text": "(Passive) Block one normal attack from this location, and lose this ability. \n(Active) Move or Attack.",
+   "text": "(Passive) Block one normal attack from this location, and lose this ability.\n(Active) Move or Attack.",
    "color": [0,0,0],
    "color3": [255,255,255],
    "symbol1": "\u2219"
@@ -898,13 +898,50 @@ MOVES = [{
  }, {
    "id": "60a",
    "cat": "variation",
-   "name": "leapattack",
-   "text": "Leap-Attack only.",
+   "name": "chainleap",
+   "text": "(Unblockable) Begin Leap-Attack chain, landing one space over the enemy and repeating consecutively in the same direction.",
    "color": [127,127,127],
-   "color2": [255, 255, 255],
+   "color2": [255,255,255],
    "color3": [255,0,0],
    "symbol1": "\u26AB",
    "hide": true
+ }, {
+    "id": "60b",
+    "cat": "legacy",
+    "name": "leapmove",
+    "text": "Move or Leap-Attack.",
+    "color": [0,0,255],
+    "color3": [255,0,0],
+    "symbol1": "o",
+    "hide": true
+ }, {
+   "id": "60c",
+   "cat": "variation",
+   "name": "leap",
+   "text": "Leap-Attack only.",
+   "color": [127,127,127],
+   "color2": [255,255,255],
+   "color3": [255,0,0],
+   "symbol1": "o",
+   "hide": true
+ }, {
+    "id": "60d",
+    "cat": "variation",
+    "name": "leapmoveattack",
+    "text": "Move or Leap-Attack, or Attack if Leap-Attack isn't possible.",
+    "color": [0,0,0],
+    "color3": [255,0,0],
+    "symbol1": "o",
+    "hide": true
+  }, {
+    "id": "60e",
+    "cat": "variation",
+    "name": "chainleapmoveattack",
+    "text": "(Unblockable) Move or Begin Leap-Attack chain, landing one space over the enemy and repeating consecutively in the same direction; or Attack if Leap-Attack isn't possible.",
+    "color": [0,0,0],
+    "color3": [255,0,0],
+    "symbol1": "\u26AB",
+    "hide": true
  }, {
    "id": "61a",
    "cat": "variation",
@@ -956,6 +993,7 @@ MOVES = [{
    "long": "cs]ru:flag@3&charm#set@ally",
    "text": "(Magic) Flirt with enemy minion, charming them in 3 turns.",
    "color": [255,0,255],
+   "color3": [153,0,153],
    "symbol1": "\u2665",
    "hide": true
  }, {
@@ -965,6 +1003,7 @@ MOVES = [{
    "long": "s]ru:(thispoison#flag@3&attack)&poison#flag@3&attack",
    "text": "(Magic) Poison self and enemy unit, destroying them in 3 turns.",
    "color": [0,101,24],
+   "color3": [0,76,18],
    "symbol1": "\uea27",
    "hide": true
  }, {
@@ -1168,6 +1207,7 @@ MOVES = [{
    "text": "(Magic) Target enemy value becomes 0.",
    "color": [255,255,255],
    "color2": [0,0,0],
+   "color3": [153,153,153],
    "symbol1": "\ue907",
    "hide": true
  }, {
@@ -1184,7 +1224,7 @@ MOVES = [{
     "cat": "limited",
     "name": "critjump",
     "long": "b]mz:move/attack",
-    "text": "(Critical) Move or Attack.",
+    "text": "(Unblockable) Move or Attack. Then push all adjacent enemies 1 space away.",
     "color": [0, 127, 0],
     "color2": [0, 255, 0],
     "hide": true
@@ -1193,7 +1233,7 @@ MOVES = [{
     "cat": "limited",
     "name": "critmove",
     "long": "b]mz:move",
-    "text": "(Critical) Move only.",
+    "text": "(Unblockable) Move only. Then push all adjacent enemies 1 space away.",
     "color": [0, 127, 127],
     "color2": [0, 255, 255],
     "hide": true
@@ -1202,7 +1242,7 @@ MOVES = [{
     "cat": "limited",
     "name": "critlunge",
     "long": "b]mz:move/attack",
-    "text": "(Critical) Attack only.",
+    "text": "(Unblockable) Attack only. Then push all adjacent enemies 1 space away.",
     "color": [127, 0, 0],
     "color2": [255, 0, 0],
     "hide": true
@@ -1211,7 +1251,7 @@ MOVES = [{
    "cat": "limited",
    "name": "critjumpswap",
    "long": "b]mz:move/attack/swap",
-   "text": "(Critical) Move, Attack, or swap places with ally.",
+   "text": "(Unblockable) Move, Attack, or swap places with ally. Then push all adjacent enemies 1 space away.",
    "color": [127,127,0],
     "color2": [255, 255, 0],
    "hide": true
@@ -1960,6 +2000,26 @@ MOVES = [{
    "text": "(Unblockable) Move only.",
    "color": [0,0,255],
    "color2": [0,0,127],
+   "hide": true
+ }, {
+   "id": "cd1",
+   "cat": "cd",
+   "name": "pawndrop",
+   "text": "[Pay 10] Create a Pawn in this empty location.",
+   "color": [127,127,127],
+   "color2": [255,255,255],
+   "color3": [0,0,0],
+   "symbol1": "\uEC03",
+   "hide": true
+ }, {
+   "id": "cd2",
+   "cat": "cd",
+   "name": "spook",
+   "text": "Push unit 1 space away. Move to its empty location.",
+   "color": [20,125,255],
+   "color2": [255,255,255],
+   "color3": [0,0,0],
+   "symbol1": "\u2743",
    "hide": true
  }, {
    "id": "fc17",
