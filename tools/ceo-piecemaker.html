@@ -123,7 +123,7 @@
     <div id="controls" class="panel">
       <div id="hidebutton"></div>
       <nav>
-        <a mode="active">Actions</a><a mode="passive">Passive</a><a mode="tools">Drawing</a><a mode="share">Export</a>
+        <a mode="active">Actions</a><a mode="passive">Passive</a><a mode="tools">Drawing</a><a mode="share">Export<!--<div style="font-size: 45%;line-height: 7px;margin-top: -4px;">and like 9 other things</div>--></a>
       </nav>
       <div mode="share">
     <button id="saveimage">Save Image to Computer</button>
@@ -133,11 +133,13 @@
       <input id="savefirst" type="checkbox">First Tier only
       <input id="savecompact" type="checkbox">Compact View<br>
       If these features are broken change your browser I guess. Also they ONLY affect the "save image to computer" picture, nothing else.</div><hr>
-    <div class="note"><button id="exj">Export</button><button id="exjh">Export as URL</button><button id="imj">Import</button><br><textarea id="code" cols="36" rows="4"></textarea></div><hr>
+    <div class="note"><button id="exj">Export</button><button id="exjh">Export as URL</button><button id="imj">Import</button><button id="exjb">Bexport</button><br><textarea id="code" cols="36" rows="4"></textarea></div><hr>
     Non-Export Toggles
     <div class="note"><button id="hsc">Hide/Show Cost (shown)</button></div>
     <div class="note"><button id="hst">Hide/Show Type (shown)</button></div>
     <div class="note"><button id="duht">Don't Autoupdate Higher Tiers (off)</button></div>
+    <div class="note"><button id="hsot">Hide/Show Upgraded Tiers (shown)</button></div>
+
     <div class="note"><button id="ahs">Automatic Horizontal Symmetry (on)</button></div>
     <div class="note"><button id="avs">Automatic Vertical Symmetry (off)</button></div>
     <div class="note"><button id="ars">Automatic Full Symmetry (off)</button></div>
@@ -191,13 +193,24 @@
     <button id="creditsbutton" style="box-shadow: inset 0px 1px 0px 0px #97c4fe; padding-block-start: 0px; padding-inline-end: 8px; padding-block-end: 0px; padding-inline-start: 8px; border: 2px outset #3daaaa; border-radius: 2px; background-color: #3dcccc; text-indent: 0; display: inline-block; font-family: 'Chess Battle Advanced'; color: #ffffff; font-size: 15px; font-weight: bold; font-style: normal; height: 22px; line-height: 22px; text-decoration: none; text-align: center; text-shadow: 1px 1px 0px #1570cd; border-radius: 5px; padding-bottom: 20px; font-size: 140%;">?</button>
     <div style="height: 20px"></div>
 
-    <div id="devtools" style="display: none; font-family: Arial; text-align: center">
+    <div id="devtools" style="display: none; font-family: Tajawal; text-align: center; border: 2px solid aqua; background: #077; color: white; padding: 3px; line-height: 1.2">
       <b style="text-align: center">DEV TOOOOOOLS</b><br>
-      (This is normally hidden and the backtick button reveals this. You probably accidentally revealed it.)<br>
+      <span style="font-size: 80%">(This is normally hidden and the backtick button reveals this. You probably accidentally revealed it.)</span><br>
       <br>
       <b style="text-align: center">CEO Source Code Export</b><br>
-      This is basically another 'export' feature, but exports to CEO's source code format. Basically a tool for those who are trying to pretend up other versions of the game. Or Grand.
-    <textarea type="text" id="copyTarget" value="" cols="36"></textarea> <button id="copyButton">Copy Current Piece to Clipboard</button> <button id="movesetArray">I just want to copy the moveset tho</button></div>
+      <span style="font-size: 80%">This is basically another 'export' feature, but exports to CEO's source code format. Basically a tool for those who are trying to pretend up other versions of the game. Or Grand.</span>
+    <textarea type="text" id="copyTarget" value="" cols="36"></textarea> <button id="copyButton">Copy Current Piece to Clipboard</button> <button id="movesetArray">I just want to copy the moveset tho</button>
+    <br><br>
+
+      <b style="text-align: center">Pretend Scoring (Tournament Tool)</b><br>
+      <span style="font-size: 80%">This lets you declare 'scoring' for potential movetypes (written in Betza notation) and auto calculates it.<br>
+      There aren't that many options to customize it though.</span><br>
+    <textarea type="text" id="devtool_scoring" value="" cols="36" rows="10"></textarea>
+    <div id="devtool_scoring_number" style="font-size: 1000%; font-weight: bold; display: inline-block;"></div>
+    <button id="getscore">GET SCORE (based on base tier piece)</button>
+
+    </div> <!-- THIS DIV CLOSES DEVTOOLS -->
+
     <br><br>
 
     <div style="width: 10px; height: 50px"></div> <!-- filler space on small zoom levels -->
@@ -396,6 +409,7 @@
   - Also, to add a passive in the CD and FC styles, click the space between the board and the actions list.<br>
 <br><br>
     <p style="text-align: center; margin: 0; font-size: 100%"><b>Remaining Issues</b></p><br>
+    This section is to let you know that I'm not doing these on purpose, and I am not that stupid.<br>
   - <b>CEO Unitgen:</b> You can have more than one ability target on the same unit.<br>
   - <b>CEO Unitgen:</b> Due to poor coding choices, it may be possible to get overlapping actions which cause temporary bugs if you try to interact with the overlapping actions. The CEO unitgen code is a lot less polished than the FC unitgen code but at this point I am not rewriting it.<br>
   - <b>CEO Unitgen:</b> There's no actual cost formula.<br>
@@ -408,12 +422,14 @@
   - <b>Visuals:</b> The size of the infopanel should maybe be the same on all tiers.<br>
   - <b>Visuals:</b> Fancy temporary glow to modified elements (mostly the cost) when you change units in the gallery. This requires some CSS animation nonsense and probably the ability to detect changes between objects.<br>
   - <b>Bug:</b> Some parts of the export may not be saved and maybe the image function will randomly break. I don't know because I haven't used it often.<br>
+  - <b>Bug:</b> The autogenerated changelog is summarized. You know, the thing that makes it say "Dragon cost 16/19/22/24 -> 15/18/21/24" or whatever. These summaries probably have annoying bugs. There's one where only the base tier description is used as the example, but the number check removes all the numbers causing this bug - essentially you could have a number that changes across tiers that isn't reflected correctly in the summary. Sometimes it reports a passive added like " Immune to Freeze" with a space (actually a linebreak) and nothing seems to get rid of it despite a "megatrim" function.<br>
   - <b>Feature?:</b> All previous versions for the unit gallery, syncing CEO art, and a search function.<br>
   - <b>Feature?:</b> Double-clicking a non-custom ability should set the next unused custom ability to a clone of whatever you clicked.<br>
   - <b>Feature?:</b> Unit gallery somehow detects reused unit names and passives so that promotes also use the [+] and [+1] convention.<br>
   - <b>Feature?:</b> UI rework, with many buttons being placed on the bottom instead, which is more convenient to scroll down a small amount rather than click some buttons and mess with tabs.<br>
   - <b>Feature?:</b> The custom action editor is only like 8 variables, it doesn't need a full-screen popup! Also a better color selector, or a way to only show one half of a unicode symbol.<br>
   - <b>Feature?:</b> The FC style could maybe have a token style, and the CD style could have a different selector for the "[Minion]-[Basic]-[Rare]".<br>
+  - <b>Feature?:</b> In the changelog, clicking names really should automatically make you select the unit.<br>
   - <b>Complaint:</b> A lot of the pretend abilities are bad game design, with probably a good quarter of them literally being copies of other abilities but ignoring status effects, or having slightly different interactions with 1/100 of the game's units. This will never be fixed.<br>
   <br><br>
   My code is <a href="https://github.com/main-gi/main-gi.github.io/tree/master/tools" class="link">here</a>. Eventually I will probably regret stuffing all the relevant files in "/tools/" when there's like 20 tools in it, but it works for now.<br>
