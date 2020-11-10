@@ -3208,6 +3208,7 @@ function betza_to_array(s, offset = +1) {
     let curdirectionsfound = []
     while (shortcutsnoblanks.filter(x => s.startsWith(x)).length == 0 && s != "") {
       let directionsfound = []; let weak = false; let atomsaffected;
+      let wisplike = false;
       while (directions.filter(x => s.startsWith(x)).length != 0) { // Look at the start repeatedly until it's not a direction.
         let founddirection = directions.filter(x => s.startsWith(x))[0]
         directionsfound.push(founddirection); s = del_n(s, founddirection)
@@ -3260,12 +3261,16 @@ function betza_to_array(s, offset = +1) {
         function range(n) {return arrayToX(n).map(x => x.toString()+n.toString())}
         function rangeUpTo(n) {return ([].concat.apply([], (arrayToX(n).map(n=>range(n))))).slice(1)} // slice(1) at the end to remove "00" element.
         atomsaffected = spamAllSymmetry(rangeUpTo(currange).map(x => [numify(x.slice(0,1)), numify(x.slice(1,2))]))
+        weak = true
+        wisplike = true
+        ex = 1; ey = 2 // Manipulating likeAtom to be N
+        /*
         for (let i = 0; i < atomsaffected.length; i++) {
           let x = atomsaffected[i]
-          if (a[fixxy(x[0], x[1])] != 0) {continue} // This "weak" thing is for Rook and Bishop lines. The idea is that with something like KmB, the "F" part of mB will not be overwritten.
+          if (a[fixxy(x[0], x[1])] != 0) {continue}
           a[fixxy(x[0], x[1])] = curaction
         }
-        break
+        break*/
 
       } else if (s.match(/^\d/)) { // Because JS doesn't allow startswith with regex.
         ex = numify(s.slice(0, 1))
@@ -3280,6 +3285,8 @@ function betza_to_array(s, offset = +1) {
 
       for (let i = 0; i < directionsfound.length; i++) {
         let it = directionsfound[i]
+        if (wisplike) {ex = x[0]; ey = x[1]} // To have it autoupdate on every value instead of just doing it once
+
         if (it == "f") {atomsaffected = atomsaffected.filter(x => x[1] > 0)}
         else if (it == "b") {atomsaffected = atomsaffected.filter(x => x[1] < 0)}
         else if (it == "l") {atomsaffected = atomsaffected.filter(x => x[0] < 0)}
@@ -3287,13 +3294,25 @@ function betza_to_array(s, offset = +1) {
         else if (it == "h") {atomsaffected = atomsaffected.filter(x => x[0] != 0)}
         else if (it == "v") {atomsaffected = atomsaffected.filter(x => x[1] != 0)}
         if (likeAtom == "N" && (directionsfound[i-1] == directionsfound[i] || it == "h" || it == "v")) { // Kind of a hack, it checks adjacent equality.
-          let longer = Math.max(ex, ey)
-          if (it == "f") {atomsaffected = atomsaffected.filter(x => x[1] == longer)}
-          if (it == "b") {atomsaffected = atomsaffected.filter(x => x[1] == -longer)}
-          if (it == "l") {atomsaffected = atomsaffected.filter(x => x[0] == -longer)}
-          if (it == "r") {atomsaffected = atomsaffected.filter(x => x[0] == longer)}
-          if (it == "h") {atomsaffected = atomsaffected.filter(x => Math.abs(x[0]) == longer)}
-          if (it == "v") {atomsaffected = atomsaffected.filter(x => Math.abs(x[1]) == longer)}
+          if (!wisplike) {
+            // Most things aren't wisplikes, it's faster to compute 'longer' once.
+            let longer = Math.max(ex, ey)
+            if (it == "f") {atomsaffected = atomsaffected.filter(x => x[1] == longer)}
+            if (it == "b") {atomsaffected = atomsaffected.filter(x => x[1] == -longer)}
+            if (it == "l") {atomsaffected = atomsaffected.filter(x => x[0] == -longer)}
+            if (it == "r") {atomsaffected = atomsaffected.filter(x => x[0] == longer)}
+            if (it == "h") {atomsaffected = atomsaffected.filter(x => Math.abs(x[0]) == longer)}
+            if (it == "v") {atomsaffected = atomsaffected.filter(x => Math.abs(x[1]) == longer)}
+          } else {
+            // If wisplike, must filter on every element.
+            if (it == "f") {atomsaffected = atomsaffected.filter(x => x[1] >= Math.max(Math.abs(x[0]), Math.abs(x[1])))}
+            if (it == "b") {atomsaffected = atomsaffected.filter(x => x[1] <= -Math.max(Math.abs(x[0]), Math.abs(x[1])))}
+            if (it == "l") {atomsaffected = atomsaffected.filter(x => x[0] <= -Math.max(Math.abs(x[0]), Math.abs(x[1])))}
+            if (it == "r") {atomsaffected = atomsaffected.filter(x => x[0] >= Math.max(Math.abs(x[0]), Math.abs(x[1])))}
+            if (it == "h") {atomsaffected = atomsaffected.filter(x => Math.abs(x[0]) == Math.max(Math.abs(x[0]), Math.abs(x[1])))}
+            if (it == "v") {atomsaffected = atomsaffected.filter(x => Math.abs(x[1]) == Math.max(Math.abs(x[0]), Math.abs(x[1])))}
+
+          }
         }
       }
 
