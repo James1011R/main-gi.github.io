@@ -2916,9 +2916,22 @@ document.addEventListener('keydown', function (e) { // dev tools
   if (!devtoolsrevealed && `${e.code}` == "Backquote") {
      document.getElementById("devtools").style.display = "initial"; 
      $(".hiddendisplay").attr("style", "display: initial")
+     $("#revealdevtools").attr("style", "display: none")
      devtoolsrevealed = true
   }
 });
+
+document.getElementById("revealdevtools").addEventListener("click", function() {
+  if (!devtoolsrevealed) {
+     document.getElementById("devtools").style.display = "initial"; 
+     $(".hiddendisplay").attr("style", "display: initial")
+     $("#revealdevtools").attr("style", "display: none")
+     devtoolsrevealed = true
+  }
+});
+
+
+
 document.getElementById("copyButton").addEventListener("click", function() {
   document.getElementById("copyTarget").value = exportasgame()
   copyToClipboard(document.getElementById("copyTarget"));
