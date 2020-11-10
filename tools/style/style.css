@@ -66,6 +66,16 @@
   font-family: "Whitney KOC"; font-weight: bold; font-size: 82%;
   src: url("../fonts/whitneymedium.woff");
 }
+@font-face {
+  font-family: "Tajawal";
+  src: url("../fonts/Tajawal-Medium.ttf");
+}
+@font-face {
+  font-family: "Tajawal"; font-weight: bold;
+  src: url("../fonts/Tajawal-Bold.ttf");
+}
+
+
 
 body {
   font-family: sans-serif;
