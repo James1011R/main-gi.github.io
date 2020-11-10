@@ -3121,7 +3121,7 @@ function sync_all_costs_to_scores () {
   $("#base input").val(costs[0]);
   $("#plus input").val(costs[1]);
   $("#plusplus input").val(costs[2]);
-  $("#plusplusplus input").val(costs[1]);
+  $("#plusplusplus input").val(costs[3]);
 }
 
 
