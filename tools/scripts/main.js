@@ -3088,6 +3088,7 @@ function update_devtool_score (a) {
 }
 
 let scoresync = false
+let autobexport = false
 
 $("#getscore").click(function() {
   let rv = update_devtool_score(exportcode_to_array(toCSV(DATA).split("\n")[2].split(",").slice(2).join(","), 1))
@@ -3102,11 +3103,15 @@ $("#getscore").click(function() {
 $("#scoresync").click(function() { // main_gi: Don't Update Higher Tiers
   scoresync = !scoresync;
   $("#scoresync")[0].innerHTML = "Sync Scores with Costs " + "(" + (scoresync?"on":"off") + ")"
+});
+$("#autobexport").click(function() { // main_gi: Don't Update Higher Tiers
+  autobexport = !autobexport;
+  $("#autobexport")[0].innerHTML = "Automatic Bexport each edit " + "(" + (autobexport?"on":"off") + ")"
 
 });
 
 
-function sync_all_costs_to_scores () {
+function scoresync_function () {
   if (!scoresync) {return}
 
   let costs = [
@@ -3122,6 +3127,31 @@ function sync_all_costs_to_scores () {
   $("#plus input").val(costs[1]);
   $("#plusplus input").val(costs[2]);
   $("#plusplusplus input").val(costs[3]);
+}
+
+function autobexport_function () {
+  if (!autobexport) {return}
+  let rv = [];
+  let a = toCSV(DATA).split("\n")
+  let boards = [a[2], a[3], a[4], a[5]]
+
+  let othertext = a[0].split(",") // A thing like ["Knight", "Champion", "Basic", "Common"]
+  if (othertext[0] == "Name" || othertext[0] == "name" || othertext[0] == "PieceName" || othertext[0] == "") {
+    // Do nothing then.
+  } else {
+    rv.push(othertext.join(" ")) // Makes the first line "Knight Champion Basic Common" then
+  }
+
+  for (let i = 0; i < boards.length; i++) {
+    let x = boards[i].split(",")
+    let cost = x[0]
+    let passive = x[1]
+    let movetypes = array_to_betza(exportcode_to_array(x.slice(2).join(",")), 0) // Slice 2 stuff is because every movetype is split by a comma.
+    rv.push(`[${cost}] ${movetypes}${(passive == "")? "" : ` | ${passive}`}`)
+  }
+  rv = rv.join("\n")
+
+  $("#code").val(rv);
 }
 
 

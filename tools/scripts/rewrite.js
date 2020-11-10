@@ -223,7 +223,8 @@ function initializeBoards() {
     let i = this.dataset.index
     let l = this.dataset.level
     usesymmetries(i, l)
-    sync_all_costs_to_scores()
+    scoresync_function()
+    autobexport_function()
 
   });
 
@@ -243,7 +244,8 @@ function initializeBoards() {
     let i = this.dataset.index
     let l = this.dataset.level
     usesymmetries(i, l)
-    sync_all_costs_to_scores()
+    scoresync_function()
+    autobexport_function()
   });
 
 
