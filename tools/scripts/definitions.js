@@ -2019,7 +2019,56 @@ MOVES = [{
    "color": [20,125,255],
    "color2": [255,255,255],
    "color3": [0,0,0],
-   "symbol1": "\u2743",
+   "symbol1": "\u2742",
+   "hide": true
+ }, {
+   "id": "cd3",
+   "cat": "cd",
+   "name": "bomb",
+   "text": "Destroy self and all adjacent pieces.",
+   "color3": [253,117,34],
+   "symbol1": String.fromCodePoint(`0x1F4A3`), // \uEC23 is a colored bomb instead of emoji bomb
+   "nobox": true,
+   "hide": true
+ }, {
+   "id": "cd4",
+   "cat": "cd",
+   "name": "megabomb",
+   "text": "Destroy self and all enemies it could attack.",
+   "color": [127, 0, 0],
+   "color2": [255, 0, 0],
+   "color3": [255,0,0],
+   "symbol1": String.fromCodePoint(`0x1F4A3`),
+   "hide": true
+ }, {
+   "id": "cd5",
+   "cat": "cd",
+   "name": "onslaught",
+   "text": "[Pay 10] For 3 turns, the target piece moves 1 space forwards at the end of its owner's turn.",
+   "color3": [253,0,0],
+   "symbol1": String.fromCodePoint(`0x1F53A`),
+   "nobox": true,
+   "hide": true
+ }, {
+   "id": "cd6",
+   "cat": "cd",
+   "name": "deathcharm",
+   "text": "Sacrifice self and take control of target enemy.",
+   "color3": [253,128,0],
+   "symbol1": String.fromCodePoint(`0x1F538`),
+   "color4": [255,255,255],
+   "symbol2": String.fromCodePoint(`0x26AA`),
+   "nobox": true,
+   "hide": true
+ }, {
+   "id": "cd7",
+   "cat": "cd",
+   "name": "gale",
+   "text": "[Pay 10] Stun the target piece for 3 turns, then push it as far as possible.",
+   "color1": [0,0,0],
+   "color2": [255,255,255],
+   "color3": [0,255,0],
+   "symbol1": String.fromCodePoint(`0x0A6D`),
    "hide": true
  }, {
    "id": "fc17",

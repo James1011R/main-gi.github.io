@@ -855,13 +855,38 @@ $("#saveimage").click(function() {
 $("#exj").click(function() {
   $("#code").val(toCSV(DATA));
 });
-$("#exjh").click(function() {
+$("#exjh").click(function() { // main_gi: Okay what does this acronym mean, "export javascript hyperlink"?
   var uri = {
     q: toCSV(DATA)
   };
   if (CUSTOM) uri.c = CUSTOM;
   history.replaceState("", "", "?" + $.param(uri));
 });
+
+$("#exjb").click(function() { // Export to Betza (Bexport)
+  let rv = [];
+  let a = toCSV(DATA).split("\n")
+  let boards = [a[2], a[3], a[4], a[5]]
+
+  let othertext = a[0].split(",") // A thing like ["Knight", "Champion", "Basic", "Common"]
+  if (othertext[0] == "Name" || othertext[0] == "name" || othertext[0] == "PieceName" || othertext[0] == "") {
+    // Do nothing then.
+  } else {
+    rv.push(othertext.join(" ")) // Makes the first line "Knight Champion Basic Common" then
+  }
+
+  for (let i = 0; i < boards.length; i++) {
+    let x = boards[i].split(",")
+    let cost = x[0]
+    let passive = x[1]
+    let movetypes = array_to_betza(exportcode_to_array(x.slice(2).join(",")), 0) // Slice 2 stuff is because every movetype is split by a comma.
+    rv.push(`[${cost}] ${movetypes}${(passive == "")? "" : ` | ${passive}`}`)
+  }
+  rv = rv.join("\n")
+
+  $("#code").val(rv);
+});
+
 $("#imj").click(function() {
   var code = $("#code").val();
   validate(code);
@@ -886,6 +911,20 @@ $("#hst").click(function() { // main_gi: Hide/show type
   } else {
     $(".info").css("display", "initial");
     $("#hst")[0].innerHTML = "Hide/Show Type (shown)";
+  }
+  
+});
+$("#hsot").click(function() { // main_gi: Hide/show other tiers
+  if ($("#plus").css("display") != "none") {
+    $("#plus").css("display", "none");
+    $("#plusplus").css("display", "none");
+    $("#plusplusplus").css("display", "none");
+    $("#hsot")[0].innerHTML = "Hide/Show Upgraded Tiers (hidden)";
+  } else {
+    $("#plus").css("display", "inherit");
+    $("#plusplus").css("display", "inherit");
+    $("#plusplusplus").css("display", "inherit");
+    $("#hsot")[0].innerHTML = "Hide/Show Upgraded Tiers (shown)";
   }
   
 });
@@ -1036,19 +1075,57 @@ function validate(source) { // THIS IS BASICALLY PART OF IMPORTING
   // Yes, no more than 1 person will ever use this.
   if (!source.match(",")) { // No commas.
     let pieces = ["0,,", "0,,", "0,,", "0,,"]
-    let name = ""
+    let othertext = ["", "", "", ""]
     try {
       let rv = source.replace(/\[|\]|\|/g, "") // replace []| characters (those three)
       rv = rv.replace(/^\n+/, "") // get rid of starting newlines
       rv = rv.split("\n")
+      // okay now we have a string like:
+      /*
+      Knight Champion Basic Common
+      [6] jN
+      [8] mWjN
+      [10] WjN
+      [12] WmFjN | Pretend passive here
+
+      There's a quick way to detect if the first string contains "othertext" like that: lowercase letters at the very end (after deleting any potential passive?).
+
+      This doesn't seem like a perfect detection method though.
+
+      A perfect one might involve deleting the 'cost' (number at front) if detected, then splitting spaces, then checking the first element of that.
+      */
+
+      if (rv[0].replace(/ \|.+$/, "").match(/[a-z]+$/) && rv[0].split(" ").length <= 4) {
+        l(rv)
+        let splitted = rv[0].split(" ")
+
+        if (splitted.length == 4) {
+          othertext = splitted
+        } else {
+
+          try {
+            othertext[3] = splitted[0]
+            othertext[2] = splitted[1]
+            othertext[1] = splitted[2]
+          } catch (error) {
+
+          }
+          othertext = rv[0].split(" ")
+        }
+        
+        rv.shift()
+      }
+
+
       let costs = rv.map(x => (x.match(/^(\d+)/))? numify(x.match(/^(\d+)/)[0]) : 0 ) // No number found, use 0 instead
       rv = rv.map(x => x.replace(/^\d+ /g, ""))
 
 
       if (rv[0].match(/(\S+):/)) {
-        name = rv[0].match(/(\S+):/)[1]
-        rv = rv.map(x => x.replace(/(\S+): /, ""))      }
-      let actions = rv.map(x => interpretexport(interpretbetza(x.match(/^\S+/)[0]), 1))
+        othertext[0] = rv[0].match(/(\S+):/)[1]
+        rv = rv.map(x => x.replace(/(\S+): /, ""))
+      }
+      let actions = rv.map(x => array_to_exportcode(betza_to_array(x.match(/^\S+/)[0]), 1))
       rv = rv.map(x => x.replace(/^\S+/g, "")) // Get rid of the betza...
       rv = rv.map(x => x.replace(/ \| /g, "")) // Then the | ...
       rv = rv.map(x => x.replace(/^ +/g, ""))  // Then the spaces.
@@ -1063,7 +1140,7 @@ function validate(source) { // THIS IS BASICALLY PART OF IMPORTING
 
     } catch (e) {console.log(e)}
 
-    source = `${name},Minion,Basic,Common
+    source = `${othertext.join(",")}
 
 ${pieces.join(`\n`)}`
   }
@@ -1232,7 +1309,7 @@ function replaceAll(string, changethis, tothis) { // Because this is unsupported
 function numify (x) {return parseInt(x, 10)}
 function tob15 (x) {rv = numify(x).toString(15); return (rv.length==1?"0":"") + rv} // "tob15" = "to base 15". Adds leading zeros too.
 
-function tob10 (x) {return parseInt(x, 15)} // adds the zeros
+function tob10 (x) {return parseInt(x, 15)}
 
 function x (i) {
   return (i % 15) - 7
@@ -1364,9 +1441,9 @@ function arraysum (array) {return array.reduce(function(a, b){return a + b;}, 0)
 
 function arraysubtract(array, brray) { // B array, lol
   rv = []
-  for (i = 0; i < array.length; i++) {
+  for (let i=0; i < array.length; i++) {
     let insidebrray = false;
-    for (j = 0; j < brray.length; j++) {if (arraysequal(array[i], brray[j])) {insidebrray = true}}
+    for (let j = 0; j < brray.length; j++) {if (arraysequal(array[i], brray[j])) {insidebrray = true}}
     if (insidebrray == false) {rv.push(array[i])}
   }
   return rv
@@ -2432,7 +2509,7 @@ function changemove(movename, description, bordercolor, fillcolor, symbol1, symb
 function SSPify(input) {
   let sspreplaces = ["Magic", "Teleport", "Unblockable"]
   let sspreplacetos = ["Mgc", "Tprt", "NoBlock"]
-  for (i=0; i<sspreplaces.length; i++) {
+  for (let i=0; i<sspreplaces.length; i++) {
     input = input.replace(sspreplaces[i], sspreplacetos[i])
   }
   return input
@@ -2732,7 +2809,7 @@ function sspmessage (name) {
 var plusorminus = [`+`, ``, ``, ``, `-`, `-`, `--`]
 var ssp1 = [``, `Strong synergy and power right from setup.`, `This has been Vaccinated it appears.`, `This alone is level expected.`, `Weak.`, `You don't know scratch about balance.`, `Blatantly Broken.`, `Turn 1 checkmate is a valid game design...`, `That's my Unit, the regime's enforcement cops.`, `It's very specialized, so it's cheap. Can be used as Pawn, to develop a Champion or rescue some unit.`, `No, it can't kill 2 units in 1 turn.`, `No joke pieces.`, `That should cost 25.`, `Needs to be harder to trade well.`, `Upgraded it's 1 too cheap.`, `Fairly weak, may become Stuck on 8th row, bad upgrades.`, `Weak moves, fair ability, risky emergency ability.`, `Fine, but +2 sucks.`, `Overcosted, weak high tiers.`, `A bit cheap, class typo.`, `Mostly gimmick.`, `Weak moves, fair ability, risky emergency ability.`, `Strong combo potential, plus, overcosted, sidegrade.`, `It doesn't fill any challenges.`, `Too dificult to provide Dementia.`, `Broken dodgespam, brokener from Plus, too cheap.`, `Good support, cheap,`, `Too expensive, gets cheaper,`, `Balanced, but passive hardly matters.`, `Overcosted for what it does,`, `UP base, sudden OP Knight attack at plus, rest is not too OP.`, `Overcosted for range ability, otherwise balanced.`, `Weak without support, balanced at base and +.`, `Fair & Balanced.`, `Good, but may be too expensive. -1 cost.`, `Payless LfSt...`, `Ability is not that strong wthout combos, since it's ussually worse than Saplingkill.`, `Nice, but bad scaling, OP at +3.`, `Weak though balanced, niche unit,`, `Too weak for what it does. 1|2|4|6.`, `Broken with RespawnTarget units, otherwise broken from + tier, since it can Tport freely after 1 charge, and reload Destroy.`, `Sidegrades, and these aren't even good.`, `Broken upgrading, otherwise OK.`, `Powerful ranged ability and fast movement balanced by tempo and coverage.`, `Overcosted, situational ability.`, `Good but overcosted.`, `Frenzy is best single: Swap Frenzy1 1 Fwrd, Place and Attack repeatedly with Frenzy0s, end with Frenzy1. An attack like this drains 29|45|63 Morale, as well as 10 Value.`, `{[SHTN]} uses a powrful passive. it's sad that he removed the "And lose this ability" part.`, `Gimmicky, unclear and useless.`, `{[SHTN]} is OP, may cheap 2x1, later T2 cheapmate.`, `{[SHTN]} is quick and deadly, but hard to use, later it may be slightly OP.`, `Is OKish, but OP for trading.`, `Nice and tactical.`, `{[SHTN]} is gud unit.`, `Small but kinda fair.`, `Is fair enough.`, `This is OP.`, `Powerful but balanced.`, `{[SHTN]} is undefined.`, `Poop.`, `Too cheap, but good design.`, `Half lazy.`, `Fast promoter but weak, can be used for cheese with Harmor, otherwise you'd just use Bat3|PriQ2.`, `Nice design, can defend well without being OP.`, `Decent moves but overcosted.`, `Obvious Joke, just like TheG.`, `Needs +, weak melee but balanced destroy.`, `Looks OP, and what happens if you fling them, or otherwise 2 triggers? I'd say front, opposite boardside first, so N, NW, NE, W, E, SW, SE, S when on right half.`, `{[SHTN]} is strong piece that can take unit behind, quite powerful, it is undercosted.`, `It is overcosted, and allows nasty cheese fighting.`, `Overcosted, has detrimental trigger.`, `Weak bomber that is undercosted, then OP, then Broken.`, `Horribly useless, wastes Champ for net loss. |||.`, `Decent power, wind seems random, high jump from Plus1 to Plus2. 6|7|13|14. Actually wait. 5|8|16|18...`, `Unit whose main power is on Push, which moves target diagonally until 5 spaces total, whenever possible. It may be used twice, which gives double attack potential. Its harmblock is not threatening, but may avoid defense, and it leaves attacker open. Upgrades give stronger defense, attack and movement.`, `WTF?`, `Looks like 1|2|3|6 unit at first... Unreadable Description, impossible to evaluate, learn English.`, `You're biased, and you should feel bad.`, `This piece trying to Imposteranate my piece design?`, `Improper and poor templating.`, `Very bad at moving Frward.`, `Barrage range of Drgn0 outer range.`, `It's Broken with Paladin, also with Guardian, Colonist and such.`, `I suggested these prices. It needs sliightly higher costs.`, `Too weak. Needs to be more threatening.`, `A friend tells another when he's being dumb, which it is.`, `Ability is like OverHead: Ranged, goes over Units. Can be blocked by things other than Units, such as ForceWalls.`, `I put this in my Site: Site is up! Here you can discuss Chess Evolved Online from a better design focus.`, `Levitated {[SHTN]}1 is Broken, can attack as much as it wants, while nigh invincible, at least against Chess army.`, `Fairly balanced unit, not OP or repetitive.`, `Rook|Rangestroy hybrid, encourages repetition.`, `Do you have brain damg?`, `Really bad ability. New Ability: It fires a fast reflecting Beam, bouncing changes square color unless bouncing from board corner. Can't use long range past 6th row, can Destroy diagonally at +2, has 2 Block areas at +3.`, `Not random, but most of these are more efficient at low tiers, more so with a discount.`, `Throw something cheaper at it, win.`, `Hey, SSP is my updated response. CC could be CosmiClasher.`, `It's just cheap. A cost of 10 makes it harder to trade, maybe too costly.`, `sShould cost 10, it's stronger than Warr2 at Range2, no Kingrange Attack but strong swap.`, `Suggestion 1: Base cost 12 moves Lgnr0. Plus cost 14 moves Warr2. Plus2 cost 16 moves Lgnr3. Plus3 cost 18 moves Bhmt3. Pros: No overly tradeable tiers, decent control ability. Cons: Move Only upgrades, not mandatory to buy Plus2|3.`, `Seems OK to counter Ranger2|3 and the like.`, `{[SHTN]}: 31 Cost, + Adjc NoBlock SwapAlly. If 34 cost, RangeImmune, ReactImmune, NgtvStatusImmune.`, `{[SHTN]}1 is worth about 8, costs 2, pnlt 10. With LfSt1 Buff is worth about 10, costs 6, pnlt 7, weak but defensive until used. Seems fairly good.`, `This is Pay2Play. Also, Knight0 meta.`, `It's not broken at all. Targeted minion would be cast out, and Ptgs would be wasted.`, `SwpAlly don't make a lot of sense.`, `Would be shorter in Spanish.`, `Dumb idea.`, `Description way too long.`, `Impossible to freeze.`, `Cannot even attack.`, `Can't even Atck.`, `Can't deal Dmg at all, why.`, `I saw this piece before, you removed Knight attacks for some reason.`, `Old version of this pce had Armor.`, `Suggestion: Delete passive.`, `Suggestion: Remove ALL brainless ability from it.`, `Why nothing inteeresting about this idea.`, `This piece idea so bad I am deleting all similar idea from Chess Battle Advanced.`, `Pay2Win.`, `Unreasonable design.`, `Complete unreasonability, you need do better.`, `It is broken, and allows nasty moldy cheese.`, `It is poorly thoughted out and creates nasty Complexity fetish.`, `Seemse like a good design......... At first. Then you read it, and it is bad.`, `Offully awful.`, `Trash piece, like the ones TheG makes.`
 ]
-var ssp2 = [``, "Es basura, no puede definir ganancia.", "Lacks Chess Battle Advanced tenets.", "Unclear templating.", "It's like one of my designs.", "Unclear description.", "Uncreative name, bad poison.", "Clearly, this makes the Unit too punishing for these armies.", `So, this ends up losing|giving King X-4 Worth. X=6|5|5|4, but 5|4|5|4 for a King. Net balance being -(4|5|4|6).`, `It should get Tired after 3 moves.`, `Same as with Valk portal.`, `That'd actually make little difference.`, `BAN Armored Range 3 to Enemy 2nd.`, `It's almost strictly worse.`, `Also, {[NAME]} is Broken as long as it sticks to White squares.`, `Solution: Reduce the Petrify duration to 2 turns.`, `Also, fullquote is stupid.`, `An attack to left corner then to the right can't be interfered by Samurai.`, `Really weak, may break some units.`, `Broken with Hoplites at +2.`, `meaningless passive,`, `unspecified path for attack.`, `Broken with Hostage for King threat...`, `Balanced, protect and attack, slightly weak +2.`, `Not very strong, +2 may be sidegrade.`, `Has "Equally Pointless" element demergency (dx emergency ~ dx obfuscation).`, `Broken with Knight|Valk, even Pyro, but also boosts Enemy unit. It may seem weird to be attacked by Trees.`, `Limit to 15 turns.`, `It's not that weak, it is an utility piece, overcosted though.`, `Strong tradeability upgraded.`, `OP in some Combos.`, `Randomness, bad scaling, gimmicky, broken, useless.`, `Balanced abilities, except BatV Tport, especially at +3.`, `Too tradeable, otherwise Balanced.`, `You aren't very good designer.`, `Overcosted by 2-3, weak upgrades.`, `Balanced power, HUGE morale pains to be worth it, overcosted.`, `Good but overcosted.`, `Also, sidegrades are UP. 6|8|8|8. Also, repeated Rook drilling in general.`, `I already have similar piece in Chess Battle Advanced.`, `I added this piece to Chess Battle Advanced.`, `That Trigger is Temporary Attack Power, NOT Auto Attack.`, `This piece got voted Higher than a thing that certain 4x1s at +3 with Portal? We ought better than to stay on such a bad pick selection. In my PPS, I held 50% score power due to this.`, `This is like Silk Spider poison which can Paralize, and Bind deactivates minion such as Revr, FzMp and SuFl, as well as Knight movers, a Queen2 doesn't want to downgrade 2 tiers.`, `and with Portal, nigh useless Bind.`, `Brokener at +3 with Portal, kills champ and 3 minions.`, `Never getting into CEO really.`, `Stolen idea from immature Awetalehu.`, `Fait unit is too weak at low tiers, turtling potential.`, `{[SHTN]} is weak for what it can do, best is +1.`, `Hates Knights, boo.`, `Costly at later tiers.`, `It can hold a position well, but too weak.`, `0 Cost triggerish wall is kinda OK, but using +1 may be Broken.`, `Use 4 letter Abrv, which are clearer.`, `Should lose 1 Value on ability use, to avoid spam`, `Need a lot less vwls.`, `I designed much better piece in CheBA.`, `That's a nice {[SHTN]}, seems OP for rushing tool though.`, `...Such procedures result in Egg mutating into a Fire Elemental of similar Tier and slightly higher Value... ...The mutation is not apparent until the Egg hatches, a large amount of Heat is released upwards then... ...Resulting creature does not appear hostile, but may be made attack nearby Entities for susteinance...`, `That's not a valid design. For all valid regular armies there shouldn't be a chance to unfair loss situation.`, `Reversing spots avoids Turn 2 swap secure with Minion, except at higher tiers. Like Legionary but not good at 9 for Base. Could use 2 Orthogonal move at base, cost 9, while Plus uses Warrior range, cost 11.`, `Rather weak, needs buff.`, `Underwhelming, but +3 looks pretty cool, and it's OP.`, `Slightly overcosted, as it's easy to know where it will strike.`, `Worth 11 without KillAllSame and Passive.`, `For some reason, Kongregate does not let me Flag this stupid unit, instead showing the Kongregate message tab blank. Please fix this.`, `James, no, that's a correct use of Augmented squares. Capy, you'd find that CloseUp means getting closer, and MeleeJab is Melee with an extend, no unexpected interactions, not NoBlock. Slash was stated to avoid BlowUp though, so you may have thought that of this too.`, `Actually... {[SHTN]}3 is broken. It's 2 tempos that you need to get rid of it, even into a Lust pull or whatever unit can get to attack their 5th row. This -2tempo attack is less problematic on champions. F300 was right on that.`, `Technically, it gets the most out of +1, and it has higher penalty too.`, `This is better as a standalone appeal.`, `Buff: Can Attack|SwapAlly on Rspw locations. Nerf: Costs 5|6|7|8, Penalty 4|7|9|11, Power 2(x-1).`, `Would rate this 0 in a contest, plz improve.`, `Think designer had no brain cells.`, `Needs lots of changes, poorly designed.`, `So, it's an antiminion Pyro at +2|3, which you can't kill, since you lose Morale. And immune to some range attacks. Too strong.`, `Can perform strong, quick forks, not good.`, `Is this Ghostly's? Ghostly does not want to accept he messed up in designs.`, `Messy infopanel, nonsense.`, `Nonsensicable prices, not worth any good.`, `Also {[SHTN]} is stupid name, get rid of it.`, `This is as bad as Tar.`, `{[SHTN]} bad theming, bad design, bad idea.`, `{[SHTN]} no brain inside designer's head.`, `Also {[SHTN]} impossible name to abbrviate well.`, `This piece also stolen from Chess Battle Advanced.`, `This piece from Chess Battle Advanced just modify badly.`, `{[SHTN]} is not thought outed.`, `When I become Cybg I am deleting this piece from memory.`, `{[SHTN]} is kinda stupid name.`, `This piece would destroy ChEO.`, `Very weak, except when becomes OP.`, `Twerrible idea.`, `Too much nasty dirty potential.`, `Big Issue: It ussually attacks first, targetting one or two champions, it has to be hit, then it attacks again. Losing a LifeStone and or a Princess is very annoying, and cheap.`, `Annoying resistant overpowered build: King x1 {[SHTN]}+2 x1 SlKpr+2 x1 Enchantress+3 x1 Paladin+2 x1 MoonFox x2 Wisp+1 x1 Fireball+1 x2 Penguin x3 Ghost+2 x1 Princess+2 x1 LifeStone+2 x1`, `It’s OP with SlKpr+2, Knight, Pyro, or such.`, `It’s ability does not have a penalty, is instant, and ussually unavoidable. Gemini has to split, so it could be targeted by Ranged before it splits, but it’s annoying too. Just attacks once, and again, easily taking out some defenses for a Bishop, Rook, etc.`, `No replies? This piece’s too strong.`, `It’s a Champion unit, not a Minion, it’s mainly for trading with more expensive pieces. It’s a Champion unit, and it’s quite weak, can’t move back, and can’t move sideways unupgraded.`, `These should cost 3 points instead of 2, ice effect is deadly.`, `Is similar to the Ranger, but has Knight range, so it can attack them, also, dispose of non-double Fireball+ and most units.`, `This unit can kamikaze, then again, giving material advantage with no effort, even if it’s a minion. This should cost 14 at base, then 16, 18 and 21, and respawn once with any version. Not everybody uses Pyro, or can afford to waste a Comet.`, `By the way, Comet+ can Freeze minions around target.`, `Too powerful. These are cheap, and one shot is all you need to take down a unit, while zapping Minions with Ranger, Pyro or SlKpr+2. They can’t be attacked properly, as that means losing a Minion to Ranged, or losing a Champion. Also, Minions ussually get 1 kill anyway.`, `Chess games should NOT have ANY random piece.`, `Wyvern, Fencer, Muse, Musketeer, Chrono/Time M. No Katana, Ballister or Griffin.`, `What if you have a LifeStone+1 and a Princess+2? These could be hit hard anyway.`, `Rockets explode on hit too.`, `This first fits into the CheBA custom theme set: Ninja King x1. 10 Cost. King can jump 2 on plus shape. Katana+2 x1. 25 Cost. Pierces Special. Jumps and Attacks. Ballister+1 x1. 15 Cost. Agile, puts pressure. Militian+2 x2. 12 Cost. Cheap melee unit. Alfil+1 x2. 12 Cost. Cheap jumping unit. Griffin x1. 11 Cost. Pattern of attack can threaten most pieces. Nin+2 x1. 5 Cost. Fighting Ninja Minion. Line Guard x1. 3 Cost. Guarding Paladin Minion. Frost Pillar+2 x1. 3 Cost. Freezes enemies. Door Guard+1 x4. 4 Cost. A guard that can attack well. Door Guard x1. 0 Cost. Can defend some squares.`, `Targetting so many squares for 16…`, `How balanced? It gets picked off by something, if it attacks a {[SHTN]}, it dies anyway.`, `This seems a nice nerf. Farthest squares are Attack Minion only. Cost 1, 2, 3, 4.`, `Nerf: Dies if Poisoned.`, `A piece with this range is worth 5 easily, two of these 10, 4 extra for special. A piece Knight+Warrior costs 7+7 +4, and can’t respawn.`, `This piece make me angry inside.`, `Gets get picked off by Ranged attacks. Swapping takes 2 moves only, teleporting and swapping.`, `Did awetalehu make this piece?`, `Added {[SHTN]} to the site.`, `There are too many broken pieces in this game. Gemini gives 2 Champions for one without too much difficulty, while Moonfox can hit twice, easily overthrowing defenses. Comet can trap pieces at the start for a quick attack. LifeStone gives more Morale when it uses its ability. Princess+2 or +3 is very agile, even though it’s a priority target. Ench is broken, more when +3. And now you make {[SHTN]}? Terrible idea.`, `{[SHTN]} is OP. Nerf: Reduces it’s own value by 2 on Special, if less than 2, dissappears, with 1/Turn Morale Loss penalty. That gives 2 shots, a third one would leave a -1 Morale Penalty for 25 Turns, and an unit less.`, `Also, a Katana revamp. Basic: 3,1 or 1,3 Unblockable Jump. 1,0, 1,1 or 0,1 Move or Attack. 2,0 or 0,2 Move Only. 0,+1 Unblockable Move or Attack/Unblockable, Immune Trigger Attack. Cost: 16 Plus1: 2,0 or 0,2 Move or Attack, 3,0 or 0,3 Move Only. 1,+1 Unblockable Move or Attack, Shield. Cost: 18 Plus2: 1,0, 1,1 or 0,1 Unblockable Move or Attack. 1, 1 Shield. 0,+2 Immune Trigger Attack. Hit Foe that Steps Near if still for 3 Turns. Cost: 23 Plus3: 3,0, 2,2 or 0,3 Unblockable Jump. Hit Attacker on Melee Death or Shield Hit if still for 3 Turns. Cost: 28`, `Better: Samurai, but can use Unblockable Jump 2 squares ahead instead of Trigger. Plus1: Move or Trigger back square. Plus2: Attack Target in front Plus3: Teleport two to the side. Rare Clan Minion. Cost: 3, 4, 5, 6. Promotes into Ninja, Samurai into Katana.`, `A board build that uses Fireballs and {[SHTN]}. King x1. 0 Cost. 1 King. Prince x1. 10 Cost. 1 Prince. Ench x1. 5 Cost. 1 Ench. Paladin+1 x1. 14 Cost. 4 Paladin. {[SHTN]}+1 x4. 44 Cost. 16 {[SHTN]}. Fireball+2 x8. 24 Cost. 200 Fireballs. Total: 97 Cost. F F F F F F F F {[1STL]} K B E B B B G`, `Also why does piece name start with {[1STL]}, this HasBeenDone.`, `And my name's not Richard.`, `This piece so bad I deleted all similar pieces from CBA.`, `Stop trolling.`, `You stole this idea from ChBA source code, someone is getting Fired.`, `Tar killed Dinosaurs.`, `Did Awetalehu leak this piece from ChBA?`, `This seems like a Ghostly piece. His game is bogus.`, `This seems like piece from that anime piecemaker.`, `This piece coming away from all sense.`, `This piece mind have none, really.`, `This piece design have no idea of creation.`, `None piece design make sense for here.`, `None ability make much sense and lines too many of text.`, `No real idea of sense. Need massive design changes.`, `No real logic, you are poll and see this is bad.`, `Not good, like Lich Dryd.`, `High power for a minion/champion, Hax ability.`, `Easy explaanation for voting system, also: S Exceptionally effective, good in majority of situations. A Efficient at role, strong with little support. B Expensive for ability, requires dedicated combo. C Effort to grant use, cannot reliably act. D Exceptions for deploying, inferior value. F Es basura, no puede definir ganancia.`, `Plus1 has 1,f1 Move Only.`, `Too slow.`, `A bit too expensive.`, `Warrior but better.`, `Petrify is really strong.`, `Easy to set up a double kill.`, `Costly but handy.`, `Cost +6 with King range Destroy.`, `No close range weakness.`, `Too annoying Knight move.`, `Plus 1 gets 1,f1 Move, Plus2 1,f1 Attack, Plus3 2, f2 Move.`, `Freeze is really strong.`, `Dries nearby Slime on death. These need Ice or Eat to become regular Slimes.`, `Obviously, the beacon deserves (Unstoppable) Fly or Destroy Target squares.`, `Kinda PretendPorn.`, `This effectiveness rather depends on Opponent’s level, if airship bay it’s built, using enough energy on a high level opponent, they could be sent.`]
+var ssp2 = [``, "Es basura, no puede definir ganancia.", "Lacks Chess Battle Advanced tenets.", "Unclear templating.", "It's like one of my designs.", "Unclear description.", "Uncreative name, bad poison.", "Clearly, this makes the Unit too punishing for these armies.", `So, this ends up losing|giving King X-4 Worth. X=6|5|5|4, but 5|4|5|4 for a King. Net balance being -(4|5|4|6).`, `It should get Tired after 3 moves.`, `Same as with Valk portal.`, `That'd actually make little difference.`, `BAN Armored Range 3 to Enemy 2nd.`, `It's almost strictly worse.`, `Also, {[NAME]} is Broken as long as it sticks to White squares.`, `Solution: Reduce the Petrify duration to 2 turns.`, `Also, fullquote is stupid.`, `An attack to left corner then to the right can't be interfered by Samurai.`, `Really weak, may break some units.`, `Broken with Hoplites at +2.`, `meaningless passive,`, `unspecified path for attack.`, `Broken with Hostage for King threat...`, `Balanced, protect and attack, slightly weak +2.`, `Not very strong, +2 may be sidegrade.`, `Has "Equally Pointless" element demergency (dx emergency ~ dx obfuscation).`, `Broken with Knight|Valk, even Pyro, but also boosts Enemy unit. It may seem weird to be attacked by Trees.`, `Limit to 15 turns.`, `It's not that weak, it is an utility piece, overcosted though.`, `Strong tradeability upgraded.`, `OP in some Combos.`, `Randomness, bad scaling, gimmicky, broken, useless.`, `Balanced abilities, except BatV Tport, especially at +3.`, `Too tradeable, otherwise Balanced.`, `You aren't very good designer.`, `Overcosted by 2-3, weak upgrades.`, `Balanced power, HUGE morale pains to be worth it, overcosted.`, `Good but overcosted.`, `Also, sidegrades are UP. 6|8|8|8. Also, repeated Rook drilling in general.`, `I already have similar piece in Chess Battle Advanced.`, `I added this piece to Chess Battle Advanced.`, `That Trigger is Temporary Attack Power, NOT Auto Attack.`, `This piece got voted Higher than a thing that certain 4x1s at +3 with Portal? We ought better than to stay on such a bad pick selection. In my PPS, I held 50% score power due to this.`, `This is like Silk Spider poison which can Paralize, and Bind deactivates minion such as Revr, FzMp and SuFl, as well as Knight movers, a Queen2 doesn't want to downgrade 2 tiers.`, `and with Portal, nigh useless Bind.`, `Brokener at +3 with Portal, kills champ and 3 minions.`, `Never getting into CEO really.`, `Stolen idea from immature Awetalehu.`, `Fait unit is too weak at low tiers, turtling potential.`, `{[SHTN]} is weak for what it can do, best is +1.`, `Hates Knights, boo.`, `Costly at later tiers.`, `It can hold a position well, but too weak.`, `0 Cost triggerish wall is kinda OK, but using +1 may be Broken.`, `Use 4 letter Abrv, which are clearer.`, `Should lose 1 Value on ability use, to avoid spam`, `Need a lot less vwls.`, `I designed much better piece in CheBA.`, `That's a nice {[SHTN]}, seems OP for rushing tool though.`, `...Such procedures result in Egg mutating into a Fire Elemental of similar Tier and slightly higher Value... ...The mutation is not apparent until the Egg hatches, a large amount of Heat is released upwards then... ...Resulting creature does not appear hostile, but may be made attack nearby Entities for susteinance...`, `That's not a valid design. For all valid regular armies there shouldn't be a chance to unfair loss situation.`, `Reversing spots avoids Turn 2 swap secure with Minion, except at higher tiers. Like Legionary but not good at 9 for Base. Could use 2 Orthogonal move at base, cost 9, while Plus uses Warrior range, cost 11.`, `Rather weak, needs buff.`, `Underwhelming, but +3 looks pretty cool, and it's OP.`, `Slightly overcosted, as it's easy to know where it will strike.`, `Worth 11 without KillAllSame and Passive.`, `For some reason, Kongregate does not let me Flag this stupid unit, instead showing the Kongregate message tab blank. Please fix this.`, `James, no, that's a correct use of Augmented squares. Capy, you'd find that CloseUp means getting closer, and MeleeJab is Melee with an extend, no unexpected interactions, not NoBlock. Slash was stated to avoid BlowUp though, so you may have thought that of this too.`, `Actually... {[SHTN]}3 is broken. It's 2 tempos that you need to get rid of it, even into a Lust pull or whatever unit can get to attack their 5th row. This -2tempo attack is less problematic on champions. F300 was right on that.`, `Technically, it gets the most out of +1, and it has higher penalty too.`, `This is better as a standalone appeal.`, `Buff: Can Attack|SwapAlly on Rspw locations. Nerf: Costs 5|6|7|8, Penalty 4|7|9|11, Power 2(x-1).`, `Would rate this 0 in a contest, plz improve.`, `Think designer had no brain cells.`, `Needs lots of changes, poorly designed.`, `So, it's an antiminion Pyro at +2|3, which you can't kill, since you lose Morale. And immune to some range attacks. Too strong.`, `Can perform strong, quick forks, not good.`, `Is this Ghostly's? Ghostly does not want to accept he messed up in designs.`, `Messy infopanel, nonsense.`, `Nonsensicable prices, not worth any good.`, `Also {[SHTN]} is stupid name, get rid of it.`, `This is as bad as Tar.`, `{[SHTN]} bad theming, bad design, bad idea.`, `{[SHTN]} no brain inside designer's head.`, `Also {[SHTN]} impossible name to abbrviate well.`, `This piece also stolen from Chess Battle Advanced.`, `This piece from Chess Battle Advanced just modify badly.`, `{[SHTN]} is not thought outed.`, `When I become Cybg I am deleting this piece from memory.`, `{[SHTN]} is kinda stupid name.`, `This piece would destroy ChEO.`, `Very weak, except when becomes OP.`, `Twerrible idea.`, `Too much nasty dirty potential.`, `Big Issue: It ussually attacks first, targetting one or two champions, it has to be hit, then it attacks again. Losing a LifeStone and or a Princess is very annoying, and cheap.`, `Annoying resistant overpowered build: King x1 {[SHTN]}+2 x1 SlKpr+2 x1 Enchantress+3 x1 Paladin+2 x1 MoonFox x2 Wisp+1 x1 Fireball+1 x2 Penguin x3 Ghost+2 x1 Princess+2 x1 LifeStone+2 x1`, `It’s OP with SlKpr+2, Knight, Pyro, or such.`, `It’s ability does not have a penalty, is instant, and ussually unavoidable. Gemini has to split, so it could be targeted by Ranged before it splits, but it’s annoying too. Just attacks once, and again, easily taking out some defenses for a Bishop, Rook, etc.`, `No replies? This piece’s too strong.`, `It’s a Champion unit, not a Minion, it’s mainly for trading with more expensive pieces. It’s a Champion unit, and it’s quite weak, can’t move back, and can’t move sideways unupgraded.`, `These should cost 3 points instead of 2, ice effect is deadly.`, `Is similar to the Ranger, but has Knight range, so it can attack them, also, dispose of non-double Fireball+ and most units.`, `This unit can kamikaze, then again, giving material advantage with no effort, even if it’s a minion. This should cost 14 at base, then 16, 18 and 21, and respawn once with any version. Not everybody uses Pyro, or can afford to waste a Comet.`, `By the way, Comet+ can Freeze minions around target.`, `Too powerful. These are cheap, and one shot is all you need to take down a unit, while zapping Minions with Ranger, Pyro or SlKpr+2. They can’t be attacked properly, as that means losing a Minion to Ranged, or losing a Champion. Also, Minions ussually get 1 kill anyway.`, `Chess games should NOT have ANY random piece.`, `Wyvern, Fencer, Muse, Musketeer, Chrono/Time M. No Katana, Ballister or Griffin.`, `What if you have a LifeStone+1 and a Princess+2? These could be hit hard anyway.`, `Rockets explode on hit too.`, `This first fits into the CheBA custom theme set: Ninja King x1. 10 Cost. King can jump 2 on plus shape. Katana+2 x1. 25 Cost. Pierces Special. Jumps and Attacks. Ballister+1 x1. 15 Cost. Agile, puts pressure. Militian+2 x2. 12 Cost. Cheap melee unit. Alfil+1 x2. 12 Cost. Cheap jumping unit. Griffin x1. 11 Cost. Pattern of attack can threaten most pieces. Nin+2 x1. 5 Cost. Fighting Ninja Minion. Line Guard x1. 3 Cost. Guarding Paladin Minion. Frost Pillar+2 x1. 3 Cost. Freezes enemies. Door Guard+1 x4. 4 Cost. A guard that can attack well. Door Guard x1. 0 Cost. Can defend some squares.`, `Targetting so many squares for 16…`, `How balanced? It gets picked off by something, if it attacks a {[SHTN]}, it dies anyway.`, `This seems a nice nerf. Farthest squares are Attack Minion only. Cost 1, 2, 3, 4.`, `Nerf: Dies if Poisoned.`, `A piece with this range is worth 5 easily, two of these 10, 4 extra for special. A piece Knight+Warrior costs 7+7 +4, and can’t respawn.`, `This piece make me angry inside.`, `Gets get picked off by Ranged attacks. Swapping takes 2 moves only, teleporting and swapping.`, `Did awetalehu make this piece?`, `Added {[SHTN]} to the site.`, `There are too many broken pieces in this game. Gemini gives 2 Champions for one without too much difficulty, while Moonfox can hit twice, easily overthrowing defenses. Comet can trap pieces at the start for a quick attack. LifeStone gives more Morale when it uses its ability. Princess+2 or +3 is very agile, even though it’s a priority target. Ench is broken, more when +3. And now you make {[SHTN]}? Terrible idea.`, `{[SHTN]} is OP. Nerf: Reduces it’s own value by 2 on Special, if less than 2, dissappears, with 1/Turn Morale Loss penalty. That gives 2 shots, a third one would leave a -1 Morale Penalty for 25 Turns, and an unit less.`, `Also, a Katana revamp. Basic: 3,1 or 1,3 Unblockable Jump. 1,0, 1,1 or 0,1 Move or Attack. 2,0 or 0,2 Move Only. 0,+1 Unblockable Move or Attack/Unblockable, Immune Trigger Attack. Cost: 16 Plus1: 2,0 or 0,2 Move or Attack, 3,0 or 0,3 Move Only. 1,+1 Unblockable Move or Attack, Shield. Cost: 18 Plus2: 1,0, 1,1 or 0,1 Unblockable Move or Attack. 1, 1 Shield. 0,+2 Immune Trigger Attack. Hit Foe that Steps Near if still for 3 Turns. Cost: 23 Plus3: 3,0, 2,2 or 0,3 Unblockable Jump. Hit Attacker on Melee Death or Shield Hit if still for 3 Turns. Cost: 28`, `Better: Samurai, but can use Unblockable Jump 2 squares ahead instead of Trigger. Plus1: Move or Trigger back square. Plus2: Attack Target in front Plus3: Teleport two to the side. Rare Clan Minion. Cost: 3, 4, 5, 6. Promotes into Ninja, Samurai into Katana.`, `A board build that uses Fireballs and {[SHTN]}. King x1. 0 Cost. 1 King. Prince x1. 10 Cost. 1 Prince. Ench x1. 5 Cost. 1 Ench. Paladin+1 x1. 14 Cost. 4 Paladin. {[SHTN]}+1 x4. 44 Cost. 16 {[SHTN]}. Fireball+2 x8. 24 Cost. 200 Fireballs. Total: 97 Cost. F F F F F F F F {[1STL]} K B E B B B G`, `Also why does piece name start with {[1STL]}, this HasBeenDone.`, `And my name's not Richard.`, `This piece so bad I deleted all similar pieces from CBA.`, `Stop trolling.`, `You stole this idea from ChBA source code, someone is getting Fired.`, `Tar killed Dinosaurs.`, `Did Awetalehu leak this piece from ChBA?`, `This seems like a Ghostly piece. His game is bogus.`, `This seems like piece from that anime piecemaker.`, `This piece coming away from all sense.`, `This piece mind have none, really.`, `This piece design have no idea of creation.`, `None piece design make sense for here.`, `None ability make much sense and lines too many of text.`, `No real idea of sense. Need massive design changes.`, `No real logic, you are poll and see this is bad.`, `Not good, like Lich Dryd.`, `High power for a minion/champion, Hax ability.`, `Easy explaanation for voting system, also: S Exceptionally effective, good in majority of situations. A Efficient at role, strong with little support. B Expensive for ability, requires dedicated combo. C Effort to grant use, cannot reliably act. D Exceptions for deploying, inferior value. F Es basura, no puede definir ganancia.`, `Plus1 has 1,f1 Move Only.`, `Too slow.`, `A bit too expensive.`, `Warrior but better.`, `Petrify is really strong.`, `Easy to set up a double kill.`, `Costly but handy.`, `Cost +6 with King range Destroy.`, `No close range weakness.`, `Too annoying Knight move.`, `Plus 1 gets 1,f1 Move, Plus2 1,f1 Attack, Plus3 2, f2 Move.`, `Freeze is really strong.`, `Dries nearby Slime on death. These need Ice or Eat to become regular Slimes.`, `Obviously, the beacon deserves (Unstoppable) Fly or Destroy Target squares.`, `Kinda PretendPorn.`, `This effectiveness rather depends on Opponent’s level, if airship bay it’s built, using enough energy on a high level opponent, they could be sent.`, `And I'm clearly a dude, otherwise it would be SSPlayeress.`, `I actually don't sh'tpost in the forums, my terminology and ideas are quite consistent, not an attampt on trolling.`, `Otherwise, I might care about your grittyness, since it would make sense.`]
 var rsspn = [randint(1, 12)]; rsspn.push(rsspn[0] + randint(1, 6)); rsspn.push(rsspn[1] + randint(1, 6)); rsspn.push(rsspn[2] + randint(1, 6)); 
 var sspratings = `0 3.5 4 4.5 5 5.5 6 6.5`.split(` `)
 var sspratings2  = `-0.5 -1 -1.5 -2`.split(` `)
@@ -2790,7 +2867,7 @@ function exportasgame () {
     for (let levelmoves in DATA[`${LEVELS[level]}`].moves) {
       if (DATA[`${LEVELS[level]}`].moves[levelmoves].length > 0) { // This line is necessary so it doesn't error if it's blank.
         let moveresults = (DATA[`${LEVELS[level]}`].moves[levelmoves].match(/.{1,2}/g).map(z=>tob10(z)))
-        for (i = 0; i < moveresults.length; i++) {
+        for (let i = 0; i < moveresults.length; i++) {
           movelist[moveresults[i]] = levelmoves
         }
       }
@@ -2834,10 +2911,12 @@ function exportasgame () {
   return rv
 }
 
+var devtoolsrevealed = false
 document.addEventListener('keydown', function (e) { // dev tools
-  if (`${e.code}` == "Backquote") {
+  if (!devtoolsrevealed && `${e.code}` == "Backquote") {
      document.getElementById("devtools").style.display = "initial"; 
      $(".hiddendisplay").attr("style", "display: initial")
+     devtoolsrevealed = true
   }
 });
 document.getElementById("copyButton").addEventListener("click", function() {
@@ -2848,9 +2927,165 @@ document.getElementById("movesetArray").addEventListener("click", function() {
   document.getElementById("copyTarget").value = ("[" + (/Moves = \[(.+)\]/gi).exec(  exportasgame()  )[1] + "]")
   copyToClipboard(document.getElementById("copyTarget"));
 });
+
+
+
+
 // main_gi: Isn't it great that this simple feature is so much filler?
 // https://stackoverflow.com/questions/22581345/click-button-copy-to-clipboard-using-jquery
 function copyToClipboard(e){var t,n,o="INPUT"===e.tagName||"TEXTAREA"===e.tagName;if(o)c=e,t=e.selectionStart,n=e.selectionEnd;else{if(!(c=document.getElementById("_hiddenCopyText_"))){var c=document.createElement("textarea");c.style.position="absolute",c.style.left="-9999px",c.style.top="0",c.id="_hiddenCopyText_",document.body.appendChild(c)}c.textContent=e.textContent}var a,d=document.activeElement;c.focus(),c.setSelectionRange(0,c.value.length);try{a=document.execCommand("copy")}catch(e){a=!1}return d&&"function"==typeof d.focus&&d.focus(),o?e.setSelectionRange(t,n):c.textContent="",a}
+
+function tl (x) {l(x)} // temporary log
+function tl (x) {} // if this is declared, tl does nothing
+
+document.getElementById("devtool_scoring").value = `*7 .4
+*6 .35
+*5 .3
+*4 .3
+*3 .4
+*2 .5
+*1 .75
+
+j *3 1
+j *2 .75
+j *1 undefined
+
+a ma*.8
+m ma*.5
+
+t *7 .5
+t j*.5
+
+{0a} ma*.5 (unblockable allyswap)
+{1a} ma*1.5 (blockable move/attack/allyswap)
+
+js j+ma*.5
+ts t+ma*.5
+
+{mp} ma*.3
+
+(path not programmed)
+(colorbound checks not programmed)
+('error checks' like blockables-on-unblockable-squares, or too many forward unblockable range 3 squares, not programmed)
+
+(These values are for this tournament: https://steemit.com/hive-135459/@e3gewinnt/oppiecespiecemakingandcorrespondanceplaycontest)
+(Comments in parentheses are ignored.)`
+function update_devtool_score (a) {
+  // a = the given array
+
+  //devtoolsrevealed
+  let declarations = document.getElementById("devtool_scoring").value.replace(/\(.+\)/g, "").split("\n").filter(x => x != "")
+  let totalscore = 0
+  try {
+    let scoringlookup = {} // An object that will contain stuff like "2: [ARRAY FORM DATA]", with the 2 being the move id.
+    function make_key_if_unmade (key) {
+      if (scoringlookup[`${key}`]) {return}
+      scoringlookup[`${key}`] = arrayspamming(NaN, 15*15)
+    }
+    for (let i=0; i < declarations.length; i++) {
+      let words = declarations[i].trim().split(" ") // "trim" to get rid of potential floating spaces
+      let action = 0;
+      if (shortcuts.includes(words[0])) { // first word is a shortcut
+        action = shortcuts.indexOf(words[0])-1
+        words.shift() // get rid of first element
+      }
+      make_key_if_unmade(action)
+      if (words.length == 1) {
+        tl("scoring:")
+        tl(scoringlookup)
+        // Then it's a kind of multiplier onto an existing action that uses the existing action as a base.
+        let toadd = words[0].split("+")
+        tl("toadd " + toadd)
+        //let shortcutsmodified = shortcuts.map((x, index) => index == 1? "ma" : x) // just to prevent copy by reference
+
+        function shortcut_to_array (s) { // Can be a shortcut like "ma" or number like ".5"
+          if (shortcuts.includes(s)) {
+            let action = shortcuts.indexOf(s)-1
+            return Object.assign([], scoringlookup[`${action}`]) // AAAAAAAAGH COPY BY REFERENCE JS SUCKS SO HARD
+          } else if (s == "ma") {
+            return Object.assign([], scoringlookup[`0`])
+          } else { // assume it's a float then
+            return arrayspamming(parseFloat(s), 15*15)
+          }
+        }
+
+        function multiply_boards (a) {
+          let reductivevalue = a.shift()
+          for (let i = 0; i < a.length; i++) {
+            for (let j = 0; j < reductivevalue.length; j++) {
+              reductivevalue[j] = reductivevalue[j] * a[i][j] // <- MULTIPLICATION SIGN IN THIS LINE
+            }
+          }
+          return reductivevalue
+        }
+
+        function add_boards (a) {
+          let reductivevalue = a.shift()
+          for (let i = 0; i < a.length; i++) {
+            for (let j = 0; j < reductivevalue.length; j++) {
+              reductivevalue[j] = reductivevalue[j] + a[i][j] // <- ADDITION SIGN IN THIS LINE
+            }
+          }
+          return reductivevalue
+        }
+
+        tl("THIS")
+        tl(`${action}`)
+        tl(add_boards(toadd.map(x => multiply_boards(x.split("*")))))
+
+        // Before replacing scoringlookup[`${action}`], it should NOT overwrite if any values would be replaced with NaNs.
+        let rv = add_boards(toadd.map(x => multiply_boards(x.split("*").map(x => shortcut_to_array(x)))))
+
+        for (let i = 0; i < scoringlookup[`${action}`].length; i++) {
+          if (!isNaN(rv[i])) {
+            scoringlookup[`${action}`][i] = rv[i]
+          }
+        }
+
+
+      } else if (words.length == 2) {
+        let array_this_declaration = betza_to_array(words[0], 0)
+        let given_score = parseFloat(words[1])
+
+        for (let j=0; j < array_this_declaration.length; j++) {
+          if (array_this_declaration[j] != 0 && array_this_declaration[j] != undefined && !isNaN(array_this_declaration[j])) {
+            scoringlookup[`${action}`][j] = given_score
+          }
+        }
+
+      } else {
+        throw "too many words 7.8/10"
+      }
+
+
+    }
+    l("lookup " + JSON.stringify(scoringlookup))
+
+    for (let j=0; j < a.length; j++) { // Finally let's check against scoringlookup.
+      let action = a[j]-2 // Due to nonsense this is 2 off, but that means "no action" = -1.
+      if (action != -1) {
+        totalscore += scoringlookup[`${action}`][j]
+      }
+    }
+
+  } catch (error) {
+    l(error)
+  }
+  return totalscore
+}
+
+$("#getscore").click(function() {
+  // Mostly copied from the 'bexport' code
+  let rv = update_devtool_score(exportcode_to_array(toCSV(DATA).split("\n")[2].split(",").slice(2).join(","), 1))
+  if (rv.toFixed("14") != rv) { // floating point error fix, hopefully this functionality is invisible
+    rv = rv.toFixed("13").replace(/0+$/, "")
+  }
+
+
+
+  $("#devtool_scoring_number").text(rv);
+
+})
 
 
 var directions = ["f", "b", "l", "r", "v", "h"]
@@ -2932,8 +3167,16 @@ var shortcuts = [``, // blank
 `{vo}` // Void
 ]
 
+// Now populate shortcuts with any missing stuff, using the "id" key in MOVES for each, and starting at shortcuts.length
 
-function interpretbetza(s) {
+for (let i = shortcuts.length-1; i < MOVES.length; i++) {
+  shortcuts.push(`{${MOVES[i].id}}`)
+}
+
+
+
+
+function betza_to_array(s, offset = +1) {
   function fixxy (x, y) {return (x+7) + (-y+7)*15} // gets x and y back into a number from 0-225. Note that this one has "y" flipped.
   let a = arrayspamming(0, 15*15)
   let curaction = 1
@@ -3022,7 +3265,7 @@ function interpretbetza(s) {
       
       if (!weak) {atomsaffected = spamAllSymmetry([ex, ey])}
 
-      for (i = 0; i < directionsfound.length; i++) {
+      for (let i = 0; i < directionsfound.length; i++) {
         let it = directionsfound[i]
         if (it == "f") {atomsaffected = atomsaffected.filter(x => x[1] > 0)}
         else if (it == "b") {atomsaffected = atomsaffected.filter(x => x[1] < 0)}
@@ -3049,20 +3292,216 @@ function interpretbetza(s) {
     }
 
   }
-  a = a.map(x => x+1) // +1, thanks grand
+  a = a.map(x => x+offset) // +1, thanks grand
 
   return a
 }
 
+let MOVES_ids = MOVES.map(x => x.id)
+function MOVESindex_to_id (x) {
+  return MOVES_ids.indexOf(x)
+}
 
-function interpretexport (a, offset=0, returnmovetypes=false) { // Not a great name for this function, but it interprets the long 15*15 array of movetypes into PM export code notation.
-  a = a.map(x => x - offset)
+function array_to_exportcode (a, offset=0, returnmovetypes=false) {
+  a = a.map(x => numify(x) - offset)
   let movetypes = onlyUnique(a).filter(x => x != 0); if (returnmovetypes) {return movetypes}
   let typeslist = []
-  for (j=0; j < movetypes.length; j++) {
-    let movetypenumber = (movetypes[j]).toString()
-    typeslist.push(`${movetypenumber}:${a.reduce(function(array, element, index) {if (element == movetypenumber) array.push(tob15(index)); return array;}, []).join("")}`) // Filter for only the numbers that match the movetype, and push the hex'd index
+  for (let j=0; j < movetypes.length; j++) {
+    let movetypenumber = movetypes[j]
+    typeslist.push(`${MOVES_ids[movetypenumber-1]}:${a.reduce(function(array, element, index) {if (element == movetypenumber) array.push(tob15(index)); return array;}, []).join("")}`) // Filter for only the numbers that match the movetype, and push the hex'd index
   }
   return typeslist.join(",")
 }
 
+function exportcode_to_array (s, offset=0) {
+  // Might come in something like this:
+  // 1,Promotes to Legionary.,1:67,3:57
+
+  let a = s.split(",").filter(x => x.includes(":")) // Needs a colon or it's not a moveset
+  let rv = arrayspamming(0, 15*15)
+
+  for (let i=0; i < a.length; i++) {
+    let movetype = MOVESindex_to_id(a[i].split(":")[0]) +1 // We need to do this to properly convert stuff like "c1" (custom ability 1)
+
+    let actions  = a[i].split(":")[1].match(/.{1,2}/g) // Split every 2 symbols, that's how the export code works.
+
+    for (let j=0; j < actions.length; j++) {
+      rv[tob10(actions[j])] = movetype // Convert it to base 10, then modify the array up.
+    }
+
+  }
+  return rv.map(x => x + offset)
+}
+
+
+
+
+
+function array_to_betza (a, offset=0) {
+  let betzarv = []
+  a = a.map(x => numify(x) - offset)
+  let movetypes = onlyUnique(a).filter(x => x != 0)//.map(x => x.toString())
+  for (j=0; j < movetypes.length; j++) {
+    let movetypenumber = (movetypes[j]).toString() // MINUS ONE TO MATCH!
+
+    // This part is now for Betza notation. Welcome back, my function friends:
+    let x = function (i) {return (i % 15) - 7}
+    let y = function (i) {return 7 - Math.floor(i / 15)}
+    let fixxy = function (x, y) {return (x+7) + (y+7)*15} // gets x and y back
+
+    let atomsconsidered = []
+    let atomsdirections = []
+    let likeatoms = []
+    let learray = a.reduce(function(array, element, i) { // i = index
+      // This 'reduce' function's "array" part is superfluous really, and is only used for high values like (4,0) and such.
+
+      if (element == movetypenumber) {
+        let atom = false; let absx = Math.abs(x(i)); let absy = Math.abs(y(i))
+        let likeAtom = (absx == absy)? "F" :(absx == 0 || absy == 0)? "W" : "N"
+        switch (absx + absy) {
+          case 1: atom = "W"; break
+          case 2:
+            if (absx == 0 || absy == 0) {atom = "D"} else {atom = "F"}; break
+          case 3:
+            if (absx == 0 || absy == 0) {atom = "T"} else {atom = "N"}; break
+          case 4:
+            if (absx == 1 || absy == 1) {atom = "V"} else {atom = "A"}; break
+          case 5:
+            atom = "Z"; break
+          case 6:
+            atom = "Y"; break
+          default:
+            atom = false
+        }
+        if (absx >= 4 || absy >= 4) {
+          //array.push(`(${x(i)},${y(i)})`) // Actually, new notation change, >4 atoms will be treated as their own things, basically allowing symmetry. This means "atom != false" is always triggering now.
+          if (absx < absy) {atom = absx.toString() + absy.toString()} else {atom = absy.toString() + absx.toString()}
+        }
+
+        //else if (atom != false) {
+          if (atomsconsidered.indexOf(atom) == -1) {atomsconsidered.unshift(atom); atomsdirections.unshift([]); likeatoms.unshift(likeAtom)}
+          // IMPORTANT: It's shifted instead of pushed, so "ANDFW" is instead read "WFDNA" which is the correct order IMO.
+
+          let tochange = ""; let shorter = 0;
+          if (likeAtom == "N") {shorter = Math.min(absx, absy)} // In an N-like atom, one number must be lower than the other.
+          if (y(i) > 0)  {tochange += "f"}
+          if (y(i) > shorter && likeAtom == "N")  {tochange += "f"}
+          if (y(i) < 0)  {tochange += "b"}
+          if (y(i) < -shorter && likeAtom == "N") {tochange += "b"}
+          if (x(i) < 0)  {tochange += "l"}
+          if (x(i) < -shorter && likeAtom == "N") {tochange += "l"}
+          if (x(i) > 0)  {tochange += "r"}
+          if (x(i) > shorter && likeAtom == "N")  {tochange += "r"}
+          atomsdirections[atomsconsidered.indexOf(atom)].push(tochange)
+        //}
+
+      }
+      return array;
+    }, []) // (end the big "reduce")
+
+    // Now, the atoms and directions are logged, now they must be simplified and sorted.
+
+    let weave = (a, b) => a.length ? [a[0], ...weave(b, a.slice(1))] : b; // https://stackoverflow.com/questions/10308012/combine-two-arrays-in-a-zipping-fashion-javascript/55077593
+    function removeelement(a, value) {let index = a.indexOf(value); if (index > -1) {a.splice(index, 1);} return a;}
+    function removeelements(a, values) {for (let i=0; i<values.length; i++) {a = removeelement(a, values[i])}; return a}
+
+    atomsdirections = atomsdirections.map(function (a, index) {
+      // As complex as this looks, there are actually only 3 possible cases: W-like, F-like, or N-like. The knight-like has 8 symmetries and the other two have 4. Unfortunately due to path, I must also account asymmetry.
+      // f, b, v (fb), h (lr), fh (flr), bh (blr), [none] (fblr) - W-like
+      // f, b - F-like
+      // f, ff, b, bb, h (llrr)
+      let likeAtom = likeatoms[index] // From the last loop.
+      let atom = atomsconsidered[index]
+
+      function utterlyMerge(a, CHECKTHESE, thingtopush) { // CHECKTHESE is an array like ["f", "b"]. This function checks if the array contains all of those elements. If it does, removes them all and pushes CHECKTHESE as an element.
+        if (CHECKTHESE.every(x => a.includes(x))) {
+          removeelements(a, CHECKTHESE); if (thingtopush == false) {return} else {a.push(thingtopush)}
+        }
+      }
+      if (likeAtom == "W") { // As there are only 3 types of atoms it can 'be like' (D is like W, A is like F, Z is like N):
+        utterlyMerge(a, ["f", "b"], "v")
+        utterlyMerge(a, ["l", "r"], "h")
+        utterlyMerge(a, ["v", "h"], false)
+      } else if (likeAtom == "F") {
+        utterlyMerge(a, ["fl", "fr"], "f")
+        utterlyMerge(a, ["bl", "br"], "b")
+        utterlyMerge(a, ["f", "b"], false)
+      } else if (likeAtom == "N") { // There is "ffl", "ffr", "fll", "frr", "bll", "brr", "bbl", "bbr".
+        utterlyMerge(a, ["ffl", "ffr"], "ff")
+        utterlyMerge(a, ["fll", "frr"], "fh")
+        utterlyMerge(a, ["bbl", "bbr"], "bb")
+        utterlyMerge(a, ["bll", "brr"], "bh")
+        utterlyMerge(a, ["ff", "fh"], "f")
+        utterlyMerge(a, ["bb", "bh"], "b")
+        utterlyMerge(a, ["f", "b"], false)
+        utterlyMerge(a, ["ffl", "ffl"], "fl")
+        utterlyMerge(a, ["ffr", "frr"], "fr")
+        utterlyMerge(a, ["bbl", "bll"], "bl")
+        utterlyMerge(a, ["bbr", "brr"], "br")
+        utterlyMerge(a, ["ff", "bb"], "v")
+        utterlyMerge(a, ["fh", "bh"], "h")
+      }
+      return a // main_gi: Don't remove this. This is inside a map()
+    })
+    function atomshortcut (values, shortento) { // This is not "functional programming" this time, as it is dealing with both atomsconsidered and atomsdirections.
+      //values.reverse() // This is for """performance""" by checking the 'rarer' atoms (as in, the ones at the end of the array) first. It should do nothing otherwise.
+
+      // main_gi: Actually no. JS craps itself and thinks values.reverse() should change by reference.
+
+      if (values.every(x => atomsconsidered.includes(x)) && [...new Set(values.map(x => atomsdirections[atomsconsidered.indexOf(x)].join(",")))].length == 1) {
+        // The "new set" thing asks: "Does the array only have 1 unique value?". There is a bit of spaghetti, in that since JS doesn't think [2, 3] is equal to [2, 3], so it has to be joined to do a string comparison.
+
+        let firstfound = values.shift()
+        let indexesofremovedelements = values.map(x => atomsconsidered.indexOf(x))
+        // if (values.includes("04") && this_is_the_name_with_plus_signs_thanks_js_for_being_trash == "Paladin") {l(data[i]); l(values); l(indexesofremovedelements); l(atomsconsidered); l(atomsdirections); throw TypeError;} // DEBUG COMMENT
+
+        removeelements(atomsconsidered, values) // Remove all but the first element
+        indexesofremovedelements.reverse().filter(x => atomsdirections.splice(x, 1)) // Remove the elements from corresponding atomsdirections.
+        // ....................... I have to reverse the indexes array, otherwise the splice is CAUSING THE ARRAY TO CHANGE SIZE and therefore change the indexes.
+
+        atomsconsidered[atomsconsidered.indexOf(firstfound)] = shortento // Replace the saved first element with the new name
+      }
+    }
+    // Now that everything is sorted out, there are shortcuts to make:
+    // (need wisp range too)
+    let rook = ["W", "D", "T", "04", "05", "06", "07"]
+    let bishop = ["F", "A", "Y", "44", "55", "66", "77"]
+    function arrayToX(number) {let rv = []; for (var i = 0; i <= number; i++) {rv.push(i)}; return rv} // creates [0, 1, 2, ..., X]
+    function range(n) {return arrayToX(n).map(x => x.toString()+n.toString())}
+    let rangeUpTo3 = ["W", "F", "D", "N", "A", "T", "V", "Z", "Y"]
+    function rangeUpTo(n) {return rangeUpTo3.concat([].concat.apply([], (arrayToX(n).slice(4).map(n=>range(n)))))} // "slice 4" because this function only works for range >=4
+    atomshortcut(rangeUpTo(7), "*7")
+    atomshortcut(rangeUpTo(6), "*6")
+    atomshortcut(rangeUpTo(5), "*5")
+    atomshortcut(rangeUpTo(4), "*4")
+    atomshortcut(rangeUpTo(3), "*3")
+    atomshortcut(rook, "R")
+    atomshortcut(bishop, "B")
+    atomshortcut(["R", "B"], "Q")
+    atomshortcut(rook.slice(0, 6), "+6")
+    atomshortcut(bishop.slice(0, 6), "X6")
+    atomshortcut(rook.slice(0, 5), "+5")
+    atomshortcut(bishop.slice(0, 5), "X5")
+    atomshortcut(rook.slice(0, 4), "+4")
+    atomshortcut(bishop.slice(0, 4), "X4")
+    atomshortcut(rook.slice(0, 3), "+3")
+    atomshortcut(bishop.slice(0, 3), "X3")
+
+/* I want to support this notation but it's work. This is never ambiguous because a string like "+1406" vs. "+406" is distinguishable by odd/even. (+406 = +0406)
+    atomshortcut(rook.slice(1, 6), "+16")
+    atomshortcut(bishop.slice(1, 6), "X16")
+    atomshortcut(rook.slice(1, 5), "+15")
+    atomshortcut(bishop.slice(1, 5), "X15")
+    atomshortcut(rook.slice(1, 4), "+14")
+    atomshortcut(bishop.slice(1, 4), "X14")
+    atomshortcut(rook.slice(1, 3), "+13")
+    atomshortcut(bishop.slice(1, 3), "X13")
+    */
+    atomshortcut(["W", "F"], "K")
+
+    atomsdirections = atomsdirections.map((a, index) => a.join(atomsconsidered[index])) // Finally take care of the last bits, where an array of ["f", "l"] should be written as "fWlW" for example.
+
+    betzarv.push(`${shortcuts[numify(movetypenumber)]}${weave(atomsdirections, atomsconsidered).join("")}${learray.join("")}`)
+  } // closing the "movetypes" loop
+  return betzarv.join("")
+}
