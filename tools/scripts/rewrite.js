@@ -223,6 +223,7 @@ function initializeBoards() {
     let i = this.dataset.index
     let l = this.dataset.level
     usesymmetries(i, l)
+    sync_all_costs_to_scores()
 
   });
 
@@ -242,6 +243,7 @@ function initializeBoards() {
     let i = this.dataset.index
     let l = this.dataset.level
     usesymmetries(i, l)
+    sync_all_costs_to_scores()
   });
 
 

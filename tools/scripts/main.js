@@ -3087,18 +3087,42 @@ function update_devtool_score (a) {
   return totalscore
 }
 
+let scoresync = false
+
 $("#getscore").click(function() {
-  // Mostly copied from the 'bexport' code
   let rv = update_devtool_score(exportcode_to_array(toCSV(DATA).split("\n")[2].split(",").slice(2).join(","), 1))
   if (rv.toFixed("14") != rv) { // floating point error fix, hopefully this functionality is invisible
     rv = rv.toFixed("13").replace(/0+$/, "")
   }
 
-
-
   $("#devtool_scoring_number").text(rv);
 
 })
+
+$("#scoresync").click(function() { // main_gi: Don't Update Higher Tiers
+  scoresync = !scoresync;
+  $("#scoresync")[0].innerHTML = "Sync Scores with Costs " + "(" + (scoresync?"on":"off") + ")"
+
+});
+
+
+function sync_all_costs_to_scores () {
+  if (!scoresync) {return}
+
+  let costs = [
+  update_devtool_score(exportcode_to_array(toCSV(DATA).split("\n")[2].split(",").slice(2).join(","), 1)),
+  update_devtool_score(exportcode_to_array(toCSV(DATA).split("\n")[3].split(",").slice(2).join(","), 1)),
+  update_devtool_score(exportcode_to_array(toCSV(DATA).split("\n")[4].split(",").slice(2).join(","), 1)),
+  update_devtool_score(exportcode_to_array(toCSV(DATA).split("\n")[5].split(",").slice(2).join(","), 1))
+  ]
+  costs = costs.map(x => x.toFixed("14") != x? x.toFixed("13").replace(/0+$/, "") : x) // floating point error fix, hopefully this functionality is invisible
+
+
+  $("#base input").val(costs[0]);
+  $("#plus input").val(costs[1]);
+  $("#plusplus input").val(costs[2]);
+  $("#plusplusplus input").val(costs[1]);
+}
 
 
 var directions = ["f", "b", "l", "r", "v", "h"]
