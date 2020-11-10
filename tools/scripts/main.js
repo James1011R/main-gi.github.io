@@ -3368,6 +3368,9 @@ function betza_to_array(s, offset = +1) {
 
           }
         }
+        if (directionsfound[i-1] == directionsfound[i] && directionsfound[i-2] == directionsfound[i-1]) { // triple? actually, just get ridda the diagonals
+          atomsaffected = atomsaffected.filter(x => Math.abs(x[0]) != Math.abs(x[1]))
+        }
       }
 
       for (let i = 0; i < atomsaffected.length; i++) {

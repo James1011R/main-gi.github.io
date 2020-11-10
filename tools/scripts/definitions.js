@@ -1497,6 +1497,15 @@ MOVES = [{
     "color2": [252,13,27],
     "hide": true
  }, {
+    "id": "b18a",
+    "cat": "variation",
+    "name": "movejumpattack",
+    "long": "b]mn:move/mu:attack",
+    "text": "Move or (Unblockable) Attack.",
+    "color": [0,0,255],
+    "color2": [127,0,0],
+    "hide": true
+ }, {
     "id": "b19",
     "cat": "limited",
     "name": "movedestroy",
@@ -1737,7 +1746,7 @@ MOVES = [{
    "id": "b43",
    "cat": "limited",
    "name": "spellcharge",
-   "text": "[Pay 1]: (Magic) Spellcharge, teleporting to location and destroying any enemy on that location.",
+   "text": "[Pay 2]: (Magic) Spellcharge, teleporting to location and destroying any enemy on that location.",
    "color": [20,151,24],
    "symbol1": "\u25c8",
    "hide": true
@@ -1991,6 +2000,79 @@ MOVES = [{
    "color2": [0,0,0],
    "color3": [0,0,255],
    "symbol1": "\u2389",
+   "hide": true
+ }, {
+   "id": "b67",
+   "cat": "pretend",
+   "name": "phase",
+   "text": "(Magic) Phase unit for 2 turns. Phased units can't act, and are immune to everything.",
+   "color": [200,200,200],
+   "color3": [255,255,255],
+   "color4": [0,0,0],
+   "symbol1": "\uf220",
+   "symbol2": "\u00d7",
+   "hide": true
+ }, {
+    "id": "b68",
+    "cat": "pretend",
+    "name": "kickout",
+    "text": "Move to unit and teleport them back to empty starting position.",
+    "color": [0,0,0],
+    "color2": [127,0,0],
+    "color3": [255,0,0],
+    "color4": [255,0,0],
+    "symbol1": "\u0058",
+    "symbol2": "\u2219",
+    "hide": true
+ }, {
+   "id": "b69",
+   "cat": "pretend",
+   "name": "returntosender",
+   "text": "(Magic) Teleport unit as far back towards their side as possible.",
+   "color": [102,0,102],
+   "symbol1": "\u2937",
+   "hide": true
+ }, {
+   "id": "b70",
+   "cat": "pretend",
+   "name": "hallow",
+   "text": "[Pay 2]: (Magic) Hallow unit for 3 turns. Hallowed units are immune to enemies but can't affect enemies.",
+   "color": [200,180,100],
+   "color4": [0,0,0],
+   "symbol1": "\u2747",
+   "symbol2": "\u00d7",
+   "hide": true
+ }, {
+   "id": "b71",
+   "cat": "variation",
+   "name": "verticalpathfreeze",
+   "text": "(Path, Ranged) Freeze enemy unit for 3 turns, making them unable to act.",
+   "color": [107,205,253],
+   "symbol1": "\ue702",
+   "hide": true
+ }, {
+   "id": "b72",
+   "cat": "variation",
+   "name": "horizontalpathfreeze",
+   "text": "(Path, Ranged) Freeze enemy unit for 3 turns, making them unable to act.",
+   "color": [107,205,253],
+   "symbol1": "\ue700",
+   "hide": true
+ }, {
+   "id": "b73",
+   "cat": "variation",
+   "name": "antidiagonalpathfreeze",
+   "text": "(Path, Ranged) Freeze enemy unit for 3 turns, making them unable to act.",
+   "color": [107,205,253],
+   "symbol1": "\ue701",
+   "hide": true
+ }, {
+   "id": "b74",
+   "cat": "variation",
+   "name": "diagonalpathfreeze",
+   "text": "(Path, Ranged) Freeze enemy unit for 3 turns, making them unable to act.",
+   "color": [107,205,253],
+   "symbol1": "\ue703",
    "hide": true
  }, {
    "id": "6zz",
