@@ -2951,7 +2951,7 @@ function copyToClipboard(e){var t,n,o="INPUT"===e.tagName||"TEXTAREA"===e.tagNam
 function tl (x) {l(x)} // temporary log
 function tl (x) {} // if this is declared, tl does nothing
 
-document.getElementById("devtool_scoring").value = `*7 .4
+let pretendtournament1 = `*7 .4
 *6 .35
 *5 .3
 *4 .3
@@ -2983,6 +2983,48 @@ ts t+ma*.5
 
 (These values are for this tournament: https://steemit.com/hive-135459/@e3gewinnt/oppiecespiecemakingandcorrespondanceplaycontest)
 (Comments in parentheses are ignored.)`
+
+let pretendtournament2 = `*7 .4
+*6 .35
+*5 .3
+*4 .3
+*3 .4
+*2 .5
+*1 .75
+
+ma f*7 ma*1.3
+ma b*7 ma*.7
+
+j *3 1
+j *2 .75
+j *1 undefined
+
+j f*7 j*1.3
+j b*7 j*.7
+
+a ma*.8
+m ma*.5
+
+t *7 .5
+t j*.5
+
+{0a} ma*.5 (unblockable allyswap)
+{1a} ma*1.5 (blockable move/attack/allyswap)
+
+js j+ma*.5
+ts t+ma*.5
+
+{mp} ma*.3
+
+(path not programmed)
+(colorbound checks not programmed)
+('error checks' like blockables-on-unblockable-squares, or too many forward unblockable range 3 squares, not programmed)
+
+(These values are for this tournament: https://steemit.com/hive-135459/@e3gewinnt/oppiecespiecemakingandcorrespondanceplaycontest)
+(Comments in parentheses are ignored.)`
+
+document.getElementById("devtool_scoring").value = pretendtournament2
+
 function update_devtool_score (a) {
   // a = the given array
 
@@ -2995,60 +3037,65 @@ function update_devtool_score (a) {
       if (scoringlookup[`${key}`]) {return}
       scoringlookup[`${key}`] = arrayspamming(NaN, 15*15)
     }
+
+    function shortcut_to_array (s) { // Can be a shortcut like "ma" or number like ".5"
+      if (shortcuts.includes(s)) {
+        let action = shortcuts.indexOf(s)-1
+        return Object.assign([], scoringlookup[`${action}`]) // AAAAAAAAGH COPY BY REFERENCE JS SUCKS SO HARD
+      } else if (s == "ma") {
+        return Object.assign([], scoringlookup[`0`])
+      } else { // assume it's a float then
+        return arrayspamming(parseFloat(s), 15*15)
+      }
+    }
+
+    function multiply_boards (a) {
+      let reductivevalue = a.shift()
+      for (let i = 0; i < a.length; i++) {
+        for (let j = 0; j < reductivevalue.length; j++) {
+          reductivevalue[j] = reductivevalue[j] * a[i][j] // <- MULTIPLICATION SIGN IN THIS LINE
+        }
+      }
+      return reductivevalue
+    }
+
+    function add_boards (a) {
+      let reductivevalue = a.shift()
+      for (let i = 0; i < a.length; i++) {
+        for (let j = 0; j < reductivevalue.length; j++) {
+          reductivevalue[j] = reductivevalue[j] + a[i][j] // <- ADDITION SIGN IN THIS LINE
+        }
+      }
+      return reductivevalue
+    }
+
+    function evaluate_string (s) {
+      let a = s.split("+")
+      return add_boards(a.map(x => multiply_boards(x.split("*").map(x => shortcut_to_array(x)))))
+    }
+
+
+
+
+
     for (let i=0; i < declarations.length; i++) {
       let words = declarations[i].trim().split(" ") // "trim" to get rid of potential floating spaces
       let action = 0;
       if (shortcuts.includes(words[0])) { // first word is a shortcut
         action = shortcuts.indexOf(words[0])-1
         words.shift() // get rid of first element
+      } else if (words[0] == "ma") {
+        words.shift() // idiot
       }
+
       make_key_if_unmade(action)
       if (words.length == 1) {
         tl("scoring:")
         tl(scoringlookup)
         // Then it's a kind of multiplier onto an existing action that uses the existing action as a base.
-        let toadd = words[0].split("+")
-        tl("toadd " + toadd)
-        //let shortcutsmodified = shortcuts.map((x, index) => index == 1? "ma" : x) // just to prevent copy by reference
-
-        function shortcut_to_array (s) { // Can be a shortcut like "ma" or number like ".5"
-          if (shortcuts.includes(s)) {
-            let action = shortcuts.indexOf(s)-1
-            return Object.assign([], scoringlookup[`${action}`]) // AAAAAAAAGH COPY BY REFERENCE JS SUCKS SO HARD
-          } else if (s == "ma") {
-            return Object.assign([], scoringlookup[`0`])
-          } else { // assume it's a float then
-            return arrayspamming(parseFloat(s), 15*15)
-          }
-        }
-
-        function multiply_boards (a) {
-          let reductivevalue = a.shift()
-          for (let i = 0; i < a.length; i++) {
-            for (let j = 0; j < reductivevalue.length; j++) {
-              reductivevalue[j] = reductivevalue[j] * a[i][j] // <- MULTIPLICATION SIGN IN THIS LINE
-            }
-          }
-          return reductivevalue
-        }
-
-        function add_boards (a) {
-          let reductivevalue = a.shift()
-          for (let i = 0; i < a.length; i++) {
-            for (let j = 0; j < reductivevalue.length; j++) {
-              reductivevalue[j] = reductivevalue[j] + a[i][j] // <- ADDITION SIGN IN THIS LINE
-            }
-          }
-          return reductivevalue
-        }
-
-        tl("THIS")
-        tl(`${action}`)
-        tl(add_boards(toadd.map(x => multiply_boards(x.split("*")))))
+        let rv = evaluate_string(words[0])
 
         // Before replacing scoringlookup[`${action}`], it should NOT overwrite if any values would be replaced with NaNs.
-        let rv = add_boards(toadd.map(x => multiply_boards(x.split("*").map(x => shortcut_to_array(x)))))
-
         for (let i = 0; i < scoringlookup[`${action}`].length; i++) {
           if (!isNaN(rv[i])) {
             scoringlookup[`${action}`][i] = rv[i]
@@ -3058,16 +3105,20 @@ function update_devtool_score (a) {
 
       } else if (words.length == 2) {
         let array_this_declaration = betza_to_array(words[0], 0)
-        let given_score = parseFloat(words[1])
+        if (words[1].match(/\+|\*/g)) { // if + or * detected
+          given_score = evaluate_string(words[1])
+        } else {
+          given_score = arrayspamming(parseFloat(words[1]), 15*15)
+        }
 
         for (let j=0; j < array_this_declaration.length; j++) {
           if (array_this_declaration[j] != 0 && array_this_declaration[j] != undefined && !isNaN(array_this_declaration[j])) {
-            scoringlookup[`${action}`][j] = given_score
+            scoringlookup[`${action}`][j] = given_score[j]
           }
         }
 
       } else {
-        throw "too many words 7.8/10"
+        //throw "too many words 7.8/10"
       }
 
 
@@ -3110,6 +3161,8 @@ $("#autobexport").click(function() { // main_gi: Don't Update Higher Tiers
 
 });
 
+$("#devtool_scoring").change(function () {scoresync_function()})
+$("#devtool_scoring").keyup(function () {scoresync_function()})
 
 function scoresync_function () {
   if (!scoresync) {return}
