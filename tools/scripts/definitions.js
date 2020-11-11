@@ -2128,7 +2128,7 @@ MOVES = [{
    "name": "onslaught",
    "text": "Pay 10🩸: For 3 turns, the target piece moves 1 space forwards at the end of its owner's turn.",
    "color3": [253,0,0],
-   "symbol1": String.fromCodePoint(`0x1F53A`),
+   "symbol1": String.fromCodePoint(`0x1F53A`), // ⏫ instead maybe?
    "nobox": true,
    "hide": true
  }, {
@@ -2207,7 +2207,7 @@ MOVES = [{
    "color3": [255,0,0],
    "symbol1": "\u2747",
    "color4": [20, 125, 255],
-   "symbol2": "\u{1f5d8}"
+   "symbol2": "\u{1f5d8}",
    "hide": true
  }, {
    "id": "fc17",
