@@ -1117,8 +1117,8 @@ function validate(source) { // THIS IS BASICALLY PART OF IMPORTING
       }
 
 
-      let costs = rv.map(x => (x.match(/^(\d+)/))? numify(x.match(/^(\d+)/)[0]) : 0 ) // No number found, use 0 instead
-      rv = rv.map(x => x.replace(/^\d+ /g, ""))
+      let costs = rv.map(x => (x.match(/^([\d\.\-]+)/))? parseFloat(x.match(/^([\d\.\-]+)/)[0]) : 0 ) // No number found, use 0 instead
+      rv = rv.map(x => x.replace(/^[\d\.\-]+ /g, ""))
 
 
       if (rv[0].match(/(\S+):/)) {
@@ -3123,7 +3123,7 @@ function update_devtool_score (a) {
 
 
     }
-    l("lookup " + JSON.stringify(scoringlookup))
+    tl("lookup " + JSON.stringify(scoringlookup))
 
     for (let j=0; j < a.length; j++) { // Finally let's check against scoringlookup.
       let action = a[j]-2 // Due to nonsense this is 2 off, but that means "no action" = -1.
@@ -3151,11 +3151,11 @@ $("#getscore").click(function() {
 
 })
 
-$("#scoresync").click(function() { // main_gi: Don't Update Higher Tiers
+$("#scoresync").click(function() {
   scoresync = !scoresync;
   $("#scoresync")[0].innerHTML = "Sync Scores with Costs " + "(" + (scoresync?"on":"off") + ")"
 });
-$("#autobexport").click(function() { // main_gi: Don't Update Higher Tiers
+$("#autobexport").click(function() {
   autobexport = !autobexport;
   $("#autobexport")[0].innerHTML = "Automatic Bexport each edit " + "(" + (autobexport?"on":"off") + ")"
 
