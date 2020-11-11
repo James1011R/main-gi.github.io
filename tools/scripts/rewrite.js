@@ -67,7 +67,7 @@ function makeSpellSVG () {
     gTag.insertAdjacentHTML('beforeend', makeSVGTagContent("text", {
       x: 6,
       y: 6,
-      "font-family": "'monospac', 'fallspac'",
+      "font-family": "'sym-0', 'sym-1', 'sym-2'", // This is ABC's change, but I want to make note that this is so emojis don't show as colored. It was previously the fonts 'monospac' and 'fallspac' which are now gone from the files.
       "font-size": spellstyle[2],
       "text-anchor": "middle",
       "dominant-baseline": "middle",
@@ -81,7 +81,7 @@ function makeSpellSVG () {
     gTag.insertAdjacentHTML('beforeend', makeSVGTagContent("text", {
       x: 6,
       y: 6,
-      "font-family": "'monospac', 'fallspac'",
+      "font-family": "'sym-0', 'sym-1', 'sym-2'", // This is ABC's change, but I want to make note that this is so emojis don't show as colored. It was previously the fonts 'monospac' and 'fallspac' which are now gone from the files.
       "font-size": spellstyle[2],
       "text-anchor": "middle",
       "dominant-baseline": "middle",

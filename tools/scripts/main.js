@@ -2598,6 +2598,12 @@ $("#switchcd").click(function() { // main_gi: Switch to CD stylings
   changemove("attackswap", "Attack or swap places with ally.", red, white, "🗘", red)
   changemove("jumpattackswap", "(Unblockable) Attack or swap places with ally.", red, white, "🗘", red, unblockablesymbol)
 
+  changemove("teleportswapenemy", "(Unblockable) Move or swap places with enemy.", blue, white, "🗘", red, unblockablesymbol, blue)
+  changemove("ximaera", "(Unblockable) Move or swap places with unit.", blue, white, "🗘", black, unblockablesymbol, blue)
+
+  changemove("teleportattack", "Attack or (Unblockable) Move.", red, white, unblockablesymbol, blue)
+  changemove("movejumpattack", "Move or (Unblockable) Attack.", blue, white, unblockablesymbol, red)
+
   changemove("attackany", "Attack enemy or ally.", red, white, "❇", red)
   changemove("jumpattackany", "(Unblockable) Attack enemy or ally.", red, white, "❇", red, "⛶", red)
 
@@ -2963,23 +2969,31 @@ j *3 1
 j *2 .75
 j *1 undefined
 
-a ma*.8
 m ma*.5
+a ma*.8
 
 t *7 .5
 t j*.5
 
 {0a} ma*.5 (unblockable allyswap)
-{1a} ma*1.5 (blockable move/attack/allyswap)
+{0b} ma*.5 (unblockable enemyswap)
+{0b} 03132333 0.7 (unblockable enemyswap, range 3)
+{0c} {0a}+{0b} (unblockable anyswap)
+{1a} ma*1.5 (blockable move/attack/allyswap, it's really ma + 0.5*ma)
+
+{31a} ma (blockable move/allyswap, it's really 0.5*ma + 0.5*ma)
+{31b} t+{0c} (unblockable move/anyswap)
 
 js j+ma*.5
 ts t+ma*.5
 
-{mp} ma*.3
+{mp} ma*.3 (magic push)
+{rp} ma*.3 (ranged push)
 
 (path not programmed)
 (colorbound checks not programmed)
 ('error checks' like blockables-on-unblockable-squares, or too many forward unblockable range 3 squares, not programmed)
+(rounding up not programmed)
 
 (These values are for this tournament: https://steemit.com/hive-135459/@e3gewinnt/oppiecespiecemakingandcorrespondanceplaycontest)
 (Comments in parentheses are ignored.)`
@@ -3180,6 +3194,10 @@ function scoresync_function () {
   $("#plus input").val(costs[1]);
   $("#plusplus input").val(costs[2]);
   $("#plusplusplus input").val(costs[3]);
+  DATA.base.cost = costs[0]
+  DATA.plus.cost = costs[1]
+  DATA.plusplus.cost = costs[2]
+  DATA.plusplusplus.cost = costs[3]
 }
 
 function autobexport_function () {

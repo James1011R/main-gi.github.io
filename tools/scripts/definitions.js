@@ -2087,7 +2087,7 @@ MOVES = [{
    "id": "cd1",
    "cat": "cd",
    "name": "pawndrop",
-   "text": "[Pay 10] Create a Pawn in this empty location.",
+   "text": "Pay 10🩸: Create a Pawn in this empty location.",
    "color": [127,127,127],
    "color2": [255,255,255],
    "color3": [0,0,0],
@@ -2100,8 +2100,8 @@ MOVES = [{
    "text": "Push unit 1 space away. Move to its empty location.",
    "color": [20,125,255],
    "color2": [255,255,255],
-   "color3": [0,0,0],
    "symbol1": "\u2742",
+   "symbol2": "Ü",
    "hide": true
  }, {
    "id": "cd3",
@@ -2119,14 +2119,14 @@ MOVES = [{
    "text": "Destroy self and all enemies it could attack.",
    "color": [127, 0, 0],
    "color2": [255, 0, 0],
-   "color3": [255,0,0],
+   "color3": [127, 0, 0],
    "symbol1": String.fromCodePoint(`0x1F4A3`),
    "hide": true
  }, {
    "id": "cd5",
    "cat": "cd",
    "name": "onslaught",
-   "text": "[Pay 10] For 3 turns, the target piece moves 1 space forwards at the end of its owner's turn.",
+   "text": "Pay 10🩸: For 3 turns, the target piece moves 1 space forwards at the end of its owner's turn.",
    "color3": [253,0,0],
    "symbol1": String.fromCodePoint(`0x1F53A`),
    "nobox": true,
@@ -2146,11 +2146,68 @@ MOVES = [{
    "id": "cd7",
    "cat": "cd",
    "name": "gale",
-   "text": "[Pay 10] Stun the target piece for 3 turns, then push it as far as possible.",
-   "color1": [0,0,0],
-   "color2": [255,255,255],
+   "text": "Pay 10🩸: Stun the target piece for 3 turns, then push it as far as possible.",
    "color3": [0,255,0],
-   "symbol1": String.fromCodePoint(`0x0A6D`),
+   "symbol1": String.fromCodePoint(`0x1F300`),
+   "color4": [0,255,0],
+   "symbol2": String.fromCodePoint(`0x2634`),
+   "nobox": true,
+   "hide": true
+ }, {
+   "id": "cd8",
+   "cat": "cd",
+   "name": "forceattack",
+   "text": "Force the target enemy to immediately attack self.",
+   "color3": [255,120,0],
+   "symbol1": String.fromCodePoint(`0x25E1`), // half semicircle
+   "color4": [12,0,0],
+   "symbol2": String.fromCodePoint(`0x2B07`),
+   "nobox": true,
+   "hide": true
+ }, {
+   "id": "cd9",
+   "cat": "cd",
+   "name": "mandate",
+   "text": "Pay 5🩸: Target enemy can no longer attack Heroes this game.",
+   "color3": [255,0,0],
+   "symbol1": String.fromCodePoint(`0x1F534`),
+   "color4": [255,255,0],
+   "symbol2": String.fromCodePoint(`0x1F451`),
+   "nobox": true,
+   "hide": true
+ }, {
+   "id": "cd10",
+   "cat": "cd",
+   "name": "multibee",
+   "text": "Create a Bee in each empty space with this ability. Lose this ability.",
+   "color3": [255,255,0],
+   "symbol1": "\u25cf", // full black circle
+   "color4": [0,0,0],
+   "symbol2": "\u2609", // "ability-target"
+   "nobox": true,
+   "hide": true
+ }, {
+   "id": "cd11",
+   "cat": "cd",
+   "name": "poisonimmune",
+   "text": "Pay 12🩸: Make the target piece Immune for 3 turns. Destroy it afterwards.",
+   "color3": [255,0,0],
+   "symbol1": String.fromCodePoint(`0x2193`),
+   "color4": [0,0,0],
+   "symbol2": "\u2219",
+   "nobox": true,
+   "hide": true
+ }, {
+   "id": "cd12",
+   "cat": "cd",
+   "name": "moveswapenemyattackally",
+   "text": "Move, swap places with enemy, or attack ally.",
+   "color": [20, 125, 255],
+   "color2": [255, 255, 255],
+   "color3": [255,0,0],
+   "symbol1": "\u2747",
+   "color4": [20, 125, 255],
+   "symbol2": "\u{1f5d8}"
    "hide": true
  }, {
    "id": "fc17",
