@@ -11,13 +11,20 @@
   src: url("../fonts/myriad.woff");
 }
 @font-face {
-  font-family: "fallspac";
+  font-family: "sym-0";
+  src: url("../fonts/KS_override.woff");
+}
+
+@font-face {
+  font-family: "sym-1";
+  src: url("../fonts/KreativeSquareSM.ttf");
+}
+
+@font-face {
+  font-family: "sym-2";
   src: url("../fonts/acbfont.woff");
 }
-@font-face {
-  font-family: "monospac";
-  src: url("../fonts/pksquare.woff");
-}
+
 @font-face {
   font-family: "evermono";
   src: url("../fonts/everson.ttf");
@@ -338,8 +345,14 @@ input::-webkit-inner-spin-button {
 input[type=checkbox]{
   vertical-align:-3px;
 }
+input#symbol1 {
+  font-family: monospac, fallspac, evermono;
+}
+input#symbol2 {
+  font-family: monospac, fallspac, evermono;
+}
 input#uniprev {
-  font-family: 'fallspac';
+  font-family: monospac, fallspac, evermono;
 }
 ul {
   padding: 0;
