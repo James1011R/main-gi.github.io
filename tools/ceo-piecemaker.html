@@ -211,6 +211,7 @@
     <div id="devtool_scoring_number" style="font-size: 1000%; font-weight: bold; display: inline-block;"></div>
     <button id="getscore">GET SCORE (based on base tier piece)</button>
     <button id="scoresync">Sync Scores with Costs (off)</button>
+    <button id="autobexport">Automatic Bexport each edit (off)</button>
 
     </div> <!-- THIS DIV CLOSES DEVTOOLS -->
 
@@ -344,7 +345,7 @@
         <br>
         Symbol 1: <input id="symbol1" pattern="." class="short"> Symbol 2: <input id="symbol2" pattern="." class="short"> <span style="font-size: 46%">(Auto is based on border color.)</span>
         <br>
-        U+<input id="unicode" pattern="[0-9A-Fa-f]{4,5}" class="short" maxlength="5" placeholder="EC00"> =&gt; <input id="uniprev" class="short" placeholder="" readonly>
+        U+<input id="unicode" pattern="[01]?[0-9A-Fa-f]{4,5}" class="short" maxlength="6" placeholder="EC00">> =&gt; <input id="uniprev" class="short" placeholder="" readonly>
         <br>
         Description: <textarea id="text" cols="40" rows="4"></textarea>
         <button id="menuclose">Close</button>
@@ -400,8 +401,11 @@
   - <b>Feature:</b> Scrollbar in the sidebar, and also if the screen is too zoomed-in, it will left-align the boards.<br>
   - <b>Feature:</b> Ability to flag SSP's post.<br>
   - <b>Feature:</b> Ability to put things like "v0.50 BonePile" in CEO pretend generator to get old versions of uncollectible units.<br>
-  - <b>Feature:</b> You can now use a modified version of Betza notation in the import code, you can export it, and it's generally great. The only thing it doesn't support is custom abilities.<br>
+  - <b>Feature:</b> You can now use a modified version of Betza notation in the import code, you can export it, and it's generally great. The only thing it doesn't support is custom abilities and the art path.<br>
   - <b>Feature:</b> A detailed changelog with my summaries on the meta.<br>
+  - <b>Feature (Devtools):</b> Exporting to CEO source code.<br>
+  - <b>Feature (Devtools):</b> Tournament support that automatically costs pieces, with tournament template given.<br>
+  - <b>Feature (Upcoming):</b> A very important conversation on some dumbo whose idea of the best economy is capitalism but with more welfare.<br>
   - <b>Change:</b> The order of the "(Ranged) Destroy target." ability and "(Magic) Teleport unit to Ability Target." have been switched to match the game's order. This breaks a very small amount of previous piecemaker export codes.<br>
   - <b>Change:</b> Action descriptions and icons match v0.54.<br>
   - <b>Historical Inaccuracy:</b> The change involving Portal and Antimage's descriptions, changing to immunity keywords instead of "Immune to all ranged and magic attacks.", isn't known when it happened, between v0.39 - v0.40.<br>
@@ -433,6 +437,8 @@
   - <b>Feature?:</b> The custom action editor is only like 8 variables, it doesn't need a full-screen popup! Also a better color selector, or a way to only show one half of a unicode symbol.<br>
   - <b>Feature?:</b> The FC style could maybe have a token style, and the CD style could have a different selector for the "[Minion]-[Basic]-[Rare]".<br>
   - <b>Feature?:</b> In the changelog, clicking names really should automatically make you select the unit.<br>
+  - <b>Betza Notation:</b> I'm unsure if *7 should really be "all squares in range 7 or below" and if it would be better to be "all squares in exactly range 7". This would require some workarounds.<br>
+  - <b>Betza Notation:</b> The notation *35 should mean "all squares from range 3 to range 5". This should be completely unambiguous if you assume multiple numbers after a multi-atom like * mean all of them are range-spans, as you could put regular atoms like 04 before the multi-atom.<br>
   - <b>Complaint:</b> A lot of the pretend abilities are bad game design, with probably a good quarter of them literally being copies of other abilities but ignoring status effects, or having slightly different interactions with 1/100 of the game's units. This will never be fixed.<br>
   <br><br>
   My code is <a href="https://github.com/main-gi/main-gi.github.io/tree/master/tools" class="link">here</a>. Eventually I will probably regret stuffing all the relevant files in "/tools/" when there's like 20 tools in it, but it works for now.<br>
