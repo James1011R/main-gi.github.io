@@ -3042,14 +3042,16 @@ a ma*.8
 m ma*.5
 
 t *7 .5
+t j*.5
+t *1 m (Range 1 is really the same as move)
 t f*7 t*1.5 (Forwards multiplier)
 t b*7 t*.5 (Backwards multiplier)
-t j*.5
 
 {0a} ma*.5 (unblockable allyswap)
 {1a} ma*1.5 (blockable move/attack/allyswap)
 
 js j+ma*.5
+js *1 {1a} (Range 1 is really the same as the blockable version)
 ts t+ma*.5
 
 {mp} ma*.3
