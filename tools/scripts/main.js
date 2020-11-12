@@ -2979,7 +2979,10 @@ function copyToClipboard(e){var t,n,o="INPUT"===e.tagName||"TEXTAREA"===e.tagNam
 function tl (x) {l(x)} // temporary log
 function tl (x) {} // if this is declared, tl does nothing
 
-let pretendtournament1 = `*7 .4
+let pretendtournament_forwardsmult = "1.5"
+let pretendtournament_backwardsmult = ".5"
+
+let pretendtournament2 = `*7 .4
 *6 .35
 *5 .3
 *4 .3
@@ -2989,13 +2992,23 @@ let pretendtournament1 = `*7 .4
 
 j *3 1
 j *2 .75
-j *1 undefined
+j *1 ma (Range 1 is really the same as move)
 
 m ma*.5
 a ma*.8
 
 t *7 .5
 t j*.5
+t *1 m (Range 1 is really the same as move)
+
+ma f*7 ma*${pretendtournament_forwardsmult} (Forwards multiplier)
+ma b*7 ma*${pretendtournament_backwardsmult} (Backwards multiplier)
+
+j f*7 j*${pretendtournament_forwardsmult} (Forwards multiplier)
+j b*7 j*${pretendtournament_backwardsmult} (Backwards multiplier)
+
+t f*7 t*${pretendtournament_forwardsmult} (Forwards multiplier)
+t b*7 t*${pretendtournament_backwardsmult} (Backwards multiplier)
 
 {0a} ma*.5 (unblockable allyswap)
 {0b} ma*.5 (unblockable enemyswap)
@@ -3007,57 +3020,11 @@ t j*.5
 {31b} t+{0c} (unblockable move/anyswap)
 
 js j+ma*.5
-ts t+ma*.5
-
-{mp} ma*.3 (magic push)
-{rp} ma*.3 (ranged push)
-
-(path not programmed)
-(colorbound checks not programmed)
-('error checks' like blockables-on-unblockable-squares, or too many forward unblockable range 3 squares, not programmed)
-(rounding up not programmed)
-
-(These values are for this tournament: https://steemit.com/hive-135459/@e3gewinnt/oppiecespiecemakingandcorrespondanceplaycontest)
-(Comments in parentheses are ignored.)`
-
-let pretendtournament2 = `*7 .4
-*6 .35
-*5 .3
-*4 .3
-*3 .4
-*2 .5
-*1 .75
-
-ma f*7 ma*1.5 (Forwards multiplier)
-ma b*7 ma*.5 (Backwards multiplier)
-
-j *3 1
-j *2 .75
-j *1 undefined
-
-j f*7 j*1.5 (Forwards multiplier)
-j b*7 j*.5 (Backwards multiplier)
-
-a ma*.8
-m ma*.5
-
-t *7 .5
-t j*.5
-t f*7 t*1.5 (Forwards multiplier)
-t b*7 t*.5 (Backwards multiplier)
-
-t *1 m (Range 1 is really the same as move)
-(Note that move already HAS the multipliers on it, so this step is done after giving the rest the multipliers)
-
-
-{0a} ma*.5 (unblockable allyswap)
-{1a} ma*1.5 (blockable move/attack/allyswap)
-
-js j+ma*.5
 js *1 {1a} (Range 1 is really the same as the blockable version)
 ts t+ma*.5
 
 {mp} ma*.3
+{rp} ma*.3 (ranged push)
 
 (path not programmed)
 (colorbound checks not programmed)
