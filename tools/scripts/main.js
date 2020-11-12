@@ -3181,8 +3181,8 @@ let autobexport = false
 
 $("#getscore").click(function() {
   let rv = update_devtool_score(exportcode_to_array(toCSV(DATA).split("\n")[2].split(",").slice(2).join(","), 1))
-  if (rv.toFixed("14") != rv) { // floating point error fix, hopefully this functionality is invisible
-    rv = rv.toFixed("13").replace(/0+$/, "")
+  if (rv.toFixed(10) != rv) { // floating point error fix, hopefully this functionality is invisible
+    rv = rv.toFixed(9).replace(/\.?0+$/, "")
   }
 
   $("#devtool_scoring_number").text(rv);
