@@ -12,7 +12,9 @@
   <![endif]-->
   <script>var CEO, nouns, verbs;
   var repq = 16428; // this is just for an SSP message meme
-  var spellstyle = [10, 1, 9]; // "spellstyle" exists so that making custom spells preserves the styles of the spells. This is a global variable that is referred to in rewrite.js and main.js
+  var CEOspellstyle = [10, 0.6, 9]
+  var CDspellstyle = [16, -2.25, 12]
+  var spellstyle = CEOspellstyle; // "spellstyle" exists so that making custom spells preserves the styles of the spells. This is a global variable that is referred to in rewrite.js and main.js
 
   </script>
   <script src="scripts/browser.js"></script>
@@ -397,6 +399,7 @@
   - <b>Bugfix:</b> Empty passives no longer incorrectly display the - in the infopanel (would happen if you unfocused, refocused, then deleted the passive).<br>
   - <b>Bugfix:</b> Right clicking twice on the board no longer puts the cursor in an unfunctional mode that forces you to double left-click to fix it.<br>
   - <b>Bugfix:</b> Importing no longer has strange interactions with empty passives on higher tiers.<br>
+  - <b>Bugfix:</b> <b>The squares on the board are no longer off-centered.</b><br>
   - <b>Feature:</b> You can edit action text straight from in the infopanel and it automatically updates the text. This also works on non-custom abilities but won't save on export. You can also change the names of upgraded pieces, but this doesn't save on export either.<br>
   - <b>Feature:</b> Scrollbar in the sidebar, and also if the screen is too zoomed-in, it will left-align the boards.<br>
   - <b>Feature:</b> Ability to flag SSP's post.<br>
