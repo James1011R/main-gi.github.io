@@ -345,7 +345,7 @@
         <br>
         Symbol 1: <input id="symbol1" pattern="." class="short"> Symbol 2: <input id="symbol2" pattern="." class="short"> <span style="font-size: 46%">(Auto is based on border color.)</span>
         <br>
-        U+<input id="unicode" pattern="[01]?[0-9A-Fa-f]{4,5}" class="short" maxlength="6" placeholder="EC00">> =&gt; <input id="uniprev" class="short" placeholder="" readonly>
+        U+<input id="unicode" pattern="[01]?[0-9A-Fa-f]{4,5}" class="short" maxlength="6" placeholder="EC00"> ↔ <input id="uniprev" class="short" placeholder="" maxlength="1"> <span style="font-size: 46%">(Lets you convert unicode ID to unicode or vice versa.)</span>
         <br>
         Description: <textarea id="text" cols="40" rows="4"></textarea>
         <button id="menuclose">Close</button>
@@ -374,7 +374,7 @@
   Logo (ABC_Boy): <a href="https://ceopiecemaker.github.io/" class=link">piecemaker v2</a> with massive graphical and UI improvements, programming in the custom ability icon creator, all custom unicode icon glyphs, board svg rewrite, sharing versions v0.42-v0.53 for this piecemaker and significantly helping with reconstructing v0.39 and v0.40<br>
   Aplet123: board svg rewrite<br>
   main_gi: piecemaker v2 original UI feedback, auto symmetry, unit gallery, pretend unit generator and meme feedback, CD/FC/CBA styles<br>
-  Elund (James1011R): all UPLE abilities, fill color customization and "UPLE" fill colors, "tool tray" scrollbar<span style="font-size: 1%">I have no idea what this means</span><br>
+  Elund (James1011R): all UPLE abilities, fill color customization and "UPLE" fill colors, the 'doodle' and 'cutout' features, "tool tray" scrollbar<span style="font-size: 1%">I have no idea what this means</span>, some more custom CD/FC piece styles<br>
 <br>
     <p style="text-align: center; margin: 0; font-size: 100%"><b>Special Thanks</b></p><br>
   F300XEN: <a href="https://f300xen.github.io/RandomFavorChessPieces/" class="link">favor chess random piece generator</a> was the inspiration for the pretend unit generator<br>
@@ -403,9 +403,10 @@
   - <b>Feature:</b> Ability to put things like "v0.50 BonePile" in CEO pretend generator to get old versions of uncollectible units.<br>
   - <b>Feature:</b> You can now use a modified version of Betza notation in the import code, you can export it, and it's generally great. The only thing it doesn't support is custom abilities and the art path.<br>
   - <b>Feature:</b> A detailed changelog with my summaries on the meta.<br>
+  - <b>Feature:</b> In the custom ability editor, the "unicode ID to unicode symbol" feature is now two-way.<br>
   - <b>Feature (Devtools):</b> Exporting to CEO source code.<br>
   - <b>Feature (Devtools):</b> Tournament support that automatically costs pieces, with tournament template given.<br>
-  - <b>Feature (Upcoming):</b> A very important conversation on some dumbo whose idea of the best economy is capitalism but with more welfare.<br>
+  - <b>"Feature":</b> A very important conversation on some dumbo whose idea of the best economy is capitalism but with more welfare.<br>
   - <b>Change:</b> The order of the "(Ranged) Destroy target." ability and "(Magic) Teleport unit to Ability Target." have been switched to match the game's order. This breaks a very small amount of previous piecemaker export codes.<br>
   - <b>Change:</b> Action descriptions and icons match v0.54.<br>
   - <b>Historical Inaccuracy:</b> The change involving Portal and Antimage's descriptions, changing to immunity keywords instead of "Immune to all ranged and magic attacks.", isn't known when it happened, between v0.39 - v0.40.<br>
@@ -449,6 +450,11 @@
   <div style="overflow-y: auto; height: 100%">
     Here is a mildly condescending explanation on the notation system.
     jk i never did it
+  </div>
+</div>
+
+<div id="capitalismwelfaremarriagedebate" style="font-family: Arial; position: fixed; top: 10%; margin: 0 auto; background: white; z-index: 100; width: 92%; left: 3%; padding: 10px; border: 2px solid black; height: 70%; display: none">
+  <div style="overflow-y: auto; height: 100%">
   </div>
 </div>
 
