@@ -42,6 +42,11 @@ function updateSVG (level) {
 
 function makeSpellSVG () {
   // StackOverflow says this should work
+
+  let boardoffset = false
+  boardoffset = boardoffset?'transform: translate(-0.4px, -0.4px);' : ''
+  // main_gi: Don't need boardoffset anymore!!!!! This code is useless.
+
   var container = document.createElement('div');
   container.insertAdjacentHTML('beforeend', makeSVGTag("g", {
     class: "spell-group " + config.name,
@@ -49,6 +54,8 @@ function makeSpellSVG () {
     id: "spell-"+config.name,
   }));
   var gTag = container.lastElementChild;
+  l(gTag)
+  l(container)
   if (config.color1 && config.color2 && !config.nobox) {
     gTag.insertAdjacentHTML('beforeend', makeSVGTag("rect", {
       height: spellstyle[0],
@@ -60,7 +67,8 @@ function makeSpellSVG () {
       y: spellstyle[1],
       fill: config.color2,
       class: "spell",
-      "data-id": config.id
+      "data-id": config.id,
+      style: boardoffset
     }));
   }
   if (config.color3 && config.symbol1 && !config.noSymbol1) {
@@ -74,7 +82,8 @@ function makeSpellSVG () {
       stroke: "none",
       fill: config.color3,
       class: "spell-symbol spell-symbol1",
-      "data-id": config.id
+      "data-id": config.id,
+      style: boardoffset
     }, config.symbol1));
   }
   if (config.color4 && config.symbol2 && !config.noSymbol2) {
@@ -88,7 +97,8 @@ function makeSpellSVG () {
       stroke: "none",
       fill: config.color4,
       class: "spell-symbol spell-symbol2",
-      "data-id": config.id
+      "data-id": config.id,
+      style: boardoffset
     }, config.symbol2));
   }
 
@@ -316,7 +326,8 @@ function setSpellOnBoard(i) {
     class: "spell-display",
     "data-index": i,
     "data-id": config.id,
-    href: "#spell-" + config.name
+    href: "#spell-" + config.name,
+    style: 'transform: translate(-0.4px, -0.4px);'
   }));
 }
 
