@@ -3043,9 +3043,12 @@ m ma*.5
 
 t *7 .5
 t j*.5
-t *1 m (Range 1 is really the same as move)
 t f*7 t*1.5 (Forwards multiplier)
 t b*7 t*.5 (Backwards multiplier)
+
+t *1 m (Range 1 is really the same as move)
+(Note that move already HAS the multipliers on it, so this step is done after giving the rest the multipliers)
+
 
 {0a} ma*.5 (unblockable allyswap)
 {1a} ma*1.5 (blockable move/attack/allyswap)
@@ -3147,8 +3150,10 @@ function update_devtool_score (a) {
         let array_this_declaration = betza_to_array(words[0], 0)
         if (words[1].match(/\+|\*/g)) { // if + or * detected
           given_score = evaluate_string(words[1])
-        } else {
+        } else if (!words[1].match(/[a-zA-Z{}]/g)) { // no alphabet characters or symbolics
           given_score = arrayspamming(parseFloat(words[1]), 15*15)
+        } else {
+          given_score = evaluate_string(words[1]) // lol
         }
 
         for (let j=0; j < array_this_declaration.length; j++) {
