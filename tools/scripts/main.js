@@ -203,7 +203,7 @@ function cusLoadEdit(moves) {
 
   function updateCustom(){
     let prevspellstyle = spellstyle
-    spellstyle = [10, 1, 9]
+    spellstyle = CEOspellstyle
     $(".giant").html(makeSpellSVG());
     spellstyle = prevspellstyle // main_gi: This "prevspellstyle" stuff is a bit of a hack but it prevents the stylesheet style from messing up the giant-spell-SVG look (if I didn't put it there, the giant spell SVG would also be scaled up to the point where you couldn't see the border)
   }
@@ -2551,7 +2551,7 @@ function clearmovechanges() {
 }
 
 function resetSpellLooks() {
-  spellstyle = [10, 1, 9]
+  spellstyle = CEOspellstyle
   $(".spell").attr("height", spellstyle[0])
   $(".spell").attr("width", spellstyle[0])
   $(".spell").attr("x", spellstyle[1])
@@ -2623,7 +2623,7 @@ $("#switchcd").click(function() { // main_gi: Switch to CD stylings
 
   /* Thing we want to modify: <rect height="10" width="10" stroke="rgb(0,0,255)" stroke-width="2" stroke-alignment="outer" x="1" y="1" fill="rgb(255,255,255)" class="spell" data-id="2"></rect>
 
-  the height, width, x, and y*/
+  the height/width, x/y, and fontsize */
   spellstyle = [16, -2.25, 12]
   $(".spell").attr("height", spellstyle[0])
   $(".spell").attr("width", spellstyle[0])
