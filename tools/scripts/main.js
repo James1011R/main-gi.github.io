@@ -2592,7 +2592,7 @@ $("#switchcd").click(function() { // main_gi: Switch to CD stylings
   changemove("teleportstart", "(Unblockable) Move from your second row.", blue, white, "o", blue, unblockablesymbol, blue)
   changemove("jumpattack", "(Unblockable) Attack only.", red, white, unblockablesymbol)
 
-  changemove("jumpstart", "(Unblockable) Move from your second row.", black, white, "o", black, unblockablesymbol, black)
+  changemove("jumpstart", "(Unblockable) Move or Attack from your second row.", black, white, "o", black, unblockablesymbol, black)
 
   changemove("jumpswap", "(Unblockable) Move, Attack, or swap places with ally.", black, white, "🗘", black, unblockablesymbol)
   changemove("moveattackswap", "Move, Attack, or swap places with ally.", black, white, "", black, "🗘", black) // first symbol was ⚫, removed it
@@ -2620,6 +2620,10 @@ $("#switchcd").click(function() { // main_gi: Switch to CD stylings
   changemove("freeze", "(Unblockable) Stun enemy for 3 turns.", [107,205,253], [181,230,254], "×")
   changemove("poison", "(Unblockable) Target enemy is destroyed after 3 turns.", [0,101,24], [127,178,139], "×")
   changemove("petrify", "Stun enemy for 5 turns.", [94,94,94], [174,174,174], "×")
+  changemove("magic", "(Unblockable) Destroy enemy.", [253,117,34], [255,255,255], "\u2316", [253,117,34], unblockablesymbol)
+  changemove("shoot", "Destroy enemy.", [253,117,34], [255,255,255], "\u2316")
+
+  // maybe it would be nice for this to modify every ability with basic replacements, like Pay 1 turns into Pay 5 Blood, same thing for Magic/Ranged to "Unblockable"/"", and for FC it all loses the period at the end
 
   /* Thing we want to modify: <rect height="10" width="10" stroke="rgb(0,0,255)" stroke-width="2" stroke-alignment="outer" x="1" y="1" fill="rgb(255,255,255)" class="spell" data-id="2"></rect>
 
@@ -2869,14 +2873,23 @@ $("#customToolColor").on('change keydown paste input', function() {
 $("#creditsbutton").click(function() {
   $("#credits")[0].style.display = `block`
 })
+$("#notationhelp").click(function() {
+  $("#notationexplanation")[0].style.display = `block`
+})
+
+var notationexplanation = document.getElementById('notationexplanation');
 
 var modal = document.getElementById('credits');
 window.onclick = function(event) {
   if (event.target.id !== 'creditsbutton' && modal.style.display == "block"){
     modal.style.display = 'none';
   }
+  if (event.target.id !== 'notationhelp' && notationexplanation.style.display == "block"){
+    notationexplanation.style.display = 'none';
+  }
 } // https://stackoverflow.com/questions/33060993/click-outside-div-to-hide-div-in-pure-javascript
 modal.scrollTop = 0; // thanks for autoscrolling to the bottom for some reason
+
 
 
 

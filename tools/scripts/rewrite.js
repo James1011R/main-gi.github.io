@@ -155,7 +155,8 @@ function initializeBoards() {
       cy: mysvg.getAttribute("height") / 2,
       r: 6,
       class: "piece",
-      "data-index": 112
+      "data-index": 112,
+      style: 'transform: translate(-0.4px, -0.4px);'
     }));
   }
 
