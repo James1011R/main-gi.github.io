@@ -3017,11 +3017,17 @@ t *1 m (Range 1 is really the same as move)
 ma f*7 ma*${pretendtournament_forwardsmult} (Forwards multiplier)
 ma b*7 ma*${pretendtournament_backwardsmult} (Backwards multiplier)
 
-j f*7 j*${pretendtournament_forwardsmult} (Forwards multiplier)
-j b*7 j*${pretendtournament_backwardsmult} (Backwards multiplier)
+j f*7 j*${pretendtournament_forwardsmult}
+j b*7 j*${pretendtournament_backwardsmult}
 
-t f*7 t*${pretendtournament_forwardsmult} (Forwards multiplier)
-t b*7 t*${pretendtournament_backwardsmult} (Backwards multiplier)
+m f*7 m*${pretendtournament_forwardsmult}
+m b*7 m*${pretendtournament_backwardsmult}
+
+a f*7 a*${pretendtournament_forwardsmult}
+a b*7 a*${pretendtournament_backwardsmult}
+
+t f*7 t*${pretendtournament_forwardsmult}
+t b*7 t*${pretendtournament_backwardsmult}
 
 {0a} ma*.5 (unblockable allyswap)
 {0b} ma*.5 (unblockable enemyswap)
