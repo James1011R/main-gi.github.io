@@ -2921,14 +2921,15 @@ function exportasgame () {
     let passive = `D_${DATA.name}${a}.Passive = "${DATA[`${LEVELS[level]}`].passives}";`.replace(/\n/g, "\\n")
     let movetypes = Object.keys(DATA[`${LEVELS[level]}`].moves).map(x=>numify(x)+1)
 
-    if (passive.match(/Promotes to (.+)/)) {bonusnonsense += `\nD_${DATA.name}${a}.Promote = "${passive.match(/Promotes to (.+)/)[1]}";`}
-    if (passive.match(/On Death: Lose \d+/)) {bonusnonsense += `\nD_${DATA.name}${a}.Penalty = ${passive.match(/On Death: Lose (\d+)/)[1]};`}
-    if (passive.includes("Status-Immune")) {bonusnonsense += `\nD_${DATA.name}${a}.StatusImmune = true;`}
-    if (passive.match(/Immune to.+Freeze/)) {bonusnonsense += `\nD_${DATA.name}${a}.FreezeImmune = true;`}
-    if (passive.match(/Immune to.+Petrify/)) {bonusnonsense += `\nD_${DATA.name}${a}.PetrifyImmune = true;`}
-    if (passive.match(/Immune to.+Poison/)) {bonusnonsense += `\nD_${DATA.name}${a}.PoisonImmune = true;`}
-    if (passive.match(/Immune to.+Compel/)) {bonusnonsense += `\nD_${DATA.name}${a}.CompelImmune = true;`}
-    if (passive.includes("Displacement-Immune")) {bonusnonsense += `\nD_${DATA.name}${a}.DisplacementImmune = true;`}
+    let original_passive = `${DATA[`${LEVELS[level]}`].passives}`
+    if (original_passive.match(/Promotes to (.+)/)) {bonusnonsense += `\nD_${DATA.name}${a}.Promote = "${passive.match(/Promotes to (.+)/)[1]}";`}
+    if (original_passive.match(/On Death: Lose \d+/)) {bonusnonsense += `\nD_${DATA.name}${a}.Penalty = ${passive.match(/On Death: Lose (\d+)/)[1]};`}
+    if (original_passive.includes("Status-Immune")) {bonusnonsense += `\nD_${DATA.name}${a}.StatusImmune = true;`}
+    if (original_passive.match(/Immune to.+Freeze/)) {bonusnonsense += `\nD_${DATA.name}${a}.FreezeImmune = true;`}
+    if (original_passive.match(/Immune to.+Petrify/)) {bonusnonsense += `\nD_${DATA.name}${a}.PetrifyImmune = true;`}
+    if (original_passive.match(/Immune to.+Poison/)) {bonusnonsense += `\nD_${DATA.name}${a}.PoisonImmune = true;`}
+    if (original_passive.match(/Immune to.+Compel/)) {bonusnonsense += `\nD_${DATA.name}${a}.CompelImmune = true;`}
+    if (original_passive.includes("Displacement-Immune")) {bonusnonsense += `\nD_${DATA.name}${a}.DisplacementImmune = true;`}
     if (movetypes.includes(28)) {bonusnonsense += `\nD_${DATA.name}${a}.HasTarget = true;`}
     if (movetypes.includes(34)) {bonusnonsense += `\nD_${DATA.name}${a}.TurnTrigger = "Start";`} // Alchemist trigger
     if (movetypes.includes(42)) {bonusnonsense += `\nD_${DATA.name}${a}.TurnTrigger = "End";`} // Lust trigger
@@ -2943,7 +2944,7 @@ D_${DATA.name}${a}.Rarity = "${DATA.labels.rarity}";
 D_${DATA.name}${a}.Moves = [${movelist.map(x=>numify(x)+1).join(",")}];
 D_${DATA.name}${a}.MoveTypes = [${movetypes}];${DATA[`${LEVELS[level]}`].passives? `\n` + `D_${DATA.name}${a}.Passive = "${DATA[`${LEVELS[level]}`].passives}";`.replace(/\n/g, "\\n") : ``}
 D_${DATA.name}${a}.Minion = ${DATA.labels.rank == "Minion"?"true":"false"};${bonusnonsense}
-D_${DATA.name}${a}.Tier = ${level+1};
+D_${DATA.name}${a}.Tier = ${numify(level)+1};
 D_${DATA.name}${a}.AIskip = 50;`)
   }
   return rv.join("\n\n")
