@@ -2933,21 +2933,19 @@ function exportasgame () {
     if (movetypes.includes(34)) {bonusnonsense += `\nD_${DATA.name}${a}.TurnTrigger = "Start";`} // Alchemist trigger
     if (movetypes.includes(42)) {bonusnonsense += `\nD_${DATA.name}${a}.TurnTrigger = "End";`} // Lust trigger
 
-    LEVELS[level]
+    //LEVELS[level]
     rv += `
-    D_${DATA.name}${a} = new Object();
-    UnitLibrary[Place] = "${DATA.name}${a}";
-    D_${DATA.name}${a}.Name = "${DATA.name}${plusses}";
-    D_${DATA.name}${a}.Index = Place;
-    Place++;
-    D_${DATA.name}${a}.Cost = ${DATA[`${LEVELS[level]}`].cost};
-    D_${DATA.name}${a}.Rarity = "${DATA.labels.rarity}";
-    D_${DATA.name}${a}.Moves = [${movelist.map(x=>numify(x)+1).join(",")}];
-    D_${DATA.name}${a}.MoveTypes = [${movetypes}];${DATA[`${LEVELS[level]}`].passives? `\n    ` + `D_${DATA.name}${a}.Passive = "${DATA[`${LEVELS[level]}`].passives}";`.replace(/\n/g, "\\n") : ``}
-    D_${DATA.name}${a}.Minion = ${DATA.labels.rank == "Minion"?"true":"false"};${bonusnonsense}
-    D_${DATA.name}${a}.Tier = ${level};
-    D_${DATA.name}${a}.AIskip = 50;`
-
+var D_${DATA.name}${a} = new Object();
+UnitLibrary[Place] = "${DATA.name}${a}";
+D_${DATA.name}${a}.Name = "${DATA.name}${plusses}";
+D_${DATA.name}${a}.Index = Place; Place++;
+D_${DATA.name}${a}.Cost = ${DATA[`${LEVELS[level]}`].cost};
+D_${DATA.name}${a}.Rarity = "${DATA.labels.rarity}";
+D_${DATA.name}${a}.Moves = [${movelist.map(x=>numify(x)+1).join(",")}];
+D_${DATA.name}${a}.MoveTypes = [${movetypes}];${DATA[`${LEVELS[level]}`].passives? `\n` + `D_${DATA.name}${a}.Passive = "${DATA[`${LEVELS[level]}`].passives}";`.replace(/\n/g, "\\n") : ``}
+D_${DATA.name}${a}.Minion = ${DATA.labels.rank == "Minion"?"true":"false"};${bonusnonsense}
+D_${DATA.name}${a}.Tier = ${level+1};
+D_${DATA.name}${a}.AIskip = 50;`
   }
   return rv
 }
