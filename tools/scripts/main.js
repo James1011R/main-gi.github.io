@@ -2901,7 +2901,7 @@ function exportasgame () {
   // Exports to ingame code. Only for people trying to make a piece gallery, or think their ideas are so good that it needs as little time as possible to import.
   // THIS DOES NOT ACTUALLY MAKE IT COMPLETELY ACCURATE INGAME CODE, the result is only like half accurate, but all info in the result is enough to work for the gallery parser.
 
-  rv = ``
+  rv = []
 
   for (let level in LEVELS) { // "LEVELS" is an array ["base", "plus", "plusplus", "plusplusplus"]. Conveniently, x is [0, 1, 2, 3] throughout this.
     let movelist = arrayspamming(0, 15*15)
@@ -2934,8 +2934,7 @@ function exportasgame () {
     if (movetypes.includes(42)) {bonusnonsense += `\nD_${DATA.name}${a}.TurnTrigger = "End";`} // Lust trigger
 
     //LEVELS[level]
-    rv += `
-var D_${DATA.name}${a} = new Object();
+    rv.push(`var D_${DATA.name}${a} = new Object();
 UnitLibrary[Place] = "${DATA.name}${a}";
 D_${DATA.name}${a}.Name = "${DATA.name}${plusses}";
 D_${DATA.name}${a}.Index = Place; Place++;
@@ -2945,9 +2944,9 @@ D_${DATA.name}${a}.Moves = [${movelist.map(x=>numify(x)+1).join(",")}];
 D_${DATA.name}${a}.MoveTypes = [${movetypes}];${DATA[`${LEVELS[level]}`].passives? `\n` + `D_${DATA.name}${a}.Passive = "${DATA[`${LEVELS[level]}`].passives}";`.replace(/\n/g, "\\n") : ``}
 D_${DATA.name}${a}.Minion = ${DATA.labels.rank == "Minion"?"true":"false"};${bonusnonsense}
 D_${DATA.name}${a}.Tier = ${level+1};
-D_${DATA.name}${a}.AIskip = 50;`
+D_${DATA.name}${a}.AIskip = 50;`)
   }
-  return rv
+  return rv.join("\n\n")
 }
 
 var devtoolsrevealed = false
