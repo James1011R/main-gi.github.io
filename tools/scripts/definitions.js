@@ -59,7 +59,7 @@ MOVES = [{
    "cat": "official",
    "name": "plant",
    "long": "2p]ru:transform@SAPLING/summon@SAPLING",
-   "text": "[Pay 1]: (Magic) Summon Sapling or transform enemy into ally Sapling.",
+   "text": "[Pay 2]: (Magic) Summon Sapling or transform enemy into ally Sapling.",
    "color": [0,101,24]
  }, {
    "id": "9",
@@ -322,7 +322,7 @@ MOVES = [{
    "cat": "official",
    "name": "freezestrike",
    "long": "bs]ru:thisattack&freeze#flag@3-move",
-   "text": "(Magic) Destroy self at target location and Freeze enemy unit for 3 turns, making them unable to act.",
+   "text": "(Magic) Destroy self at target location and Freeze unit for 3 turns, making them unable to act.",
    "color": [107,205,253],
    "color3": [181,230,254],
    "color4": [107,205,253],
@@ -443,7 +443,7 @@ MOVES = [{
    "cat": "official",
    "name": "compel",
    "long": "cs]rn:compel#flag@2(ct]start?mn:move@-1(AWAY)",
-   "text": "(Ranged) Compel enemy unit, making them move in the direction of this ability at the start of each turn, for 3 turns.",
+   "text": "(Ranged) Compel enemy unit, making them move in the direction of this ability at the start of their turn, for 3 turns.",
    "color": [255,63,255],
    "color2": [255,255,255],
    "symbol1": "\u2661"
@@ -451,7 +451,7 @@ MOVES = [{
    "id": "51",
    "cat": "official",
    "name": "butterfly",
-   "text": "(Magic) Destroy self and mark location with effect after 20 turns, depending on target: Destroy by Magic if enemy, Enchant for 2 turns if ally, or revive this unit if empty.",
+   "text": "(Unstoppable) Destroy self and mark location. After 20 turns destroy enemy unit in the marked location, enchant ally for 2 turns, or summon butterfly of equal tier if marked location is empty.",
    "color": [0,0,0],
    "color2": [255,255,255],
    "symbol1": "\uE906"
@@ -580,7 +580,7 @@ MOVES = [{
    "id": "66",
    "cat": "official",
    "name": "void",
-   "text": "[Pay 2]: (Ranged) Convert target enemy default moveset into basic move/teleport abilities, and negate their augments, if any.",
+   "text": "[Pay 2]: (Ranged) Convert target enemy moveset into move/teleport abilities, negate their augments, and increase their value by 2.",
    "color": [0,0,0],
    "color2": [255,255,255],
    "symbol1": "\uea81"
