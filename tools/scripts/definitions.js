@@ -585,6 +585,24 @@ MOVES = [{
    "color2": [255,255,255],
    "symbol1": "\uea81"
  }, {
+   "id": "67",
+   "cat": "official",
+   "name": "gravitywell",
+   "text": "[Pay 2]: (Magic) Create gravity well at target location, pulling in all units that are directly 2 spaces away.",
+   "color": [0,0,0],
+   "color2": [255,255,255],
+   "color3": [77,29,95],
+   "symbol1": "\uea81"
+ }, {
+   "id": "68",
+   "cat": "official",
+   "name": "omniswap",
+   "long": "b]mu:move/*ally?swap",
+   "text": "(Unblockable) Teleport or swap places with unit.",
+   "color": [51,153,153],
+   "color3": [0,0,0],
+   "symbol1": "\u{1f5d8}"
+ }, {
    "id": "0a",
    "cat": "variation",
    "name": "swap",

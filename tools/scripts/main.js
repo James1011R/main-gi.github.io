@@ -1223,6 +1223,14 @@ function restoreMoves() {
       }
     }
     var curMoves = DATA[LEVELS[l]].moves;
+
+    // main_gi: So I need to change the "31b" id, which was used for james nagasakiswap, into official one. This is how:
+    if ('31b' in curMoves) {
+      curMoves[MOVES[SMOVE["omniswap"]].id] = curMoves['31b']
+      delete curMoves['31b']
+    }
+
+
     var impList = {};
     var obKeys = Object.keys(curMoves);
     for (var i = 0; i < obKeys.length; i++) {
@@ -1231,7 +1239,8 @@ function restoreMoves() {
     obKeys = Object.keys(impList);
     for (var i = 0; i < obKeys.length; i++) {
       var coords = impList[obKeys[i]];
-      loadMove(MOVES[obKeys[i]]);
+      let move = MOVES[obKeys[i]]
+      loadMove(move);
       for (var j = 0; j < impList[obKeys[i]].length; j++) {
         setSpellOnBoard(parseInt(impList[obKeys[i]][j], 15));
       }
@@ -3317,7 +3326,9 @@ var shortcuts = [``, // blank
 `{pla}`, // Path Diagonal "Left"
 `{pra}`, // Path Diagonal "Right"
 `{nu}`, // Null
-`{vo}` // Void
+`{vo}`, // Void
+`{gw}`, // Gravity Well
+`{tsa}` // Omniswap (Teleport Swap All)
 ]
 
 // Now populate shortcuts with any missing stuff, using the "id" key in MOVES for each, and starting at shortcuts.length
