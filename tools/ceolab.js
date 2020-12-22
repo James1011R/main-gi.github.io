@@ -197,7 +197,7 @@ Vue.component('ceo-component', {
       moraledecay: "0",
       bonuswhite: "0",
       bonusblack: "0",
-      enchlifestones: "False",
+      enchlifestones: "0",
       moraledecaystate: "Morale Decay (OFF)",
       kingdecaystate: "King Decay (OFF)",
       enchlifestonesstate: "Enchanted LifeStones (OFF)",
