@@ -192,7 +192,7 @@ Vue.component('ceo-component', {
       display: Array(64).fill(""), // Pure display, should not be modified except for imports
       boardstyle: Array(64).fill({}),
       sides: Array(64).fill("0"), // 64 length
-      otherdata: "54,whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0",
+      otherdata: `${curversion},whitename,blackname,2500,2500,scenarioname,1,1,1,1,1,1,0,1,1,1,1,1,1,0,teamperspective,replayspeed,mindmapson,0,0,0,0,0,0,0,0,0`,
       kingdecay: "0",
       moraledecay: "0",
       bonuswhite: "0",
@@ -221,9 +221,9 @@ Vue.component('ceo-component', {
       let rv = this.importtext
 
       if (unless == "Classic") {
-        rv = "54,whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False,Rook,Pawn,,,,,Pawn,Rook,Knight,Pawn,,,,,Pawn,Knight,Bishop,Pawn,,,,,Pawn,Bishop,Queen,Pawn,,,,,Pawn,Queen,King,Pawn,,,,,Pawn,King,Bishop,Pawn,,,,,Pawn,Bishop,Knight,Pawn,,,,,Pawn,Knight,Rook,Pawn,,,,,Pawn,Rook,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0"
+        rv = `${curversion},whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,Rook,Pawn,,,,,Pawn,Rook,Knight,Pawn,,,,,Pawn,Knight,Bishop,Pawn,,,,,Pawn,Bishop,Queen,Pawn,,,,,Pawn,Queen,King,Pawn,,,,,Pawn,King,Bishop,Pawn,,,,,Pawn,Bishop,Knight,Pawn,,,,,Pawn,Knight,Rook,Pawn,,,,,Pawn,Rook,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0`
       } else if (unless == "Clear") {
-        rv = "54,whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
+        rv = `${curversion},whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0`
       } else if (unless == "Random") {
         let randomunits = []
         let randomsides = []
@@ -231,9 +231,9 @@ Vue.component('ceo-component', {
           randomunits.push(r(originalunitnames) + r(["", 2, 3, 4]).toString())
           randomsides.push(r(0,1))
         }
-        rv = "54,whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False," + randomunits.join(",") + "," + randomsides.join(",")
+        rv = `${curversion},whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,` + randomunits.join(",") + "," + randomsides.join(",")
       } else if (unless == "Chess960") {
-        rv = "54,whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0"
+        rv = `${curversion},whitename,blackname,2500,2500,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,PLACEHOLDER,Pawn,,,,,Pawn,PLACEHOLDER,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0`
         // Each 'placeholder' will be filled in
         let unitswhite = "Queen, Rook, Rook, Bishop, Bishop, Knight, Knight, King".split(", ")
         
@@ -503,7 +503,7 @@ Vue.component('ceo-component', {
         this.kingdecay = this.kingdecay == "1"? "0" : "1"
         this.kingdecaystate = parsestate(this.kingdecaystate, this.kingdecay)
       } else if (x == "enchlifestones") {
-        this.enchlifestones = this.enchlifestones == "False"||this.enchlifestones == "0"? "True" : "False"
+        this.enchlifestones = this.enchlifestones == "False"||this.enchlifestones == "0"? "1" : "0"
         this.enchlifestonesstate = parsestate(this.enchlifestonesstate, this.enchlifestones)
       }
       this.upd()
@@ -827,7 +827,8 @@ ${originalunitnames.sort().join(" ")}
 </details>
 
 <div style="height: 20px"></div>
-Some other nonsense is the "whitename,blackname" stuff. After those, the values are: white rating, black rating, scenario name, white's top layer avatar GFX, white's middle layer GFX, white's bottom layer GFX, [next 3 are white's avatar layers but for colors], [next 3 are black's avatar layers for GFX], [next 3 are black's avatar layers for colors]
+Some other nonsense is the "whitename,blackname" stuff. After those, the values are: white rating, black rating, scenario name, white's top layer avatar GFX, white's middle layer GFX, white's bottom layer GFX, [next 3 are white's avatar layers but for colors], a placeholder, [next 3 are black's avatar layers for GFX], [next 3 are black's avatar layers for colors], a placeholder, team perspective (White or Black), starting replay speed, and whether mindmaps are disabled or not.
+
 
 
 </div>
