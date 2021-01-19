@@ -468,6 +468,9 @@ div.passives{
 #action.show .hide {
   display: block;
 }
+#action .hidden {
+  display: none !important; /* main_gi: For action search. */
+}
 .cost + div > ul {
   padding: 10px;
   width: 93%;
@@ -780,3 +783,10 @@ box-shadow: 0 0 0 4px #d2d796cc inset;}
 @media screen and (max-width: 1600px) {
   #contents { justify-content: left; } /* make the boards left-align on certain zoom levels where the sidebar may overlap */
 }
+
+/*
+Costs look broken on Edge idk how to fix
+_:-ms-lang(x), .fc .cost input {
+        left: 75%;
+    }
+    */
