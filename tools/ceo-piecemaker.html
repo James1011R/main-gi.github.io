@@ -135,7 +135,8 @@
       <input id="savefirst" type="checkbox">First Tier only
       <input id="savecompact" type="checkbox">Compact View<br>
       If these features are broken change your browser I guess. Also they ONLY affect the "save image to computer" picture, nothing else.</div><hr>
-    <div class="note"><button id="exj">Export</button><button id="exjh">Export as URL</button><button id="imj">Import</button><button id="exjb">Bexport</button><br><textarea id="code" cols="36" rows="4"></textarea></div><hr>
+    <div class="note"><button id="exj">Export</button><button id="exjh">Export as URL</button><button id="imj">Import</button><button id="exjb">Bexport</button><button id="notationhelp">Notation Help</button>
+    <br><textarea id="code" cols="36" rows="4"></textarea></div><hr>
     Non-Export Toggles
     <div class="note"><button id="hsc">Hide/Show Cost (shown)</button></div>
     <div class="note"><button id="hst">Hide/Show Type (shown)</button></div>
@@ -320,12 +321,13 @@
   </div>
   <div mode="active">
     <button id="shactive">Show Unused/Unofficial</button>
-    <ul id="action" class="moves gallery">
-</ul>
+    <div id="pretend_easter_egg"></div>
+    <ul id="action" class="moves gallery"></ul>
+    <textarea type="text" id="ability_searchbar" value="" cols="36" rows="1" style="padding-bottom: 20px" placeholder="Search action descriptions..."></textarea>
   </div>
   <div mode="passive">
     <ul id="passives">
-      <li class="ctrl" id="ctrlclear">(Clear All)</li>
+      <li class="ctrl" id="ctrlclear">(Clear All)</li></ul>
     </ul>
   </div>
 </div>
@@ -367,26 +369,26 @@
 <div id="bgproc" style="visibility:hidden;position:absolute;"></div>
 <div id="tooltip">Yolo<br>buddy<br>how's<br>life?</div>
 
-<div id="credits" style="font-family: Arial; position: fixed; top: 10%; margin: 0 auto; background: white; z-index: 100; width: 92%; left: 3%; padding: 10px; border: 2px solid black; height: 70%; display: none">
+<div id="credits" style="font-family: Tajawal; position: fixed; top: 10%; margin: 0 auto; background: rgba(0, 0, 0, 0) linear-gradient(rgba(12, 32, 55, 0.98), rgba(13, 100, 100, 0.99)) repeat scroll 0% 0%; color: white; z-index: 100; width: 92%; left: 3%; padding: 10px; border: 2px solid black; height: 70%; display: none">
   <div style="overflow-y: auto; height: 100%">
     <p style="text-align: center; margin: 0; font-size: 200%"><b>Feature Creep PieceMaker</b></p><br>
     <div style="text-align: center">main_gi's piecemaker modification</div><br>
     <p style="text-align: center; margin: 0; font-size: 150%"><b>Credits</b></p><br>
   Tony2: original piecemaker<br>
-  Logo (ABC_Boy): <a href="https://ceopiecemaker.github.io/" class=link">piecemaker v2</a> with massive graphical and UI improvements, programming in the custom ability icon creator, all custom unicode icon glyphs, board svg rewrite, sharing versions v0.42-v0.53 for this piecemaker and significantly helping with reconstructing v0.39 and v0.40<br>
+  Logo (ABC_Boy): <a href="https://ceopiecemaker.github.io/" class="darklink">piecemaker v2</a> with massive graphical and UI improvements, programming in the custom ability icon creator, all custom unicode icon glyphs, board svg rewrite, sharing versions v0.42-v0.53 for this piecemaker and significantly helping with reconstructing v0.39 and v0.40<br>
   Aplet123: board svg rewrite<br>
   main_gi: piecemaker v2 original UI feedback, auto symmetry, unit gallery, pretend unit generator and meme feedback, CD/FC/CBA styles<br>
   Elund (James1011R): all UPLE abilities, fill color customization and "UPLE" fill colors, the 'doodle' and 'cutout' features, "tool tray" scrollbar<span style="font-size: 1%">I have no idea what this means</span>, some more custom CD/FC piece styles<br>
 <br>
     <p style="text-align: center; margin: 0; font-size: 100%"><b>Special Thanks</b></p><br>
-  F300XEN: <a href="https://f300xen.github.io/RandomFavorChessPieces/" class="link">favor chess random piece generator</a> was the inspiration for the pretend unit generator<br>
+  F300XEN: <a href="https://f300xen.github.io/RandomFavorChessPieces/" class="darklink">favor chess random piece generator</a> was the inspiration for the pretend unit generator<br>
   <i>definitely not an alt account</i>: the idea to seed unit names for the generator<br>
   awetalehu and StratShotPlayer: for making insanely memeable reviews<br>
-  Bennylin: compiling <a href="https://chess-evolved-online.fandom.com/wiki/User:Bennylin" class="link">the images that were transcribed to make the v0.37 gallery</a><br>
-  RXA623: compiling <a href="https://chess-evolved-online.fandom.com/wiki/Special:Contributions/RXA623" class="link">the images that were transcribed to make the v0.38 gallery</a><br>
-  Bogden: compiling <a href="http://www.kongregate.com/forums/32630-chess-evolved-online/topics/637670-v0-39-community-changelist?page=1" class="link">a list of v0.39 changes</a>, gilisepic mentioned the Necromancer costs as well which was invaluable, also Tecness's <a href="https://youtu.be/loGHTsqlW8A?t=23" class="link">challenge</a> <a href="https://youtu.be/VcH3AABKsLU?t=139" class="link">videos</a> showed accurate old descriptions<br>
-  Kashira: compiling <a href="https://chess-evolved-online.fandom.com/wiki/Template:Unit_Table?action=edit&oldid=2592" class="link">v0.40 unit costs</a><br>
-  iridium137: compiling <a href="http://www.kongregate.com/forums/32630-chess-evolved-online/topics/734704-v0-48-changes" class="link">a list of v0.48 changes</a> to reconstruct the version, although it was slightly inaccurate<br>
+  Bennylin: compiling <a href="https://chess-evolved-online.fandom.com/wiki/User:Bennylin" class="darklink">the images that were transcribed to make the v0.37 gallery</a><br>
+  RXA623: compiling <a href="https://chess-evolved-online.fandom.com/wiki/Special:Contributions/RXA623" class="darklink">the images that were transcribed to make the v0.38 gallery</a><br>
+  Bogden: compiling <a href="http://www.kongregate.com/forums/32630-chess-evolved-online/topics/637670-v0-39-community-changelist?page=1" class="darklink">a list of v0.39 changes</a>, gilisepic mentioned the Necromancer costs as well which was invaluable, also Tecness's <a href="https://youtu.be/loGHTsqlW8A?t=23" class="darklink">challenge</a> <a href="https://youtu.be/VcH3AABKsLU?t=139" class="darklink">videos</a> showed accurate old descriptions<br>
+  Kashira: compiling <a href="https://chess-evolved-online.fandom.com/wiki/Template:Unit_Table?action=edit&oldid=2592" class="darklink">v0.40 unit costs</a><br>
+  iridium137: compiling <a href="http://www.kongregate.com/forums/32630-chess-evolved-online/topics/734704-v0-48-changes" class="darklink">a list of v0.48 changes</a> to reconstruct the version, although it was slightly inaccurate<br>
 <br>
     <p style="text-align: center; margin: 0; font-size: 100%"><b>Changelog</b></p><br>
   - <b>Visuals:</b> Cost number enlarged and no longer uses monospace font.<br>
@@ -443,16 +445,55 @@
   - <b>Feature?:</b> In the changelog, clicking names really should automatically make you select the unit.<br>
   - <b>Betza Notation:</b> I'm unsure if *7 should really be "all squares in range 7 or below" and if it would be better to be "all squares in exactly range 7". This would require some workarounds.<br>
   - <b>Betza Notation:</b> The notation *35 should mean "all squares from range 3 to range 5". This should be completely unambiguous if you assume multiple numbers after a multi-atom like * mean all of them are range-spans, as you could put regular atoms like 04 before the multi-atom.<br>
+  - <b>Betza Notation:</b> There is an annoyance with betza exporting in that if you try to make, like Rook with sideways Wazir moves, this is NOT interpreted as vRhW, but W and a bunch of other trash.<br>
   - <b>Complaint:</b> A lot of the pretend abilities are bad game design, with probably a good quarter of them literally being copies of other abilities but ignoring status effects, or having slightly different interactions with 1/100 of the game's units. This will never be fixed.<br>
   <br><br>
-  My code is <a href="https://github.com/main-gi/main-gi.github.io/tree/master/tools" class="link">here</a>. Eventually I will probably regret stuffing all the relevant files in "/tools/" when there's like 20 tools in it, but it works for now.<br>
+  My code is <a href="https://github.com/main-gi/main-gi.github.io/tree/master/tools" class="darklink">here</a>. Eventually I will probably regret stuffing all the relevant files in "/tools/" when there's like 20 tools in it, but it works for now.<br>
 </div>
 </div>
 
-<div id="notationexplanation" style="font-family: Arial; position: fixed; top: 10%; margin: 0 auto; background: white; z-index: 100; width: 92%; left: 3%; padding: 10px; border: 2px solid black; height: 70%; display: none">
+<div id="notationexplanation" style="font-family: Tajawal; position: fixed; top: 10%; margin: 0 auto; background: black; color: white; z-index: 100; width: 92%; left: 3%; padding: 10px; border: 2px dotted black; height: 70%; display: none">
   <div style="overflow-y: auto; height: 100%">
-    Here is a mildly condescending explanation on the notation system.
-    jk i never did it
+    This is how the notation works. It is based off, but not identical to, <a href="https://www.chessvariants.com/d.betza/chessvar/pieces/notation.html" class="darklink">Ralph Betza's notation</a>.<br><br>
+
+    Pieces are made up of "atoms". <b style="color: cyan">N</b> is an atom that represents a Knight direction, including all the symmetries. That direction is (1, 2), so N is short for the (1, 2) atom. The same atom can be inputted as "12", which should be read as "1-2", not as "twelve". There are shortcut names for all atoms up to range 3, shown by the table to the right.<br><br>
+
+<table>
+    <tr>
+        <td><b>T</b> (03)</td>
+        <td><b>V</b> (13)</td>
+        <td><b>Z</b> (23)</td>
+        <td><b>Y</b> (33)</td>
+    </tr>
+    <tr>
+        <td><b>D</b> (02)</td>
+        <td><b>N</b> (12)</td>
+        <td><b>A</b> (22)</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>W (01)</td>
+        <td>F (11)</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>(00)</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+    Demon++ = +4jNt24 (Range 4 Rook, Jump Knight, Teleport 24)<br><br>
+
+    By default, the movetype is the standard "Move or Attack". You change the movetype by placing the short name of the movetype before it.<br><br>
+
+    but with a few differences (since we software developers like to make compatibility annoying).<br><br>
+
+
+
+
   </div>
 </div>
 
