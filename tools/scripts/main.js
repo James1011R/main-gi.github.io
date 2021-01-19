@@ -1378,7 +1378,7 @@ let fnkobtc = (a, b) => [].concat(...a.map(a => b.map(b => [].concat(a, b))));
 let cartesian = (a, b, ...c) => b ? cartesian(fnkobtc(a, b), ...c) : a; // https://stackoverflow.com/questions/12303989/cartesian-product-of-multiple-arrays-in-javascript
 
 let allgridspots = cartesian([0,1,2,3,4,5,6,7],[0,1,2,3,4,5,6,7]).slice(1)
-let onlyUnique = (x) => Object.values(x.reduce((p,c) => (p[JSON.stringify(c)] = c,p),{})); // https://stackoverflow.com/a/57564376
+let keepUnique = (x) => Object.values(x.reduce((p,c) => (p[JSON.stringify(c)] = c,p),{})); // https://stackoverflow.com/a/57564376
 
 function arraysequal(a, b) { // https://stackoverflow.com/questions/3115982/how-to-check-if-two-arrays-are-equal-with-javascript
   if (a === b) return true;
@@ -1414,10 +1414,10 @@ function legitSpotsOnly(array) {
 
 function convertToSymmetry(array, symmetry="full") {
   if (symmetry == "full") {
-    return onlyUnique(array.map(x=>[Math.abs(x[0]), Math.abs(x[1])][0] > [Math.abs(x[0]), Math.abs(x[1])][1]?
+    return keepUnique(array.map(x=>[Math.abs(x[0]), Math.abs(x[1])][0] > [Math.abs(x[0]), Math.abs(x[1])][1]?
       [Math.abs(x[0]), Math.abs(x[1])] : [Math.abs(x[1]), Math.abs(x[0])]))
   } else if (symmetry == "horizontal") {
-    return onlyUnique(array.map(x=>[Math.abs(x[0]), x[1]]))
+    return keepUnique(array.map(x=>[Math.abs(x[0]), x[1]]))
   }
 }
 
@@ -1448,7 +1448,7 @@ function spamAllSymmetry (array, symmetry="full") {
 
     }
   }
-  return onlyUnique(rv) // nice hack, converts it into a set which must only contain uniques
+  return keepUnique(rv) // nice hack, converts it into a set which must only contain uniques
 }
 
 function arraysum (array) {return array.reduce(function(a, b){return a + b;}, 0)}
@@ -1596,14 +1596,14 @@ function makepiece(seed) { // Somehow I feel like this being in my life is a ref
     //l(horizontal); l(vertical); l(diagonal); l(hDisplace); l(vDisplace); l(dDisplace)
 
     genericgridspots = [].concat(arrayToX(horizontal).slice(hDisplace).map(x=>[0, x+hDisplace]), arrayToX(vertical).slice(vDisplace).map(x=>[x+vDisplace, 0]), arrayToX(diagonal).slice(dDisplace).map(x=>[x+dDisplace, x+dDisplace]))
-    genericgridspots = onlyUnique(limitGridSpots(legitSpotsOnly(genericgridspots), symmetrytype), symmetrytype)
+    genericgridspots = keepUnique(limitGridSpots(legitSpotsOnly(genericgridspots), symmetrytype), symmetrytype)
 
     if (genericactions.length == 2) {
       let horizontal2 = r(randoms[40], horizontal, rangelimit); rr(40)
       let vertical2 = r(randoms[40], vertical, rangelimit); rr(40)
       let diagonal2 = r(randoms[40], diagonal, rangelimit); rr(40)
       genericgridspots2 = [].concat(arrayToX(horizontal2).slice(hDisplace+horizontal).map(x=>[0, x+hDisplace+horizontal]), arrayToX(vertical2).slice(vDisplace+vertical).map(x=>[x+vDisplace+vertical, 0]), arrayToX(diagonal2).slice(dDisplace+diagonal).map(x=>[x+dDisplace+diagonal, x+dDisplace+diagonal]))
-      genericgridspots2 = onlyUnique(limitGridSpots(legitSpotsOnly(genericgridspots2), symmetrytype), symmetrytype)
+      genericgridspots2 = keepUnique(limitGridSpots(legitSpotsOnly(genericgridspots2), symmetrytype), symmetrytype)
       if (genericgridspots2.length == 0) {genericactions.slice(0, 1)} // whoops, no action!
     } // The idea is that the 2nd generic action comes after the first one
     // These are full symmetric no matter what. We include ALL valid numbers
@@ -1687,18 +1687,18 @@ function makepiece(seed) { // Somehow I feel like this being in my life is a ref
   for (let k=0; k < upgradeamount; k++) {
     for (let i=0; i < scanspots.length; i++) {
       if (arrayindexof(selectedgridspots, scanspots[i]) == -1) {
-        selectedgridspots.push(scanspots[i]); actionassignments.push(1); shuffledactions.push(1); shuffledactions = onlyUnique(shuffledactions)
+        selectedgridspots.push(scanspots[i]); actionassignments.push(1); shuffledactions.push(1); shuffledactions = keepUnique(shuffledactions)
         break
       } else if (arraysequal(scanspots[i], [2, 2]) && arrayindexof(selectedgridspots, [2, 1]) == -1) { // The knight move is missing? Let's put it in!
         selectedgridspots.push([2, 1]); actionassignments.push(5);
         if (symmetrytype == "horizontal") {selectedgridspots.push([1, 2]); actionassignments.push(5)}
-        shuffledactions.push(5); shuffledactions = onlyUnique(shuffledactions); break
+        shuffledactions.push(5); shuffledactions = keepUnique(shuffledactions); break
       } else if (minionorchampion == 0 && (symmetrytype == "horizontal") && (arrayindexof(selectedgridspots, [2, 2]) == -1)) { // Move from start range 2
         selectedgridspots.push([2, 2]); actionassignments.push(10);
-        shuffledactions.push(10); shuffledactions = onlyUnique(shuffledactions); break
+        shuffledactions.push(10); shuffledactions = keepUnique(shuffledactions); break
       } else if (minionorchampion == 0 && (symmetrytype == "horizontal") && (arrayindexof(selectedgridspots, [0, -1]) == -1)) { // Backmove
         selectedgridspots.push([0, -1]); actionassignments.push(1);
-        shuffledactions.push(1); shuffledactions = onlyUnique(shuffledactions); break
+        shuffledactions.push(1); shuffledactions = keepUnique(shuffledactions); break
       }
     }
   }
@@ -1715,20 +1715,20 @@ function makepiece(seed) { // Somehow I feel like this being in my life is a ref
     for (let i=0; i < scanspots.length; i++) {
       let scan = arrayindexof(selectedgridspots, scanspots[i])
       if (scan == -1) {
-        selectedgridspots.push(scanspots[i]); actionassignments.push(2); shuffledactions.push(2); shuffledactions = onlyUnique(shuffledactions)
+        selectedgridspots.push(scanspots[i]); actionassignments.push(2); shuffledactions.push(2); shuffledactions = keepUnique(shuffledactions)
         break
       } else if (actionassignments[scan] == 1 || actionassignments[scan] == 2) { // Move only / attack only, upgrade it to move or attack
-        actionassignments[scan] = 0; shuffledactions.push(0); shuffledactions = onlyUnique(shuffledactions); break
+        actionassignments[scan] = 0; shuffledactions.push(0); shuffledactions = keepUnique(shuffledactions); break
       } else if (actionassignments[scan] == 5) { // Teleport. upgrade to jump
-        actionassignments[scan] = 3; shuffledactions.push(3); shuffledactions = onlyUnique(shuffledactions); break
+        actionassignments[scan] = 3; shuffledactions.push(3); shuffledactions = keepUnique(shuffledactions); break
       } else if (arraysequal(scanspots[i], [2, 2]) && arrayindexof(selectedgridspots, [2, 1]) == -1) { // Knight attack is missing? Let's put it in!
         selectedgridspots.push([2, 1]); actionassignments.push(52);
         if (symmetrytype == "horizontal") {selectedgridspots.push([1, 2]); actionassignments.push(52)}
-        shuffledactions.push(52); shuffledactions = onlyUnique(shuffledactions); break
+        shuffledactions.push(52); shuffledactions = keepUnique(shuffledactions); break
       } else if (arraysequal(scanspots[i], [2, 2]) && actionassignments[arrayindexof(selectedgridspots, [2, 1])] == 5) { // Knight teleport? Upgrade it to move+attack!
         actionassignments[arrayindexof(selectedgridspots, [2, 1])] = 3; shuffledactions.push(3);
         if (symmetrytype == "horizontal" && arrayindexof(selectedgridspots, [1, 2])) {actionassignments[arrayindexof(selectedgridspots, [1, 2])] = 3}
-        shuffledactions = onlyUnique(shuffledactions); break
+        shuffledactions = keepUnique(shuffledactions); break
       }
     }
   }
@@ -1746,31 +1746,31 @@ function makepiece(seed) { // Somehow I feel like this being in my life is a ref
     for (let i=0; i < scanspots.length; i++) {
       let scan = arrayindexof(selectedgridspots, scanspots[i])
       if (scan == -1) {
-        selectedgridspots.push(scanspots[i]); actionassignments.push(0); shuffledactions.push(0); shuffledactions = onlyUnique(shuffledactions) // RANDOM ATTACKS!
+        selectedgridspots.push(scanspots[i]); actionassignments.push(0); shuffledactions.push(0); shuffledactions = keepUnique(shuffledactions) // RANDOM ATTACKS!
         break
       } else if (actionassignments[scan] == 0) { // Upgrade move/attack to swap, but 1/7 the time upgrade it to armor
         let swaporarmor = r(randoms[301], 6)!=6? 4:34; rr(301)
-        actionassignments[scan] = swaporarmor; shuffledactions.push(swaporarmor); shuffledactions = onlyUnique(shuffledactions); break
+        actionassignments[scan] = swaporarmor; shuffledactions.push(swaporarmor); shuffledactions = keepUnique(shuffledactions); break
 
       } else if (arraysequal(scanspots[i], [2, 0]) && actionassignments[arrayindexof(selectedgridspots, [2, 1])] == 5) { // Knight teleport? Upgrade it to teleswap
         actionassignments[arrayindexof(selectedgridspots, [2, 1])] = 30; shuffledactions.push(30);
         if (symmetrytype == "horizontal" && arrayindexof(selectedgridspots, [1, 2])) {actionassignments[arrayindexof(selectedgridspots, [1, 2])] = 30}
-        shuffledactions = onlyUnique(shuffledactions); break
+        shuffledactions = keepUnique(shuffledactions); break
 
-        shuffledactions.push(52); shuffledactions = onlyUnique(shuffledactions); break
+        shuffledactions.push(52); shuffledactions = keepUnique(shuffledactions); break
       } else if (arraysequal(scanspots[i], [2, 0]) && actionassignments[arrayindexof(selectedgridspots, [2, 1])] == 3) { // Knight jump? SWAPPPPP
         actionassignments[arrayindexof(selectedgridspots, [2, 1])] = 4; shuffledactions.push(4);
         if (symmetrytype == "horizontal" && arrayindexof(selectedgridspots, [1, 2])) {actionassignments[arrayindexof(selectedgridspots, [1, 2])] = 4}
-        shuffledactions = onlyUnique(shuffledactions); break
+        shuffledactions = keepUnique(shuffledactions); break
       } else if (arraysequal(scanspots[i], [2, 0]) && arrayindexof(selectedgridspots, [3, 1]) == -1) { // No valk teleport? Go!
         selectedgridspots.push([3, 1]); actionassignments.push(5);
         if (symmetrytype == "horizontal") {selectedgridspots.push([1, 3]); actionassignments.push(5)}
-        shuffledactions.push(52); shuffledactions = onlyUnique(shuffledactions); break
+        shuffledactions.push(52); shuffledactions = keepUnique(shuffledactions); break
 
       } else if (actionassignments[scan] == 1 || actionassignments[scan] == 2) { // Move only / attack only, upgrade it to jswap
-        actionassignments[scan] = 4; shuffledactions.push(4); shuffledactions = onlyUnique(shuffledactions); break
+        actionassignments[scan] = 4; shuffledactions.push(4); shuffledactions = keepUnique(shuffledactions); break
       } else if (actionassignments[scan] == 5) { // Teleport. upgrade to jswap
-        actionassignments[scan] = 4; shuffledactions.push(4); shuffledactions = onlyUnique(shuffledactions); break
+        actionassignments[scan] = 4; shuffledactions.push(4); shuffledactions = keepUnique(shuffledactions); break
 
       }
 
@@ -1976,7 +1976,7 @@ function makefcpiece (seed) {
     selectedgridspots = selectedgridspots.concat(arrayToX(giraffe).map(x=>[1, x+2]))
   }
 
-  selectedgridspots = onlyUnique(legitSpotsOnly(spamAllSymmetry(selectedgridspots, symmetrytype)))
+  selectedgridspots = keepUnique(legitSpotsOnly(spamAllSymmetry(selectedgridspots, symmetrytype)))
 
   let actionstouse = [0, 1, 2, 3, 5]
   if (r(randoms[41], 22) == 22) {actionstouse.push(111)}; rr(41) // 111 is blockable move/attack/swap, should be rare
@@ -2008,7 +2008,7 @@ function makefcpiece (seed) {
 
   if (unittype == "Token") {actionstouse = []; selectedgridspots = []; actionassignments = []}
 
-  actionstouse = onlyUnique(actionassignments);        l(actionstouse); l(selectedgridspots); l(actionassignments); l(`+: ${axial}, X: ${diagonal}, + TH: ${xThr}, X TH: ${yThr}, + DISPLACE: ${aDisplace}, X DISPLACE: ${dDisplace}`)
+  actionstouse = keepUnique(actionassignments);        l(actionstouse); l(selectedgridspots); l(actionassignments); l(`+: ${axial}, X: ${diagonal}, + TH: ${xThr}, X TH: ${yThr}, + DISPLACE: ${aDisplace}, X DISPLACE: ${dDisplace}`)
 
   function finalMoveMaker() {
     let finalmoveset = ""
@@ -2114,7 +2114,7 @@ function bold (s) {return `<b>${s}</b>`}
 
 function newUnitsParse(a) {
   if (a == undefined || a.length == 0) {return ""}
-  let tokens = "King, Sapling, Tree, BonePile, StonePillar, PhoenixEgg, PhoenixEgg+, PhoenixEgg++, PhoenixEgg+++, Sorceress, GeminiTwin, GeminiTwin+, GeminiTwin++, GeminiTwin+++, ChaosPortal, Dummy, SuperDummy, MageDummy, Blank".split(", ")
+  let tokens = "King, Sapling, Tree, BonePile, StonePillar, PhoenixEgg, PhoenixEgg+, PhoenixEgg++, PhoenixEgg+++, Sorceress, GeminiTwin, GeminiTwin+, GeminiTwin++, GeminiTwin+++, Illusion, ChaosPortal, Dummy, SuperDummy, MageDummy, Blank".split(", ")
   a = a.filter(x => !tokens.includes(x)).concat(a.filter(x => tokens.includes(x))) // Puts tokens at the very end
 
   let veryOP = `GravityMage, AirElemental, Greed, Snake, Reaver, Pikeman, Nexus, VoidMage`
@@ -2122,7 +2122,7 @@ function newUnitsParse(a) {
   let underpowered = `Summoner, Lust, Duelist, SoulFlare, Sylph, ArchBishop, Fortress, Templar, Wrath, Phalanx, Gluttony, Hydromancer, Toad, Tombstone`.split(', ')
   let veryUP = `ThunderMage, Hostage, Fencer, Beacon, Mercenary, Envy, Hoplite, Siren, Butterfly, Taurus, Temperance, NullMage, StoneMage, FireMage`
 
-  let partialOP = `Aquarius, Undine, WaterElemental, Pride, Chastity`.split(', ')
+  let partialOP = `Aquarius, Undine, WaterElemental, Pride, Chastity, Illusionist`.split(', ')
 
 
   function boldcolor(x, color) {return `<span style="font-weight: bold; color: ${color}">${x}</span>`}
@@ -2220,7 +2220,7 @@ function getgallery (nameinput, version=lastCEOversion, versionChangedAtAll=fals
   function fixpassive (x) {return x? x:""} // if there's no passive, returns empty string
 
   function fixoutdatedactions (x, gamegallery) { // this looks at the whole export string and adds custom actions if the current ability text does not match the old version text
-    let totalmoves = onlyUnique(lepieces.map(x=>x.movetypespmformat).toString().replace(/ /g, "").split(",")).sort() // Only unique movetypes across the tiers
+    let totalmoves = keepUnique(lepieces.map(x=>x.movetypespmformat).toString().replace(/ /g, "").split(",")).sort() // Only unique movetypes across the tiers
     let custommovesused = 0;
     let custommovedefinitions = []
 
@@ -3328,7 +3328,7 @@ var shortcuts = [``, // blank
 `{nu}`, // Null
 `{vo}`, // Void
 `{gw}`, // Gravity Well
-`{tsa}` // Omniswap (Teleport Swap All)
+`tsa` // Omniswap (Teleport Swap All)
 ]
 
 // Now populate shortcuts with any missing stuff, using the "id" key in MOVES for each, and starting at shortcuts.length
@@ -3490,7 +3490,7 @@ function MOVESindex_to_id (x) {
 
 function array_to_exportcode (a, offset=0, returnmovetypes=false) {
   a = a.map(x => numify(x) - offset)
-  let movetypes = onlyUnique(a).filter(x => x != 0); if (returnmovetypes) {return movetypes}
+  let movetypes = keepUnique(a).filter(x => x != 0); if (returnmovetypes) {return movetypes}
   let typeslist = []
   for (let j=0; j < movetypes.length; j++) {
     let movetypenumber = movetypes[j]
@@ -3526,7 +3526,7 @@ function exportcode_to_array (s, offset=0) {
 function array_to_betza (a, offset=0) {
   let betzarv = []
   a = a.map(x => numify(x) - offset)
-  let movetypes = onlyUnique(a).filter(x => x != 0)//.map(x => x.toString())
+  let movetypes = keepUnique(a).filter(x => x != 0)//.map(x => x.toString())
   for (j=0; j < movetypes.length; j++) {
     let movetypenumber = (movetypes[j]).toString() // MINUS ONE TO MATCH!
 
@@ -3692,6 +3692,35 @@ function array_to_betza (a, offset=0) {
   return betzarv.join("")
 }
 
+$("#ability_searchbar").keyup(_.debounce(ability_search, 100))
+// $("#ability_searchbar").keyup(function () {ability_search()}) // old code
+
+function ability_search() {
+  let movetypes = $(".gallery svg");
+  if (document.getElementById("ability_searchbar").value == "Pretend") {
+    $("#pretend_easter_egg").text("everything on this god damn list is pretend")
+  }
+  let filters = document.getElementById("ability_searchbar").value.toLowerCase().split(" ");
+  let cash_owed_to_f3 = 300;
+  for (let i = 0; i < movetypes.length; i++) {
+    //l(movetypes[i])
+    let valid = true;
+    let description = movetypes[i].getAttribute("class") + " " + movetypes[i].getAttribute("data-description");
+    description = description.toLowerCase()
+    for (let j = 0; j < filters.length && valid; j++) {
+      if (!description.includes(filters[j])) {
+        valid = false;
+      }
+    }
+    if (valid) {
+      $(".gallery svg").eq(i).removeClass("hidden")
+    } else { 
+      $(".gallery svg").eq(i).addClass("hidden")
+      cash_owed_to_f3 += 300
+
+    }
+  }
+}
 
 
 
@@ -3699,8 +3728,14 @@ function array_to_betza (a, offset=0) {
 
 
 
-
-
+function getCostsForCEOLab () {
+  rv = {}
+  for (x in CEO[lastCEOversion]) {
+    rv[x] = {}
+    rv[x] = CEO[lastCEOversion][x].cost
+  }
+  console.log(JSON.stringify(rv))
+}
 
 
 

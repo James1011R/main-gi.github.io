@@ -54,8 +54,8 @@ function makeSpellSVG () {
     id: "spell-"+config.name,
   }));
   var gTag = container.lastElementChild;
-  l(gTag)
-  l(container)
+  //l(gTag)
+  //l(container)
   if (config.color1 && config.color2 && !config.nobox) {
     gTag.insertAdjacentHTML('beforeend', makeSVGTag("rect", {
       height: spellstyle[0],
