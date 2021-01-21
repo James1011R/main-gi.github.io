@@ -2626,7 +2626,7 @@ $("#switchcd").click(function() { // main_gi: Switch to CD stylings
   changemove("jumpattackswap", "(Unblockable) Attack or swap places with ally.", red, white, "🗘", red, unblockablesymbol)
 
 
-  changemove("blockableximaera", "Move or swap places with unit.", blue, white, "🗘", black)
+  changemove("blockableomniswap", "Move or swap places with unit.", blue, white, "🗘", black)
 
   changemove("teleportswapenemy", "(Unblockable) Move or swap places with enemy.", blue, white, "🗘", red, unblockablesymbol, blue)
   changemove("ximaera", "(Unblockable) Move or swap places with unit.", blue, white, "🗘", black, unblockablesymbol, blue)

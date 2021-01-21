@@ -240,7 +240,7 @@ MOVES = [{
    "cat": "official",
    "name": "push",
    "long": "1c]rn:push#\\(mn:move@3(AWAY))",
-   "text": "[Pay 1]: (Ranged) Push unit up to 3 spaces away from caster.",
+   "text": "[Pay 1]: (Ranged) Push unit up to 3 spaces away.",
    "color": [87,218,40],
    "color2": [212,255,216],
    "color3": [0,204,0],
@@ -367,7 +367,7 @@ MOVES = [{
    "cat": "official",
    "name": "beacon",
    "long": "cu]ru:set@pos=Athis",
-   "text": "(Magic) Target unit is teleported to Ability Target.",
+   "text": "(Magic) Teleport unit to Ability Target.",
    "color": [155,20,208],
    "color2": [255,255,255],
    "symbol1": "\u25ef"
@@ -395,7 +395,7 @@ MOVES = [{
    "cat": "official",
    "name": "omnishield",
    "long": "bt]:ally?(CHAMPION)?targeted?+move?this+move?(mu:swap)",
-   "text": "(Trigger) Ally Champion targeted by enemy ability or attack: this unit instantly swaps places with targeted champion.",
+   "text": "(Trigger) Ally Champion targeted by enemy ability or attack: This unit instantly swaps places with targeted champion.",
    "color": [0,0,153],
    "color2": [153,255,255],
    "symbol1": "\ue905"
@@ -414,7 +414,7 @@ MOVES = [{
    "cat": "official",
    "name": "splash",
    "long": "cs]ru:push#\\(mn:move@1(AWAY))?&freeze#flag@3-move",
-   "text": "(Magic) Push enemy unit 1 space away from caster and freeze it for 2 turns.",
+   "text": "(Magic) Push enemy unit 1 space away and freeze it for 2 turns.",
    "color": [0,153,255],
    "color2": [255,255,255],
    "symbol1": "\ue904"
@@ -433,7 +433,7 @@ MOVES = [{
    "cat": "official",
    "name": "magicpush",
    "long": "1c]ru:push#\\(mn:move@3(AWAY))",
-   "text": "[Pay 1]: (Magic) Push unit up to 3 spaces away from caster.",
+   "text": "[Pay 1]: (Magic) Push unit up to 3 spaces away.",
    "color": [87,218,40],
    "color2": [200,255,200],
    "symbol1": "\u25cb",
@@ -451,7 +451,7 @@ MOVES = [{
    "id": "51",
    "cat": "official",
    "name": "butterfly",
-   "text": "(Unstoppable) Destroy self and mark location with effect after 20 turns, depending on target: Destroy by Magic if enemy, Enchant for 2 turns if ally, or revive this unit if empty.",
+   "text": "(Unstoppable) Destroy self and mark location. After 20 turns destroy enemy unit in the marked location, enchant ally for 2 turns, or summon butterfly of equal tier if marked location is empty.",
    "color": [0,0,0],
    "color2": [255,255,255],
    "symbol1": "\uE906"
@@ -542,7 +542,7 @@ MOVES = [{
    "name": "verticalpathattack",
    "text": "(Path) Attack only.",
    "color": [0,0,0],
-   "color2": [153,0,0],
+   "color2": [201,45,45],
    "symbol1": "\ue702"
  }, {
    "id": "62",
@@ -550,7 +550,7 @@ MOVES = [{
    "name": "horizontalpathattack",
    "text": "(Path) Attack only.",
    "color": [0,0,0],
-   "color2": [153,0,0],
+   "color2": [201,45,45],
    "symbol1": "\ue700"
  }, {
    "id": "63",
@@ -558,7 +558,7 @@ MOVES = [{
    "name": "antidiagonalpathattack",
    "text": "(Path) Attack only.",
    "color": [0,0,0],
-   "color2": [153,0,0],
+   "color2": [201,45,45],
    "symbol1": "\ue701"
  }, {
    "id": "64",
@@ -566,7 +566,7 @@ MOVES = [{
    "name": "diagonalpathattack",
    "text": "(Path) Attack only.",
    "color": [0,0,0],
-   "color2": [153,0,0],
+   "color2": [201,45,45],
    "symbol1": "\ue703"
  }, {
    "id": "65",
@@ -580,7 +580,7 @@ MOVES = [{
    "id": "66",
    "cat": "official",
    "name": "void",
-   "text": "[Pay 2]: (Ranged) Convert target enemy default moveset into basic move/teleport abilities, and negate their augments, and increase their value by 2.",
+   "text": "[Pay 2]: (Ranged) Convert target enemy moveset into move/teleport abilities, negate their augments, and increase their value by 2.",
    "color": [0,0,0],
    "color2": [255,255,255],
    "symbol1": "\uea81"
@@ -843,7 +843,7 @@ MOVES = [{
    "cat": "variation",
    "name": "beaconally",
    "long": "cu]ru:set@pos=Athis",
-   "text": "(Magic) Target ally is teleported to Ability Target.",
+   "text": "(Magic) Teleport ally to Ability Target.",
    "color": [155,20,208],
    "color2": [255,255,255],
    "symbol1": "\u25ef",
@@ -1042,6 +1042,7 @@ MOVES = [{
    "long": "cs]ru:flag@3&charm#set@ally",
    "text": "(Magic) Flirt with enemy minion, charming them in 3 turns.",
    "color": [255,0,255],
+   "color3": [153,0,153],
    "symbol1": "\u2665",
    "hide": true
  }, {
@@ -1051,6 +1052,7 @@ MOVES = [{
    "long": "s]ru:(thispoison#flag@3&attack)&poison#flag@3&attack",
    "text": "(Magic) Poison self and enemy unit, destroying them in 3 turns.",
    "color": [0,101,24],
+   "color3": [0,76,18],
    "symbol1": "\uea27",
    "hide": true
  }, {
@@ -1208,7 +1210,7 @@ MOVES = [{
     "cat": "variation",
     "name": "rangedbeacon",
     "long": "cu]rn:set@pos=Athis",
-    "text": "(Ranged) Target unit is teleported to Ability Target.",
+    "text": "(Ranged) Teleport unit to Ability Target.",
     "color": [155,20,208],
     "color2": [255,255,255],
     "symbol1": "\u2316",
@@ -1293,7 +1295,7 @@ MOVES = [{
     "name": "superjump",
     "long": "b]mz:move/attack",
     "text": "(Unstoppable) Move or Attack.",
-    "color": [200,151,24],
+    "color": [155,0,0],
     "hide": true
  }, {
     "id": "6a",
@@ -1301,7 +1303,7 @@ MOVES = [{
     "name": "fly",
     "long": "b]mz:move",
     "text": "(Unstoppable) Fly.",
-    "color": [0,255,200],
+    "color": [125,0,255],
     "hide": true
  }, {
     "id": "53c",
@@ -1317,14 +1319,14 @@ MOVES = [{
    "name": "superjumpswap",
    "long": "b]mz:move/attack/swap",
    "text": "(Unstoppable) Move, Attack, or swap places with ally.",
-   "color": [150,150,255],
+   "color": [0,210,255],
    "hide": true
  }, {
     "id": "7a",
     "cat": "limbo",
     "name": "moonflare",
     "long": "b]rz:attack",
-    "text": "(Unstoppable, Magic) Destroy target.",
+    "text": "(Unstoppable) Destroy enemy.",
     "color": [34,117,253],
     "hide": true
  }, {
@@ -1371,7 +1373,7 @@ MOVES = [{
    "cat": "pretend",
    "name": "annihilate",
    "long": "c]rz:(REMOVE)",
-   "text": "(Unstoppable, Magic) Remove target from the game. This ability ignores all abilities and passives.",
+   "text": "(Unstoppable) Remove target from the game. This ability ignores all abilities and passives.",
    "color": [200,200,200],
    "color3": [253,117,34],
    "symbol1": "\u2217",
