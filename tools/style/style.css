@@ -471,6 +471,14 @@ div.passives{
 #action.show .hide {
   display: block;
 }
+
+
+#action .exiled, #action.show .exiled {
+  display: none;
+}
+#action.showexiled .exiled {
+  display: block;
+}
 #action .hidden {
   display: none !important; /* main_gi: For action search. */
 }
