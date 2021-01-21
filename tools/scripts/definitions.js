@@ -234,7 +234,8 @@ MOVES = [{
    "color3": [215,147,255],
    "color4": [0,0,0],
    "symbol1": "\u25cf",
-   "symbol2": "o" /*25e6*/
+   "symbol2": "\u253c",
+   /*old versions of "symbol2": "o" and 25e6 */
  }, {
    "id": "28",
    "cat": "official",
@@ -2092,6 +2093,313 @@ MOVES = [{
    "color": [107,205,253],
    "symbol1": "\ue703",
    "hide": true
+
+ }, {
+    "id": "b75",
+    "cat": "limbo",
+    "name": "summonknight",
+    "text": "(Magic) Summon Knight, and lose this ability.",
+    "color": [0,0,0],
+    "color2": [255,255,255],
+    "symbol1": "\uec05",
+    "hide": true
+ }, {
+    "id": "b76",
+    "cat": "limbo",
+    "name": "conditionalmoveattack",
+    "text": "(Conditional) Move or Attack.",
+    "color": [100,100,100],
+    "hide": true
+ }, {
+    "id": "b76a",
+    "cat": "limbo",
+    "name": "conditionaljump",
+    "text": "(Unblockable, Conditional) Move or Attack.",
+    "color": [112,173,114],
+    "hide": true
+ }, {
+    "id": "b76b",
+    "cat": "limbo",
+    "name": "conditionalmagic",
+    "text": "(Magic, Conditional) Destroy target.",
+    "color": [254,171,120],
+    "hide": true
+ }, {
+    "id": "b76c",
+    "cat": "limbo",
+    "name": "conditionalmove",
+    "text": "(Conditional) Move only.",
+    "color": [100,100,255],
+    "hide": true
+ }, {
+    "id": "b76d",
+    "cat": "limbo",
+    "name": "conditionalattack",
+    "text": "(Conditional) Attack only.",
+    "color": [253,107,116],
+    "hide": true
+ }, {
+    "id": "b76e",
+    "cat": "limbo",
+    "name": "conditionalteleport",
+    "text": "(Unblockable, Conditional) Teleport.",
+    "color": [173,111,193],
+    "hide": true
+ }, {
+    "id": "b76f",
+    "cat": "limbo",
+    "name": "conditionaljumpswap",
+    "text": "(Unblockable, Conditional) Move, Attack, or swap places with ally.",
+    "color": [255,228,100],
+    "hide": true
+ }, {
+    "id": "b76g",
+    "cat": "limbo",
+    "name": "conditionalshoot",
+    "text": "(Ranged, Conditional) Destroy target.",
+    "color": [255,100,100],
+    "color2": [255,255,255],
+    "symbol1": "\u2316",
+    "hide": true
+ }, {
+    "id": "b77",
+    "cat": "pretend",
+    "name": "timeddeath",
+    "text": "(Magic) Mark unit to be unavoidably destroyed in 6 turns.",
+    "color": [114,28,32],
+    "symbol1": "\u{1f553}",
+    "hide": true
+ }, {
+    "id": "b78",
+    "cat": "pretend",
+    "name": "upgrademinion",
+    "text": "[Pay 3]: (Magic) Upgrade ally minion.",
+    "color": [0,153,87],
+    "color2": [241,241,140],
+    "symbol1": "\u25b2",
+    "hide": true
+ }, {
+    "id": "b79",
+    "cat": "pretend",
+    "name": "flipmoveset",
+    "text": "(Magic) Reflect unit's moveset across the X axis.",
+    "color": [0,0,0],
+    "color2": [255,255,255],
+    "symbol1": "\u21c5",
+    "hide": true
+ }, {
+    "id": "b80",
+    "cat": "pretend",
+    "name": "areadenial",
+    "text": "(Magic, Trigger) Enemy Unit: At the start of your turn, mark unit to be destroyed in 2 turns unless they leave their location.",
+    "color": [225,225,0],
+    "symbol1": "\u2bcc",
+    "symbol2": "\u2bcd",
+    "hide": true
+ }, {
+    "id": "b81",
+    "cat": "pretend",
+    "name": "negatefarmoves",
+    "text": "(Magic) Negate unit's moveset beyond Range 2.",
+    "color": [40,40,40],
+    "color3": [0,0,0],
+    "symbol1": "\u{ffd72}",
+    "hide": true
+ }, {
+    "id": "b82",
+    "cat": "pretend",
+    "name": "negatesidesteps",
+    "text": "(Magic) Negate unit's moveset beyond 1 step sideways.",
+    "color": [80,80,80],
+    "color4": [0,0,0],
+    "symbol1": "\u2194",
+    "symbol2": "\u{ff0fe}",
+    "hide": true
+ }, {
+    "id": "b83",
+    "cat": "pretend",
+    "name": "ignite",
+    "text": "(Magic) Ignite enemy unit, destroying them in 3 turns. If an Ignited unit is Attacked, the attacker is Ignited for 3 turns.",
+    "color": [151,74,0],
+    "symbol1": "\u00d7",
+    "hide": true
+ }, {
+    "id": "b84",
+    "cat": "pretend",
+    "name": "melt",
+    "text": "(Magic) Melt enemy unit, transforming them into a Slime in 3 turns.",
+    "color": [75,150,0],
+    "color3": [255,255,255],
+    "symbol1": "\ue902",
+    "hide": true
+ }, {
+    "id": "b85",
+    "cat": "pretend",
+    "name": "sabotage",
+    "text": "(Magic) Sabotage enemy unit, destroying them and pushing all adjacent units 1 space away in 5 turns.",
+    "color": [151,0,0],
+    "symbol1": "\u00d7",
+    "hide": true
+ }, {
+    "id": "b86",
+    "cat": "pretend",
+    "name": "soulsplit",
+    "text": "(Magic) Soulsplit enemy unit, negating the unit's value, moveset, and passives in 2 turns.",
+    "color": [151,151,151],
+    "color3": [0,0,0],
+    "symbol1": "\u00d7",
+    "hide": true
+ }, {
+    "id": "b87",
+    "cat": "pretend",
+    "name": "subvert",
+    "text": "(Magic) Subvert enemy unit, making them swap places with their King in 3 turns.",
+    "color": [51,153,153],
+    "color3": [0,0,0],
+    "color4": [51,153,153],
+    "symbol1": "\uea0a",
+    "symbol2": "\u00d7",
+    "hide": true
+ }, {
+    "id": "b88",
+    "cat": "pretend",
+    "name": "enchantpoison",
+    "text": "(Magic) Enchant unit for 3 turns and Poison unit, making them immune to melee death but destroying them in 3 turns.",
+    "color": [0,101,24],
+    "color2": [0,0,0],
+    "color3": [0,255,255],
+    "color4": [0,101,24],
+    "symbol1": "\u25cb",
+    "symbol2": "\u00d7",
+    "hide": true
+ }, {
+    "id": "b89",
+    "cat": "pretend",
+    "name": "icemeteor",
+    "text": "[Pay 1]: (Magic) After 5 turns any unit in the marked location is frozen for 3 turns and all adjacent units are frozen for 1 turn and pushed away 1 space.",
+    "color": [107,205,253],
+    "color3": [0,0,0],
+    "symbol1": "\uea78",
+    "hide": true
+ }, {
+    "id": "b90",
+    "cat": "pretend",
+    "name": "immobilize",
+    "text": "(Passive) Immobilize enemy unit if this location is unblocked, making them unable to act.",
+    "color": [0,0,0],
+    "color2": [255,255,255],
+    "symbol1": "\uea21",
+    "hide": true
+ }, {
+    "id": "b91",
+    "cat": "pretend",
+    "name": "deathmark",
+    "text": "(Magic) Mark enemy unit to be destroyed if this unit dies.",
+    "color": [0,0,0],
+    "color2": [255,255,255],
+    "color4": [255,255,255],
+    "symbol1": "\uf7e3",
+    "symbol2": "\u29c8",
+    "hide": true
+ }, {
+    "id": "b92",
+    "cat": "pretend",
+    "name": "halfwaythunder",
+    "text": "(Magic) When this unit crosses the middle of the field any unit in the marked location is destroyed.",
+    "color": [0,0,0],
+    "color2": [255,255,255],
+    "color3": [0,127,255],
+    "symbol1": "\u{1f1ed}",
+    "hide": true
+ }, {
+    "id": "b93",
+    "cat": "pretend",
+    "name": "acidify",
+    "text": "(Magic) Acidify enemy unit, destroying them after they act twice.",
+    "color": [100,200,0],
+    "color2": [255,255,255],
+    "symbol1": "\u00d7",
+    "hide": true
+ }, {
+    "id": "b94",
+    "cat": "pretend",
+    "name": "doom",
+    "text": "(Magic) Doom enemy unit, destroying them if they have not acted in the last three turns.",
+    "color": [0,0,0],
+    "color2": [50,50,50],
+    "color3": [255,255,255],
+    "symbol1": "\u{1f480}",
+    "hide": true
+ }, {
+    "id": "b95",
+    "cat": "pretend",
+    "name": "derealize",
+    "text": "[Pay 2]: (Magic) Transform unit into ally Illusion+++.",
+    "color": [0,0,0],
+    "color2": [255,255,255],
+    "color3": [133,0,0],
+    "symbol1": "\uec2b",
+    "hide": true
+ }, {
+    "id": "b96",
+    "cat": "pretend",
+    "name": "mine",
+    "text": "[Pay 3]: (Magic) The next unit to land on marked location is destroyed.",
+    "color": [127,127,127],
+    "color2": [255,255,255],
+    "color3": [0,0,0],
+    "color4": [255,0,0],
+    "symbol1": "\u29c8",
+    "symbol2": "\u2b1d",
+    "hide": true
+ }, {
+    "id": "b97",
+    "cat": "pretend",
+    "name": "jumpattackreflect",
+    "text": "(Unblockable) Attack, then teleport this unit across the Y axis.",
+    "color": [255,0,0],
+    "color2": [127,0,0],
+    "color3": [255,255,255],
+    "symbol1": "\u21c4",
+    "hide": true
+ }, {
+    "id": "b97a",
+    "cat": "pretend",
+    "name": "jumpmovereflect",
+    "text": "(Unblockable) Move, then teleport this unit across the Y axis.",
+    "color": [0,0,255],
+    "color2": [0,0,127],
+    "color3": [255,255,255],
+    "symbol1": "\u21c4",
+    "hide": true
+ }, {
+    "id": "b98",
+    "cat": "pretend",
+    "name": "poisonswap",
+    "text": "(Unblockable) Teleport or swap places with unit and poison enemy unit, destroying them in 3 turns.",
+    "color": [0,101,24],
+    "color3": [0,0,0],
+    "symbol1": "\u{1f5d8}",
+    "hide": true
+ }, {
+    "id": "b98a",
+    "cat": "pretend",
+    "name": "freezeswap",
+    "text": "(Unblockable) Teleport or swap places with unit and freeze enemy unit for 3 turns, making them unable to act.",
+    "color": [107,205,253],
+    "color3": [0,0,0],
+    "symbol1": "\u{1f5d8}",
+    "hide": true
+ }, {
+    "id": "b98b",
+    "cat": "pretend",
+    "name": "compelswap",
+    "text": "(Unblockable) Teleport or swap places with unit and compel enemy unit, making them move in the direction of this ability at the start of their turn, for 3 turns.",
+    "color": [255,63,255],
+    "color2": [255,255,255],
+    "color3": [255,63,255],
+    "symbol1": "\u{1f5d8}",
+    "hide": true
  }, {
    "id": "6zz",
    "cat": "exile",
@@ -2374,7 +2682,7 @@ MOVES = [{
    "text": "Custom ability 16 (Double Click Menu Icon to Edit)",
    "nobox": true,
    "color3": [0,0,0],
-   "symbol1": "\ue23e"
+   "symbol1": "⏨" // \ue23e
  }, {
     "id": "moonfox",
     "cat": "custom",
