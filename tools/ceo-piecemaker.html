@@ -323,7 +323,8 @@
     <button id="shactive">Show Unused/Unofficial</button>
     <div id="pretend_easter_egg"></div>
     <ul id="action" class="moves gallery"></ul>
-    <textarea type="text" id="ability_searchbar" value="" cols="36" rows="1" style="margin-bottom: 20px; margin-left: 10px; padding-left: 5px" placeholder="Search action descriptions..."></textarea>
+    <textarea type="text" id="ability_searchbar" value="" cols="36" rows="1" style="min-height: 1.2em; margin-bottom: 20px; margin-left: 10px; padding-left: 5px" placeholder="Search action descriptions..."></textarea>
+     <div style="padding-bottom: 5px; width: 1px"></div><!-- Annoying margin to add in if cutoff happens -->
   </div>
   <div mode="passive">
     <ul id="passives">
@@ -432,6 +433,7 @@
   - <b>CEO Unitgen:</b> There's no random chance to create a custom ability, like "[Pay 5]: (Magic) Create a RANDOMUNIT, or transform enemy into ally RANDOMUNIT."<br>
   - <b>FC Unitgen:</b> Tokens are kind of a meme. Maybe minions could be more realistic.<br>
   - <b>FC Unitgen:</b> Stuff like "*(Armor Removed)" or "*(Already created a Knight)*".<br>
+  - <b>Visuals:</b> In the CD and FC style and on Microsoft Edge, the costs are improperly positioned.<br>
   - <b>Visuals:</b> In the FC style, an empty actionlist still shows a thin black rectangle.<br>
   - <b>Visuals:</b> The gallery uses terms like "v41" when it should be "v0.41". Too bad, the data is stored as an object and it doesn't like periods in the name. Fixing this would be half a day's wasted time.<br>
   - <b>Visuals:</b> The "fill color" should really be contextual on if you've selected Shape. It's just a bunch of useless settings without Shape selected.<br>
