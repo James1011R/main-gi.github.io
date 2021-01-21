@@ -323,7 +323,7 @@
     <button id="shactive">Show Unused/Unofficial</button>
     <div id="pretend_easter_egg"></div>
     <ul id="action" class="moves gallery"></ul>
-    <textarea type="text" id="ability_searchbar" value="" cols="36" rows="1" style="padding-bottom: 20px" placeholder="Search action descriptions..."></textarea>
+    <textarea type="text" id="ability_searchbar" value="" cols="36" rows="1" style="margin-bottom: 20px; margin-left: 10px; padding-left: 5px" placeholder="Search action descriptions..."></textarea>
   </div>
   <div mode="passive">
     <ul id="passives">
@@ -381,7 +381,7 @@
   Elund (James1011R): all UPLE abilities, fill color customization and "UPLE" fill colors, the 'doodle' and 'cutout' features, "tool tray" scrollbar<span style="font-size: 1%">I have no idea what this means</span>, some more custom CD/FC piece styles<br>
 <br>
     <p style="text-align: center; margin: 0; font-size: 100%"><b>Special Thanks</b></p><br>
-  F300XEN: <a href="https://f300xen.github.io/RandomFavorChessPieces/" class="darklink">favor chess random piece generator</a> was the inspiration for the pretend unit generator<br>
+  F300XEN: <a href="https://f300xen.github.io/RandomFavorChessPieces/" class="darklink">favor chess random piece generator</a> was the inspiration for the pretend unit generator, wrote code for the action searchbar<br>
   <i>definitely not an alt account</i>: the idea to seed unit names for the generator<br>
   awetalehu and StratShotPlayer: for making insanely memeable reviews<br>
   Bennylin: compiling <a href="https://chess-evolved-online.fandom.com/wiki/User:Bennylin" class="darklink">the images that were transcribed to make the v0.37 gallery</a><br>
@@ -401,7 +401,7 @@
   - <b>Bugfix:</b> Empty passives no longer incorrectly display the - in the infopanel (would happen if you unfocused, refocused, then deleted the passive).<br>
   - <b>Bugfix:</b> Right clicking twice on the board no longer puts the cursor in an unfunctional mode that forces you to double left-click to fix it.<br>
   - <b>Bugfix:</b> Importing no longer has strange interactions with empty passives on higher tiers.<br>
-  - <b>Bugfix:</b> <b>The squares on the board are no longer off-centered.</b><br>
+  - <b>Bugfix:</b> <b>The squares on the board are no longer off-centered.</b> Well, uh, kinda. The rightmost squares look off-center still, no one will notice.<br>
   - <b>Feature:</b> You can edit action text straight from in the infopanel and it automatically updates the text. This also works on non-custom abilities but won't save on export. You can also change the names of upgraded pieces, but this doesn't save on export either.<br>
   - <b>Feature:</b> Scrollbar in the sidebar, and also if the screen is too zoomed-in, it will left-align the boards.<br>
   - <b>Feature:</b> Ability to flag SSP's post.<br>
@@ -409,6 +409,7 @@
   - <b>Feature:</b> You can now use a modified version of Betza notation in the import code, you can export it, and it's generally great. The only thing it doesn't support is custom abilities and the art path.<br>
   - <b>Feature:</b> A detailed changelog with my summaries on the meta.<br>
   - <b>Feature:</b> In the custom ability editor, the "unicode ID to unicode symbol" feature is now two-way.<br>
+  - <b>Feature:</b> Search bar for actions. Half the code was basically made by F300XEN.<br>
   - <b>Feature (Devtools):</b> Exporting to CEO source code.<br>
   - <b>Feature (Devtools):</b> Tournament support that automatically costs pieces, with tournament template given.<br>
   - <b>"Feature":</b> A very important conversation on some dumbo whose idea of the best economy is capitalism but with more welfare. It can be accessed by typing "combine piecemakers" into the import box and then pressing Import.<br>
@@ -423,6 +424,8 @@
 <br><br>
     <p style="text-align: center; margin: 0; font-size: 100%"><b>Remaining Issues</b></p><br>
     This section is to let you know that I'm not doing these on purpose, and I am not that stupid.<br>
+  - <b>UI Change:</b> UI rework, with many buttons being placed on the bottom instead, it's more convenient to scroll down a small amount rather than click buttons and mess with tabs.<br>
+  - <b>UI Change:</b> Having to type something like "v0.44 King" to get a previous version's token unit is pretty trash. There needs to be a better input for it.<br>
   - <b>CEO Unitgen:</b> You can have more than one ability target on the same unit.<br>
   - <b>CEO Unitgen:</b> Due to poor coding choices, it may be possible to get overlapping actions which cause temporary bugs if you try to interact with the overlapping actions. The CEO unitgen code is a lot less polished than the FC unitgen code but at this point I am not rewriting it.<br>
   - <b>CEO Unitgen:</b> There's no actual cost formula.<br>
@@ -439,7 +442,6 @@
   - <b>Feature?:</b> All previous versions for the unit gallery, syncing CEO art, and a search function.<br>
   - <b>Feature?:</b> Double-clicking a non-custom ability should set the next unused custom ability to a clone of whatever you clicked.<br>
   - <b>Feature?:</b> Unit gallery somehow detects reused unit names and passives so that promotes also use the [+] and [+1] convention.<br>
-  - <b>Feature?:</b> UI rework, with many buttons being placed on the bottom instead, which is more convenient to scroll down a small amount rather than click some buttons and mess with tabs.<br>
   - <b>Feature?:</b> The custom action editor is only like 8 variables, it doesn't need a full-screen popup! Also a better color selector, or a way to only show one half of a unicode symbol.<br>
   - <b>Feature?:</b> The FC style could maybe have a token style, and the CD style could have a different selector for the "[Minion]-[Basic]-[Rare]".<br>
   - <b>Feature?:</b> In the changelog, clicking names really should automatically make you select the unit.<br>
@@ -454,46 +456,183 @@
 
 <div id="notationexplanation" style="font-family: Tajawal; position: fixed; top: 10%; margin: 0 auto; background: black; color: white; z-index: 100; width: 92%; left: 3%; padding: 10px; border: 2px dotted black; height: 70%; display: none">
   <div style="overflow-y: auto; height: 100%">
-    This is how the notation works. It is based off, but not identical to, <a href="https://www.chessvariants.com/d.betza/chessvar/pieces/notation.html" class="darklink">Ralph Betza's notation</a>.<br><br>
+    <div style="width: 60%; float: left">
+      <b style="color: cyan">This system is not necessary to use the piecemaker.</b> It is designed for power users who want to quickly create pretendpieces by typing short notation. For example, if you want to quickly type a unit that is "a Knight that can teleport like a Queen and summons Skeletons at Valkyrie jump squares, you just type <b style="color: cyan">jNtQ{sk}V</b> in the import box and press Import. If that doesn't interest you, you don't need any of this.
 
-    Pieces are made up of "atoms". <b style="color: cyan">N</b> is an atom that represents a Knight direction, including all the symmetries. That direction is (1, 2), so N is short for the (1, 2) atom. The same atom can be inputted as "12", which should be read as "1-2", not as "twelve". There are shortcut names for all atoms up to range 3, shown by the table to the right.<br><br>
+      It is based off, but not identical to, <a href="https://www.chessvariants.com/d.betza/chessvar/pieces/notation.html" class="darklink">Ralph Betza's notation</a>.
 
-<table>
+    <p>
+    Pieces are made up of "atoms". <b style="color: cyan">N</b> is an atom that represents a Knight direction, including all the symmetries. That direction is (1, 2), so the input <b>N</b> is short for the (1, 2) atom. It can also be inputted as "12", which should be interpreted like "1-2". There are shortcut names for all atoms up to range 3, shown by the table to the right.</p>
+    </div>
+    <div style="width: 40%; float: right">
+      <!-- I made these images on Edge at 100% zoom level btw -->
+<table style="border: 1px solid white">
     <tr>
-        <td><b>T</b> (03)</td>
-        <td><b>V</b> (13)</td>
-        <td><b>Z</b> (23)</td>
-        <td><b>Y</b> (33)</td>
+        <td><div style="text-align: center"><b>T</b> (03)</div><img src="resources/bexport_t.png" width="100" height="100"></td>
+        <td><div style="text-align: center"><b>V</b> (13)</div><img src="resources/bexport_v.png" width="100" height="100"></td>
+        <td><div style="text-align: center"><b>Z</b> (23)</div><img src="resources/bexport_z.png" width="100" height="100"></td>
+        <td><div style="text-align: center"><b>Y</b> (33)</div><img src="resources/bexport_y.png" width="100" height="100"></td>
     </tr>
     <tr>
-        <td><b>D</b> (02)</td>
-        <td><b>N</b> (12)</td>
-        <td><b>A</b> (22)</td>
+        <td><div style="text-align: center"><b>D</b> (02)</div><img src="resources/bexport_d.png" width="100" height="100"></td>
+        <td><div style="text-align: center"><b>N</b> (12)</div><img src="resources/bexport_n.png" width="100" height="100"></td>
+        <td><div style="text-align: center"><b>A</b> (22)</div><img src="resources/bexport_a.png" width="100" height="100"></td>
         <td></td>
     </tr>
     <tr>
-        <td>W (01)</td>
-        <td>F (11)</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>(00)</td>
-        <td></td>
+        <td><div style="text-align: center"><b>W</b> (01)</div><img src="resources/bexport_w.png" width="100" height="100"></td>
+        <td><div style="text-align: center"><b>F</b> (11)</div><img src="resources/bexport_f.png" width="100" height="100"></td>
         <td></td>
         <td></td>
     </tr>
 </table>
+    <pre>var shortcuts = [``, // blank
+``,  // Move or Attack (should usually be unused)
+`m`,    // Move
+`a`,    // Attack
+`j`,    // Jump (unblockable move/attack)
+`js`,   // Jump-swap (unblockable move/attack/swap)
+`t`,    // Teleport (unblockable move)
+`{md}`, // Magic Destroy
+`{ss}`, // Summon Sapling
+`{ch}`, // Charm
+`{sk}`, // Summon Skeleton
+`{ms}`, // Move from start
+`{po}`, // Poison
+`{fr}`, // Freeze
+`{pe}`, // Petrify
+`{ptirt}`, // Polymorph to random minion (UNUSED)
+`{tttrt}`, // Teleport unit to random location (UNUSED)
+`{ttmt}`,  // Teleport and mass-teleport adjacent (UNUSED)
+`{so}`, // Sorceress ability (UNUSED)
+`{en}`, // Enchant
+`{gh}`, // Ghostify (SoulKeeper)
+`{ts}`, // Teleport from start
+`{gs}`, // GiantSlime
+`{mf}`, // MoonFox
+`{ml}`, // Minion Lunge (Tiger)
+`{aa}`, // Auto-Attack (Samurai)
+`{at}`, // Ability Target
+`{to}`, // Tele-out (Portal)
+`{rp}`, // Ranged Push (AirElemental)
+`{sp}`, // Split (Gemini)
+`{tk}`, // Teleport King (Valkyrie)
+`ts`,   // Tele-swap
+`{ls}`, // LifeStone revive
+`{cu}`, // Cure (Alchemist)
+`{ne}`, // Necromancer ability
+`{bl}`, // Block (HauntedArmor)
+`{fe}`, // Freeze-Explosion (Comet)
+`{fs}`, // Freeze-Strike (Aquarius)
+`{ba}`, // Bat (Vampire)
+`{ca}`, // Castle
+`{tm}`, // Thundermark (ThunderMage)
+`{lu}`, // Lust
+`{ti}`, // Tele-in (Beacon recall)
+`{rd}`, // Ranged Destroy
+`{mt}`, // Move to Ability Target (Old GravityMage)
+`{is}`, // Instant Swap (Guardian)
+`{en}`, // Envy
+`{sp}`, // Splash
+`{pi}`, // Pikeman
+`{mp}`, // Magic Push
+`{si}`, // Siren
+`{bu}`, // Butterfly Effect
+`{ta}`, // Taurus Rush
+`{l}`,  // Lunge (unblockable attack only)
+`{pi}`, // Pillar (StoneMage, EarthElemental)
+`{fi}`, // FireMage
+`{pvma}`, // Path Vertical, move or attack
+`{phma}`, // Path Horizontal, move or attack
+`{plma}`, // Path Diagonal `Left`, move or attack
+`{prma}`, // Path Diagonal `Right`, move or attack
+`{le}`, // Leap (Toad)
+`{pva}`, // Path Vertical, attack only
+`{pha}`, // Path Horizontal, attack only
+`{pla}`, // Path Diagonal `Left`, attack only
+`{pra}`, // Path Diagonal `Right`, attack only
+`{nu}`, // Null
+`{vo}`, // Void
+`{gw}`, // Gravity Well
+`tsa` // Omniswap (Teleport Swap All)
+]
+</pre>
+</div>
 
-    Demon++ = +4jNt24 (Range 4 Rook, Jump Knight, Teleport 24)<br><br>
-
-    By default, the movetype is the standard "Move or Attack". You change the movetype by placing the short name of the movetype before it.<br><br>
-
-    but with a few differences (since we software developers like to make compatibility annoying).<br><br>
+    By default, the movetype is the standard "Move or Attack". You change the movetype by placing the short name of the movetype before it. You can find the "short name" by betza-exporting something with the action. Custom abilities use their custom ability ID, which is another thing buried in the code that you will have to betza-export for. <i>A reference list of shortnames is on the right side.</i><br><br>
 
 
+    <b>Let's get to some examples.</b>
+    <h2>Name, Type, Costs, Passives</h2>
+    <b style="color: cyan">Wisp</b>'s full bexport code is:
+    <pre style="border: 1px solid white; width: 55%; white-space: pre-wrap; padding: 1px">
+Wisp Champion Forest Rare
+4 t*3 Reflect any ability or attack that's used on this unit (both units are affected).
+5 t*5 Reflect any ability or attack that's used on this unit (both units are affected).
+6 t*7 Reflect any ability or attack that's used on this unit (both units are affected).
+7 t*7tsK Reflect any ability or attack that's used on this unit (both units are affected).</pre>
 
+The first line is obvious, and further lines are <b>[cost] [notation] [passive]</b>, but you can use additional separators for visual purposes: 
+    <pre style="border: 1px solid white; width: 55%; white-space: pre-wrap; padding: 1px">
+Wisp Champion Forest Rare
+[4] t*3 | Reflect any ability or attack that's used on this unit (both units are affected).
+[5] t*5 | Reflect any ability or attack that's used on this unit (both units are affected).
+[6] t*7 | Reflect any ability or attack that's used on this unit (both units are affected).
+[7] t*7tsK | Reflect any ability or attack that's used on this unit (both units are affected).</pre>
 
+And it creates this, of course:<br>
+<img src="resources/bexport_wisp.png" alt="In case you forgot what Wisp looked like" style="max-width:50%; height:auto;"><br>
+However, the only complicated part is the notation, so in this tutorial, I would write it like this:
+
+    <pre style="border: 1px solid white; width: 55%; white-space: pre-wrap; padding: 1px">
+t*3
+t*5
+t*7
+t*7tsK</pre>
+
+You might've noticed that those aren't any of the atoms mentioned. Well, there are a few shortcut atom names as well. These are <b style="color: cyan">K</b>, <b style="color: cyan">B</b>, <b style="color: cyan">R</b>, and <b style="color: cyan">Q</b>, from classic Chess...<br>
+<img src="resources/bexport_extraatoms.png" style="max-width:50%; height:auto;"><br>
+
+And there are also ranges of axial, diagonal, full-range. This shows <b style="color: cyan">+4</b>, <b style="color: cyan">X4</b>, <b style="color: cyan">*4</b>:
+<img src="resources/bexport_extraatoms2.png" style="max-width:50%; height:auto;"><br>
+
+Also, <i>all of these atoms can be modified directionally</i> with: <b style="color: cyan">f</b>, <b style="color: cyan">b</b>, <b style="color: cyan">l</b>, <b style="color: cyan">r</b> (forward, backward, left, right). You put them in front of the atom. In this picture, it shows <b style="color: cyan">f+4</b>, <b style="color: cyan">fX4</b>, <b style="color: cyan">f*4</b>:<br>
+
+<img src="resources/bexport_extraatoms3.png" style="max-width:50%; height:auto;"><br>
+
+However, this isn't enough for "knight-like" atoms which have 8 squares by default instead of 4. The notation for further distinguishing these is <i>doubling the symbol</i>. See <b style="color: cyan">fN</b>, <b style="color: cyan">ffN</b>, <b style="color: cyan">bbN</b>, <b style="color: cyan">vN</b>:<br>
+
+<img src="resources/bexport_extraatoms4.png" style="max-width:50%; height:auto;"><br>
+<b style="color: cyan">vN</b> is short for <b style="color: cyan">ffNbbN</b>, and likewise <b style="color: cyan">hN</b> is short for <b style="color: cyan">llNrrN</b>.<br>
+    <h2>Examples</h2>
+
+<div style="text-align: center">
+<table class="tableau" style="border: 1px solid white; table-layout: fixed; width: 100%;">
+    <tr>
+        <td><b>Demon++</b> <pre>+4<b style="background-color: lime; color: black">j</b>N<b style="background-color: purple">t</b>24</pre><img src="resources/bexport_demon2.png" width="200" height="200"></td>
+        <td><b>Paladin</b> <pre>vWD<b style="background-color: yellow; color: black">js</b>hR</pre><img src="resources/bexport_paladin.png" width="200" height="200"></td>
+        <td><b>MoonFox+++</b> <pre>X5<b style="background-color: red; color: black">a</b>fW<b style="background-color: white; color: black">{mf}</b>bW</pre><img src="resources/bexport_moonfox3.png" width="200" height="200"></td>
+        <td><b>Pawn</b> <pre><b style="background-color: blue">m</b>fW<b style="background-color: red; color: black">a</b>fF<b style="background-color: lightblue; color: black">{ms}</b>fD</pre><img src="resources/bexport_pawn.png" width="200" height="200"></td>
+    </tr>
+    <tr>
+      <td><b style="color: cyan">+4</b> is a Range 4 Rook. <b style="color: lime">j</b><b style="color: cyan">N</b> is a <b style="color: lime">jump action</b> with Knight (N). <b style="color: magenta">t</b><b style="color: cyan">24</b> is a <b style="color: magenta">teleport action</b> with [2, 4] as the coordinate (24).</td>
+      <td>
+        <b style="color: cyan">vWD</b> is a vertical (v) filter on the W and D atoms. <b style="color: yellow">js</b><b style="color: cyan">hR</b> is <b style="color: yellow">jump-swap</b> on a horizontal (h) Rook (R).<br>
+        Note that you can group together equally affected atoms: <b style="color: cyan">vWD</b> is the same as <b style="color: cyan">vWvD</b>.</td>
+      <td>
+        <b style="color: cyan">X5</b> is a Range 5 Bishop. <b style="color: red">a</b><b style="color: cyan">fW</b> is <b style="color: red">attack</b> on a forward W atom. <b style="color: white">{mf}</b><b style="color: cyan">bW</b> is <b style="color: white">MoonFox's revive ability</b> on a backward W atom.
+      </td>
+      <td>
+        <b style="color: #08f">m</b><b style="color: cyan">fW</b> is <b style="color: #08f">move</b> on a forward W atom.
+        <b style="color: red">a</b><b style="color: cyan">fF</b> is <b style="color: red">attack</b> on a forward F atom.
+        <b style="color: lightblue">{ms}</b><b style="color: cyan">fD</b> is <b style="color: lightblue">move from start</b> on a forward D atom.
+      </td>
+    </tr>
+</table>
+</div>
+<br>
+
+If you understand all of this and like this system enough to use, a message would be appreciated, because as you know, people who spend days writing documentation and code for systems that save only seconds of time, are very lonely and are only days away from crying on the keyboard due to poor time allocation decisions. Or you can just laugh, as deserved.
   </div>
 </div>
 
