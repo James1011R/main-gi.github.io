@@ -1084,6 +1084,7 @@ function validate(source) { // THIS IS BASICALLY PART OF IMPORTING
     try {
       let rv = source.replace(/\[|\]|\|/g, "") // replace []| characters (those three)
       rv = rv.replace(/^\n+/, "") // get rid of starting newlines
+      rv = rv.replace(/\n+$/, "") // get rid of ending newlines
       rv = rv.split("\n")
       // okay now we have a string like:
       /*
@@ -1100,7 +1101,7 @@ function validate(source) { // THIS IS BASICALLY PART OF IMPORTING
       A perfect one might involve deleting the 'cost' (number at front) if detected, then splitting spaces, then checking the first element of that.
       */
 
-      if (rv[0].replace(/ \|.+$/, "").match(/[a-z]+$/) && rv[0].split(" ").length <= 4) {
+      if (rv[0].split(" ").length <= 4 && rv[0].split(" ").every(x => x.match(/[a-z]$/))) { // All ends in lowercase and <= 4 spaces
         l(rv)
         let splitted = rv[0].split(" ")
 
@@ -1109,13 +1110,12 @@ function validate(source) { // THIS IS BASICALLY PART OF IMPORTING
         } else {
 
           try {
-            othertext[3] = splitted[0]
-            othertext[2] = splitted[1]
-            othertext[1] = splitted[2]
+            othertext[0] = splitted[0]
+            othertext[1] = splitted[1]
+            othertext[2] = splitted[2]
           } catch (error) {
 
           }
-          othertext = rv[0].split(" ")
         }
         
         rv.shift()
@@ -3261,24 +3261,24 @@ var rookatoms   = ["+2", "+3", "+4", "+5", "+6", "R"]
 function del_n(s, n) {if (!isNumber(n)) {n = n.length}; return s.slice(n)}
 
 var shortcuts = [``, // blank
-"",  // Move or Attack (should usually be unused)
-"m",    // Move
-"a",    // Attack
-"j",    // Jump (unblockable move/attack)
-"js",   // Jump-swap (unblockable move/attack/swap)
-"t",    // Teleport (unblockable move)
-"{md}", // Magic Destroy
-"{ss}", // Summon Sapling
-"{ch}", // Charm
-"{sk}", // Summon Skeleton
-"{ms}", // Move from start
-"{po}", // Poison
+``,  // Move or Attack (should usually be unused)
+`m`,    // Move
+`a`,    // Attack
+`j`,    // Jump (unblockable move/attack)
+`js`,   // Jump-swap (unblockable move/attack/swap)
+`t`,    // Teleport (unblockable move)
+`{md}`, // Magic Destroy
+`{ss}`, // Summon Sapling
+`{ch}`, // Charm
+`{sk}`, // Summon Skeleton
+`{ms}`, // Move from start
+`{po}`, // Poison
 `{fr}`, // Freeze
 `{pe}`, // Petrify
-`{ptirt}`, // Polymorph to random minion (SHOULD NOT BE USED)
-`{tttrt}`, // Teleport unit to random location (SHOULD NOT BE USED)
-`{ttmt}`,  // Teleport and mass-teleport adjacent (SHOULD NOT BE USED)
-`{so}`, // Sorceress ability (SHOULD NOT BE USED)
+`{ptirt}`, // Polymorph to random minion (UNUSED)
+`{tttrt}`, // Teleport unit to random location (UNUSED)
+`{ttmt}`,  // Teleport and mass-teleport adjacent (UNUSED)
+`{so}`, // Sorceress ability (UNUSED)
 `{en}`, // Enchant
 `{gh}`, // Ghostify (SoulKeeper)
 `{ts}`, // Teleport from start
@@ -3295,36 +3295,36 @@ var shortcuts = [``, // blank
 `{ls}`, // LifeStone revive
 `{cu}`, // Cure (Alchemist)
 `{ne}`, // Necromancer ability
-"{bl}", // Block (HauntedArmor)
-"{fe}", // Freeze-Explosion (Comet)
-"{fs}", // Freeze-Strike (Aquarius)
-"{ba}", // Bat (Vampire)
-"{ca}", // Castle
-"{tm}", // Thundermark (ThunderMage)
-"{lu}", // Lust
-"{ti}", // Tele-in (Beacon recall)
-"{rd}", // Ranged Destroy
-"{mt}", // Move to Ability Target (GravityMage)
-"{is}", // Instant Swap (Guardian)
-"{en}", // Envy
-"{sp}", // Splash
-"{pi}", // Pikeman
-"{mp}", // Magic Push
-"{si}", // Siren
-"{bu}", // Butterfly Effect
-"{ta}", // Taurus Rush
-"{l}",    // Lunge (unblockable attack only)
-"{pi}", // Pillar (StoneMage, EarthElemental)
-"{fi}", // FireMage
-`{pvma}`, // random crappy path abilities
-`{phma}`,
-`{plma}`,
-`{prma}`,
+`{bl}`, // Block (HauntedArmor)
+`{fe}`, // Freeze-Explosion (Comet)
+`{fs}`, // Freeze-Strike (Aquarius)
+`{ba}`, // Bat (Vampire)
+`{ca}`, // Castle
+`{tm}`, // Thundermark (ThunderMage)
+`{lu}`, // Lust
+`{ti}`, // Tele-in (Beacon recall)
+`{rd}`, // Ranged Destroy
+`{mt}`, // Move to Ability Target (Old GravityMage)
+`{is}`, // Instant Swap (Guardian)
+`{en}`, // Envy
+`{sp}`, // Splash
+`{pi}`, // Pikeman
+`{mp}`, // Magic Push
+`{si}`, // Siren
+`{bu}`, // Butterfly Effect
+`{ta}`, // Taurus Rush
+`{l}`,  // Lunge (unblockable attack only)
+`{pi}`, // Pillar (StoneMage, EarthElemental)
+`{fi}`, // FireMage
+`{pvma}`, // Path Vertical, move or attack
+`{phma}`, // Path Horizontal, move or attack
+`{plma}`, // Path Diagonal `Left`, move or attack
+`{prma}`, // Path Diagonal `Right`, move or attack
 `{le}`, // Leap (Toad)
-`{pva}`, // Path Vertical
-`{pha}`, // Path Horizontal
-`{pla}`, // Path Diagonal "Left"
-`{pra}`, // Path Diagonal "Right"
+`{pva}`, // Path Vertical, attack only
+`{pha}`, // Path Horizontal, attack only
+`{pla}`, // Path Diagonal `Left`, attack only
+`{pra}`, // Path Diagonal `Right`, attack only
 `{nu}`, // Null
 `{vo}`, // Void
 `{gw}`, // Gravity Well
@@ -3372,7 +3372,7 @@ function betza_to_array(s, offset = +1) {
 
 
       let ex = 0; let ey = 0;
-      if (s.startsWith("Q")) { // TODO
+      if (s.startsWith("Q")) {
         s = del_n(s, "Q")
         s = "B" + directionsfound.join("") + "R" + s
       }
@@ -3432,7 +3432,7 @@ function betza_to_array(s, offset = +1) {
       let likeAtom = "N"; if (ex == ey) {likeAtom = "F"} else if (ex == 0 || ey == 0) {likeAtom = "W"}
       // kay, so both ex and ey should be positive based on how this is made. That means it's top-right by default...
       
-      if (!weak) {atomsaffected = spamAllSymmetry([ex, ey])}
+      if (!weak) {atomsaffected = spamAllSymmetry([ex, ey])} // weak = using a range
 
       for (let i = 0; i < directionsfound.length; i++) {
         let it = directionsfound[i]
