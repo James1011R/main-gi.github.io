@@ -207,6 +207,9 @@ td.piece {
 }
 TABLES */
 
+table.tableau td + td { border-left:1px solid white; }
+
+
 .c {
   border: 1px solid rgba(238,238,238,0.75);
   margin: 0px auto;
