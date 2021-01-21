@@ -109,6 +109,7 @@ preloadSpells();
 for (var i = 0; i < MOVES.length; i++) {
   var className = MOVES[i].name;
   if (MOVES[i].cat == "custom") className += " custom";
+  if (MOVES[i].cat == "exiled") className += " exiled";
   if (MOVES[i].hide) className += " hide";
     $(".moves").append(makeSVGTagContent("svg", {
       class: className,
@@ -139,6 +140,16 @@ $("#shactive").click(function() {
     $(this).text($(this).text().replace(/Show/ig, "Hide"));
   } else {
     $("#action").removeClass("show");
+    $(this).text($(this).text().replace(/Hide/ig, "Show"));
+  }
+});
+
+$("#shexiled").click(function() {
+  if (this.innerHTML.match(/Show/ig)) {
+    $("#action").addClass("showexiled");
+    $(this).text($(this).text().replace(/Show/ig, "Hide"));
+  } else {
+    $("#action").removeClass("showexiled");
     $(this).text($(this).text().replace(/Hide/ig, "Show"));
   }
 });
@@ -3696,19 +3707,22 @@ $("#ability_searchbar").keyup(_.debounce(ability_search, 100))
 // $("#ability_searchbar").keyup(function () {ability_search()}) // old code
 
 function ability_search() {
-  let movetypes = $(".gallery svg");
+  //let movetypes = $(".gallery svg"); // this movetypes is actually 2x the length of MOVES, as it refers to the sidebar and popup
+  let movetypes = $("#action.gallery svg")
+
   if (document.getElementById("ability_searchbar").value == "Pretend") {
     $("#pretend_easter_egg").text("everything on this god damn list is pretend")
   }
   let filters = document.getElementById("ability_searchbar").value.toLowerCase().split(" ");
   let cash_owed_to_f3 = 300;
   for (let i = 0; i < movetypes.length; i++) {
-    //l(movetypes[i])
+
+
     let valid = true;
-    let description = movetypes[i].getAttribute("class") + " " + movetypes[i].getAttribute("data-description");
+    let description = movetypes[i].getAttribute("class") + " " + " " + movetypes[i].getAttribute("data-description");
     description = description.toLowerCase()
-    for (let j = 0; j < filters.length && valid; j++) {
-      if (!description.includes(filters[j])) {
+    for (let ii = 0; ii < filters.length && valid; ii++) {
+      if (!description.includes(filters[ii]) && MOVES[i].cat != filters[ii]) { // Second half is an equality check with the special 'cat' tag
         valid = false;
       }
     }
