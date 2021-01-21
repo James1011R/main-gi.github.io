@@ -202,6 +202,7 @@
       <b style="text-align: center">DEV TOOOOOOLS</b><br>
       <span style="font-size: 80%">(This is normally hidden. The backtick button also reveals this.)</span><br>
       <br>
+          <button id="shexiled">Show Exiled Actions</button><br>
       <b style="text-align: center">CEO Source Code Export</b><br>
       <span style="font-size: 80%">This is basically another 'export' feature, but exports to CEO's source code format. Basically a tool for those who are trying to pretend up other versions of the game. Or Grand.</span>
     <textarea type="text" id="copyTarget" value="" cols="36"></textarea> <button id="copyButton">Copy Current Piece to Clipboard</button> <button id="movesetArray">I just want to copy the moveset tho</button>
@@ -378,8 +379,8 @@
   Tony2: original piecemaker<br>
   Logo (ABC_Boy): <a href="https://ceopiecemaker.github.io/" class="darklink">piecemaker v2</a> with massive graphical and UI improvements, programming in the custom ability icon creator, all custom unicode icon glyphs, board svg rewrite, sharing versions v0.42-v0.53 for this piecemaker and significantly helping with reconstructing v0.39 and v0.40<br>
   Aplet123: board svg rewrite<br>
-  main_gi: piecemaker v2 original UI feedback, auto symmetry, unit gallery, pretend unit generator and meme feedback, CD/FC/CBA styles<br>
   Elund (James1011R): all UPLE abilities, fill color customization and "UPLE" fill colors, the 'doodle' and 'cutout' features, "tool tray" scrollbar<span style="font-size: 1%">I have no idea what this means</span>, some more custom CD/FC piece styles<br>
+  main_gi: piecemaker v2 original UI feedback, auto symmetry, unit gallery, pretend unit generator and meme feedback, CD/FC/CBA styles, search bar, betza notation support<br>
 <br>
     <p style="text-align: center; margin: 0; font-size: 100%"><b>Special Thanks</b></p><br>
   F300XEN: <a href="https://f300xen.github.io/RandomFavorChessPieces/" class="darklink">favor chess random piece generator</a> was the inspiration for the pretend unit generator, wrote code for the action searchbar<br>
@@ -390,6 +391,7 @@
   Bogden: compiling <a href="http://www.kongregate.com/forums/32630-chess-evolved-online/topics/637670-v0-39-community-changelist?page=1" class="darklink">a list of v0.39 changes</a>, gilisepic mentioned the Necromancer costs as well which was invaluable, also Tecness's <a href="https://youtu.be/loGHTsqlW8A?t=23" class="darklink">challenge</a> <a href="https://youtu.be/VcH3AABKsLU?t=139" class="darklink">videos</a> showed accurate old descriptions<br>
   Kashira: compiling <a href="https://chess-evolved-online.fandom.com/wiki/Template:Unit_Table?action=edit&oldid=2592" class="darklink">v0.40 unit costs</a><br>
   iridium137: compiling <a href="http://www.kongregate.com/forums/32630-chess-evolved-online/topics/734704-v0-48-changes" class="darklink">a list of v0.48 changes</a> to reconstruct the version, although it was slightly inaccurate<br>
+  Erol#6195: suggestion of the action searchbar<br>
 <br>
     <p style="text-align: center; margin: 0; font-size: 100%"><b>Changelog</b></p><br>
   - <b>Visuals:</b> Cost number enlarged and no longer uses monospace font.<br>
@@ -410,7 +412,7 @@
   - <b>Feature:</b> You can now use a modified version of Betza notation in the import code, you can export it, and it's generally great. The only thing it doesn't support is custom abilities and the art path.<br>
   - <b>Feature:</b> A detailed changelog with my summaries on the meta.<br>
   - <b>Feature:</b> In the custom ability editor, the "unicode ID to unicode symbol" feature is now two-way.<br>
-  - <b>Feature:</b> Search bar for actions. Half the code was basically made by F300XEN.<br>
+  - <b>Feature:</b> Search bar for actions (suggestion by Erol#6195). Half the code was basically made by F300XEN, the other modified by me. You can also do a special category search with the terms <code>official</code>, <code>legacy</code> (old version of a CEO ability), <code>variation</code> (small variation on CEO ability), <code>limbo</code> (major variation on CEO ability), <code>adoption</code> (contest entry), <code>pretend</code>, <code>exiled</code> (an ability you can only see with the toggle in devtools), <code>custom</code>.<br>
   - <b>Feature (Devtools):</b> Exporting to CEO source code.<br>
   - <b>Feature (Devtools):</b> Tournament support that automatically costs pieces, with tournament template given.<br>
   - <b>"Feature":</b> A very important conversation on some dumbo whose idea of the best economy is capitalism but with more welfare. It can be accessed by typing "combine piecemakers" into the import box and then pressing Import.<br>
@@ -461,8 +463,8 @@
     <div style="width: 60%; float: left">
       <b style="color: cyan">This system is not necessary to use the piecemaker.</b> It is designed for power users who want to quickly create pretendpieces by typing short notation. For example, if you want to quickly type a unit that is "a Knight that can teleport like a Queen and summons Skeletons at Valkyrie jump squares, you just type <b style="color: cyan">jNtQ{sk}V</b> in the import box and press Import. If that doesn't interest you, you don't need any of this.
 
-      It is based off, but not identical to, <a href="https://www.chessvariants.com/d.betza/chessvar/pieces/notation.html" class="darklink">Ralph Betza's notation</a>.
-
+<p>
+      It is based off, but not identical to, <a href="https://www.chessvariants.com/d.betza/chessvar/pieces/notation.html" class="darklink">Ralph Betza's notation</a>.</p>
     <p>
     Pieces are made up of "atoms". <b style="color: cyan">N</b> is an atom that represents a Knight direction, including all the symmetries. That direction is (1, 2), so the input <b>N</b> is short for the (1, 2) atom. It can also be inputted as "12", which should be interpreted like "1-2". There are shortcut names for all atoms up to range 3, shown by the table to the right.</p>
     </div>
