@@ -479,9 +479,21 @@ div.passives{
 #action.showexiled .exiled {
   display: block;
 }
+#action.showexiled svg.exiled {box-shadow: 0px 0px 0px 3px rgb(255, 0, 0), 0px 0px 0px 5px rgb(204, 0, 0);}
+#action.showexiled svg.active.exiled {box-shadow: 0px 0px 0px 3px rgb(204, 0, 0), 0px 0px 0px 5px rgb(136, 0, 0);}
+
+#action svg.custom, .gallery svg.custom {box-shadow: 0px 0px 0px 3px rgb(204, 255, 255), 0px 0px 0px 5px rgb(136, 204, 204);}
+#action svg.active.custom, .gallery svg.active.custom {box-shadow: 0px 0px 0px 3px rgb(136, 204, 204), 0px 0px 0px 5px rgb(77, 136, 136);}
+svg.hide {box-shadow: 0px 0px 0px 3px rgb(222, 222, 255), 0px 0px 0px 5px rgb(136, 136, 204);}
+#action svg.active.custom, .gallery svg.active.custom {box-shadow: 0px 0px 0px 3px rgb(136, 204, 204), 0px 0px 0px 5px rgb(77, 136, 136);}
+
+
+
 #action .hidden {
   display: none !important; /* main_gi: For action search. */
 }
+
+
 .cost + div > ul {
   padding: 10px;
   width: 93%;
@@ -794,6 +806,15 @@ box-shadow: 0 0 0 4px #d2d796cc inset;}
 @media screen and (max-width: 1600px) {
   #contents { justify-content: left; } /* make the boards left-align on certain zoom levels where the sidebar may overlap */
 }
+
+.cd .cost input[type="number"]::-webkit-outer-spin-button,
+.cd .cost input[type="number"]::-webkit-inner-spin-button, 
+.fc .cost input[type="number"]::-webkit-outer-spin-button,
+.fc .cost input[type="number"]::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 
 /*
 Costs look broken on Edge idk how to fix
