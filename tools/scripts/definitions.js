@@ -1295,7 +1295,7 @@ MOVES = [{
     "name": "superjump",
     "long": "b]mz:move/attack",
     "text": "(Unstoppable) Move or Attack.",
-    "color": [155,0,0],
+    "color": [125,235,0],
     "hide": true
  }, {
     "id": "6a",
@@ -1311,7 +1311,7 @@ MOVES = [{
     "name": "superjumpattack",
     "long": "b]mz:attack",
     "text": "(Unstoppable) Attack only.",
-    "color": [150,50,0],
+    "color": [155,0,0],
     "hide": true
  }, {
    "id": "5a",
@@ -2634,6 +2634,112 @@ MOVES = [{
    "color3": [0,0,0],
    "symbol1": "\u2400",
    "hide": true
+ }, {
+   "id": "z4",
+   "cat": "exiled",
+   "name": "randomeffect",
+   "text": "(Magic) Cast random status effect on unit for 3 turns.",
+   "color": [27,152,100],
+   "symbol1": "\ufe56",
+   "hide": true
+ }, {
+   "id": "z5",
+   "cat": "exiled",
+   "name": "randomsummon",
+   "text": "(Magic) Summon random unit.",
+   "color": [208,88,161],
+   "color2": [255,255,255],
+   "color3": [0,0,0],
+   "symbol1": "\ufe56",
+   "hide": true
+ }, {
+   "id": "z6",
+   "cat": "exiled",
+   "name": "chaosjump",
+   "text": "(Unblockable) Teleport, or randomly either attack or swap target unit.",
+   "color": [0,0,0],
+   "color2": [255,255,255],
+   "color3": [255,0,255],
+   "symbol1": "\ufe56",
+   "color4": [255,0,255],
+   "symbol2": "\u{1f5d8}",
+   "hide": true
+ }, {
+   "id": "z7",
+   "cat": "exiled",
+   "name": "randomabilitydraft",
+   "text": "(Magic) Convert this ability to a random ability.",
+   "nobox": true,
+   "color3": [0,0,0],
+   "color4": [255,0,255],
+   "symbol1": "\u29c8",
+   "symbol2": "\ufe56",
+   "hide": true
+ }, {
+   "id": "z8",
+   "cat": "exiled",
+   "name": "moveattackcommonorrare",
+   "text": "Move or Attack Common or Rare enemy unit",
+   "color": [0,0,0],
+   "color3": [183,208,253],
+   "color4": [0,102,255],
+   "symbol1": "\u2738",
+   "symbol2": "\u2219",
+   "hide": true
+ }, {
+   "id": "z9",
+   "cat": "exiled",
+   "name": "destroyblock",
+   "long": "bv]:block@(mn:attack)&(LOSEABILTY)/(ru:attack)",
+   "text": "(Passive) Block one normal attack from this location, and lose this ability. \n(Active, Magic) Destroy target.",
+   "color": [253,117,34],
+   "color3": [255,255,255],
+   "symbol1": "\u2219",
+   "hide": true
+ }, {
+    "id": "z10",
+    "cat": "exiled",
+    "name": "goto",
+    "long": "b]:move",
+    "text": "Teleport self to this empty location.",
+    "color": [102,0,102],
+    "hide": true
+ }, {
+    "id": "z11",
+    "cat": "exiled",
+    "name": "setpos",
+    "long": "b]:move/attack",
+    "text": "Teleport self to this empty location or attack target.",
+    "color": [20,60,20],
+    "hide": true
+ }, {
+    "id": "z12",
+    "cat": "exiled",
+    "name": "magicmove",
+    "long": "b]ru:move",
+    "text": "(Magic) Move only.",
+    "color": [200,0,255],
+    "hide": true
+ }, {
+    "id": "z13",
+    "cat": "exiled",
+    "name": "reversetimeline",
+    "text": "(Magic) Remove this unit from the timeline, and revert the timeline back to the beginning.",
+    "color": [200,0,255],
+    "color2": [255,255,255],
+    "color3": [225,225,0],
+    "symbol1": "\u231b",
+    "hide": true
+ }, {
+    "id": "z14",
+    "cat": "exiled",
+    "name": "truemordecakek",
+    "text": "Evolve this unit, destroying it once, but allowing it to use all (Evolve) Ability for this current incarnation of this Unit. Once this Ability is used, it ceases to exist on this unit, including all future incarnations.",
+    "color": [0,0,0],
+    "color2": [58,233,93],
+    "color3": [0,0,0],
+    "symbol1": "E",
+    "hide": true
  }, {
    "id": "6zz",
    "cat": "exiled",
