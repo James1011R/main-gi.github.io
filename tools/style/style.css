@@ -760,7 +760,7 @@ box-shadow: 0 0 0 4px #d2d796cc inset;}
 .fc .cost {display: block; position: absolute; left: .1rem; top: 8.75rem; padding: .4rem 0; width: 1.5rem; height: 1.5rem; border: .2rem outset #83471f; border-radius: 50%; box-sizing: border-box; background: url(../resources/fccost.png); background-position: center; text-align: center; font-size: 0; font-weight: normal;} */
 
 .fc .name {position: absolute; font-family: Arial; font-variant: normal; display: block; top: .1rem; width: 16.5rem; height: 1.5rem; border: .2rem outset #83471f; border-radius: .4rem; box-sizing: border-box; font-weight: normal; text-align: center; background: #E7DBBD;}
-.fc .c {top: 30px; padding-bottom: 30px; background-image: url(../resources/fccamel.png); background-repeat: no-repeat; background-size: 70%; background-position-x: center; border: none;     image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
+.fc .c {top: 30px; margin-bottom: 30px; background-image: url(../resources/fccamel.png); background-repeat: no-repeat; background-size: 70%; background-position-x: center; border: none;     image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
     image-rendering: -moz-crisp-edges;          /* Firefox                        */
     image-rendering: -o-crisp-edges;            /* Opera                          */
     image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
