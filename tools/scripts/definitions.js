@@ -83,7 +83,8 @@ MOVES = [{
    "name": "movestart",
    "long": "b]mn:startpos?move",
    "text": "Move from starting position.",
-   "color": [11,36,251],
+   "color": [72,72,255],
+   "color3": [40,40,178],
    "symbol1": "\u274b"
  }, {
    "id": "12",
@@ -173,7 +174,8 @@ MOVES = [{
    "name": "teleportstart",
    "long": "b]mu:startpos?move",
    "text": "(Unblockable) Teleport from starting position.",
-   "color": [121,19,153],
+   "color": [161,80,229],
+   "color3": [131,40,216],
    "symbol1": "\u274b"
  }, {
    "id": "22",
@@ -1783,7 +1785,8 @@ MOVES = [{
    "name": "jumpstart",
    "long": "b]mu:startpos?move/attack",
    "text": "(Unblockable) Move or Attack from starting position.",
-   "color": [20,151,24],
+   "color": [72,225,72],
+   "color3": [40,121,40],
    "symbol1": "\u274b",
    "hide": true
  }, {
@@ -3023,6 +3026,7 @@ MOVES = [{
     "symbol1": "\uf800",
     "hide": true
  }];
+
 
 /* Self reminder
 \\ when creating an ability of slightly different properties, prefer these changes:
