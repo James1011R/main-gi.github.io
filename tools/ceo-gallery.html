@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html><head>
+  <meta charset="utf-8">
+  <meta property="og:title" content="Feature Creep CEO PieceMaker (modded by main_gi)">
+  <meta property="og:image" content="https://i.imgur.com/r0hs6BZ.png">
+  <meta property="og:description" content="CEO piecemaker with generator, piece gallery, and other new features.">
+
+  <meta name="viewport" content="width=device-width"> <!-- for responsive display -->
+  <title>Feature Creep PieceMaker (modded by main_gi)</title>
+  <!--[if IE]>
+    <script>window.location = "https://www.mozilla.org/en-US/";</script>
+  <![endif]-->
+  <script>var CEO, nouns, verbs;
+  var repq = 16428; // this is just for an SSP message meme
+  var CEOspellstyle = [10, 1, 9] // [10, 0.6, 9] was old value, but there's a better way, I think.
+  var CDspellstyle = [16, -2.25, 12]
+  var spellstyle = CEOspellstyle; // "spellstyle" exists so that making custom spells preserves the styles of the spells. This is a global variable that is referred to in rewrite.js and main.js
+
+  </script>
+  <script src="scripts/browser.js"></script>
+  <script src="scripts/paper.js"></script>
+  <script src="scripts/jquery.js"></script>
+  <script src="scripts/sketch.js"></script>
+  <script src="scripts/rasterizeHTML.allinone.js"></script>
+  <script src="scripts/lodash.js"></script>
+  <script src="scripts/definitions.js"></script>
+  <script defer src="scripts/randomunitnames.js"></script>
+  <script defer src="scripts/unitgallerydata.js"></script>
+  <script defer src="scripts/rewrite.js"></script>
+  <script defer src="scripts/main.js"></script>
+  <style type="text/css">
+  :root #content > #center > .dose > .dosesingle,
+  :root #content > #right > .dose > .dosesingle
+  { display: none !important; }
+  </style>
+</head>
+
+<body mode="active">
+  <div id="boards">
+    <svg id="mydefs">
+    <div id="style">
+      <link rel="stylesheet" href="style/style.css">
+    </div>
+
+  <div id="contents">
+    <section id="base">
+      <canvas id="c" class="c" width="200" height="140" style="-webkit-user-drag: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0)"></canvas>
+      <div id="name" class="name" contenteditable="true" tabindex="1" spellcheck="false">Name</div>
+      <svg width="258" height="258" id="svg0" class="board" draggable="false" xmlns="http://www.w3.org/2000/svg">
+      <div class="extratext">
+        <textarea rows="0" cols="0"></textarea>
+      </div>
+      <div class="cost">Cost:
+        <input value="1" type="number" tabindex="2">
+      </div>
+      <div class="passivepanel">
+
+        <ul id="moves" class="moves"></ul>
+        <div class="passives" contenteditable="" tabindex="6"></div>
+        <div class="info">[<span class="rank">Minion</span>]-[<span class="faction">Basic</span>]-[<span class="rarity">Common</span>]</div>
+      </div>
+
+    </section>
+    <section id="plus">
+
+
+      <canvas class="c mirror" data-shadow="rgb(201,38,249)" width="200" height="140"></canvas>
+      <div class="name" contenteditable="true" spellcheck="false">Name+</div>
+
+      <svg width="258" height="258" id="svg1" class="board" draggable="false" xmlns="http://www.w3.org/2000/svg">
+      <div class="extratext">
+        <textarea rows="0" cols="0"></textarea>
+      </div>
+      <div class="cost">Cost:
+        <input value="2" type="number" tabindex="3">
+      </div>
+      <div class="passivepanel">
+        <ul class="moves">
+</ul>
+        <div class="passives" contenteditable="" tabindex="7"></div>
+        <div class="info">[<span class="rank">Minion</span>]-[<span class="faction">Basic</span>]-[<span class="rarity">Common</span>]</div>
+      </div>
+
+    </section>
+    <section id="plusplus">
+
+      <canvas class="c mirror" data-shadow="rgb(201,84,24)" width="200" height="140"></canvas>
+      <div class="name" contenteditable="true" spellcheck="false">Name++</div>
+
+      <svg width="258" height="258" id="svg2" class="board" draggable="false" xmlns="http://www.w3.org/2000/svg">
+      <div class="extratext">
+        <textarea rows="0" cols="0"></textarea>
+      </div>
+      <div class="cost">Cost:
+        <input value="3" type="number" tabindex="4">
+      </div>
+      <div class="passivepanel">
+        <ul class="moves">
+</ul>
+        <div class="passives" contenteditable="" tabindex="8"></div>
+        <div class="info">[<span class="rank">Minion</span>]-[<span class="faction">Basic</span>]-[<span class="rarity">Common</span>]</div>
+      </div>
+
+    </section>
+    <section id="plusplusplus">
+
+      <canvas class="c mirror" data-shadow="rgb(252,13,57)" width="200" height="140"></canvas>
+      <div class="name" contenteditable="true" spellcheck="false">Name+++</div>
+
+      <svg width="258" height="258" id="svg3" class="board" draggable="false" xmlns="http://www.w3.org/2000/svg">
+      <div class="extratext">
+        <textarea rows="0" cols="0"></textarea>
+      </div>
+      <div class="cost">Cost:
+        <input value="4" type="number" tabindex="5">
+      </div>
+      <div class="passivepanel">
+        <ul class="moves">
+</ul>
+        <div class="passives" contenteditable="" tabindex="9"></div>
+        <div class="info">[<span class="rank">Minion</span>]-[<span class="faction">Basic</span>]-[<span class="rarity">Common</span>]</div>
+      </div>
+
+    </section>
+    <div id="controls" class="panel">
+      <div id="hidebutton"></div>
+      <div mode="share">
+    <span style="font-family: Arial, sans-serif">Unit Gallery (v0.55 = v0.56 there are no balance changes, also this is just a crappy version of <a style="color: blue; text-decoration: underline;" href="./ceo-piecemaker.html">the piecemaker</a>)</span>
+    <div style="display: inline-block">
+      <select id="galleryversion"></select>
+      <select id="gallery"></select>
+    </div>
+    <div id="gallerychanges" style="display: none">
+      <div style="border: 1px solid black; padding: 4px; background: #36393E; font-size: 90%; font-family: 'Whitney KOC'; width: 275px; max-height: 300px; word-break: break-word; overflow-y: auto">
+        <div id="gallerychangestext" style="font-family: 'Lucida Grande', Arial, sans-serif; color: white; font-size: 90%; line-height: 140%; padding: 3px; display: none"></div>
+        <div id="gallerychangestext2" style="font-family: 'Lucida Grande', Arial, sans-serif; color: white; font-size: 90%; line-height: 140%; padding: 3px;"></div>
+      </div>      
+    </div>
+    <br><br>
+
+    </div> <!-- filler space on small zoom levels -->
+
+    <!--
+
+    -->
+
+  </div>
+</div>
+</div>
+</div>
+<div class="modalwrapper" style="display: none;">
+  
+  <div class="cusmodal round panel" style="width: 500px; height: 330px;">
+
+    <h2>Custom Ability Editor</h2><div class="cusmodalbody">
+      <svg class="giant">
+      <div>Border Color: <input id="color11" min="0" max="255" type="number"><input id="color12" min="0" max="255" type="number"><input id="color13" min="0" max="255" type="number"><input id="nobox" type="checkbox">No Box
+        <br>
+        Fill Color: <input id="color21" min="0" max="255" type="number"><input id="color22" min="0" max="255" type="number"><input id="color23" min="0" max="255" type="number"><input id="colour2" type="checkbox">Auto
+        <br>
+        Symbol 1 Color: <input id="color31" min="0" max="255" type="number"><input id="color32" min="0" max="255" type="number"><input id="color33" min="0" max="255" type="number"><input id="colour3" type="checkbox">Auto
+        <br>
+        Symbol 2 Color: <input id="color41" min="0" max="255" type="number"><input id="color42" min="0" max="255" type="number"><input id="color43" min="0" max="255" type="number"><input id="colour4" type="checkbox">Auto
+        <br>
+        Symbol 1: <input id="symbol1" pattern="." class="short"> Symbol 2: <input id="symbol2" pattern="." class="short"> <span style="font-size: 46%">(Auto is based on border color.)</span>
+        <br>
+        U+<input id="unicode" pattern="[01]?[0-9A-Fa-f]{4,5}" class="short" maxlength="6" placeholder="EC00"> ↔ <input id="uniprev" class="short" placeholder="" maxlength="1"> <span style="font-size: 46%">(Lets you convert unicode ID to unicode or vice versa.)</span>
+        <br>
+        Description: <textarea id="text" cols="40" rows="4"></textarea>
+        <button id="menuclose">Close</button>
+      </div>
+    </div>
+  </div>
+  <div class="cusmodal round panel vertical-scroll" style="width: 300px; height: 330px;">
+
+    <h2>Presets</h2><div class="cusmodalbody">
+      <div>
+        <ul class="moves gallery"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="bgproc" style="visibility:hidden;position:absolute;"></div>
+<div id="tooltip">Yolo<br>buddy<br>how's<br>life?</div>
+
+
+</body></html>
+<script>document.body.setAttribute("mode", 'share');
+document.getElementById("controls").style = "height: 15%; width: 80%; right: 0px;"
+</script>
