@@ -2446,6 +2446,152 @@ MOVES = [{
     "symbol1": "\u{1f5d8}",
     "hide": true
  }, {
+    "id": "b99",
+    "cat": "pretend",
+    "name": "slidingmove",
+    "text": "Move, then this unit keeps moving in the same direction until it collides with any unit or the field edge.",
+    "color": [0,0,255],
+    "color3": [0,0,0],
+    "symbol1": "\uf602",
+    "hide": true
+ }, {
+    "id": "b99a",
+    "cat": "pretend",
+    "name": "slidingmoveattack",
+    "text": "Move or Attack, then this unit keeps moving in the same direction until it collides with any unit or the field edge.",
+    "color": [0,0,0],
+    "color3": [0,0,255],
+    "symbol1": "\uf602",
+    "hide": true
+ }, {
+    "id": "b99b",
+    "cat": "pretend",
+    "name": "slidingmoveattackswap",
+    "text": "Move, Attack, or swap places with ally; then this unit keeps moving in the same direction until it collides with any unit or the field edge.",
+    "color": [255,210,0],
+    "color3": [0,0,0],
+    "symbol1": "\uf602",
+    "hide": true
+ }, {
+    "id": "b99c",
+    "cat": "pretend",
+    "name": "trueslidingmoveattack",
+    "text": "Slide in the specified direction as far as possible to Move or Attack.",
+    "color": [0,0,0],
+    "color3": [0,0,255],
+    "symbol1": "\uf604",
+    "hide": true
+ }, {
+    "id": "b99d",
+    "cat": "pretend",
+    "name": "trueslidingmoveattackswap",
+    "text": "Slide in the specified direction as far as possible to Move, Attack, or swap places with ally.",
+    "color": [255,210,0],
+    "color3": [0,0,0],
+    "symbol1": "\uf604",
+    "hide": true
+ }, {
+    "id": "b99e",
+    "cat": "pretend",
+    "name": "trueslidingomniswap",
+    "text": "Slide in the specified direction as far as possible to Move or swap places with unit.",
+    "color": [51,153,153],
+    "color3": [0,0,0],
+    "symbol1": "\uf604",
+    "hide": true
+ }, {
+    "id": "b100",
+    "cat": "pretend",
+    "name": "teleportslam",
+    "text": "[Pay 2]: (Unblockable) Teleport, then petrify and enchant all adjacent enemies for 1 turn.",
+    "color": [121,19,153],
+    "color3": [94,200,200],
+    "symbol1": "\uf7e3",
+    "hide": true
+ }, {
+    "id": "b101",
+    "cat": "pretend",
+    "name": "moveattackpetrify",
+    "text": "Move or Attack, then petrify enemy unit 1 space in the same direction for 3 turns.",
+    "color": [0,0,0],
+    "color3": [174,174,174],
+    "symbol1": "\u00d7",
+    "hide": true
+ }, {
+    "id": "b102",
+    "cat": "pretend",
+    "name": "passivetoggle",
+    "text": "(Unstoppable) Toggle this unit's passive. If this unit's passive is toggled off, it doesn't do anything. [Passive On]",
+    "color": [0,0,0],
+    "color2": [255,255,255],
+    "color3": [0,0,0],
+    "color4": [0,255,0],
+    "symbol1": "\u25ca",
+    "symbol2": "\u25b4",
+    "hide": true
+ }, {
+    "id": "b102a",
+    "cat": "pretend",
+    "name": "passivetoggleoff",
+    "text": "(Unstoppable) Toggle this unit's passive. If this unit's passive is toggled off, it doesn't do anything. [Passive Off]",
+    "color": [0,0,0],
+    "color2": [255,255,255],
+    "color3": [0,0,0],
+    "color4": [255,0,0],
+    "symbol1": "\u25ca",
+    "symbol2": "\u25be",
+    "hide": true
+ }, {
+    "id": "b103",
+    "cat": "pretend",
+    "name": "coupdegrace",
+    "text": "(Ranged) Destroy enemy status-affected unit.",
+    "color": [255,0,0],
+    "color2": [255,255,255],
+    "color3": [0,101,24],
+    "symbol1": "\u2316",
+    "hide": true
+ }, {
+    "id": "b104",
+    "cat": "pretend",
+    "name": "mercyfreeze",
+    "text": "(Magic) Freeze enemy status-affected unit for 7 turns.",
+    "color": [37,155,253],
+    "symbol1": "\u2a33",
+    "hide": true
+ }, {
+    "id": "b105",
+    "cat": "pretend",
+    "name": "mist",
+    "text": "(Magic) Marked location blocks movement for 4 turns.",
+    "color": [107,253,253],
+    "color2": [255,255,255],
+    "symbol1": "\u{ffaeb}",
+    "hide": true
+ }, {
+    "id": "b106",
+    "cat": "pretend",
+    "name": "markaccelerator",
+    "text": "(Magic, Trigger) Marked Location: All marks on that location count down a turn at the start of your turn.",
+    "color": [0,0,0],
+    "color2": [255,255,255],
+    "color3": [0,0,0],
+    "color4": [255,255,0],
+    "symbol1": "\u25c6",
+    "symbol2": "\u25c7",
+    "hide": true
+  }, {
+   "id": "b107",
+   "cat": "pretend",
+   "name": "recoilattack",
+   "text": "Attack target and then instantly push self up to 3 spaces in the opposite direction.",
+   "color": [252,13,27],
+   "color3": [87,218,40],
+   "color4": [200,255,200],
+   "symbol1": "\u2389",
+   "symbol2": "\u25cb",
+   "hide": true
+ }, {
    "id": "cd1",
    "cat": "cd",
    "name": "pawndrop",
