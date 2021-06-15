@@ -311,14 +311,17 @@ MOVES = [{
    "color": [0,0,0],
    "color3": [255,255,255],
    "symbol1": "\u2219"
- }, {
+}, {
    "id": "36",
    "cat": "official",
    "name": "freezeexplosion",
    "long": "st]:death?minion?freeze#flag@3-move",
    "text": "(Trigger) On Death: Freeze enemy minions in this area.",
-   "color": [107,205,253],
-   "symbol1": "\u25fc"
+   "color": [0,190,255],
+   "color3": [63,159,255],
+   "color4": [0,190,255],
+   "symbol1": "\u25fe",
+   "symbol2": "\u25fd"
  }, {
    "id": "37",
    "cat": "official",
@@ -827,8 +830,11 @@ MOVES = [{
    "name": "explosion",
    "long": "bt]:death?minion?attack",
    "text": "(Trigger) On Death: Destroy enemy minions in trigger area.",
-   "color": [255,102,0],
-   "symbol1": "\u25fc",
+   "color": [255,100,0],
+   "color3": [255,50,50],
+   "color4": [255,100,0],
+   "symbol1": "\u25fe",
+   "symbol2": "\u25fd",
    "hide": true
  }, {
    "id": "41a",
@@ -2591,7 +2597,25 @@ MOVES = [{
    "symbol1": "\u2389",
    "symbol2": "\u25cb",
    "hide": true
- }, {
+  }, {
+    "id": "b108",
+    "cat": "pretend",
+    "name": "passingattack",
+    "text": "Attack only, then move 1 space forward and lose this ability.",
+    "color": [253,107,116],
+    "color3": [255,255,255],
+    "symbol1": "\uec03",
+    "hide": true
+  }, {
+    "id": "b109",
+    "cat": "pretend",
+    "name": "enpassant",
+    "text": "Attack enemy unit that has used a \"from starting position\" ability, then move 1 space forward.",
+    "color": [100,100,100],
+    "color3": [255,0,0],
+    "symbol1": "\u274b",
+    "hide": true
+  }, {
    "id": "cd1",
    "cat": "cd",
    "name": "pawndrop",
