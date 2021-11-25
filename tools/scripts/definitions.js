@@ -2615,6 +2615,94 @@ MOVES = [{
     "color3": [255,0,0],
     "symbol1": "\u274b",
     "hide": true
+ }, {
+    "id": "b110",
+    "cat": "pretend",
+    "name": "teleportally",
+    "text": "(Magic) Teleport most recently used ally to this location.",
+    "color": [100,20,200],
+    "color2": [255,255,255],
+    "color3": [100,20,200],
+    "color4": [0,0,0],
+    "symbol1": "\u25cf",
+    "symbol2": "\u25ef",
+    "hide": true
+ }, {
+    "id": "b111",
+    "cat": "pretend",
+    "name": "pseudocombo",
+    "text": "Move only. If this unit acted last turn, this ability is instead \"Attack only.\"",
+    "color": [0,0,255],
+    "color3": [255,0,0],
+    "symbol1": "\u{ff777}",
+    "hide": true
+ }, {
+    "id": "b111a",
+    "cat": "pretend",
+    "name": "jumppseudocombo",
+    "text": "(Unblockable) Teleport. If this unit acted last turn, this ability is instead \"(Unblockable) Attack only.\"",
+    "color": [122,0,155],
+    "color3": [127,0,0],
+    "symbol1": "\u{ff777}",
+    "hide": true
+ }, {
+    "id": "b111b",
+    "cat": "pretend",
+    "name": "truecombo",
+    "text": "Move only. (Combo: Attack only.)",
+    "color": [0,0,255],
+    "color3": [255,0,0],
+    "symbol1": "\u{ff739}",
+    "hide": true
+ }, {
+   "id": "b112",
+   "cat": "pretend",
+   "name": "negateall",
+   "text": "[Pay 2]: (Ranged) Negate enemy unit's value, moveset, and passives.",
+   "color": [0,0,0],
+   "color2": [255,255,255],
+   "color3": [255,0,0],
+   "symbol1": "\uea81",
+   "hide": true
+ }, {
+    "id": "b113",
+    "cat": "pretend",
+    "name": "banishmeteor",
+    "text": "[Pay 2]: (Magic) After 5 turns any unit in the marked location and all adjacent units are teleported back to empty starting position.",
+    "color": [0,0,0],
+    "color2": [0,127,127],
+    "color3": [0,255,255],
+    "symbol1": "\uea78",
+    "hide": true
+ }, {
+   "id": "b114",
+   "cat": "pretend",
+   "name": "yeet",
+   "text": "[Pay 1]: (Ranged) Push enemy unit as far as possible away. If the unit collides with the field edge, the unit is destroyed.",
+   "color": [87,218,40],
+   "color2": [212,255,216],
+   "color3": [0,0,0],
+   "symbol1": "\uec6d",
+   "hide": true
+ }, {
+    "id": "b115",
+    "cat": "variation",
+    "name": "charmdestroy",
+    "text": "(Magic) Charm enemy minion, or destroy enemy non-minion.",
+    "color": [253,117,34],
+    "color3": [255,0,255],
+    "symbol1": "\u25aa",
+    "hide": true
+ }, {
+    "id": "b116",
+    "cat": "pretend",
+    "name": "slowsummonfrostmephit",
+    "text": "[Pay 5]: (Magic) After 10 turns, destroy any unit in marked location, then summon FrostMephit in marked location.",
+    "color": [0,0,0],
+    "color2": [255,255,255],
+    "color3": [0,255,255],
+    "symbol1": "\uea3c",
+    "hide": true
   }, {
    "id": "cd1",
    "cat": "cd",
@@ -2912,6 +3000,18 @@ MOVES = [{
     "color2": [58,233,93],
     "color3": [0,0,0],
     "symbol1": "E",
+    "hide": true
+ }, {
+    "id": "z15",
+    "cat": "exiled",
+    "name": "riftsweep",
+    "text": "[Pay 2]: (Magic) Return most recently exiled ally unit at target location.",
+    "color": [0,0,0],
+    "color2": [255,255,255],
+    "color3": [0,0,0],
+    "color4": [0,255,255],
+    "symbol1": "\u274b",
+    "symbol2": "\u2609",
     "hide": true
  }, {
    "id": "6zz",
@@ -3234,7 +3334,7 @@ PASSIVES = ["Does not block movement.",
 ];
 LABELS = {
     rank: ["Minion", "Champion", "King", "Outcast"],
-    faction: ["Basic", "Clan", "Arcane", "Forest", "Unique", "Royal"],
+    faction: ["Basic", "Clan", "Arcane", "Forest", "Unique", "Hero", "Royal", "Unique Hero"],
     rarity: ["Common", "Rare", "Epic", "Legendary", "Mythic"]
 }
 LEVELS = ["base", "plus", "plusplus", "plusplusplus"];
