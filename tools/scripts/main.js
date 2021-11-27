@@ -154,7 +154,7 @@ $("#shexiled").click(function() {
   }
 });
 $("#togcrisp").click(function() {
-  if (this.innerHTML.match(/togcrisp/ig)) {
+  if (this.innerHTML.match(/Toggle On/ig)) {
     $("body").addClass("svgcrisp");
     $(this).text($(this).text().replace(/Toggle On/ig, "Toggle Off"));
   } else {
