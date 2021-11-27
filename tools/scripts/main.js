@@ -428,6 +428,7 @@ function parseText(text, i) {
 
 function cleanseText(text) {
   text = text.replace(/^(<div[>]*?>)+|(<br[>]*?>)?(<\/div>)+$/g, "");
+  text = text.replace( /(<([^>]+)>)/ig, '');
   text = text.replace(/(?=(<br[>]*?>)|(<\/div>)+|(<div[>]*?>)+)(<br[>]*?>)?(<\/div>)*(<div[>]*?>)*/g, "\n");
   return text;
 }
