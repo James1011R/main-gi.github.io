@@ -153,6 +153,17 @@ $("#shexiled").click(function() {
     $(this).text($(this).text().replace(/Hide/ig, "Show"));
   }
 });
+$("#togcrisp").click(function() {
+  if (this.innerHTML.match(/togcrisp/ig)) {
+    $("body").addClass("svgcrisp");
+    $(this).text($(this).text().replace(/Toggle On/ig, "Toggle Off"));
+  } else {
+    $("body").removeClass("svgcrisp");
+    $(this).text($(this).text().replace(/Toggle Off/ig, "Toggle On"));
+  }
+});
+
+
 
 // Current tool
 var ACTION;
