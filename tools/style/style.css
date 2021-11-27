@@ -816,6 +816,10 @@ box-shadow: 0 0 0 4px #d2d796cc inset;}
     margin: 0;
 }
 
+body.svgcrisp svg {
+  shape-rendering: crispEdges;
+}
+
 
 /*
 Costs look broken on Edge idk how to fix
