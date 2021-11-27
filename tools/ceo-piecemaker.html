@@ -188,7 +188,7 @@
     <br>Style Switch
     <div class="note">
     <button id="switchceo"><span style="font-family: Impact">C</span><span style="font-family: lithos">E</span><span style="font-family: Comic Sans MS">O</span></button>
-    <button id="switchcd" style="font-family: 'Merriweather'; background-image: linear-gradient(#ccffff, white)">CD</button>
+    <button id="switchcd" style="font-family: 'Merriweather'; background-image: linear-gradient(#ccffff, white)"><span style="font-size: 50%">New</span>CBA</button>
     <button id="switchfc" style="border: .4rem ridge #83471f; background-color: #581416; color: white; font-family: 'Favor Chess', 'Times New Roman'; filter: blur(0.25px);">FC</button>
     <button id="switchcba" style="border: 2px solid red; border-radius: 0px; padding-top: 0px; padding-bottom: 0px; font-family: 'Chess Battle Advanced'; font-weight: bold; background: black; color: white">CBA</button>
     </div>
@@ -400,6 +400,7 @@
   - <b>Feature:</b> Can double-click the origin to add an action into the infopanel but not the actions (like RoyalGuard that shows an augmented Teleport) (not actually a new feature).<br>
   - <b>Feature:</b> Can put [+] or 3[+1], for example (including the brackets) to signify unit names that are upgraded or numbers that increase or decrease by the same value across upgrades. "Promotes to Knight[+]. On Death: Lose 4[+1] morale." is usable as the passive for the entire Militia (not actually a new feature).<br>
   - <b>Feature:</b> Can drag from the origin to any adjacent square to create Rook/Bishop lines (reimplemented).<br>
+  - <b>Feature:</b> "Exiled" actions which feature terrible design.<br>
   - <b>Bugfix:</b> Imports can no longer change your selected action for no reason.<br>
   - <b>Bugfix:</b> Empty passives no longer incorrectly display the - in the infopanel (would happen if you unfocused, refocused, then deleted the passive).<br>
   - <b>Bugfix:</b> Right clicking twice on the board no longer puts the cursor in an unfunctional mode that forces you to double left-click to fix it.<br>
@@ -412,7 +413,7 @@
   - <b>Feature:</b> You can now use a modified version of Betza notation in the import code, you can export it, and it's generally great. The only thing it doesn't support is custom abilities and the art path.<br>
   - <b>Feature:</b> A detailed changelog with my summaries on the meta.<br>
   - <b>Feature:</b> In the custom ability editor, the "unicode ID to unicode symbol" feature is now two-way.<br>
-  - <b>Feature:</b> Search bar for actions (suggestion by Erol#6195). Half the code was basically made by F300XEN, the other modified by me. You can also do a special category search with the terms <code>official</code>, <code>legacy</code> (old version of a CEO ability), <code>variation</code> (small variation on CEO ability), <code>limbo</code> (major variation on CEO ability), <code>adoption</code> (contest entry), <code>pretend</code>, <code>exiled</code> (an ability you can only see with the toggle in devtools), <code>custom</code>.<br>
+  - <b>Feature:</b> Search bar for actions (suggestion by Erol#6195). Half the code was basically made by F300XEN, the other modified by me. You can also do a special category search with the terms <code>official</code>, <code>legacy</code> (old version of a CEO ability), <code>variation</code> (small variation on CEO ability), <code>limbo</code> (major variation on CEO ability), <code>adoption</code> (contest entry), <code>pretend</code>, <code>exiled</code> (an ability you can only see with the toggle in devtools), <code>cd</code> (an ability seen or based off CD), <code>custom</code>.<br>
   - <b>Feature (Devtools):</b> Exporting to CEO source code.<br>
   - <b>Feature (Devtools):</b> Tournament support that automatically costs pieces, with tournament template given.<br>
   - <b>"Feature":</b> A very important conversation on some dumbo whose idea of the best economy is capitalism but with more welfare. It can be accessed by typing "combine piecemakers" into the import box and then pressing Import.<br>
@@ -435,7 +436,6 @@
   - <b>CEO Unitgen:</b> There's no random chance to create a custom ability, like "[Pay 5]: (Magic) Create a RANDOMUNIT, or transform enemy into ally RANDOMUNIT."<br>
   - <b>FC Unitgen:</b> Tokens are kind of a meme. Maybe minions could be more realistic.<br>
   - <b>FC Unitgen:</b> Stuff like "*(Armor Removed)" or "*(Already created a Knight)*".<br>
-  - <b>Visuals:</b> In the CD and FC style and on Microsoft Edge, the costs are improperly positioned.<br>
   - <b>Visuals:</b> In the FC style, an empty actionlist still shows a thin black rectangle.<br>
   - <b>Visuals:</b> The gallery uses terms like "v41" when it should be "v0.41". Too bad, the data is stored as an object and it doesn't like periods in the name. Fixing this would be half a day's wasted time.<br>
   - <b>Visuals:</b> The "fill color" should really be contextual on if you've selected Shape. It's just a bunch of useless settings without Shape selected.<br>
