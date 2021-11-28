@@ -2703,6 +2703,46 @@ MOVES = [{
     "color3": [0,255,255],
     "symbol1": "\uea3c",
     "hide": true
+ }, {
+    "id": "b117",
+    "cat": "pretend",
+    "name": "teleportlargesthero",
+    "text": "(Magic) Teleport highest value ally Hero to this empty location.",
+    "color": [0,0,0],
+    "color2": [200,255,255],
+    "symbol1": "\u25c7",
+    "symbol2": "\u25fd",
+    "hide": true
+ }, {
+    "id": "b117a",
+    "cat": "pretend",
+    "name": "teleportfurthesthero",
+    "text": "(Magic) Teleport furthest away ally Hero to this empty location.",
+    "color": [0,0,0],
+    "color2": [200,200,255],
+    "symbol1": "\u25c7",
+    "symbol2": "\u25fd",
+    "hide": true
+  }, {
+    "id": "b118",
+    "cat": "pretend",
+    "name": "forceaction",
+    "text": "(Magic) Target enemy is destroyed if they don't act or get displaced in the next turn.",
+    "color": [255,150,0],
+    "symbol1": "\u2bcc",
+    "symbol2": "\u2bcd",
+    "hide": true
+  }, {
+    "id": "b119",
+    "cat": "pretend",
+    "name": "passingswap",
+    "text": "Swap places with unit, then move 1 space forward and lose this ability.",
+    "color": [107,200,200],
+    "color3": [0,0,0],
+    "color4": [255,255,255],
+    "symbol1": "\uec01",
+    "symbol2": "\uec03",
+    "hide": true
   }, {
    "id": "cd1",
    "cat": "cd",
@@ -3321,7 +3361,10 @@ PASSIVES = ["Does not block movement.",
     "On Kill: Lose 2[+1] morale.",
     "On Death: Lose 2[+1] morale.",
     "Blocks one ability.",
-    "Cannot move until turn 3."/*,
+    "Cannot move until turn 3.",
+    "Condition: You have no King.",
+    "Condition: edit this text",
+    "Combo (When a combo unit acts, change ally combo abilities to their counterparts for 1 turn)"/*,
     
     "Can't be targeted beyond Range 2.",
     "Stealth",
@@ -3333,8 +3376,8 @@ PASSIVES = ["Does not block movement.",
     "Indestructible"*/ // main_gi: I hid these because they're almost all terrible design, go unhide them if you want.
 ];
 LABELS = {
-    rank: ["Minion", "Champion", "King", "Outcast"],
-    faction: ["Basic", "Clan", "Arcane", "Forest", "Unique", "Hero", "Royal", "Unique Hero"],
+    rank: ["Minion", "Champion", "Outcast", "Module", "King"],
+    faction: ["Basic", "Clan", "Arcane", "Forest", "Hero"],
     rarity: ["Common", "Rare", "Epic", "Legendary", "Mythic"]
 }
 LEVELS = ["base", "plus", "plusplus", "plusplusplus"];
