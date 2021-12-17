@@ -3259,7 +3259,7 @@ function autobexport_function () {
   if (othertext[0] == "Name" || othertext[0] == "name" || othertext[0] == "PieceName" || othertext[0] == "") {
     // Do nothing then.
   } else {
-    rv.push(othertext.join(" ")) // Makes the first line "Knight Champion Basic Common" then
+    rv.push(othertext.join(" ").trim()) // Makes the first line "Knight Champion Basic Common" then
   }
 
   for (let i = 0; i < boards.length; i++) {
