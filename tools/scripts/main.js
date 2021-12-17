@@ -907,7 +907,7 @@ $("#exjb").click(function() { // Export to Betza (Bexport)
     let cost = x[0]
     let passive = x[1]
     let movetypes = array_to_betza(exportcode_to_array(x.slice(2).join(",")), 0) // Slice 2 stuff is because every movetype is split by a comma.
-    rv.push(`[${cost}] ${movetypes}${(passive == "")? "" : ` | ${passive}`}`)
+    rv.push(`[${cost}] ${movetypes}${(passive == "")? "" : ` | ${passive}`}`.trim())
   }
   rv = rv.join("\n")
 
@@ -3251,27 +3251,7 @@ function scoresync_function () {
 
 function autobexport_function () {
   if (!autobexport) {return}
-  let rv = [];
-  let a = toCSV(DATA).split("\n")
-  let boards = [a[2], a[3], a[4], a[5]]
-
-  let othertext = a[0].split(",") // A thing like ["Knight", "Champion", "Basic", "Common"]
-  if (othertext[0] == "Name" || othertext[0] == "name" || othertext[0] == "PieceName" || othertext[0] == "") {
-    // Do nothing then.
-  } else {
-    rv.push(othertext.join(" ").trim()) // Makes the first line "Knight Champion Basic Common" then
-  }
-
-  for (let i = 0; i < boards.length; i++) {
-    let x = boards[i].split(",")
-    let cost = x[0]
-    let passive = x[1]
-    let movetypes = array_to_betza(exportcode_to_array(x.slice(2).join(",")), 0) // Slice 2 stuff is because every movetype is split by a comma.
-    rv.push(`[${cost}] ${movetypes}${(passive == "")? "" : ` | ${passive}`}`)
-  }
-  rv = rv.join("\n")
-
-  $("#code").val(rv);
+  $("#exjb").click()
 }
 
 
