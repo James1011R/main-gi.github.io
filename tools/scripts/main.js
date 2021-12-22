@@ -413,7 +413,13 @@ $("div.passives").keyup(function() {
   if (cleanseText(this.innerHTML).replace("\n", "").length == 0) {this.innerHTML = ""}
   setPassive(this.innerHTML, curPASSIVE);
 });
-$("div.passives").keydown(function() {
+$("div.passives").keydown(function(event) {
+  if (event.key === 'Enter') {
+    document.execCommand('insertLineBreak')
+    event.preventDefault()
+  }
+
+
   if (cleanseText(this.innerHTML).replace("\n", "").length == 0) {this.innerHTML = ""} // main_gi: attempt to clear passives if empty
   setPassive(this.innerHTML, curPASSIVE);
 });
