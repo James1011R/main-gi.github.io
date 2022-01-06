@@ -1710,6 +1710,15 @@ MOVES = [{
     "symbol1": "\ufe62",
     "hide": true
  }, {
+    "id": "b32a",
+    "cat": "pretend",
+    "name": "valuecharge",
+    "text": "[Pay 3]: (Magic) Value Charge ally, making them gain 5 value but if they leave the board they are removed from the game.",
+    "color": [255,255,0],
+    "color2": [0,0,0],
+    "symbol1": "\ufe62",
+    "hide": true
+ }, {
     "id": "b33",
     "cat": "variation",
     "name": "verticalpathdestroy",
@@ -2744,8 +2753,132 @@ MOVES = [{
     "symbol2": "\uec03",
     "hide": true
   }, {
+    "id": "b120",
+    "cat": "pretend",
+    "name": "iceterrain",
+    "text": "[Pay 2]: (Magic) Marked location causes units that are moved onto it to slide off of it in their direction of movement for 8 turns.",
+    "color": [107,200,253],
+    "color2": [255,255,255],
+    "color4": [100,255,255],
+    "symbol1": "\uf7bc",
+    "symbol2": "\uf830",
+    "hide": true
+ }, {
+    "id": "b121",
+    "cat": "adoption",
+    "name": "thunderjump",
+    "text": "(Magic) After 4 turns any unit in the marked location is destroyed, then this unit moves or attacks to marked location.",
+    "color": [0,0,0],
+    "color2": [255,255,255],
+    "color4": [255,0,0],
+    "symbol1": "\u{1fbb7}",
+    "symbol2": "\uf022",
+    "hide": true
+ }, {
+    "id": "b122",
+    "cat": "adoption",
+    "name": "attackandreturn",
+    "text": "Attack target, then teleport back to previous location at the end of your opponent's turn.",
+    "color": [252,13,27],
+    "color3": [255,0,0],
+    "symbol1": "\u25cc",
+    "symbol2": "\u2316",
+    "hide": true
+ }, {
+    "id": "b122a",
+    "cat": "adoption",
+    "name": "jumpattackandreturn",
+    "text": "(Unblockable) Attack target, then teleport back to previous location at the end of your opponent's turn.",
+    "color": [255,0,0],
+    "color2": [127,0,0],
+    "color3": [253,117,34],
+    "symbol1": "\u25cc",
+    "hide": true
+ }, {
+    "id": "b123",
+    "cat": "adoption",
+    "name": "jumpthunder",
+    "text": "(Unblockable) Move or Attack, and after 4 turns any unit in the marked location is destroyed.",
+    "color": [20,151,24],
+    "color3": [0,0,0],
+    "symbol1": "\u26a1",
+    "hide": true
+ }, {
+    "id": "b124",
+    "cat": "adoption",
+    "name": "undo",
+    "text": "(Magic) Teleport unit back to their previous location.",
+    "color": [12,114,80],
+    "symbol1": "\u{1f558}",
+    "hide": true
+ }, {
+    "id": "b125",
+    "cat": "adoption",
+    "name": "mirrordestroy",
+    "text": "(Ranged) Move this unit and target enemy together, then destroy target enemy if they can target this unit.",
+    "color": [0,0,255],
+    "color2": [227,77,255],
+    "color3": [0,0,0],
+    "symbol1": "x",
+    "symbol2": "\u007c",
+    "hide": true
+ }, {
+    "id": "b126",
+    "cat": "adoption",
+    "name": "diagonalfreeze",
+    "text": "[Pay X]: (Magic) Freeze target enemy and all units diagonally adjacent to them for 2 turns. (X = units affected)",
+    "color": [107,205,253],
+    "color2": [181,230,254],
+    "color3": [107,205,253],
+    "color4": [181,230,254],
+    "symbol1": "\uf7e3",
+    "symbol2": "\u00d7",
+    "hide": true
+ }, {
+    "id": "b127",
+    "cat": "adoption",
+    "name": "protosorcerswap",
+    "text": "(Magic) Sorcerize enemy unit, causing any attempt to target an enemy to count as swapping that enemy for 7 turns.",
+    "color": [255,0,0],
+    "color2": [0,0,0],
+    "color4": [127,0,0],
+    "symbol1": "\u{1f5d8}",
+    "symbol2": "\uffec",
+    "hide": true
+ }, {
+   "id": "b128",
+   "cat": "adoption",
+   "name": "masswindomniswap",
+   "text": "(Unblockable) Teleport, or swap places with unit and push all units adjacent to destination up to 3 spaces away.",
+   "color": [51,153,153],
+   "color3": [0,0,0],
+   "symbol1": "\uea3b",
+   "hide": true
+ }, {
+   "id": "b129",
+   "cat": "adoption",
+   "name": "resetmoveset",
+   "text": "[Pay 1]: (Trigger) Ally Changed Moveset: Instantly reset this target's moveset to the moveset they had from the start of the game.",
+   "color": [127,64,0],
+   "color2": [0,0,0],
+   "color3": [255,255,255],
+   "symbol1": "\u{1fb95}",
+   "hide": true
+ }, {
+   "id": "b130",
+   "cat": "adoption",
+   "name": "transmute",
+   "text": "(Magic) Transmute enemy, transforming it into the most recently fallen enemy unit.",
+   "color": [0,0,0],
+   "color2": [0,0,0],
+   "color3": [0,127,64],
+   "color4": [0,0,0],
+   "symbol1": "\u{ffc4b}",
+   "symbol2": "\u{ffc8e}",
+   "hide": true
+  }, {
    "id": "cd1",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "pawndrop",
    "text": "Pay 10🩸: Create a Pawn in this empty location.",
    "color": [127,127,127],
@@ -2755,7 +2888,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "cd2",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "spook",
    "text": "Push unit 1 space away. Move to its empty location.",
    "color": [20,125,255],
@@ -2765,7 +2898,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "cd3",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "bomb",
    "text": "Destroy self and all adjacent pieces.",
    "color3": [253,117,34],
@@ -2774,7 +2907,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "cd4",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "megabomb",
    "text": "Destroy self and all enemies it could attack.",
    "color": [127, 0, 0],
@@ -2784,7 +2917,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "cd5",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "onslaught",
    "text": "Pay 10🩸: For 3 turns, the target piece moves 1 space forwards at the end of its owner's turn.",
    "color3": [253,0,0],
@@ -2793,7 +2926,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "cd6",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "deathcharm",
    "text": "Sacrifice self and take control of target enemy.",
    "color3": [253,128,0],
@@ -2804,7 +2937,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "cd7",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "gale",
    "text": "Pay 10🩸: Stun the target piece for 3 turns, then push it as far as possible.",
    "color3": [0,255,0],
@@ -2815,7 +2948,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "cd8",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "forceattack",
    "text": "Force the target enemy to immediately attack self.",
    "color3": [255,120,0],
@@ -2826,7 +2959,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "cd9",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "mandate",
    "text": "Pay 5🩸: Target enemy can no longer attack Heroes this game.",
    "color3": [255,0,0],
@@ -2837,7 +2970,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "cd10",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "multibee",
    "text": "Create a Bee in each empty space with this ability. Lose this ability.",
    "color3": [255,255,0],
@@ -2848,7 +2981,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "cd11",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "poisonimmune",
    "text": "Pay 12🩸: Make the target piece Immune for 3 turns. Destroy it afterwards.",
    "color3": [255,0,0],
@@ -2859,7 +2992,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "cd12",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "moveswapenemyattackally",
    "text": "Move, swap places with enemy, or attack ally.",
    "color": [20, 125, 255],
@@ -2871,7 +3004,7 @@ MOVES = [{
    "hide": true
  }, {
    "id": "cd12a",
-   "cat": "cd",
+   "cat": "newcba",
    "name": "teleportswapenemyjumpattackally",
    "text": "(Unblockable) Move, swap places with enemy, or attack ally.",
    "color": [255,0,0],
