@@ -315,6 +315,28 @@ const CustomizationFeaaaa = {
   $.sketch.tools.shape.onMouseDrag = _addpoint;
   $.sketch.tools.shape.onMouseUp = (e)=>{_addpoint(e);_stop(e);};
   $.sketch.tools.shape.draw = _closedraw;
+  $.sketch.tools.selector = new Tool();
+  $.sketch.tools.selector.minDistance = 5;
+  $.sketch.tools.selector.onMouseDown = (e)=>{_start(e);_selectorize();};
+  $.sketch.tools.selector.onMouseDrag = (e)=>{_addpoint(e);_addpoint(e);_selectorize();};
+  $.sketch.tools.selector.onMouseUp = (e)=>{_addpoint(e);_addpoint(e);_stop(e);};
+  $.sketch.tools.selector.draw = _selectordraw;
+  $.sketch.tools.lselector = new Tool();
+  $.sketch.tools.lselector.onMouseDown = (e)=>{_start(e);_addpoint(e);_addpoint(e);_selectorize();};
+  $.sketch.tools.lselector.onMouseDrag = (e)=>{_changelastpoint(e);_selectorize();};
+  $.sketch.tools.lselector.onMouseUp = (e)=>{_changelastpoint(e);_rawstop(e);};
+  $.sketch.tools.lselector.draw = _selectordraw;
+  $.sketch.tools.xoraser = new Tool();
+  $.sketch.tools.xoraser.minDistance = 5;
+  $.sketch.tools.xoraser.onMouseDown = (e)=>{_start(e);_xoraserize();};
+  $.sketch.tools.xoraser.onMouseDrag = (e)=>{_addpoint(e);_addpoint(e);_xoraserize();};
+  $.sketch.tools.xoraser.onMouseUp = (e)=>{_addpoint(e);_addpoint(e);_stop(e);};
+  $.sketch.tools.xoraser.draw = _xoraserdraw;
+  $.sketch.tools.lxoraser = new Tool();
+  $.sketch.tools.lxoraser.onMouseDown = (e)=>{_start(e);_addpoint(e);_addpoint(e);_xoraserize();};
+  $.sketch.tools.lxoraser.onMouseDrag = (e)=>{_changelastpoint(e);_xoraserize();};
+  $.sketch.tools.lxoraser.onMouseUp = (e)=>{_changelastpoint(e);_rawstop(e);};
+  $.sketch.tools.lxoraser.draw = _xoraserdraw;
 
   function _start(e){
     sketch.startPainting();
@@ -390,8 +412,28 @@ const CustomizationFeaaaa = {
     sketch.paths.push(path);
     return view.update();   
   }
+  function _selectordraw(action){
+    var path = sketch.drawPath(action);
+    path.selected="true";
+    sketch.paths.push(path);
+    return view.update();
+  }
+  function _xoraserdraw(action){
+    var path = sketch.drawPath(action);
+    path.blendMode="xor";
+    sketch.paths.push(path);
+    return view.update();
+  }
   function _eraserize(){
     if(sketch.cache)sketch.cache.blendMode="destination-out";
+    return view.update();
+  }
+  function _selectorize(){
+    if(sketch.cache)sketch.cache.selected="true";
+    return view.update();
+  }
+  function _xoraserize(){
+    if(sketch.cache)sketch.cache.blendMode="xor";
     return view.update();
   }
 
