@@ -2876,6 +2876,58 @@ MOVES = [{
    "symbol1": "\u{ffc4b}",
    "symbol2": "\u{ffc8e}",
    "hide": true
+ }, {
+   "id": "b131",
+   "cat": "pretend",
+   "name": "anyonemoveattack",
+   "text": "Move or Attack. Anyone may use this ability.",
+   "color": [0,0,0],
+   "symbol1": "\uf803",
+   "hide": true
+ }, {
+   "id": "b131a",
+   "cat": "pretend",
+   "name": "anyonemove",
+   "text": "Move only. Anyone may use this ability.",
+   "color": [0,0,255],
+   "symbol1": "\uf803",
+   "hide": true
+ }, {
+   "id": "b132",
+   "cat": "pretend",
+   "name": "denyablejump",
+   "text": "(Unblockable) Move or Attack. Your opponent may spend a turn to disable this ability for 3 turns.",
+   "color": [20,151,24],
+   "color3": [0,0,0],
+   "symbol1": "\u229d",
+   "hide": true
+ }, {
+   "id": "b132a",
+   "cat": "pretend",
+   "name": "denyablejumpswap",
+   "text": "(Unblockable) Move, Attack, or swap places with ally. Your opponent may spend a turn to disable this ability for 3 turns.",
+   "color": [255,210,0],
+   "color3": [0,0,0],
+   "symbol1": "\u229d",
+   "hide": true
+ }, {
+   "id": "b133",
+   "cat": "pretend",
+   "name": "negatablejump",
+   "text": "(Unblockable) Move or Attack. Your opponent may spend a turn and Pay 5 to negate this ability.",
+   "color": [20,151,24],
+   "color3": [255,0,0],
+   "symbol1": "\u229d",
+   "hide": true
+ }, {
+   "id": "b133a",
+   "cat": "pretend",
+   "name": "negatablejumpswap",
+   "text": "(Unblockable) Move, Attack, or swap places with ally. Your opponent may spend a turn and Pay 5 to negate this ability.",
+   "color": [255,210,0],
+   "color3": [255,0,0],
+   "symbol1": "\u229d",
+   "hide": true
   }, {
    "id": "cd1",
    "cat": "newcba",
@@ -3555,8 +3607,8 @@ TOOLTIPS = {
     tt5: "Closed Path Tool:\nHold Shift to start a new shape.\nClick and drag to add new points.\nRelease Shift to finish and close path.",
     tt6: "Shape Eraser Tool:\nHold Shift to start a new cutout.\nClick and drag to add new points.\nRelease Shift to finish and close path.",
     tt7: "Free Shape Tool:\nCloses path after drawing.",
-    tt8: "Selected Marker Tool:\nA marker with selection squares.\n\"Selection\"? What's that?",
-    tt9: "Selected Line Tool:\nA line with selection squares.\nThis is very strange...",
+    tt8: "Selected Marker Tool:\nA marker with selection squares.\n\"Selection\"? What's that?\nSelection squares can't be erased.",
+    tt9: "Selected Line Tool:\nA line with selection squares.\nThis is very strange...\nSelection squares can't be erased.",
     tt10: "XORaser Tool:\nDraws if nothing is there, erases if something is there.",
     tt11: "Line XORaser Tool:\nDraws a line if nothing is there, erases a line if something is there.\nWhy does this exist?",
     tc0: "Black Pen:\nA standard and all purpose pen color",
