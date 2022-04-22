@@ -77,7 +77,8 @@ function createColors(m) {
     m.color || [0, 0, 0],
     m.color2 || tintColor || [255, 255, 255],
     m.color3 || m.color || [0, 0, 0],
-    m.color4 || m.color3 || m.color || [0, 0, 0]
+    m.color4 || m.color3 || m.color || [0, 0, 0],
+    m.color5 || m.color4 || m.color3 || m.color || [0, 0, 0]
   ]);
 }
 
@@ -85,7 +86,7 @@ function createColors(m) {
 function makeRule(m) {
   var rule = ".",
     usedColors = createColors(m);
-  var merge = (m.symbol1 || "") + (m.symbol2 || "");
+  var merge = (m.symbol1 || "") + (m.symbol2 || "") + (m.symbol3 || "");
   rule += m.name;
   rule += "::before{";
   rule += "border:2px solid rgb(" + usedColors[0] + ");";
@@ -187,7 +188,7 @@ $("#action svg.custom").on("dblclick taphold", function() {
 
 function cusLoadEdit(moves) {
   //declare every parameter because lolfunctions
-  var elm, col, tex, sy1, sy2, box, c11, c12, c13, c21, c22, c23, c31, c32, c33, c41, c42, c43, cid = MOVES[SMOVE[moves]].id, nobox;
+  var elm, col, tex, sy1, sy2, sy3, box, c11, c12, c13, c21, c22, c23, c31, c32, c33, c41, c42, c43, c51, c52, c53, cid = MOVES[SMOVE[moves]].id, nobox;
   //Load every parameters
   cusLoadCustom(moves);
   function cusLoadCustom(moves) {
@@ -196,6 +197,7 @@ function cusLoadEdit(moves) {
     tex = $("#text").val(elm.text);
     sy1 = $("#symbol1").val(elm.symbol1);
     sy2 = $("#symbol2").val(elm.symbol2);
+    sy3 = $("#symbol3").val(elm.symbol3);
     box = $("#nobox").prop("disabled", elm.nobox);
     c11 = $("#color11").val(col[0][0]);
     c12 = $("#color12").val(col[0][1]);
@@ -209,13 +211,16 @@ function cusLoadEdit(moves) {
     c41 = $("#color41").val(col[3][0]);
     c42 = $("#color42").val(col[3][1]);
     c43 = $("#color43").val(col[3][2]);
+    c51 = $("#color51").val(col[4][0]);
+    c52 = $("#color52").val(col[4][1]);
+    c53 = $("#color53").val(col[4][2]);
     //Update
     $("[type=checkbox]").prop("checked", false); //uncheck boxes
     $(".cusmodal input").prop("disabled", false); //undisable inputs
     nobox = $("#nobox").prop("checked", elm.nobox);
 
     $("[id^=color1],[id^=color2]").prop("disabled", elm.nobox);
-    //$(".giant").text(sy1.val() + sy2.val()); //update content
+    //$(".giant").text(sy1.val() + sy2.val() + sy3.val()); //update content
     //$(".giant").css("border-color", "rgb(" + c11.val() + "," + c12.val() + "," + c13.val() + ")"); //update c1
     //$(".giant").css("background", "rgb(" + c21.val() + "," + c22.val() + "," + c23.val() + ")"); //update c2
     //$(".giant").css("color", "rgb(" + c31.val() + "," + c32.val() + "," + c33.val() + ")"); //update c3
@@ -259,12 +264,16 @@ function cusLoadEdit(moves) {
       if ($("#colour4")[0].checked) {
         $("#color4" + this.id.slice(-1)).val(cur);
       }
+      if ($("#colour5")[0].checked) {
+        $("#color5" + this.id.slice(-1)).val(cur);
+      }
     }
     if (this.id.startsWith("color")) {
       config.color1 = "rgb(" + c11.val() + "," + c12.val() + "," + c13.val() + ")"; //update c1
       config.color2 = "rgb(" + c21.val() + "," + c22.val() + "," + c23.val() + ")"; //update c2
       config.color3 = "rgb(" + c31.val() + "," + c32.val() + "," + c33.val() + ")"; //update c3
       config.color4 = "rgb(" + c41.val() + "," + c42.val() + "," + c43.val() + ")"; //update c4
+      config.color5 = "rgb(" + c51.val() + "," + c52.val() + "," + c53.val() + ")"; //update c5
       updateCustom();
     }
     // todo: rewrite all of these into svg
@@ -282,6 +291,7 @@ function cusLoadEdit(moves) {
       if (_.every($("[id^=symbol]"), elm => elm.checkValidity())) {
         config.symbol1 = sy1.val();
         config.symbol2 = sy2.val();
+        config.symbol3 = sy3.val();
         updateCustom();
       }
     }
@@ -305,8 +315,10 @@ function cusLoadEdit(moves) {
       color2: [parseInt(c21.val(), 10), parseInt(c22.val(), 10), parseInt(c23.val(), 10)],
       color3: [parseInt(c31.val(), 10), parseInt(c32.val(), 10), parseInt(c33.val(), 10)],
       color4: [parseInt(c41.val(), 10), parseInt(c42.val(), 10), parseInt(c43.val(), 10)],
+      color5: [parseInt(c51.val(), 10), parseInt(c52.val(), 10), parseInt(c53.val(), 10)],
       symbol1: sy1.val(),
       symbol2: sy2.val(),
+      symbol3: sy3.val(),
       nobox: $("#nobox")[0].checked
     };
     $(".cusmodal input").off("click keyup");
@@ -548,11 +560,13 @@ function setDisplay(level, cls) {
 
           if (MOVES[SMOVE[movename]].symbol1) {DATA.custom[MOVES[SMOVE[movename]].id].symbol1 = MOVES[SMOVE[movename]].symbol1} else {DATA.custom[MOVES[SMOVE[movename]].id].symbol1 = ""}
           if (MOVES[SMOVE[movename]].symbol2) {DATA.custom[MOVES[SMOVE[movename]].id].symbol2 = MOVES[SMOVE[movename]].symbol2} else {DATA.custom[MOVES[SMOVE[movename]].id].symbol2 = ""}
+          if (MOVES[SMOVE[movename]].symbol3) {DATA.custom[MOVES[SMOVE[movename]].id].symbol3 = MOVES[SMOVE[movename]].symbol3} else {DATA.custom[MOVES[SMOVE[movename]].id].symbol3 = ""}
           if (MOVES[SMOVE[movename]].color) {DATA.custom[MOVES[SMOVE[movename]].id].color = MOVES[SMOVE[movename]].color}
           let b = cur => Math.floor((255 - cur) / 2 + cur); // transforms a fill color into a bright equivalent by inverting each value kinda
           if (MOVES[SMOVE[movename]].color2) {DATA.custom[MOVES[SMOVE[movename]].id].color2 = MOVES[SMOVE[movename]].color2} else {DATA.custom[MOVES[SMOVE[movename]].id].color2 = MOVES[SMOVE[movename]].color.map(x=>b(x))}
           if (MOVES[SMOVE[movename]].color3) {DATA.custom[MOVES[SMOVE[movename]].id].color3 = MOVES[SMOVE[movename]].color3} else {DATA.custom[MOVES[SMOVE[movename]].id].color3 = MOVES[SMOVE[movename]].color}
           if (MOVES[SMOVE[movename]].color4) {DATA.custom[MOVES[SMOVE[movename]].id].color4 = MOVES[SMOVE[movename]].color4} else {DATA.custom[MOVES[SMOVE[movename]].id].color4 = MOVES[SMOVE[movename]].color}
+          if (MOVES[SMOVE[movename]].color5) {DATA.custom[MOVES[SMOVE[movename]].id].color5 = MOVES[SMOVE[movename]].color5} else {DATA.custom[MOVES[SMOVE[movename]].id].color5 = MOVES[SMOVE[movename]].color}
 
 
           if (MOVES[SMOVE[movename]].nobox == "true") {DATA.custom[MOVES[SMOVE[movename]].id].nobox = true} else {MOVES[SMOVE[movename]].nobox = false}
@@ -993,8 +1007,8 @@ function toCSV() {
   });
   _.forEach(Object.keys(DATA.custom), function(id) {
     var SDATA = DATA.custom[id];
-    // var colorString = [].concat(SDATA.color, SDATA.color2, SDATA.color3, SDATA.color4).map(x => (256+x).toString(16).slice(1)).join("");
-    csv += [ep(SDATA.id), ep(SDATA.text), ep(SDATA.symbol1), ep(SDATA.symbol2), ep(SDATA.color), ep(SDATA.color2), ep(SDATA.color3), ep(SDATA.color4), ep(SDATA.nobox)] + "\n";
+    // var colorString = [].concat(SDATA.color, SDATA.color2, SDATA.color3, SDATA.color4, SDATA.color5).map(x => (256+x).toString(16).slice(1)).join("");
+    csv += [ep(SDATA.id), ep(SDATA.text), ep(SDATA.symbol1), ep(SDATA.symbol2), ep(SDATA.symbol3), ep(SDATA.color), ep(SDATA.color2), ep(SDATA.color3), ep(SDATA.color4), ep(SDATA.color5), ep(SDATA.nobox)] + "\n";
   });
   return csv;
 }
@@ -1078,7 +1092,7 @@ function toJSON(a) {
     };
   });
   var tmp = a,
-    tmz = a.match(/^.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?$/mg);
+    tmz = a.match(/^.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?,.*?$/mg);
   if (tmz) _.forEach(tmz, function(t) {
     a = t;
     var id = pe("string");
@@ -1091,10 +1105,12 @@ function toJSON(a) {
       text: pe("string"),
       symbol1: pe("character"),
       symbol2: pe("character"),
+      symbol3: pe("character"),
       color: pe("color"),
       color2: pe("color"),
       color3: pe("color"),
       color4: pe("color"),
+      color5: pe("color"),
       nobox: pe("boolean")
     };
   });
@@ -2275,6 +2291,7 @@ function getgallery (nameinput, version=lastCEOversion, versionChangedAtAll=fals
 
         if (MOVES[totalmoves[i]].symbol1) {y.push(MOVES[totalmoves[i]].symbol1)} else {y.push("")}
         if (MOVES[totalmoves[i]].symbol2) {y.push(MOVES[totalmoves[i]].symbol2)} else {y.push("")}
+        if (MOVES[totalmoves[i]].symbol3) {y.push(MOVES[totalmoves[i]].symbol3)} else {y.push("")}
         if (MOVES[totalmoves[i]].color) {y.push(MOVES[totalmoves[i]].color[0]), y.push(MOVES[totalmoves[i]].color[1]), y.push(MOVES[totalmoves[i]].color[2])} else {y.push("0", "0", "0")} // in reality this is a joke, there always is a border color
 
         let b = cur => Math.floor((255 - cur) / 2 + cur); // transforms a fill color into a bright equivalent by inverting each value kinda
@@ -2282,6 +2299,7 @@ function getgallery (nameinput, version=lastCEOversion, versionChangedAtAll=fals
         if (MOVES[totalmoves[i]].color2) {y.push(MOVES[totalmoves[i]].color2[0]), y.push(MOVES[totalmoves[i]].color2[1]), y.push(MOVES[totalmoves[i]].color2[2])} else {y.push(b(MOVES[totalmoves[i]].color[0])), y.push(b(MOVES[totalmoves[i]].color[1])), y.push(b(MOVES[totalmoves[i]].color[2]))}
         if (MOVES[totalmoves[i]].color3) {y.push(MOVES[totalmoves[i]].color3[0]), y.push(MOVES[totalmoves[i]].color3[1]), y.push(MOVES[totalmoves[i]].color3[2])} else {y.push(MOVES[totalmoves[i]].color[0]), y.push(MOVES[totalmoves[i]].color[1]), y.push(MOVES[totalmoves[i]].color[2])}
         if (MOVES[totalmoves[i]].color4) {y.push(MOVES[totalmoves[i]].color4[0]), y.push(MOVES[totalmoves[i]].color4[1]), y.push(MOVES[totalmoves[i]].color4[2])} else {y.push(MOVES[totalmoves[i]].color[0]), y.push(MOVES[totalmoves[i]].color[1]), y.push(MOVES[totalmoves[i]].color[2])}
+        if (MOVES[totalmoves[i]].color5) {y.push(MOVES[totalmoves[i]].color5[0]), y.push(MOVES[totalmoves[i]].color5[1]), y.push(MOVES[totalmoves[i]].color5[2])} else {y.push(MOVES[totalmoves[i]].color[0]), y.push(MOVES[totalmoves[i]].color[1]), y.push(MOVES[totalmoves[i]].color[2])}
         if (MOVES[totalmoves[i]].nobox) {y.push(MOVES[totalmoves[i]].nobox)} else {y.push("false")}
 
         totalmoves[i]++
@@ -2292,7 +2310,7 @@ function getgallery (nameinput, version=lastCEOversion, versionChangedAtAll=fals
 
         // Makes a clone of the icon for the custom ability.
         // This doesn't store the icons of past versions but the icons should just be better looking anyway.
-        // The order is: symbol1, symbol2, bordercolor RED, bordercolor GREEN, bordercolor BLUE, fillcolor RED, fillcolor GREEN, fillcolor BLUE, symbol1color RED, symbol1color GREEN, symbol1color BLUE, symbol2color RED, symbol2color GREEN, symbol2color BLUE, nobox
+        // The order is: symbol1, symbol2, symbol3, bordercolor RED, bordercolor GREEN, bordercolor BLUE, fillcolor RED, fillcolor GREEN, fillcolor BLUE, symbol1color RED, symbol1color GREEN, symbol1color BLUE, symbol2color RED, symbol2color GREEN, symbol2color BLUE, symbol3color RED, symbol3color GREEN, symbol3color BLUE, nobox
       }
     }
     /*
@@ -2516,7 +2534,7 @@ function convCSS(input) {
   return result
 }
 
-function changemove(movename, description, bordercolor, fillcolor, symbol1, symbol1color, symbol2, symbol2color, nobox) { // Changes the look of a move. NOT FOR SPELL MOVES, but for the style switches.
+function changemove(movename, description, bordercolor, fillcolor, symbol1, symbol1color, symbol2, symbol2color, nobox, symbol3, symbol3color) { // Changes the look of a move. NOT FOR SPELL MOVES, but for the style switches.
   let prevaction = ACTION
   if (description != 0)    {MOVES[SMOVE[movename]].text = description}
   if (bordercolor != 0)    {MOVES[SMOVE[movename]].color = bordercolor}
@@ -2526,6 +2544,8 @@ function changemove(movename, description, bordercolor, fillcolor, symbol1, symb
   if (symbol2 != 0)        {MOVES[SMOVE[movename]].symbol2 = symbol2}
   if (symbol2color != 0)   {MOVES[SMOVE[movename]].color4 = symbol2color}
   if (nobox != 0)          {MOVES[SMOVE[movename]].nobox = nobox}
+  if (symbol3 != 0)        {MOVES[SMOVE[movename]].symbol3 = symbol3}
+  if (symbol3color != 0)   {MOVES[SMOVE[movename]].color5 = symbol3color}
   changedmoves.push(movename)
   
 
